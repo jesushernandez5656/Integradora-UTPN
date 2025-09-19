@@ -1,0 +1,73 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+/* --- Navbar contenedor --- */
+.navbar {
+    display: flex;
+    justify-content: space-between; /* reparte en horizontal */
+    align-items: center;            /* centra verticalmente */
+    padding: 10px 20px;
+    background: #00837f;
+    box-sizing: border-box;
+    width: 100%;
+    flex-wrap: wrap; /* permite que baje el contenido si no cabe */
+}
+
+/* --- Logo --- */
+.navbar-logo img {
+    max-height: 150px; /* controla tamaño del logo */
+    width: auto;
+}
+
+/* --- Texto central --- */
+.navbar-title {
+    flex: 1;                   /* ocupa todo el espacio disponible */
+    text-align: center;        /* centra el texto en el medio */
+}
+
+.navbar-title h1 {
+    color: #fff;
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+/* --- Botón de login --- */
+.navbar-login .btn-login {
+    background: #AE874C;
+    color: #fff;
+    padding: 8px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s ease;
+    white-space: nowrap; /* evita que se parta en varias líneas */
+}
+
+.navbar-login .btn-login:hover {
+    background: #916d3b;
+}
+
+/* --- 🔹 Responsive: Celulares y tablets --- */
+@media (max-width: 700px) {
+    .navbar {
+        flex-direction: column; /* los elementos se apilan */
+        text-align: center;
+        padding: 15px;
+        width: 100%;
+    }
+
+    .navbar-logo {
+        margin-bottom: 10px;
+    }
+
+    .navbar-title {
+        margin-bottom: 20px;
+    }
+
+    .navbar-login .btn-login {
+        width: 100%; /* botón ocupa todo el ancho */
+        padding: 10px;
+        font-size: 1rem;
+    }
+}
