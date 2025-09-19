@@ -11,7 +11,7 @@
 </head>
 <body>
     <main>
-    <h1>Prueba de cambios</h1>
+    <h1>Prueba de cambios 2</h1>
     </main>
 </body>
 <?php include "../../includes/footer.php"; ?>
