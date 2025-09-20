@@ -42,107 +42,125 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Verificar código</title>
   <style>
+    /* Fondo degradado */
     body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #1a73e8, #0f2027);
-      height: 100vh;
       margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      height: 100vh;
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
     }
+
+    /* Contenedor principal */
     .container {
       width: 100%;
-      max-width: 380px;
+      max-width: 400px;
       padding: 20px;
     }
+
     .form-box {
       background: #fff;
-      padding: 30px;
       border-radius: 12px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-    }
-    .form h2 {
-      margin: 0 0 20px;
-      font-size: 22px;
+      padding: 30px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
       text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 20px;
       color: #333;
     }
+
+    /* Input */
     .input-box {
       position: relative;
       margin-bottom: 20px;
     }
+
     .input-box input {
       width: 100%;
-      padding: 12px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
+      padding: 10px;
+      border: none;
+      border-bottom: 2px solid #ccc;
       outline: none;
-      font-size: 14px;
+      font-size: 16px;
+      background: transparent;
     }
+
     .input-box label {
       position: absolute;
-      top: 50%;
-      left: 12px;
-      transform: translateY(-50%);
-      background: #fff;
-      padding: 0 4px;
-      font-size: 13px;
-      color: #777;
-      transition: 0.3s;
+      left: 0;
+      top: 10px;
       pointer-events: none;
+      transition: 0.3s ease all;
+      color: #666;
     }
-    .input-box input:focus + label,
-    .input-box input:valid + label {
-      top: -8px;
-      left: 8px;
+
+    .input-box input:focus ~ label,
+    .input-box input:valid ~ label {
+      top: -15px;
       font-size: 12px;
-      color: #1a73e8;
+      color: #4facfe;
     }
+
+    /* Botón */
     .btn {
       width: 100%;
-      padding: 12px;
+      padding: 10px;
       border: none;
-      border-radius: 8px;
-      background: #1a73e8;
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
       color: #fff;
-      font-size: 15px;
+      border-radius: 8px;
+      font-size: 16px;
       cursor: pointer;
       transition: 0.3s;
     }
+
     .btn:hover {
-      background: #0d47a1;
+      background: linear-gradient(135deg, #00f2fe, #4facfe);
     }
+
+    /* Link volver */
     .switch {
-      text-align: center;
       margin-top: 15px;
     }
+
     .switch a {
-      color: #1a73e8;
+      color: #4facfe;
       text-decoration: none;
       font-size: 14px;
     }
+
     .switch a:hover {
       text-decoration: underline;
     }
+
+    /* Alertas */
     .alert-container {
-      margin-bottom: 15px;
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
     }
+
     .alert {
-      padding: 10px;
+      padding: 12px 20px;
       border-radius: 8px;
-      font-size: 14px;
+      color: #fff;
       margin-bottom: 10px;
-      text-align: center;
-      animation: fadeIn 0.5s;
+      animation: fadeIn 0.5s ease;
     }
-    .alert.success { background: #d4edda; color: #155724; }
-    .alert.error   { background: #f8d7da; color: #721c24; }
-    .alert.info    { background: #d1ecf1; color: #0c5460; }
+
+    .alert.success { background: #4caf50; }
+    .alert.error { background: #f44336; }
+    .alert.info { background: #2196f3; }
 
     @keyframes fadeIn {
-      from {opacity: 0;}
-      to {opacity: 1;}
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>

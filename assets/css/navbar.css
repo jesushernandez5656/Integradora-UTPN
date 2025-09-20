@@ -32,6 +32,15 @@
     margin: 0;
 }
 
+/* 🔹 Nombre del usuario debajo del título */
+.navbar-title .user-name {
+    display: block;
+    margin-top: 5px;
+    font-size: 1rem;
+    color: #f0f0f0;
+    font-weight: normal;
+}
+
 /* --- Botón de login --- */
 .navbar-login .btn-login {
     background: #AE874C;

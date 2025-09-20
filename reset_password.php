@@ -42,118 +42,121 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nueva contraseña</title>
   <style>
+    /* Fondo degradado */
     body {
-      font-family: Arial, sans-serif;
-      background: #0f0f0f;
       margin: 0;
       padding: 0;
-      display: flex;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
       height: 100vh;
-      align-items: center;
+      display: flex;
       justify-content: center;
-      color: #fff;
+      align-items: center;
     }
 
+    /* Contenedor principal */
     .container {
       width: 100%;
       max-width: 400px;
+      padding: 20px;
     }
 
     .form-box {
-      background: #1c1c1c;
-      padding: 30px;
+      background: #fff;
       border-radius: 12px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.6);
+      padding: 30px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
       text-align: center;
     }
 
     h2 {
       margin-bottom: 20px;
-      color: #f5f5f5;
+      color: #333;
     }
 
+    /* Input */
     .input-box {
       position: relative;
-      margin: 20px 0;
+      margin-bottom: 20px;
     }
 
     .input-box input {
       width: 100%;
-      padding: 12px;
-      background: #2a2a2a;
+      padding: 10px;
       border: none;
+      border-bottom: 2px solid #ccc;
       outline: none;
-      border-radius: 8px;
-      color: #fff;
-      font-size: 14px;
+      font-size: 16px;
+      background: transparent;
     }
 
     .input-box label {
       position: absolute;
-      left: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #aaa;
+      left: 0;
+      top: 10px;
       pointer-events: none;
-      transition: 0.3s ease;
+      transition: 0.3s ease all;
+      color: #666;
     }
 
-    .input-box input:focus + label,
-    .input-box input:valid + label {
-      top: -8px;
-      left: 8px;
+    .input-box input:focus ~ label,
+    .input-box input:valid ~ label {
+      top: -15px;
       font-size: 12px;
-      color: #ff9800;
+      color: #4facfe;
     }
 
+    /* Botón */
     .btn {
       width: 100%;
-      padding: 12px;
-      background: #ff9800;
+      padding: 10px;
       border: none;
-      border-radius: 8px;
-      cursor: pointer;
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
       color: #fff;
-      font-size: 15px;
-      font-weight: bold;
-      transition: background 0.3s;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
     }
 
     .btn:hover {
-      background: #e68900;
+      background: linear-gradient(135deg, #00f2fe, #4facfe);
     }
 
+    /* Link volver */
     .switch {
       margin-top: 15px;
-      font-size: 14px;
     }
 
     .switch a {
-      color: #ff9800;
+      color: #4facfe;
       text-decoration: none;
+      font-size: 14px;
     }
 
     .switch a:hover {
       text-decoration: underline;
     }
 
+    /* Alertas */
     .alert-container {
       position: fixed;
       top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 9999;
+      right: 20px;
+      z-index: 1000;
     }
 
     .alert {
       padding: 12px 20px;
-      border-radius: 6px;
+      border-radius: 8px;
+      color: #fff;
       margin-bottom: 10px;
       animation: fadeIn 0.5s ease;
     }
 
-    .alert.success { background: #4caf50; color: #fff; }
-    .alert.error { background: #f44336; color: #fff; }
+    .alert.success { background: #4caf50; }
+    .alert.error { background: #f44336; }
+    .alert.info { background: #2196f3; }
 
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(-10px); }

@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Insertar usuario
     $sql = "INSERT INTO users (name, email, password, user_type, verified, verification_code, created_at) 
-            VALUES (?, ?, ?, 'alumno', 0, ?, NOW())";
+            VALUES (?, ?, ?, 'user', 0, ?, NOW())";
     $stmt = $conn->prepare($sql);
 
     if ($stmt->execute([$nombre, $email, $hashed_password, $verification_code])) {

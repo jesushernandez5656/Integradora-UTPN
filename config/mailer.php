@@ -15,13 +15,13 @@ function send_email($to, $toName, $subject, $body) {
         $mail->isSMTP();
         $mail->Host       = 'smtp.office365.com';
         $mail->SMTPAuth   = true;
-        $mail->Username   = '24110010@utpn.edu.mx'; 
-        $mail->Password   = 'Jenifer16'; // ⚠️ usa un app password si puedes
+        $mail->Username   = '22310032@utpn.edu.mx'; 
+        $mail->Password   = '2004HdZ25'; // ⚠️ usa un app password si puedes
         $mail->SMTPSecure = 'tls';
         $mail->Port       = 587;
 
         // Remitente
-        $mail->setFrom('24110010@utpn.edu.mx', 'UTPN - Sistema');
+        $mail->setFrom('22310032@utpn.edu.mx', 'UTPN - Sistema');
 
         // Destinatario
         $mail->addAddress($to, $toName);

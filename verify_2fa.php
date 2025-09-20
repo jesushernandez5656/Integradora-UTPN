@@ -14,22 +14,38 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $stmt->execute([$user_id, $code]);
 
         if ($stmt->rowCount() > 0) {
+            // ✅ Borrar códigos viejos de este usuario
             $del = $conn->prepare("DELETE FROM twofa_codes WHERE user_id = ?");
             $del->execute([$user_id]);
 
-            $_SESSION["usuario_id"] = $user_id;
-            $_SESSION["rol"] = $_SESSION["pending_user_type"];
+            // ✅ Recuperar info del usuario para guardarla en sesión
+            $user_sql = "SELECT id, name, user_type FROM users WHERE id = ? LIMIT 1";
+            $user_stmt = $conn->prepare($user_sql);
+            $user_stmt->execute([$user_id]);
+            $usuario = $user_stmt->fetch(PDO::FETCH_ASSOC);
 
-            unset($_SESSION["pending_user_id"], $_SESSION["pending_user_type"]);
+            if ($usuario) {
+                $_SESSION["usuario_id"] = $usuario["id"];
+                $_SESSION["rol"] = $usuario["user_type"];
+                $_SESSION["usuario_nombre"] = $usuario["name"]; // ✅ Guardar el nombre
 
-            if ($_SESSION["rol"] == "admin") {
-                header("Location: pages/admin/home_admin.php");
-            } elseif ($_SESSION["rol"] == "superadmin") {
-                header("Location: pages/superadmin/superadmin.php");
+                // Eliminar variables temporales
+                unset($_SESSION["pending_user_id"], $_SESSION["pending_user_type"]);
+
+                // ✅ Redirigir según rol
+                if ($usuario["user_type"] == "admin") {
+                    header("Location: pages/admin/home_admin.php");
+                } elseif ($usuario["user_type"] == "superadmin") {
+                    header("Location: pages/superadmin/superadmin.php");
+                } else {
+                    header("Location: pages/alumno/becas.php");
+                }
+                exit;
             } else {
-                header("Location: pages/alumno/becas.php");
+                $_SESSION['alert'] = ["type" => "error", "message" => "⚠️ Usuario no encontrado."];
+                header("Location: login_register.php");
+                exit;
             }
-            exit;
         } else {
             $_SESSION['alert'] = ["type" => "error", "message" => "❌ Código inválido o caducado."];
             header("Location: verify_2fa.php");

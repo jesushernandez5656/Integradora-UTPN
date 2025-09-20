@@ -21,6 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // ✅ Guardar sesión
         $_SESSION["usuario_id"] = $usuario["id"];
         $_SESSION["rol"] = $usuario["user_type"];
+        $_SESSION["usuario_nombre"] = $usuario["name"]; // 🔹 Guarda el nombre
 
         // ✅ Redirigir según rol
         if ($usuario["user_type"] == "admin") {
