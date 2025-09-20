@@ -16,7 +16,7 @@
             <h1>Bienvenidos a la UTPN</h1>
         </div>
         <div class="navbar-login">
-            <a href="/login.php" class="btn-login">Iniciar sesión</a>
+            <a href="/UTPN/login_register.php" class="btn-login">Iniciar sesión</a>
         </div>
     </nav>
 </header>
