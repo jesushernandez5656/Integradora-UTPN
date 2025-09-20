@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -7,8 +8,13 @@
   <link rel="stylesheet" href="/UTPN/assets/css/login.css">
 </head>
 <body>
+
+  <!-- 🔔 Alertas globales -->
+  <?php include "includes/alerts.php"; ?>
+
   <div class="container">
     <div class="form-box">
+
       <!-- LOGIN -->
       <form class="form login-form" method="POST" action="login.php">
         <h2>Iniciar Sesión</h2>
@@ -39,6 +45,10 @@
           <input type="password" name="password" required>
           <label>Contraseña</label>
         </div>
+        <div class="input-box">
+          <input type="text" name="phone" required>
+          <label>Teléfono</label>
+        </div>
         <button type="submit" class="btn">Registrar</button>
         <p class="switch">¿Ya tienes cuenta? <a href="#" id="showLogin">Inicia Sesión</a></p>
       </form>
@@ -46,5 +56,15 @@
   </div>
 
   <script src="/UTPN/assets/js/login.js"></script>
+
+  <!-- Auto-cierre de alertas -->
+  <script>
+    setTimeout(() => {
+      document.querySelectorAll('.alert').forEach(a => {
+        a.style.opacity = '0';
+        setTimeout(() => a.remove(), 400);
+      });
+    }, 4000);
+  </script>
 </body>
 </html>
