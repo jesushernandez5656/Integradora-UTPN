@@ -1,4 +1,4 @@
-<?php include "../../includes/header.php"; ?>
+<?php include "/UTPN/includes/header.php"; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,5 +14,5 @@
     <h1>Prueba de cambios 2</h1>
     </main>
 </body>
-<?php include "../../includes/footer.php"; ?>
+<?php include "/UTPN/includes/footer.php"; ?>
 </html>
