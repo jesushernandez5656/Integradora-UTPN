@@ -14,17 +14,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $stmt->execute([$user_id, $code]);
 
         if ($stmt->rowCount() > 0) {
-            // ✅ Borrar código usado
             $del = $conn->prepare("DELETE FROM twofa_codes WHERE user_id = ?");
             $del->execute([$user_id]);
 
-            // ✅ Autenticar usuario
             $_SESSION["usuario_id"] = $user_id;
             $_SESSION["rol"] = $_SESSION["pending_user_type"];
 
             unset($_SESSION["pending_user_id"], $_SESSION["pending_user_type"]);
 
-            // ✅ Redirigir según rol
             if ($_SESSION["rol"] == "admin") {
                 header("Location: pages/admin/home_admin.php");
             } elseif ($_SESSION["rol"] == "superadmin") {
@@ -34,12 +31,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             }
             exit;
         } else {
-            $_SESSION["error"] = "❌ Código inválido o caducado.";
+            $_SESSION['alert'] = ["type" => "error", "message" => "❌ Código inválido o caducado."];
             header("Location: verify_2fa.php");
             exit;
         }
     } else {
-        $_SESSION["error"] = "⚠️ No hay sesión pendiente. Intenta iniciar sesión de nuevo.";
+        $_SESSION['alert'] = ["type" => "error", "message" => "⚠️ No hay sesión pendiente. Intenta iniciar sesión de nuevo."];
         header("Location: login_register.php");
         exit;
     }
@@ -55,9 +52,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 </head>
 <body>
 
-  <!-- 🔔 Alertas globales -->
-  <?php include "includes/alerts.php"; ?>
-
   <div class="container">
     <div class="form-box">
       <form method="post" class="form" style="display:flex; flex-direction:column; gap:15px;">
@@ -71,14 +65,24 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     </div>
   </div>
 
-  <!-- Auto-cierre de alertas -->
+  <!-- 📢 Alertas dinámicas -->
   <script>
-    setTimeout(() => {
-      document.querySelectorAll('.alert').forEach(a => {
-        a.style.opacity = '0';
-        setTimeout(() => a.remove(), 400);
-      });
-    }, 4000);
+    function showAlert(message, type = "info") {
+      const container = document.createElement("div");
+      container.className = "alert-container";
+      container.innerHTML = `<div class="alert ${type}">${message}</div>`;
+      document.body.appendChild(container);
+
+      setTimeout(() => {
+        container.style.opacity = "0";
+        setTimeout(() => container.remove(), 400);
+      }, 4000);
+    }
+
+    <?php if (isset($_SESSION['alert'])): ?>
+      showAlert("<?= $_SESSION['alert']['message'] ?>", "<?= $_SESSION['alert']['type'] ?>");
+      <?php unset($_SESSION['alert']); ?>
+    <?php endif; ?>
   </script>
 </body>
 </html>

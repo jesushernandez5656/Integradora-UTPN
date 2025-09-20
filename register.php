@@ -4,43 +4,72 @@ require_once "config/db.php";
 require_once "config/mailer.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $nombre   = trim($_POST["nombre"]);
-    $email    = trim($_POST["email"]);
-    $password = password_hash($_POST["password"], PASSWORD_BCRYPT);
+    $nombre = trim($_POST["nombre"]);
+    $email = trim($_POST["email"]);
+    $password = $_POST["password"];
+    $confirm_password = $_POST["confirm_password"];
 
-    // Validar dominio
-    if (!preg_match("/@utpn\.edu\.mx$/", $email)) {
-        $_SESSION['error'] = "❌ Solo se permiten correos institucionales (@utpn.edu.mx).";
+    // Validar campos vacíos
+    if (empty($nombre) || empty($email) || empty($password) || empty($confirm_password)) {
+        $_SESSION['alert'] = ["type" => "error", "message" => "❌ Todos los campos son obligatorios."];
         header("Location: login_register.php");
         exit;
     }
 
-    // Generar código de verificación
-    $code = bin2hex(random_bytes(32));
+    // Validar contraseñas
+    if ($password !== $confirm_password) {
+        $_SESSION['alert'] = ["type" => "error", "message" => "❌ Las contraseñas no coinciden."];
+        header("Location: login_register.php");
+        exit;
+    }
 
-    // Insertar usuario con verification_code
+    // Validar dominio
+    if (!preg_match("/@utpn\.edu\.mx$/", $email)) {
+        $_SESSION['alert'] = ["type" => "error", "message" => "❌ Solo se permiten correos institucionales (@utpn.edu.mx)."];
+        header("Location: login_register.php");
+        exit;
+    }
+
+    // Verificar si ya existe ese correo
+    $check = $conn->prepare("SELECT id FROM users WHERE email = ? LIMIT 1");
+    $check->execute([$email]);
+    if ($check->fetch()) {
+        $_SESSION['alert'] = ["type" => "error", "message" => "❌ Este correo ya está registrado."];
+        header("Location: login_register.php");
+        exit;
+    }
+
+    // Hashear contraseña
+    $hashed_password = password_hash($password, PASSWORD_BCRYPT);
+
+    // Generar token de verificación
+    $verification_code = bin2hex(random_bytes(16));
+
+    // Insertar usuario
     $sql = "INSERT INTO users (name, email, password, user_type, verified, verification_code, created_at) 
             VALUES (?, ?, ?, 'alumno', 0, ?, NOW())";
     $stmt = $conn->prepare($sql);
 
-    if ($stmt->execute([$nombre, $email, $password, $code])) {
-        // Enlace de verificación
-        $link = "http://localhost/UTPN/verify.php?code=$code&email=$email";
-
-        // Enviar correo
+    if ($stmt->execute([$nombre, $email, $hashed_password, $verification_code])) {
+        // Enviar correo de verificación
         $subject = "Verifica tu cuenta - UTPN";
-        $body = "<h3>Hola $nombre,</h3>
-                 <p>Gracias por registrarte en UTPN.</p>
-                 <p>Por favor verifica tu cuenta haciendo clic en el siguiente enlace:</p>
-                 <a href='$link'>$link</a>";
+        $verify_link = "http://localhost/UTPN/verify.php?code=$verification_code&email=" . urlencode($email);
+
+        $body = "
+            <h3>Hola $nombre,</h3>
+            <p>Gracias por registrarte en la plataforma UTPN.</p>
+            <p>Haz clic en el siguiente enlace para verificar tu cuenta:</p>
+            <p><a href='$verify_link' target='_blank'>$verify_link</a></p>
+            <p>Si no fuiste tú, ignora este correo.</p>
+        ";
 
         send_email($email, $nombre, $subject, $body);
 
-        $_SESSION['success'] = "✅ Registro exitoso, revisa tu correo institucional para verificar la cuenta.";
+        $_SESSION['alert'] = ["type" => "success", "message" => "✅ Registro exitoso. Revisa tu correo institucional para verificar tu cuenta."];
         header("Location: login_register.php");
         exit;
     } else {
-        $_SESSION['error'] = "❌ Error al registrar usuario.";
+        $_SESSION['alert'] = ["type" => "error", "message" => "❌ Error al registrar usuario. Intenta nuevamente."];
         header("Location: login_register.php");
         exit;
     }
