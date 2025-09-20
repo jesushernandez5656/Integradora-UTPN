@@ -12,7 +12,7 @@
     <ul>
       <li><a href="#">Usuarios</a></li>
       <li><a href="#">Administradores</a></li>
-      <li><a href="logout.php">Cerrar sesión</a></li>
+      <li><a href="../../logout.php">Cerrar sesión</a></li>
     </ul>
   </div>
 
