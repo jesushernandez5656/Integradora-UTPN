@@ -16,7 +16,7 @@ if (session_status() === PHP_SESSION_NONE) {
 <header>
     <nav class="navbar">
         <div class="navbar-logo">
-            <a href="/UTPN/index.php"><img src="/integradora-UTPN/assets/img/Logo.png" alt="Logo UTPN"></a>
+            <a href="/integradora-UTPN/index.php"><img src="/integradora-UTPN/assets/img/Logo.png" alt="Logo UTPN"></a>
         </div>
         <div class="navbar-title">
             <h1>Bienvenidos a la UTPN</h1>
