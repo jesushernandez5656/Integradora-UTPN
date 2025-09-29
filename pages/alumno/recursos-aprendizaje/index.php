@@ -1,13 +1,8 @@
 <?php
-
-// Usamos la misma conexión de la carpeta admin
-//include '../admin/db_connect.php';
-//include '../../../admin/db_connect.php';
 include "../../../includes/header.php";
 include '../../admin/recursos-aprendizaje/db_connect.php'; 
 
-// Consulta para obtener todas las categorías (carreras) que tienen al menos un recurso
-$query_categorias = "SELECT c.* FROM categorias c JOIN recursos r ON c.id_categoria = r.id_categoria GROUP BY c.id_categoria ORDER BY c.nombre ASC";
+$query_categorias = "SELECT * FROM categorias ORDER BY nombre ASC";
 $resultado_categorias = $conn->query($query_categorias);
 ?>
 <!DOCTYPE html>
@@ -17,65 +12,59 @@ $resultado_categorias = $conn->query($query_categorias);
     <title>Recursos de Aprendizaje</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
     <style>
-        .recurso-card { transition: transform 0.2s; }
-        .recurso-card:hover { transform: translateY(-5px); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        /* --- NUEVO CÓDIGO CSS --- */
+        html, body {
+            height: 100%; /* Asegura que el HTML y el Body ocupen toda la altura */
+        }
+        body {
+            display: flex; /* Convierte el body en un contenedor flexible */
+            flex-direction: column; /* Apila los elementos (header, contenido, footer) verticalmente */
+        }
+        .content-wrapper {
+            flex-grow: 1; /* Esta es la clave: hace que el contenido principal crezca y empuje el footer hacia abajo */
+        }
+        /* --- FIN NUEVO CÓDIGO CSS --- */
+
+        .card-carrera {
+            text-decoration: none;
+            color: inherit;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            display: block;
+        }
+        .card-carrera:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
     </style>
 </head>
 <body>
-    <div class="container mt-4">
-        <div class="text-center mb-4">
+    <div class="container mt-4 content-wrapper">
+        <div class="text-center mb-5">
             <h1>Recursos de Aprendizaje por Carrera</h1>
             <p class="lead">Explora cursos, libros, videos y más, organizados para tu programa educativo.</p>
         </div>
 
-        <?php while ($categoria = $resultado_categorias->fetch_assoc()): ?>
-            <section class="mb-5">
-                <h2 class="border-bottom pb-2 mb-3"><?php echo htmlspecialchars($categoria['nombre']); ?></h2>
-
-                <div class="row g-4">
-                    <?php
-                    // Consulta para obtener los recursos de esta categoría
-                    $id_cat = $categoria['id_categoria'];
-                    $stmt = $conn->prepare("SELECT * FROM recursos WHERE id_categoria = ? ORDER BY fecha_creacion DESC");
-                    $stmt->bind_param("i", $id_cat);
-                    $stmt->execute();
-                    $resultado_recursos = $stmt->get_result();
-
-                    if ($resultado_recursos->num_rows > 0):
-                        while ($recurso = $resultado_recursos->fetch_assoc()):
-                            // Determinar el icono y el enlace según el tipo de recurso
-                            $icono = '';
-                            $enlace_destino = '';
-                            switch ($recurso['tipo']) {
-                                case 'Curso':       $icono = '🎓'; $enlace_destino = htmlspecialchars($recurso['enlace']); break;
-                                case 'Video':       $icono = '🎥'; $enlace_destino = htmlspecialchars($recurso['enlace']); break;
-                                case 'Simulador':   $icono = '⚙️';  $enlace_destino = htmlspecialchars($recurso['enlace']); break;
-                                case 'Libro':       $icono = '📚'; $enlace_destino = 'pdfs/' . htmlspecialchars($recurso['archivo_pdf']); break;
-                                case 'Caso de Estudio': $icono = '📄'; $enlace_destino = 'pdfs/' . htmlspecialchars($recurso['archivo_pdf']); break;
-                            }
-                    ?>
+        <div class="row g-4">
+            <?php if ($resultado_categorias->num_rows > 0): ?>
+                <?php while ($categoria = $resultado_categorias->fetch_assoc()): ?>
                     <div class="col-md-6 col-lg-4">
-                        <div class="card h-100 recurso-card">
-                            <div class="card-body">
-                                <h5 class="card-title"><?php echo $icono . ' ' . htmlspecialchars($recurso['titulo']); ?></h5>
-                                <p class="card-text"><?php echo htmlspecialchars($recurso['descripcion']); ?></p>
+                        <a href="recursos.php?id_carrera=<?php echo $categoria['id_categoria']; ?>" class="card-carrera">
+                            <div class="card h-100">
+                                <div class="card-body d-flex align-items-center justify-content-center">
+                                    <h5 class="card-title text-center mb-0"><?php echo htmlspecialchars($categoria['nombre']); ?></h5>
+                                </div>
                             </div>
-                            <div class="card-footer bg-transparent border-top-0">
-                                <a href="<?php echo $enlace_destino; ?>" target="_blank" class="btn btn-primary w-100">Acceder al Recurso</a>
-                            </div>
-                        </div>
+                        </a>
                     </div>
-                    <?php
-                        endwhile;
-                    else:
-                        echo "<p>No hay recursos disponibles para esta carrera por el momento.</p>";
-                    endif;
-                    $stmt->close();
-                    ?>
-                </div>
-            </section>
-        <?php endwhile; $conn->close(); ?>
-    </div>
-</body>
-<?php include "../../../includes/footer.php"; ?>
+                <?php endwhile; ?>
+            <?php else: ?>
+                <div class="alert alert-warning">No hay carreras disponibles en este momento.</div>
+            <?php endif; ?>
+        </div>
+    </div> </body>
+<?php 
+$conn->close();
+// El footer ahora queda fuera del div principal, empujado hacia abajo
+include "../../../includes/footer.php"; 
+?>
 </html>
