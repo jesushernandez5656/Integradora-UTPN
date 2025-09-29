@@ -1,6 +1,6 @@
 <?php
 // Usamos la misma conexión de la carpeta admin
-include '../../admin/db_connect.php';
+include '../admin/db_connect.php';
 
 // Consulta para obtener todas las categorías (carreras) que tienen al menos un recurso
 $query_categorias = "SELECT c.* FROM categorias c JOIN recursos r ON c.id_categoria = r.id_categoria GROUP BY c.id_categoria ORDER BY c.nombre ASC";
