@@ -5,9 +5,237 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sistema Multiusuario</title>
-  <link rel="stylesheet" href="/integradora-UTPN/assets/css/login.css">
 </head>
 <body>
+  <style>
+    * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #4facfe, #00f2fe);
+}
+
+.container {
+  position: relative;
+  width: 380px;
+  background: #fff;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  overflow: hidden;
+}
+
+.form {
+  display: none;
+  flex-direction: column;
+  gap: 15px;
+  animation: fadeIn 0.4s ease forwards;
+}
+
+.form h2 {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.input-box {
+  position: relative;
+}
+
+.input-box input {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-bottom: 2px solid #ccc;
+  outline: none;
+  transition: 0.3s;
+}
+
+.input-box label {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  transition: 0.3s;
+  color: #aaa;
+}
+
+.input-box input:focus,
+.input-box input:valid {
+  border-bottom: 2px solid #4facfe;
+}
+
+.input-box input:focus + label,
+.input-box input:valid + label {
+  top: -5px;
+  font-size: 12px;
+  color: #4facfe;
+}
+
+.btn {
+  padding: 10px;
+  border: none;
+  background: #4facfe;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  background: #00c6ff;
+}
+
+.switch {
+  text-align: center;
+  font-size: 14px;
+}
+
+.switch a {
+  color: #4facfe;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 🔔 Alertas globales arriba */
+.alert-container {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 400px;
+  z-index: 9999;
+}
+
+.alert {
+  padding: 12px 18px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  animation: fadeSlide 0.5s ease forwards;
+}
+
+.alert.success { background:#d4edda; color:#155724; border:1px solid #c3e6cb; }
+.alert.error   { background:#f8d7da; color:#721c24; border:1px solid #f5c6cb; }
+.alert.info    { background:#d1ecf1; color:#0c5460; border:1px solid #bee5eb; }
+
+/* Animación */
+@keyframes fadeSlide {
+  from { opacity:0; transform: translate(-50%, -20px); }
+  to { opacity:1; transform: translate(-50%, 0); }
+}
+
+/* 🔔 Contenedor global de alertas */
+.alert-container {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 400px;
+  z-index: 9999;
+}
+
+/* 🎨 Estilos base */
+.alert {
+  padding: 12px 18px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  opacity: 1;
+  transition: opacity 0.4s ease;
+}
+
+/* ✅ Éxito */
+.alert.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+/* ❌ Error */
+.alert.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* ℹ️ Información */
+.alert.info {
+  background-color: #d1ecf1;
+  color: #0c5460;
+  border: 1px solid #bee5eb;
+}
+
+
+/* 📱 Responsive Login/Registro */
+@media (max-width: 768px) {
+  .container {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .form h2 {
+    font-size: 20px;
+  }
+
+  .input-box input {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .btn {
+    font-size: 14px;
+    padding: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 10px;
+  }
+
+  .container {
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: none;
+    padding: 15px;
+  }
+
+  .form {
+    gap: 10px;
+  }
+
+  .form h2 {
+    font-size: 18px;
+  }
+
+  .switch {
+    font-size: 12px;
+  }
+}
+
+  </style>
 
   <div class="container">
     <div class="form-box">
