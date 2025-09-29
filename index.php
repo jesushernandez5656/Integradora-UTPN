@@ -1,13 +1,103 @@
 <?php include "includes/header.php"; ?>
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/integradora-UTPN/assets/css/index.css">
     <title>UTPN</title>
 </head>
 <body>
+  <style>
+    *{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background: #EDE5D6;
+}
+main {
+  padding: 100px ; /* 80px arriba y abajo, 20px a los lados */
+}
+ 
+/* Contenedor de logos */
+.logos-container {
+    display: grid;
+    grid-template-columns: repeat(3, 220px); /* 3 columnas en PC */
+    grid-auto-rows: 220px;
+    justify-content: center; /* centra la cuadrícula horizontalmente */
+    gap: 10px;
+    width: max-content; /* contenedor ajustado al contenido */
+    margin: 60px auto; /* margen superior e inferior */
+    transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Cada logo */
+.logo {
+    width: 220px;
+    height: 220px;
+    display: flex;
+    flex-direction: column; /* svg arriba, texto debajo */
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background-color: #ffffff;
+    transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
+    cursor: pointer;
+    text-align: center;
+}
+
+/* Svg dentro del logo */
+.logo svg {
+    width: 32px;
+    height: 32px;
+    fill: #AE874C;
+    transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Hover original que tenías */
+.logo:hover {
+    background-color: #00837f;
+    box-shadow:
+        0rem 6px 13px rgba(10, 60, 255, 0.1),
+        0rem 24px 24px rgba(10, 60, 255, 0.09),
+        0rem 55px 33px rgba(10, 60, 255, 0.05),
+        0rem 97px 39px rgba(10, 60, 255, 0.01),
+        0rem 152px 43px rgba(10, 60, 255, 0);
+}
+
+.logo:hover svg {
+    fill: #ffffff;
+}
+
+/* Texto debajo del svg */
+.logo p {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #333333;
+}
+
+/* Responsive: Pantallas menores a 700px */
+@media screen and (max-width: 700px) {
+    .logos-container {
+        grid-template-columns: repeat(2, 200px); /* 2 columnas */
+        grid-auto-rows: 200px;
+        gap: 10px;
+        width: max-content;
+    }
+
+    .logo {
+        width: 200px;
+        height: 200px;
+    }
+
+    .logo svg {
+        width: 28px;
+        height: 28px;
+    }
+}
+  </style>
     <main>
     <!-- From Uiverse.io by gharsh11032000 --> 
 <div class="logos-container">
