@@ -1,7 +1,7 @@
 <?php
 // Datos de conexión
 $host = "localhost";
-$dbname = "utpn";           // 👈 tu base de datos en phpMyAdmin
+$dbname = "utpn";           // base de datos en phpMyAdmin
 $username = "root";
 $password = "";
 
