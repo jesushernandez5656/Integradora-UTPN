@@ -780,7 +780,7 @@ body {
     <div class="chat">
         <div class="header">
             <span class="title">
-                what's on your mind?
+                UTPN-BOT
             </span>
             <button>
                 <i class="fa fa-times" aria-hidden="true"></i>
@@ -788,15 +788,12 @@ body {
                          
         </div>
         <ul class="messages">
-            <li class="other">asdasdasasdasdasasdasdasasdasdasasdasdasasdasdasasdasdas</li>
-            <li class="other">Are we dogs??? 🐶</li>
-            <li class="self">no... we're human</li>
-            <li class="other">are you sure???</li>
-            <li class="self">yes.... -___-</li>
-            <li class="other">if we're not dogs.... we might be monkeys 🐵</li>
-            <li class="self">i hate you</li>
-            <li class="other">don't be so negative! here's a banana 🍌</li>
-            <li class="self">......... -___-</li>
+            <li class="other">¡Hola! 👋 Selecciona una opción escribiendo el número:</li>
+            <li class="other">1️⃣ ¿Qué becas están disponibles?</li>
+            <li class="other">2️⃣ ¿Cuáles son los requisitos?</li>
+            <li class="other">3️⃣ ¿Cómo solicitar una beca?</li>
+            <li class="other">4️⃣ ¿Cuándo cierran las convocatorias?</li>
+            <li class="other">5️⃣ ¿Ofrecen asesorías personalizadas?</li>
         </ul>
         <div class="footer">
             <div class="text-box" contenteditable="true" disabled="true"></div>
@@ -808,80 +805,120 @@ body {
 
 
   <!-- CHATBOT JS -->
-  <script>
-    $(function(){
-      var element = $('.floating-chat');
-      var myStorage = localStorage;
+ <!-- CHATBOT JS -->
+<script>
+$(function(){
+  var element = $('.floating-chat');
+  var chatID = createUUID();
+  var isOpen = false;
 
-      if (!myStorage.getItem('chatID')) {
-          myStorage.setItem('chatID', createUUID());
+  // Respuestas pregrabadas
+  var respuestas = {
+      '1': '📚 Actualmente tenemos disponibles:\n• Beca Talento Digital (hasta 80%)\n• Beca Líder Global (100%)\n• Apoyo Investigación\n• Y más opciones en la sección de becas destacadas',
+      '2': '📋 Los requisitos varían según la beca:\n• Promedio mínimo: 8.0-8.5\n• Documentos: CV, carta motivación, comprobantes\n• Algunos requieren entrevista o proyecto\n• Revisa cada convocatoria para detalles específicos',
+      '3': '✍️ Pasos para solicitar:\n1. Revisa las becas disponibles\n2. Verifica que cumples los requisitos\n3. Prepara tu documentación\n4. Click en "Postular" en la beca que te interesa\n5. Llena el formulario completo\n6. ¡Listo! Recibirás confirmación por email',
+      '4': '📅 Las convocatorias tienen diferentes fechas:\n• Revisa cada beca para ver su fecha límite\n• Generalmente abren al inicio de cada cuatrimestre\n• Te recomendamos aplicar con anticipación\n• Suscríbete para recibir notificaciones',
+      '5': '👨‍🏫 ¡Sí! Ofrecemos:\n• Revisión de documentos\n• Simulación de entrevistas\n• Estrategia de postulación\n• Agenda una cita en la sección de Asesorías'
+  };
+
+  setTimeout(function() {
+      element.addClass('enter');
+  }, 1000);
+
+  element.click(toggleChat);
+
+  function toggleChat() {
+      if (isOpen) {
+          closeElement();
+      } else {
+          openElement();
       }
+  }
 
-      setTimeout(function() {
-          element.addClass('enter');
-      }, 1000);
+  function openElement() {
+      var messages = element.find('.messages');
+      var textInput = element.find('.text-box');
+      element.find('>i').removeClass('fa-comments').addClass('fa-times');
+      element.addClass('expand');
+      element.find('.chat').css('display', 'flex');
+      textInput.prop("disabled", false).focus();
+      element.find('.header button').click(closeElement);
+      element.find('#sendMessage').click(sendNewMessage);
+      messages.scrollTop(messages.prop("scrollHeight"));
+      textInput.keydown(onMetaAndEnter);
+      isOpen = true;
+  }
 
-      element.click(openElement);
+  function closeElement() {
+      element.find('.chat').css('display', 'none');
+      element.find('>i').removeClass('fa-times').addClass('fa-comments');
+      element.removeClass('expand');
+      element.find('.header button').off('click', closeElement);
+      element.find('#sendMessage').off('click', sendNewMessage);
+      element.find('.text-box').off('keydown', onMetaAndEnter).prop("disabled", true).blur();
+      isOpen = false;
+  }
 
-      function openElement() {
-          var messages = element.find('.messages');
-          var textInput = element.find('.text-box');
-          element.find('>i').hide();
-          element.addClass('expand');
-          element.find('.chat').addClass('enter');
-          textInput.prop("disabled", false).focus();
-          element.off('click', openElement);
-          element.find('.header button').click(closeElement);
-          element.find('#sendMessage').click(sendNewMessage);
-          messages.scrollTop(messages.prop("scrollHeight"));
-          textInput.keydown(onMetaAndEnter);
+  function createUUID() {
+      var s = [];
+      var hexDigits = "0123456789abcdef";
+      for (var i = 0; i < 36; i++) {
+          s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
       }
+      s[14] = "4";
+      s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1);
+      s[8] = s[13] = s[18] = s[23] = "-";
+      return s.join("");
+  }
 
-      function closeElement() {
-          element.find('.chat').removeClass('enter').hide();
-          element.find('>i').show();
-          element.removeClass('expand');
-          element.find('.header button').off('click', closeElement);
-          element.find('#sendMessage').off('click', sendNewMessage);
-          element.find('.text-box').off('keydown', onMetaAndEnter).prop("disabled", true).blur();
+  function sendNewMessage() {
+      var userInput = $('.text-box');
+      var newMessage = userInput.html().replace(/\<div\>|\<br.*?\>/ig, '\n').replace(/\<\/div\>/g, '').trim().replace(/\n/g, '<br>');
+      if (!newMessage) return;
+      
+      var messagesContainer = $('.messages');
+      messagesContainer.append('<li class="self">' + newMessage + '</li>');
+      userInput.html('');
+      
+      // Verificar si es un número del 1 al 5
+      var numero = newMessage.trim();
+      if (respuestas[numero]) {
           setTimeout(function() {
-              element.find('.chat').removeClass('enter').show()
-              element.click(openElement);
+              var respuesta = respuestas[numero].replace(/\n/g, '<br>');
+              messagesContainer.append('<li class="other">' + respuesta + '</li>');
+              messagesContainer.finish().animate({
+                  scrollTop: messagesContainer.prop("scrollHeight")
+              }, 250);
+          }, 500);
+      } else if (numero.length === 1 && numero >= '1' && numero <= '5') {
+          setTimeout(function() {
+              messagesContainer.append('<li class="other">Por favor escribe un número del 1 al 5 📝</li>');
+              messagesContainer.finish().animate({
+                  scrollTop: messagesContainer.prop("scrollHeight")
+              }, 250);
+          }, 500);
+      } else {
+          setTimeout(function() {
+              messagesContainer.append('<li class="other">Por favor selecciona una opción escribiendo su número (1-5) 😊</li>');
+              messagesContainer.finish().animate({
+                  scrollTop: messagesContainer.prop("scrollHeight")
+              }, 250);
           }, 500);
       }
+      
+      userInput.focus();
+      messagesContainer.finish().animate({
+          scrollTop: messagesContainer.prop("scrollHeight")
+      }, 250);
+  }
 
-      function createUUID() {
-          var s = [];
-          var hexDigits = "0123456789abcdef";
-          for (var i = 0; i < 36; i++) {
-              s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
-          }
-          s[14] = "4";
-          s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1);
-          s[8] = s[13] = s[18] = s[23] = "-";
-          return s.join("");
+  function onMetaAndEnter(event) {
+      if ((event.metaKey || event.ctrlKey) && event.keyCode == 13) {
+          sendNewMessage();
       }
-
-      function sendNewMessage() {
-          var userInput = $('.text-box');
-          var newMessage = userInput.html().replace(/\<div\>|\<br.*?\>/ig, '\n').replace(/\<\/div\>/g, '').trim().replace(/\n/g, '<br>');
-          if (!newMessage) return;
-          var messagesContainer = $('.messages');
-          messagesContainer.append('<li class="self">' + newMessage + '</li>');
-          userInput.html('');
-          userInput.focus();
-          messagesContainer.finish().animate({
-              scrollTop: messagesContainer.prop("scrollHeight")
-          }, 250);
-      }
-
-      function onMetaAndEnter(event) {
-          if ((event.metaKey || event.ctrlKey) && event.keyCode == 13) {
-              sendNewMessage();
-          }
-      }
-    });
-  </script>
+  }
+});
+</script>
 </body>
 <?php include "../../includes/footer.php"; ?>
 </html>
