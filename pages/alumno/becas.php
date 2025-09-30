@@ -678,8 +678,8 @@ body {
       <div class="grid grid-3 cards">
         <article class="card2">
           <div class="card2__head">
-            <h3>Beca Talento Digital</h3>
-            <span class="pill">Hasta 80%</span>
+            <h3>Beca Inscripción</h3>
+            <span class="pill">$3000</span>
           </div>
           <p>Para carreras de TI y ciencia de datos. Incluye mentoría.</p>
           <ul class="list">
@@ -693,8 +693,8 @@ body {
 
         <article class="card2">
           <div class="card2__head">
-            <h3>Beca Líder Global</h3>
-            <span class="pill">100%</span>
+            <h3>Beca Material y Equipo Técnico</h3>
+            <span class="pill">$3000</span>
           </div>
           <p>Movilidad internacional y manutención por méritos académicos.</p>
           <ul class="list">
@@ -708,8 +708,8 @@ body {
 
         <article class="card2">
           <div class="card2__head">
-            <h3>Apoyo Investigación</h3>
-            <span class="pill">Estímulo $</span>
+            <h3>Beca Titulación</h3>
+            <span class="pill">$3000</span>
           </div>
           <p>Fondos para proyectos universitarios y publicaciones.</p>
           <ul class="list">
@@ -723,8 +723,8 @@ body {
 
         <article class="card2">
           <div class="card2__head">
-            <h3>Apoyo Investigación</h3>
-            <span class="pill">Estímulo $</span>
+            <h3>Jóvenes Escribiendo el Futuro</h3>
+            <span class="pill">Estímulo $5800</span>
           </div>
           <p>Fondos para proyectos universitarios y publicaciones.</p>
           <ul class="list">
@@ -738,10 +738,10 @@ body {
 
         <article class="card2">
           <div class="card2__head">
-            <h3>Apoyo Investigación</h3>
-            <span class="pill">Estímulo $</span>
+            <h3>Beca Acceso a la Universidad</h3>
+            <span class="pill">Pago primer cuatrimestre</span>
           </div>
-          <p>Fondos para proyectos universitarios y publicaciones.</p>
+          <p>Solo estudiantes de nuevo ingreso.</p>
           <ul class="list">
             <li>Protocolo avalado</li>
             <li>Director de tesis</li>
