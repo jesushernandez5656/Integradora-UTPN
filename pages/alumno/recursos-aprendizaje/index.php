@@ -39,7 +39,7 @@ $resultado_categorias = $conn->query($query_categorias);
 
     <?php include "../../../includes/header.php"; ?>
 
-    <main class="container mt-4">
+    <main class="container mt-4" role="main">
         <div class="text-center mb-5">
             <h1>Recursos de Aprendizaje por Carrera</h1>
             <p class="lead">Explora cursos, libros, videos y más, organizados para tu programa educativo.</p>
@@ -49,7 +49,9 @@ $resultado_categorias = $conn->query($query_categorias);
             <?php if ($resultado_categorias->num_rows > 0): ?>
                 <?php while ($categoria = $resultado_categorias->fetch_assoc()): ?>
                     <div class="col-md-6 col-lg-4 d-flex">
-                        <a href="recursos.php?id_carrera=<?php echo $categoria['id_categoria']; ?>" class="card card-carrera w-100">
+                        <a href="recursos.php?id_carrera=<?php echo $categoria['id_categoria']; ?>" 
+                           class="card card-carrera w-100" 
+                           title="Ver recursos para <?php echo htmlspecialchars($categoria['nombre']); ?>">
                             <div class="card-body d-flex align-items-center justify-content-center">
                                 <h5 class="card-title text-center mb-0"><?php echo htmlspecialchars($categoria['nombre']); ?></h5>
                             </div>
