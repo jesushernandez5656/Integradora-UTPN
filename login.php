@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } elseif ($usuario["user_type"] == "superadmin") {
             header("Location: pages/superadmin/superadmin.php");
         } else {
-            header("Location: pages/alumno/becas.php");
+            header("Location: pages/alumno/home_alumno.php");
         }
         exit;
     } else {

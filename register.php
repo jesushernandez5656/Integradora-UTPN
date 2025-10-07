@@ -53,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($stmt->execute([$nombre, $email, $hashed_password, $verification_code])) {
         // Enviar correo de verificación
         $subject = "Verifica tu cuenta - UTPN";
-        $verify_link = "http://localhost/UTPN/verify.php?code=$verification_code&email=" . urlencode($email);
+        $verify_link = "http://localhost/Integradora-UTPN/verify.php?code=$verification_code&email=" . urlencode($email);
 
         $body = "
             <h3>Hola $nombre,</h3>

@@ -4,6 +4,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 ?>
+<link rel="stylesheet" href="/Integradora-UTPN/assets/css/navbar.css">
 <header>
     <nav class="navbar">
         <div class="navbar-logo">
