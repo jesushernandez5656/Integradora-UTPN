@@ -1,4 +1,4 @@
-<?php include "includes/header.php"; ?>
+<?php include "../../includes/header.php"; ?>
  <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -167,5 +167,5 @@ main {
 </main>
 
 </body>
-<?php include "includes/footer.php"; ?>
+<?php include "../../includes/footer.php"; ?>
 </html>

@@ -235,7 +235,40 @@ body {
   }
 }
 
+/* 🔹 Logo fijo arriba a la izquierda */
+.logo-link {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+  text-decoration: none;
+}
+
+.logo {
+  height: 100px;
+  width: auto;
+  transition: transform 0.3s ease;
+}
+
+.logo:hover {
+  transform: scale(1.05);
+}
+
+/* 📱 Ajuste para pantallas pequeñas */
+@media (max-width: 480px) {
+  .logo {
+    height: 45px;
+  }
+}
+
+
   </style>
+
+  <!-- 🔹 Logo superior izquierdo -->
+<a href="index.php" class="logo-link">
+  <img src="/Integradora-UTPN/assets/img/logo.png" alt="UTPN Logo" class="logo">
+</a>
+
 
   <div class="container">
     <div class="form-box">

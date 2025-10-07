@@ -13,7 +13,7 @@ if (session_status() === PHP_SESSION_NONE) {
         <div class="navbar-title">
             <h1>Bienvenidos a la UTPN</h1>
             <?php if (isset($_SESSION['usuario_id'])): ?>
-                <span class="user-name">👤 <?= htmlspecialchars($_SESSION['usuario_nombre']) ?></span>
+                <span class="user-name"> <?= htmlspecialchars($_SESSION['usuario_nombre']) ?></span>
             <?php endif; ?>
         </div>
         <div class="navbar-login">
