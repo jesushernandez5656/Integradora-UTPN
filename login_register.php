@@ -309,10 +309,6 @@ body {
           <input type="password" name="confirm_password" required>
           <label>Verifica tu contraseña</label>
         </div>
-        <div class="input-box">
-          <input type="text" name="phone" required>
-          <label>Teléfono</label>
-        </div>
         <button type="submit" class="btn">Registrar</button>
         <p class="switch">¿Ya tienes cuenta? <a href="#" id="showLogin">Inicia Sesión</a></p>
       </form>

@@ -113,6 +113,7 @@ $alumnos = $query->fetchAll(PDO::FETCH_ASSOC);
     <ul>
       <li><a href="#">Usuarios</a></li>
       <li><a href="#">Administradores</a></li>
+      <li><a href="home_superadmin.php">Inicio</a></li>
       <li><a href="../../logout.php">Cerrar sesión</a></li>
     </ul>
   </div>
