@@ -24,9 +24,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION["usuario_nombre"] = $usuario["name"]; // 🔹 Guarda el nombre
 
         // ✅ Redirigir según rol
-        if ($usuario["user_type"] == "admin") {
-            header("Location: pages/admin/home_admin.php");
-        } elseif ($usuario["user_type"] == "superadmin") {
+if ($usuario["user_type"] == "admin") {
+    // Obtener permisos del admin
+    $permQuery = $conn->prepare("SELECT page, allowed FROM admin_permissions WHERE admin_id = ?");
+    $permQuery->execute([$usuario["id"]]);
+    $permisos = $permQuery->fetchAll(PDO::FETCH_KEY_PAIR); // ['recursos'=>1, 'reportes'=>0, ...]
+
+    $_SESSION["permisos"] = $permisos; // 🔹 Guardar permisos en sesión
+
+    header("Location: pages/admin/home_admin.php");
+    exit;
+}
+ elseif ($usuario["user_type"] == "superadmin") {
             header("Location: pages/superadmin/superadmin.php");
         } else {
             header("Location: pages/alumno/home_alumno.php");

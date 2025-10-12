@@ -1,5 +1,12 @@
 <?php
 include('../../config/db.php');
+session_start();
+
+// Verificar que sea superadmin
+if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'superadmin') {
+  header("Location: ../../login_register.php");
+  exit;
+}
 
 // Obtener alumnos
 $query = $conn->prepare("SELECT id, name, email, created_at FROM users WHERE user_type = 'user' ORDER BY id ASC");
@@ -7,325 +14,466 @@ $query->execute();
 $alumnos = $query->fetchAll(PDO::FETCH_ASSOC);
 
 // Obtener administradores
-$query2 = $conn->prepare("SELECT id, name, email, created_at FROM users WHERE user_type = 'admin' ORDER BY id ASC");
-$query2->execute();
-$admins = $query2->fetchAll(PDO::FETCH_ASSOC);
+$admins_query = $conn->prepare("SELECT id, name, email, created_at FROM users WHERE user_type = 'admin' ORDER BY id ASC");
+$admins_query->execute();
+$admins = $admins_query->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Superadmin Dashboard</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: "Poppins", sans-serif;
-      display: flex;
-      background: #f4f6f9;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Superadmin Dashboard</title>
+<style>
+/* --- General --- */
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  display: flex;
+  background: #EDE5D6; /* Crema claro */
+}
 
-    .sidebar {
-      width: 220px;
-      background: #4facfe;
-      color: white;
-      min-height: 100vh;
-      padding: 20px;
-    }
+.sidebar {
+  width: 220px;
+  background: #00837F; /* Teal */
+  color: white;
+  min-height: 100vh;
+  padding: 20px;
+}
 
-    .sidebar h2 {
-      text-align: center;
-      margin-bottom: 30px;
-    }
+.sidebar h2 {
+  text-align: center;
+  margin-bottom: 30px;
+}
 
-    .sidebar ul {
-      list-style: none;
-      padding: 0;
-    }
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
 
-    .sidebar ul li {
-      margin: 20px 0;
-    }
+.sidebar ul li {
+  margin: 20px 0;
+}
 
-    .sidebar ul li a {
-      text-decoration: none;
-      color: white;
-      display: block;
-      padding: 10px;
-      border-radius: 8px;
-      transition: 0.3s;
-    }
+.sidebar ul li a {
+  text-decoration: none;
+  color: white;
+  display: block;
+  padding: 10px;
+  border-radius: 8px;
+  transition: 0.3s;
+  cursor: pointer;
+}
 
-    .sidebar ul li a:hover, .sidebar ul li a.active {
-      background: rgba(255, 255, 255, 0.2);
-    }
+.sidebar ul li a:hover,
+.sidebar ul li a.active {
+  background: rgba(174, 135, 76, 0.25); /* Oro viejo semitransparente */
+}
 
-    .main-content {
-      flex: 1;
-      padding: 20px;
-    }
+.main-content {
+  flex: 1;
+  padding: 20px;
+  transition: all 0.4s ease;
+}
 
-    header {
-      background: #fff;
-      padding: 15px;
-      border-radius: 8px;
-      margin-bottom: 20px;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
-    }
+header {
+  background: #EDE5D6;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+  color: #00837F;
+}
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background: #fff;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
-    }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+}
 
-    th, td {
-      padding: 12px;
-      border-bottom: 1px solid #eee;
-      text-align: left;
-    }
+th, td {
+  padding: 12px;
+  border-bottom: 1px solid #D0D1D1;
+  text-align: left;
+  color: #7E8080;
+}
 
-    th {
-      background: #4facfe;
-      color: white;
-    }
+th {
+  background: #00837F;
+  color: white;
+}
 
-    .btn {
-      padding: 6px 10px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      color: white;
-    }
+.btn {
+  padding: 6px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
+  transition: 0.3s;
+}
 
-    .delete-btn {
-      background-color: #d63031;
-    }
+/* Botones */
+.delete-btn { background-color: #AE874C; }
+.delete-btn:hover { background-color: #5c0000ff; }
 
-    .delete-btn:hover {
-      background-color: #c0392b;
-    }
+.add-btn { background-color: #00837F; margin-bottom: 10px; }
+.add-btn:hover { background-color: #006963; }
 
-    .add-btn {
-      background-color: #0984e3;
-      margin-bottom: 15px;
-    }
+.perm-btn { background-color: #7E8080; }
+.perm-btn:hover { background-color: #006963; }
 
-    .add-btn:hover {
-      background-color: #0873c4;
-    }
+.close-btn { background-color: #D0D1D1; color: #7E8080; }
+.close-btn:hover { background-color: #AE874C; color: #fff; }
 
-    /* Ocultar secciones */
-    .hidden {
-      display: none;
-    }
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  justify-content: center;
+  align-items: center;
+}
 
-    /* Modal */
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 1000;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.5);
-      justify-content: center;
-      align-items: center;
-    }
+.modal-content {
+  background: #EDE5D6;
+  padding: 20px;
+  border-radius: 10px;
+  width: 400px;
+  max-height: 80vh;
+  overflow-y: auto;
+  color: #7E8080;
+}
 
-    .modal-content {
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      width: 400px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    }
+/* Sections */
+section {
+  display: none;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
 
-    .modal-content h3 {
-      margin-top: 0;
-    }
+section.active {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
 
-    .modal-content input {
-      width: 100%;
-      padding: 8px;
-      margin: 10px 0;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
+/* --- Neon Checkbox --- */
+.neon-checkbox {
+  --primary: #00837F;       /* Teal */
+  --primary-dark: #006963;
+  --primary-light: #AE874C; /* Oro viejo */
+  --size: 28px;
+  position: relative;
+  width: var(--size);
+  height: var(--size);
+  cursor: pointer;
+  display: inline-block;
+}
 
-    .close {
-      float: right;
-      cursor: pointer;
-      color: red;
-    }
-  </style>
+.neon-checkbox input { display: none; }
+
+.neon-checkbox__frame { position: relative; width: 100%; height: 100%; }
+
+.neon-checkbox__box {
+  position: absolute;
+  inset: 0;
+  background: #EDE5D6;
+  border-radius: 4px;
+  border: 2px solid var(--primary-dark);
+  transition: all 0.3s ease;
+}
+
+.neon-checkbox__check-container {
+  position: absolute;
+  inset: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.neon-checkbox__check {
+  width: 80%;
+  height: 80%;
+  fill: none;
+  stroke: var(--primary);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 40;
+  stroke-dashoffset: 40;
+  transform-origin: center;
+  transition: all 0.3s ease;
+}
+
+.neon-checkbox__glow {
+  position: absolute;
+  inset: -2px;
+  border-radius: 6px;
+  background: var(--primary-light);
+  opacity: 0;
+  filter: blur(8px);
+  transform: scale(1.2);
+  transition: all 0.3s ease;
+}
+
+.neon-checkbox__borders span,
+.neon-checkbox__particles span,
+.neon-checkbox__rings .ring,
+.neon-checkbox__sparks span {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+.neon-checkbox:hover .neon-checkbox__box {
+  border-color: var(--primary-light);
+  transform: scale(1.05);
+}
+
+.neon-checkbox input:checked ~ .neon-checkbox__frame .neon-checkbox__box {
+  background: rgba(0,131,127,0.2);
+  border-color: var(--primary);
+}
+
+.neon-checkbox input:checked ~ .neon-checkbox__frame .neon-checkbox__check {
+  stroke-dashoffset: 0;
+  transform: scale(1.1);
+}
+
+.neon-checkbox input:checked ~ .neon-checkbox__frame .neon-checkbox__glow {
+  opacity: 0.3;
+}
+</style>
 </head>
 <body>
+<div class="sidebar">
+  <h2>Superadmin</h2>
+  <ul>
+    <li><a class="nav-link active" data-section="alumnos-section">Usuarios</a></li>
+    <li><a class="nav-link" data-section="admins-section">Administradores</a></li>
+    <li><a href="home_superadmin.php">Inicio</a></li>
+    <li><a href="../../logout.php">Cerrar sesión</a></li>
+  </ul>
+</div>
 
-  <div class="sidebar">
-    <h2>Superadmin</h2>
-    <ul>
-      <li><a href="#" class="active" onclick="mostrarSeccion('alumnos')">Usuarios</a></li>
-      <li><a href="#" onclick="mostrarSeccion('admins')">Administradores</a></li>
-      <li><a href="home_superadmin.php">Inicio</a></li>
-      <li><a href="../../logout.php">Cerrar sesión</a></li>
-    </ul>
-  </div>
+<div class="main-content">
+<header><h1>Panel de Control</h1></header>
 
-  <div class="main-content">
-    <header>
-      <h1>Panel de Control</h1>
-    </header>
-
-    <!-- Sección de Alumnos -->
-    <section id="seccion-alumnos">
-      <h2>Lista de Alumnos</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Correo</th>
-            <th>Fecha de creación</th>
-            <th>Acción</th>
+<!-- SECCIÓN DE ALUMNOS -->
+<section id="alumnos-section" class="active">
+  <h2>Lista de Alumnos</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th><th>Nombre</th><th>Correo</th><th>Fecha de creación</th><th>Acción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <?php if ($alumnos): ?>
+        <?php foreach ($alumnos as $alumno): ?>
+          <tr id="user-<?= $alumno['id'] ?>">
+            <td><?= htmlspecialchars($alumno['id']) ?></td>
+            <td><?= htmlspecialchars($alumno['name']) ?></td>
+            <td><?= htmlspecialchars($alumno['email']) ?></td>
+            <td><?= htmlspecialchars($alumno['created_at']) ?></td>
+            <td><button class="btn delete-btn" onclick="eliminarUsuario(<?= $alumno['id'] ?>)">Eliminar</button></td>
           </tr>
-        </thead>
-        <tbody>
-          <?php if ($alumnos): ?>
-            <?php foreach ($alumnos as $alumno): ?>
-              <tr>
-                <td><?= htmlspecialchars($alumno['id']) ?></td>
-                <td><?= htmlspecialchars($alumno['name']) ?></td>
-                <td><?= htmlspecialchars($alumno['email']) ?></td>
-                <td><?= htmlspecialchars($alumno['created_at']) ?></td>
-                <td>
-                  <button class="btn delete-btn" onclick="eliminarUsuario(<?= $alumno['id'] ?>)">Eliminar</button>
-                </td>
-              </tr>
-            <?php endforeach; ?>
-          <?php else: ?>
-            <tr><td colspan="5">No hay alumnos registrados.</td></tr>
-          <?php endif; ?>
-        </tbody>
-      </table>
-    </section>
+        <?php endforeach; ?>
+      <?php else: ?>
+        <tr><td colspan="5">No hay alumnos registrados.</td></tr>
+      <?php endif; ?>
+    </tbody>
+  </table>
+</section>
 
-    <!-- Sección de Administradores -->
-    <section id="seccion-admins" class="hidden">
-      <h2>Lista de Administradores</h2>
-      <button class="btn add-btn" onclick="abrirModal()">+ Añadir Administrador</button>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Correo</th>
-            <th>Fecha de creación</th>
-            <th>Acción</th>
+<!-- SECCIÓN DE ADMINISTRADORES -->
+<section id="admins-section">
+  <h2>Administradores</h2>
+  <button class="btn add-btn" onclick="abrirModalAgregar()">+ Agregar Admin</button>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th><th>Nombre</th><th>Correo</th><th>Fecha de creación</th><th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <?php if ($admins): ?>
+        <?php foreach ($admins as $admin): ?>
+          <tr id="admin-<?= $admin['id'] ?>">
+            <td><?= htmlspecialchars($admin['id']) ?></td>
+            <td><?= htmlspecialchars($admin['name']) ?></td>
+            <td><?= htmlspecialchars($admin['email']) ?></td>
+            <td><?= htmlspecialchars($admin['created_at']) ?></td>
+            <td>
+              <button class="btn perm-btn" onclick="abrirPermisos(<?= $admin['id'] ?>)">Permisos</button>
+              <button class="btn delete-btn" onclick="eliminarAdmin(<?= $admin['id'] ?>)">Eliminar</button>
+            </td>
           </tr>
-        </thead>
-        <tbody>
-          <?php if ($admins): ?>
-            <?php foreach ($admins as $admin): ?>
-              <tr>
-                <td><?= htmlspecialchars($admin['id']) ?></td>
-                <td><?= htmlspecialchars($admin['name']) ?></td>
-                <td><?= htmlspecialchars($admin['email']) ?></td>
-                <td><?= htmlspecialchars($admin['created_at']) ?></td>
-                <td><button class="btn delete-btn" onclick="eliminarUsuario(<?= $admin['id'] ?>)">Eliminar</button></td>
-              </tr>
-            <?php endforeach; ?>
-          <?php else: ?>
-            <tr><td colspan="5">No hay administradores registrados.</td></tr>
-          <?php endif; ?>
-        </tbody>
-      </table>
-    </section>
-  </div>
+        <?php endforeach; ?>
+      <?php else: ?>
+        <tr><td colspan="5">No hay administradores registrados.</td></tr>
+      <?php endif; ?>
+    </tbody>
+  </table>
+</section>
+</div>
 
-  <!-- Modal -->
-  <div class="modal" id="modalAgregar">
-    <div class="modal-content">
-      <span class="close" onclick="cerrarModal()">×</span>
-      <h3>Agregar Administrador</h3>
-      <form id="formAgregar">
-        <input type="text" name="name" placeholder="Nombre completo" required>
-        <input type="email" name="email" placeholder="Correo institucional" required>
-        <input type="password" name="password" placeholder="Contraseña" required>
-        <button class="btn add-btn" type="submit">Guardar</button>
-      </form>
+<!-- MODAL AGREGAR ADMIN -->
+<div id="modalAgregar" class="modal">
+  <div class="modal-content">
+    <h3>Agregar Administrador</h3>
+    <form id="formAddAdmin">
+      <label>Nombre:</label><br>
+      <input type="text" name="name" required style="width:100%;margin-bottom:10px;"><br>
+      <label>Correo:</label><br>
+      <input type="email" name="email" required style="width:100%;margin-bottom:10px;"><br>
+      <label>Contraseña:</label><br>
+      <input type="password" name="password" required style="width:100%;margin-bottom:10px;"><br>
+      <div style="text-align:right;">
+        <button type="button" class="btn close-btn" onclick="cerrarModalAgregar()">Cancelar</button>
+        <button type="submit" class="btn add-btn">Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL PERMISOS -->
+<div id="modalPermisos" class="modal">
+  <div class="modal-content">
+    <h3>Permisos del administrador</h3>
+    <div id="permisosContainer"></div>
+    <div style="text-align:right;margin-top:10px;">
+      <button class="btn close-btn" onclick="cerrarModalPermisos()">Cancelar</button>
+      <button class="btn add-btn" onclick="guardarPermisos()">Guardar</button>
     </div>
   </div>
+</div>
 
-  <script>
-    // Mostrar secciones sin recargar
-    function mostrarSeccion(seccion) {
-      document.getElementById("seccion-alumnos").classList.add("hidden");
-      document.getElementById("seccion-admins").classList.add("hidden");
+<script>
+// --- Alternar secciones ---
+const navLinks = document.querySelectorAll('.nav-link');
+const sections = document.querySelectorAll('section');
+navLinks.forEach(link=>{
+  link.addEventListener('click', ()=>{
+    navLinks.forEach(l=>l.classList.remove('active'));
+    link.classList.add('active');
+    sections.forEach(sec=>sec.classList.remove('active'));
+    document.getElementById(link.dataset.section).classList.add('active');
+  });
+});
 
-      if (seccion === "alumnos") {
-        document.getElementById("seccion-alumnos").classList.remove("hidden");
-      } else {
-        document.getElementById("seccion-admins").classList.remove("hidden");
-      }
+// --- Modal Agregar Admin ---
+const modalAdd = document.getElementById('modalAgregar');
+function abrirModalAgregar(){ modalAdd.style.display='flex'; }
+function cerrarModalAgregar(){ modalAdd.style.display='none'; }
 
-      document.querySelectorAll(".sidebar ul li a").forEach(link => link.classList.remove("active"));
-      event.target.classList.add("active");
-    }
+document.getElementById('formAddAdmin').addEventListener('submit', async e=>{
+  e.preventDefault();
+  const formData = new FormData(e.target);
+  const resp = await fetch('create_admin.php',{method:'POST',body:formData});
+  const data = await resp.json();
+  alert(data.message);
+  if(data.success) location.reload();
+});
 
-    // Modal
-    function abrirModal() {
-      document.getElementById("modalAgregar").style.display = "flex";
-    }
+// --- Eliminar usuario ---
+async function eliminarUsuario(id) {
+  if(confirm("¿Seguro que deseas eliminar este usuario?")){
+    const formData = new FormData();
+    formData.append("id", id);
+    const response = await fetch("eliminar_usuario.php",{method:"POST",body:formData});
+    const result = await response.json();
+    alert(result.message);
+    if(result.success) location.reload();
+  }
+}
 
-    function cerrarModal() {
-      document.getElementById("modalAgregar").style.display = "none";
-    }
+// --- Eliminar admin ---
+async function eliminarAdmin(id) {
+  if(!confirm("¿Seguro que deseas eliminar este administrador?")) return;
+  const resp = await fetch("delete_admin.php?id="+id);
+  const data = await resp.json();
+  alert(data.message);
+  if(data.success) location.reload();
+}
 
-    // Agregar administrador
-    document.getElementById("formAgregar").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const formData = new FormData(e.target);
+// --- Permisos ---
+const modalPerm = document.getElementById('modalPermisos');
+let adminIdActual = null;
 
-      const response = await fetch("create_admin.php", {
-        method: "POST",
-        body: formData
-      });
+async function abrirPermisos(id){
+  adminIdActual = id;
+  const resp = await fetch('get_permisos.php?id='+id);
+  const data = await resp.json();
+  if(!data.success){ alert(data.message); return; }
 
-      const result = await response.json();
-      alert(result.message);
+  const cont = document.getElementById('permisosContainer');
+  cont.innerHTML = '';
+  for(const [key,label] of Object.entries(data.pages)){
+    const perm = data.permisos.find(p=>p.page===key);
+    const checked = perm && perm.allowed==1 ? 'checked' : '';
+    cont.innerHTML += `
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+        <span>${label}</span>
+        <label class="neon-checkbox">
+          <input type="checkbox" data-page="${key}" ${checked}>
+          <div class="neon-checkbox__frame">
+            <div class="neon-checkbox__box">
+              <div class="neon-checkbox__check-container">
+                <svg viewBox="0 0 24 24" class="neon-checkbox__check">
+                  <path d="M3,12.5l7,7L21,5"></path>
+                </svg>
+              </div>
+              <div class="neon-checkbox__glow"></div>
+              <div class="neon-checkbox__borders">
+                <span></span><span></span><span></span><span></span>
+              </div>
+            </div>
+            <div class="neon-checkbox__effects">
+              <div class="neon-checkbox__particles">
+                <span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span>
+              </div>
+              <div class="neon-checkbox__rings">
+                <div class="ring"></div><div class="ring"></div><div class="ring"></div>
+              </div>
+              <div class="neon-checkbox__sparks">
+                <span></span><span></span><span></span><span></span>
+              </div>
+            </div>
+          </div>
+        </label>
+      </div>`;
+  }
+  modalPerm.style.display='flex';
+}
 
-      if (result.success) {
-        location.reload();
-      }
-    });
+function cerrarModalPermisos(){ modalPerm.style.display='none'; }
 
-    // Eliminar usuario (sirve para admin o alumno)
-    async function eliminarUsuario(id) {
-      if (confirm("¿Seguro que deseas eliminar este usuario?")) {
-        const formData = new FormData();
-        formData.append("id", id);
+async function guardarPermisos(){
+  const checks = document.querySelectorAll('#permisosContainer input[type="checkbox"]');
+  const permisos = [];
+  checks.forEach(ch=>permisos.push({page:ch.dataset.page, allowed:ch.checked?1:0}));
+  const resp = await fetch('save_permisos.php',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({admin_id:adminIdActual, permisos})
+  });
+  const data = await resp.json();
+  alert(data.message);
+  if(data.success) cerrarModalPermisos();
+}
 
-        const response = await fetch("eliminar_usuario.php", {
-          method: "POST",
-          body: formData
-        });
-
-        const result = await response.json();
-
-        if (result.success) {
-          alert("✅ Usuario eliminado correctamente");
-          location.reload();
-        } else {
-          alert("❌ Error al eliminar: " + result.message);
-        }
-      }
-    }
-  </script>
+window.onclick = e=>{
+  if(e.target===modalAdd) cerrarModalAgregar();
+  if(e.target===modalPerm) cerrarModalPermisos();
+};
+</script>
 </body>
 </html>

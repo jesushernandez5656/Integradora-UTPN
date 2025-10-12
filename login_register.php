@@ -8,7 +8,7 @@
 </head>
 <body>
   <style>
-    * {
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -20,7 +20,7 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: linear-gradient(135deg, #4facfe, #00f2fe);
+  background: #EDE5D6; /* Fondo crema */
 }
 
 .container {
@@ -29,7 +29,7 @@ body {
   background: #fff;
   padding: 40px;
   border-radius: 15px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  box-shadow: 0 8px 20px rgba(0, 131, 127, 0.3); /* Sombra Teal */
   overflow: hidden;
 }
 
@@ -43,6 +43,8 @@ body {
 .form h2 {
   text-align: center;
   margin-bottom: 10px;
+  color: #00837F; /* Teal */
+  font-weight: 600;
 }
 
 .input-box {
@@ -53,9 +55,10 @@ body {
   width: 100%;
   padding: 10px;
   border: none;
-  border-bottom: 2px solid #ccc;
+  border-bottom: 2px solid #D0D1D1; /* Gris muy claro */
   outline: none;
   transition: 0.3s;
+  color: #7E8080; /* Gris medio */
 }
 
 .input-box label {
@@ -65,34 +68,35 @@ body {
   transform: translateY(-50%);
   pointer-events: none;
   transition: 0.3s;
-  color: #aaa;
+  color: #7E8080; /* Gris medio */
 }
 
 .input-box input:focus,
 .input-box input:valid {
-  border-bottom: 2px solid #4facfe;
+  border-bottom: 2px solid #00837F; /* Teal */
 }
 
 .input-box input:focus + label,
 .input-box input:valid + label {
   top: -5px;
   font-size: 12px;
-  color: #4facfe;
+  color: #00837F; /* Teal */
 }
 
 .btn {
   padding: 10px;
   border: none;
-  background: #4facfe;
+  background: #00837F; /* Teal */
   color: #fff;
   font-size: 16px;
   cursor: pointer;
   border-radius: 8px;
   transition: 0.3s;
+  font-weight: 500;
 }
 
 .btn:hover {
-  background: #00c6ff;
+  background: #AE874C; /* Oro viejo */
 }
 
 .switch {
@@ -101,7 +105,7 @@ body {
 }
 
 .switch a {
-  color: #4facfe;
+  color: #00837F; /* Teal */
   text-decoration: none;
   font-weight: bold;
 }
@@ -127,112 +131,36 @@ body {
   margin-bottom: 12px;
   border-radius: 8px;
   font-size: 14px;
+  font-weight: 500;
   text-align: center;
   box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-  animation: fadeSlide 0.5s ease forwards;
+  opacity: 1;
+  transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
-.alert.success { background:#d4edda; color:#155724; border:1px solid #c3e6cb; }
-.alert.error   { background:#f8d7da; color:#721c24; border:1px solid #f5c6cb; }
-.alert.info    { background:#d1ecf1; color:#0c5460; border:1px solid #bee5eb; }
-
-/* Animación */
+/* Animación de entrada */
 @keyframes fadeSlide {
   from { opacity:0; transform: translate(-50%, -20px); }
   to { opacity:1; transform: translate(-50%, 0); }
 }
 
-/* 🔔 Contenedor global de alertas */
-.alert-container {
-  position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 90%;
-  max-width: 400px;
-  z-index: 9999;
-}
-
-/* 🎨 Estilos base */
-.alert {
-  padding: 12px 18px;
-  margin-bottom: 10px;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 500;
-  text-align: center;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-  opacity: 1;
-  transition: opacity 0.4s ease;
-}
-
-/* ✅ Éxito */
+/* Tipos de alertas */
 .alert.success {
-  background-color: #d4edda;
-  color: #155724;
-  border: 1px solid #c3e6cb;
+  background-color: #EDE5D6; /* Crema */
+  color: #00837F; /* Teal */
+  border: 1px solid #D0D1D1;
 }
 
-/* ❌ Error */
 .alert.error {
-  background-color: #f8d7da;
-  color: #721c24;
-  border: 1px solid #f5c6cb;
+  background-color: #AE874C; /* Oro viejo */
+  color: #fff;
+  border: 1px solid #7E8080;
 }
 
-/* ℹ️ Información */
 .alert.info {
-  background-color: #d1ecf1;
-  color: #0c5460;
-  border: 1px solid #bee5eb;
-}
-
-
-/* 📱 Responsive Login/Registro */
-@media (max-width: 768px) {
-  .container {
-    width: 90%;
-    padding: 20px;
-  }
-
-  .form h2 {
-    font-size: 20px;
-  }
-
-  .input-box input {
-    font-size: 14px;
-    padding: 8px;
-  }
-
-  .btn {
-    font-size: 14px;
-    padding: 8px;
-  }
-}
-
-@media (max-width: 480px) {
-  body {
-    padding: 10px;
-  }
-
-  .container {
-    width: 100%;
-    border-radius: 10px;
-    box-shadow: none;
-    padding: 15px;
-  }
-
-  .form {
-    gap: 10px;
-  }
-
-  .form h2 {
-    font-size: 18px;
-  }
-
-  .switch {
-    font-size: 12px;
-  }
+  background-color: #00837F; /* Teal */
+  color: #fff;
+  border: 1px solid #7E8080;
 }
 
 /* 🔹 Logo fijo arriba a la izquierda */
@@ -254,13 +182,22 @@ body {
   transform: scale(1.05);
 }
 
-/* 📱 Ajuste para pantallas pequeñas */
-@media (max-width: 480px) {
-  .logo {
-    height: 45px;
-  }
+/* 📱 Responsive Login/Registro */
+@media (max-width: 768px) {
+  .container { width: 90%; padding: 20px; }
+  .form h2 { font-size: 20px; }
+  .input-box input { font-size: 14px; padding: 8px; }
+  .btn { font-size: 14px; padding: 8px; }
 }
 
+@media (max-width: 480px) {
+  body { padding: 10px; }
+  .container { width: 100%; border-radius: 10px; box-shadow: none; padding: 15px; }
+  .form { gap: 10px; }
+  .form h2 { font-size: 18px; }
+  .switch { font-size: 12px; }
+  .logo { height: 45px; }
+}
 
   </style>
 
