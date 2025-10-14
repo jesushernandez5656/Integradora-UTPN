@@ -40,6 +40,18 @@ body {
   color: white;
   min-height: 100vh;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sidebar img {
+  width: 90px;
+  height: auto;
+  border-radius: 50%;
+  margin-bottom: 10px;
+  background-color: white;
+  padding: 5px;
 }
 
 .sidebar h2 {
@@ -50,6 +62,7 @@ body {
 .sidebar ul {
   list-style: none;
   padding: 0;
+  width: 100%;
 }
 
 .sidebar ul li {
@@ -242,7 +255,9 @@ section.active {
 </style>
 </head>
 <body>
+
 <div class="sidebar">
+  <img src="/integradora-UTPN/assets/img/logo.png" alt="Logo UTPN">
   <h2>Superadmin</h2>
   <ul>
     <li><a class="nav-link active" data-section="alumnos-section">Usuarios</a></li>
@@ -319,7 +334,7 @@ section.active {
   </table>
 </section>
 </div>
-
+<!--MODALES -->
 <!-- MODAL AGREGAR ADMIN -->
 <div id="modalAgregar" class="modal">
   <div class="modal-content">

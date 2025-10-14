@@ -191,7 +191,7 @@ main {
       ></path>
     </svg>
     
-    <p>Dashboars</p>
+    <p>Dashboard</p>
   </div>
   </a>
 </div>

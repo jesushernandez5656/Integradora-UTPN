@@ -36,7 +36,7 @@ if ($usuario["user_type"] == "admin") {
     exit;
 }
  elseif ($usuario["user_type"] == "superadmin") {
-            header("Location: pages/superadmin/superadmin.php");
+            header("Location: pages/superadmin/home_superadmin.php");
         } else {
             header("Location: pages/alumno/home_alumno.php");
         }
