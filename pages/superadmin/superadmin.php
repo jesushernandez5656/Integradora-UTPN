@@ -31,12 +31,12 @@ body {
   margin: 0;
   font-family: "Poppins", sans-serif;
   display: flex;
-  background: #EDE5D6; /* Crema claro */
+  background: #EDE5D6;
 }
 
 .sidebar {
   width: 220px;
-  background: #00837F; /* Teal */
+  background: #00837F;
   color: white;
   min-height: 100vh;
   padding: 20px;
@@ -68,7 +68,7 @@ body {
 
 .sidebar ul li a:hover,
 .sidebar ul li a.active {
-  background: rgba(174, 135, 76, 0.25); /* Oro viejo semitransparente */
+  background: rgba(174, 135, 76, 0.25);
 }
 
 .main-content {
@@ -165,9 +165,9 @@ section.active {
 
 /* --- Neon Checkbox --- */
 .neon-checkbox {
-  --primary: #00837F;       /* Teal */
+  --primary: #00837F;
   --primary-dark: #006963;
-  --primary-light: #AE874C; /* Oro viejo */
+  --primary-light: #AE874C;
   --size: 28px;
   position: relative;
   width: var(--size);
@@ -177,7 +177,6 @@ section.active {
 }
 
 .neon-checkbox input { display: none; }
-
 .neon-checkbox__frame { position: relative; width: 100%; height: 100%; }
 
 .neon-checkbox__box {
@@ -222,14 +221,6 @@ section.active {
   transition: all 0.3s ease;
 }
 
-.neon-checkbox__borders span,
-.neon-checkbox__particles span,
-.neon-checkbox__rings .ring,
-.neon-checkbox__sparks span {
-  background-color: var(--primary);
-  border-color: var(--primary);
-}
-
 .neon-checkbox:hover .neon-checkbox__box {
   border-color: var(--primary-light);
   transform: scale(1.05);
@@ -267,6 +258,7 @@ section.active {
 <!-- SECCIÓN DE ALUMNOS -->
 <section id="alumnos-section" class="active">
   <h2>Lista de Alumnos</h2>
+  <input type="text" id="searchAlumnos" placeholder="Buscar alumno..." style="width:100%;padding:8px;margin-bottom:10px;border-radius:5px;border:1px solid #ccc;">
   <table>
     <thead>
       <tr>
@@ -281,7 +273,10 @@ section.active {
             <td><?= htmlspecialchars($alumno['name']) ?></td>
             <td><?= htmlspecialchars($alumno['email']) ?></td>
             <td><?= htmlspecialchars($alumno['created_at']) ?></td>
-            <td><button class="btn delete-btn" onclick="eliminarUsuario(<?= $alumno['id'] ?>)">Eliminar</button></td>
+            <td>
+              <button class="btn delete-btn" onclick="eliminarUsuario(<?= $alumno['id'] ?>)">Eliminar</button>
+              <button class="btn perm-btn" onclick="abrirEditarRol(<?= $alumno['id'] ?>, 'user')">Editar</button>
+            </td>
           </tr>
         <?php endforeach; ?>
       <?php else: ?>
@@ -294,6 +289,7 @@ section.active {
 <!-- SECCIÓN DE ADMINISTRADORES -->
 <section id="admins-section">
   <h2>Administradores</h2>
+  <input type="text" id="searchAdmins" placeholder="Buscar administrador..." style="width:100%;padding:8px;margin-bottom:10px;border-radius:5px;border:1px solid #ccc;">
   <button class="btn add-btn" onclick="abrirModalAgregar()">+ Agregar Admin</button>
   <table>
     <thead>
@@ -312,6 +308,7 @@ section.active {
             <td>
               <button class="btn perm-btn" onclick="abrirPermisos(<?= $admin['id'] ?>)">Permisos</button>
               <button class="btn delete-btn" onclick="eliminarAdmin(<?= $admin['id'] ?>)">Eliminar</button>
+              <button class="btn add-btn" onclick="abrirEditarRol(<?= $admin['id'] ?>, 'admin')">Editar</button>
             </td>
           </tr>
         <?php endforeach; ?>
@@ -354,6 +351,25 @@ section.active {
   </div>
 </div>
 
+<!-- MODAL EDITAR ROL -->
+<div id="modalEditarRol" class="modal">
+  <div class="modal-content">
+    <h3>Editar Rol de Usuario</h3>
+    <form id="formEditarRol">
+      <input type="hidden" name="id" id="editId">
+      <label>Rol:</label><br>
+      <select name="rol" id="editRol" style="width:100%;margin-bottom:10px;padding:5px;border-radius:5px;">
+        <option value="user">Usuario</option>
+        <option value="admin">Administrador</option>
+      </select><br>
+      <div style="text-align:right;">
+        <button type="button" class="btn close-btn" onclick="cerrarModalEditarRol()">Cancelar</button>
+        <button type="submit" class="btn add-btn">Guardar cambios</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 <script>
 // --- Alternar secciones ---
 const navLinks = document.querySelectorAll('.nav-link');
@@ -364,6 +380,25 @@ navLinks.forEach(link=>{
     link.classList.add('active');
     sections.forEach(sec=>sec.classList.remove('active'));
     document.getElementById(link.dataset.section).classList.add('active');
+  });
+});
+
+// --- Buscadores ---
+document.getElementById('searchAlumnos').addEventListener('keyup', function() {
+  const filter = this.value.toLowerCase();
+  const rows = document.querySelectorAll('#alumnos-section tbody tr');
+  rows.forEach(row => {
+    const text = row.textContent.toLowerCase();
+    row.style.display = text.includes(filter) ? '' : 'none';
+  });
+});
+
+document.getElementById('searchAdmins').addEventListener('keyup', function() {
+  const filter = this.value.toLowerCase();
+  const rows = document.querySelectorAll('#admins-section tbody tr');
+  rows.forEach(row => {
+    const text = row.textContent.toLowerCase();
+    row.style.display = text.includes(filter) ? '' : 'none';
   });
 });
 
@@ -430,22 +465,6 @@ async function abrirPermisos(id){
                 </svg>
               </div>
               <div class="neon-checkbox__glow"></div>
-              <div class="neon-checkbox__borders">
-                <span></span><span></span><span></span><span></span>
-              </div>
-            </div>
-            <div class="neon-checkbox__effects">
-              <div class="neon-checkbox__particles">
-                <span></span><span></span><span></span><span></span>
-                <span></span><span></span><span></span><span></span>
-                <span></span><span></span><span></span><span></span>
-              </div>
-              <div class="neon-checkbox__rings">
-                <div class="ring"></div><div class="ring"></div><div class="ring"></div>
-              </div>
-              <div class="neon-checkbox__sparks">
-                <span></span><span></span><span></span><span></span>
-              </div>
             </div>
           </div>
         </label>
@@ -470,10 +489,37 @@ async function guardarPermisos(){
   if(data.success) cerrarModalPermisos();
 }
 
-window.onclick = e=>{
+// --- Editar Rol ---
+const modalEditar = document.getElementById('modalEditarRol');
+const formEditar = document.getElementById('formEditarRol');
+
+function abrirEditarRol(id, rolActual) {
+  document.getElementById('editId').value = id;
+  document.getElementById('editRol').value = rolActual;
+  modalEditar.style.display = 'flex';
+}
+
+function cerrarModalEditarRol() {
+  modalEditar.style.display = 'none';
+}
+
+formEditar.addEventListener('submit', async e => {
+  e.preventDefault();
+  const formData = new FormData(formEditar);
+  const resp = await fetch('update_rol.php', {
+    method: 'POST',
+    body: formData
+  });
+  const data = await resp.json();
+  alert(data.message);
+  if (data.success) location.reload();
+});
+
+window.addEventListener('click', e=>{
   if(e.target===modalAdd) cerrarModalAgregar();
   if(e.target===modalPerm) cerrarModalPermisos();
-};
+  if(e.target===modalEditar) cerrarModalEditarRol();
+});
 </script>
 </body>
 </html>
