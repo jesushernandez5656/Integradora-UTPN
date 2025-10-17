@@ -29,7 +29,7 @@
 
         /* Hero Section */
         .hero-banner {
-            background: linear-gradient(135deg, var(--teal) 0%, #006b68 100%);
+            background: linear-gradient(135deg, var(--teal) 0%, #00837F 100%);
             color: white;
             padding: 60px 20px;
             text-align: center;
@@ -41,29 +41,7 @@
             justify-content: center;
         }
 
-        .hero-banner::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -10%;
-            width: 500px;
-            height: 500px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            animation: float 6s ease-in-out infinite;
-        }
-
-        .hero-banner::after {
-            content: '';
-            position: absolute;
-            bottom: -30%;
-            left: -5%;
-            width: 400px;
-            height: 400px;
-            background: rgba(174, 135, 76, 0.2);
-            border-radius: 50%;
-            animation: float 8s ease-in-out infinite reverse;
-        }
+        
 
         @keyframes float {
             0%, 100% { transform: translateY(0) rotate(0deg); }
