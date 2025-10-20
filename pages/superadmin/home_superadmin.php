@@ -165,7 +165,7 @@ main {
     <p>Recursos de aprendizaje</p>
   </div>
   </a>
-    <a href="pages/alumno/recursos-aprendizaje/index.php">
+  <a href="../alumno/cibers_consejos.php">
   <div class="logo">
     <svg
       fill="currentColor"
