@@ -703,7 +703,9 @@ body {
             <li>Servicio social</li>
           </ul>
           <a class="btn block" href="#aplica">Postular</a>
-          <a class="btn block" href="#aplica">Descargar Convocatoria</a>
+          <a class="btn block" href="../../assets/PDF/beca_material_y_equipo_tecnico_2.pdf" download>
+  📄 Descargar Convocatoria
+</a>
         </article>
 
         <article class="card2">
