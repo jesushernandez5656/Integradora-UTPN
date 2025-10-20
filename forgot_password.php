@@ -8,126 +8,136 @@ session_start();
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Recuperar contraseña</title>
   <style>
-    /* Fondo degradado */
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #4facfe, #00f2fe);
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+  /* Fondo */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background: #EDE5D6; /* Crema claro */
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-    /* Contenedor principal */
-    .container {
-      width: 100%;
-      max-width: 400px;
-      padding: 20px;
-    }
+/* Contenedor principal */
+.container {
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+}
 
-    .form-box {
-      background: #fff;
-      border-radius: 12px;
-      padding: 30px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-      text-align: center;
-    }
+.form-box {
+  background: #fff;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 8px 20px rgba(0, 131, 127, 0.2); /* sombra teal suave */
+  text-align: center;
+}
 
-    h2 {
-      margin-bottom: 20px;
-      color: #333;
-    }
+h2 {
+  margin-bottom: 20px;
+  color: #00837F; /* Teal */
+  font-weight: 600;
+}
 
-    /* Input */
-    .input-box {
-      position: relative;
-      margin-bottom: 20px;
-    }
+/* Input */
+.input-box {
+  position: relative;
+  margin-bottom: 20px;
+}
 
-    .input-box input {
-      width: 100%;
-      padding: 10px;
-      border: none;
-      border-bottom: 2px solid #ccc;
-      outline: none;
-      font-size: 16px;
-      background: transparent;
-    }
+.input-box input {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-bottom: 2px solid #D0D1D1; /* Gris muy claro */
+  outline: none;
+  font-size: 16px;
+  background: transparent;
+  color: #7E8080; /* Gris medio */
+}
 
-    .input-box label {
-      position: absolute;
-      left: 0;
-      top: 10px;
-      pointer-events: none;
-      transition: 0.3s ease all;
-      color: #666;
-    }
+.input-box label {
+  position: absolute;
+  left: 0;
+  top: 10px;
+  pointer-events: none;
+  transition: 0.3s ease all;
+  color: #7E8080; /* Gris medio */
+}
 
-    .input-box input:focus ~ label,
-    .input-box input:valid ~ label {
-      top: -15px;
-      font-size: 12px;
-      color: #4facfe;
-    }
+.input-box input:focus ~ label,
+.input-box input:valid ~ label {
+  top: -15px;
+  font-size: 12px;
+  color: #00837F; /* Teal */
+}
 
-    /* Botón */
-    .btn {
-      width: 100%;
-      padding: 10px;
-      border: none;
-      background: linear-gradient(135deg, #4facfe, #00f2fe);
-      color: #fff;
-      border-radius: 8px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
+/* Botón */
+.btn {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background: #00837F; /* Teal */
+  color: #fff;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-weight: 500;
+}
 
-    .btn:hover {
-      background: linear-gradient(135deg, #00f2fe, #4facfe);
-    }
+.btn:hover {
+  background: #AE874C; /* Oro viejo */
+}
 
-    /* Link volver */
-    .switch {
-      margin-top: 15px;
-    }
+/* Link volver / switch */
+.switch {
+  margin-top: 15px;
+}
 
-    .switch a {
-      color: #4facfe;
-      text-decoration: none;
-      font-size: 14px;
-    }
+.switch a {
+  color: #00837F; /* Teal */
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+}
 
-    .switch a:hover {
-      text-decoration: underline;
-    }
+.switch a:hover {
+  color: #AE874C; /* Oro viejo */
+  text-decoration: underline;
+}
 
-    /* Alertas */
-    .alert-container {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 1000;
-    }
+/* Alertas */
+.alert-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+}
 
-    .alert {
-      padding: 12px 20px;
-      border-radius: 8px;
-      color: #fff;
-      margin-bottom: 10px;
-      animation: fadeIn 0.5s ease;
-    }
+.alert {
+  padding: 12px 20px;
+  border-radius: 8px;
+  color: #fff;
+  margin-bottom: 10px;
+  animation: fadeIn 0.5s ease;
+  font-weight: 500;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
 
-    .alert.success { background: #4caf50; }
-    .alert.error { background: #f44336; }
-    .alert.info { background: #2196f3; }
+/* Tipos de alertas */
+.alert.success { background: #00837F; } /* Teal */
+.alert.error   { background: #AE874C; } /* Oro viejo */
+.alert.info    { background: #7E8080; } /* Gris medio */
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+/* Animación */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
   </style>
 </head>
 <body>
