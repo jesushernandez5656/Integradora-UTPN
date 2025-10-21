@@ -90,6 +90,6 @@ if (isset($_POST['accion'])) {
 }
 
 // Redireccionar siempre de vuelta al panel de admin
-header('Location: home_admin.php');
+header('Location: admin_RA.php');
 exit;
 ?>
