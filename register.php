@@ -9,28 +9,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST["password"];
     $confirm_password = $_POST["confirm_password"];
 
-    // Validar campos vacíos
+    // ✅ Validar campos vacíos
     if (empty($nombre) || empty($email) || empty($password) || empty($confirm_password)) {
         $_SESSION['alert'] = ["type" => "error", "message" => "❌ Todos los campos son obligatorios."];
         header("Location: login_register.php");
         exit;
     }
 
-    // Validar contraseñas
+    // ✅ Validar contraseñas
     if ($password !== $confirm_password) {
         $_SESSION['alert'] = ["type" => "error", "message" => "❌ Las contraseñas no coinciden."];
         header("Location: login_register.php");
         exit;
     }
 
-    // Validar dominio
+    // ✅ Validar dominio institucional
     if (!preg_match("/@utpn\.edu\.mx$/", $email)) {
         $_SESSION['alert'] = ["type" => "error", "message" => "❌ Solo se permiten correos institucionales (@utpn.edu.mx)."];
         header("Location: login_register.php");
         exit;
     }
 
-    // Verificar si ya existe ese correo
+    // 🚫 Verificar si ya existe ese correo
     $check = $conn->prepare("SELECT id FROM users WHERE email = ? LIMIT 1");
     $check->execute([$email]);
     if ($check->fetch()) {
@@ -39,19 +39,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 
-    // Hashear contraseña
+    // 🔐 Hashear contraseña
     $hashed_password = password_hash($password, PASSWORD_BCRYPT);
 
-    // Generar token de verificación
+    // ✉️ Generar token de verificación
     $verification_code = bin2hex(random_bytes(16));
 
-    // Insertar usuario
+    // 🧑 Asignar rol: superadmin si el correo coincide con uno autorizado (opcional)
+    $superadmin_email = "tucorreo@utpn.edu.mx"; // 🔸 cámbialo por el tuyo
+    $user_type = ($email === $superadmin_email) ? "superadmin" : "user";
+
+    // 📝 Insertar usuario
     $sql = "INSERT INTO users (name, email, password, user_type, verified, verification_code, created_at) 
-            VALUES (?, ?, ?, 'user', 0, ?, NOW())";
+            VALUES (?, ?, ?, ?, 0, ?, NOW())";
     $stmt = $conn->prepare($sql);
 
-    if ($stmt->execute([$nombre, $email, $hashed_password, $verification_code])) {
-        // Enviar correo de verificación
+    if ($stmt->execute([$nombre, $email, $hashed_password, $user_type, $verification_code])) {
+        // 📧 Enviar correo de verificación
         $subject = "Verifica tu cuenta - UTPN";
         $verify_link = "http://localhost/Integradora-UTPN/verify.php?code=$verification_code&email=" . urlencode($email);
 
@@ -74,3 +78,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 }
+?>

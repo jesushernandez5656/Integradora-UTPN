@@ -3,17 +3,34 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+
+// Definir la ruta del logo según el rol
+$logoHref = '/integradora-UTPN/index.php'; // Ruta por defecto
+
+if (isset($_SESSION['rol'])) {
+    switch ($_SESSION['rol']) {
+        case 'superadmin':
+            $logoHref = '/integradora-UTPN/pages/superadmin/home_superadmin.php';
+            break;
+        case 'admin':
+            $logoHref = '/integradora-UTPN/pages/admin/home_admin.php';
+            break;
+        case 'user':
+            $logoHref = '/integradora-UTPN/pages/alumno/home_alumno.php';
+            break;
+    }
+}
 ?>
 <link rel="stylesheet" href="/Integradora-UTPN/assets/css/navbar.css">
 <header>
     <nav class="navbar">
         <div class="navbar-logo">
-            <a href="/integradora-UTPN/index.php"><img src="/integradora-UTPN/assets/img/Logo.png" alt="Logo UTPN"></a>
+            <a href="<?= $logoHref ?>"><img src="/integradora-UTPN/assets/img/Logo.png" alt="Logo UTPN"></a>
         </div>
         <div class="navbar-title">
             <h1>Bienvenidos a la UTPN</h1>
             <?php if (isset($_SESSION['usuario_id'])): ?>
-                <span class="user-name">👤 <?= htmlspecialchars($_SESSION['usuario_nombre']) ?></span>
+                <span class="user-name"><?= htmlspecialchars($_SESSION['usuario_nombre']) ?></span>
             <?php endif; ?>
         </div>
         <div class="navbar-login">
