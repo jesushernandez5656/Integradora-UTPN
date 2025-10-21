@@ -1,0 +1,50 @@
+{
+    "categorias": {
+        "1": "T.S.U. en Operaciones Logísticas y Comercio Exterior",
+        "2": "T.S.U. en Sistemas de Gestión de la Calidad",
+        "3": "T.S.U. en Infraestructura de Redes Digitales",
+        "4": "T.S.U. en Emprendimiento, Formulación y Evaluación de Proyectos",
+        "5": "TSU en Mecatrónica",
+        "6": "T.S.U en Diseño Arquitectónico",
+        "7": "Ingeniería en Logística Internacional",
+        "8": "Ingeniería Industrial",
+        "9": "Ingeniería en Tecnologías de la Información e Innovación Digital",
+        "10": "Licenciatura en Administración",
+        "11": "Ingeniería en Mecatrónica",
+        "12": "Licenciatura en Arquitectura"
+    },
+    "recursos": [
+        {
+            "id_recurso": 1,
+            "id_categoria": 11,
+            "titulo": "Tesis: Optimización de Brazo Robótico",
+            "descripcion": "Tesis de grado sobre el control cinemático de un brazo robotizado.",
+            "tipo": "Tesis",
+            "enlace": "pdfs/tesis-brazo-robotico.pdf"
+        },
+        {
+            "id_recurso": 2,
+            "id_categoria": 11,
+            "titulo": "Curso de AutoCAD para Mecatrónica",
+            "descripcion": "Aprende a diseñar piezas mecánicas y sistemas en 2D y 3D.",
+            "tipo": "Cursos",
+            "enlace": "https://www.udemy.com/course/autocad-mechanical/"
+        },
+        {
+            "id_recurso": 3,
+            "id_categoria": 9,
+            "titulo": "Fundamentos de Redes Digitales (PDF)",
+            "descripcion": "Documento que cubre el modelo OSI, TCP/IP y protocolos.",
+            "tipo": "Libros",
+            "enlace": "pdfs/fundamentos-redes.pdf"
+        },
+        {
+            "id_recurso": 4,
+            "id_categoria": 10,
+            "titulo": "Caso de Estudio: El éxito de Netflix",
+            "descripcion": "Análisis sobre el modelo de negocio y estrategias de marketing.",
+            "tipo": "pdf adjuntos",
+            "enlace": "pdfs/caso-estudio-netflix.pdf"
+        }
+    ]
+}

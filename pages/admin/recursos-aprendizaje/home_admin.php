@@ -1,179 +1,203 @@
 <?php
-session_start();
-if (!isset($_SESSION["user_id"]) || $_SESSION["user_type"] !== "admin") {
-    header("Location: ../../login_register.php");
-    exit;
-}
-
-include 'db_connect.php';
+// Leemos los datos de nuestro archivo JSON
+$datos_json = file_get_contents('datos.json');
+$datos = json_decode($datos_json, true);
+$categorias = $datos['categorias'];
+$recursos = $datos['recursos'];
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel Admin - Recursos</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .navbar-brand {
-            font-weight: bold;
-        }
-        .footer {
-            background-color: #f8f9fa;
-            padding: 1rem 0;
-            margin-top: 2rem;
-        }
-    </style>
+    <title>Panel de Administración</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container">
-            <a class="navbar-brand" href="#">UTPN - Panel de Administración</a>
-            <div class="navbar-nav ms-auto">
-                <span class="navbar-text me-3">
-                    Hola, <?= htmlspecialchars($_SESSION["user_name"]) ?>
-                </span>
-                <a class="btn btn-outline-light btn-sm" href="../../logout.php">Cerrar sesión</a>
-            </div>
-        </div>
-    </nav>
+    <?php include "../../../includes/header.php"; ?>
 
-    <div class="container mt-4">
-        <h1 class="mb-4">Administrar Recursos de Aprendizaje</h1>
-        
-        <!-- Mostrar mensajes de éxito o error -->
-        <?php
-        if (isset($_GET['status'])) {
-            if ($_GET['status'] == 'success') {
-                echo '<div class="alert alert-success">Recurso agregado exitosamente.</div>';
-            } elseif ($_GET['status'] == 'deleted') {
-                echo '<div class="alert alert-success">Recurso eliminado exitosamente.</div>';
-            }
-        }
-        ?>
+    <main class="container mt-4">
+        <h1 class="mb-4">Panel de Administración</h1>
 
-        <!-- Formulario para agregar recursos -->
-        <div class="card mb-4">
-            <div class="card-header bg-primary text-white">
-                <h5 class="mb-0">Agregar Nuevo Recurso</h5>
+        <section class="mb-5">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2>Gestionar Carreras</h2>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCarreraAgregar">
+                    Agregar Carrera
+                </button>
             </div>
-            <div class="card-body">
-                <form action="gestionar-recu.php" method="post" enctype="multipart/form-data">
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="titulo" class="form-label">Título del Recurso</label>
-                            <input type="text" class="form-control" id="titulo" name="titulo" required>
+            <ul class="list-group">
+                <?php foreach ($categorias as $id => $nombre): ?>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <?php echo htmlspecialchars($nombre); ?>
+                        <div>
+                            <form action="gestionar_datos.php" method="POST" class="d-inline" onsubmit="return confirm('¿Seguro que quieres eliminar esta carrera? Se borrarán TODOS sus recursos.');">
+                                <input type="hidden" name="id_categoria" value="<?php echo $id; ?>">
+                                <button type="submit" name="accion" value="eliminar_carrera" class="btn btn-danger btn-sm">Eliminar</button>
+                            </form>
                         </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="id_categoria" class="form-label">Carrera</label>
-                            <select class="form-select" id="id_categoria" name="id_categoria" required>
-                                <option value="">Selecciona una carrera</option>
-                                <?php
-                                $sql = "SELECT id_categoria, nombre FROM categorias ORDER BY nombre";
-                                $result = $conn->query($sql);
-                                if ($result->num_rows > 0) {
-                                    while($row = $result->fetch_assoc()) {
-                                        echo "<option value='".$row['id_categoria']."'>".$row['nombre']."</option>";
-                                    }
-                                }
-                                ?>
-                            </select>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </section>
+
+        <section>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2>Gestionar Recursos</h2>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalRecursoAgregar">
+                    Agregar Recurso
+                </button>
+            </div>
+            <div class="row g-3">
+                <?php foreach ($recursos as $recurso): ?>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title"><?php echo htmlspecialchars($recurso['titulo']); ?></h5>
+                                <h6 class="card-subtitle mb-2 text-muted"><?php echo htmlspecialchars($recurso['tipo']); ?></h6>
+                                <p class="card-text"><small><?php echo htmlspecialchars($recurso['descripcion']); ?></small></p>
+                                <p class="card-text"><strong>Carrera:</strong> <?php echo htmlspecialchars($categorias[$recurso['id_categoria']]); ?></p>
+                                <p class="card-text" style="word-break: break-all;"><strong>Enlace:</strong> <a href="<?php echo htmlspecialchars($recurso['enlace']); ?>" target="_blank">Ver enlace</a></p>
+                            </div>
+                            <div class="card-footer bg-white">
+                                <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#modalRecursoEditar" 
+                                    data-id="<?php echo $recurso['id_recurso']; ?>"
+                                    data-titulo="<?php echo htmlspecialchars($recurso['titulo']); ?>"
+                                    data-desc="<?php echo htmlspecialchars($recurso['descripcion']); ?>"
+                                    data-cat-id="<?php echo $recurso['id_categoria']; ?>"
+                                    data-tipo="<?php echo htmlspecialchars($recurso['tipo']); ?>"
+                                    data-enlace="<?php echo htmlspecialchars($recurso['enlace']); ?>">
+                                    Editar
+                                </button>
+                                
+                                <form action="gestionar_datos.php" method="POST" class="d-inline" onsubmit="return confirm('¿Seguro que quieres eliminar este recurso?');">
+                                    <input type="hidden" name="id_recurso" value="<?php echo $recurso['id_recurso']; ?>">
+                                    <button type="submit" name="accion" value="eliminar_recurso" class="btn btn-danger btn-sm">Eliminar</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                    
-                    <div class="mb-3">
-                        <label for="descripcion" class="form-label">Descripción</label>
-                        <textarea class="form-control" id="descripcion" name="descripcion" rows="3" required></textarea>
-                    </div>
-                    
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="tipo" class="form-label">Tipo de Recurso</label>
-                            <select class="form-select" id="tipo" name="tipo" required>
-                                <option value="">Selecciona un tipo</option>
-                                <option value="Curso">Curso</option>
-                                <option value="Caso de Estudio">Caso de Estudio</option>
-                                <option value="Simulador">Simulador</option>
-                                <option value="Video">Video</option>
-                                <option value="Libro">Libro</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="enlace" class="form-label">Enlace (URL)</label>
-                            <input type="url" class="form-control" id="enlace" name="enlace" placeholder="https://...">
+                <?php endforeach; ?>
+            </div>
+        </section>
+    </main>
+
+    <?php include "../../../includes/footer.php"; ?>
+
+    <div class="modal fade" id="modalCarreraAgregar" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="gestionar_datos.php" method="POST">
+                    <div class="modal-header"><h5 class="modal-title">Agregar Carrera</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="nombre_carrera" class="form-label">Nombre de la Carrera</label>
+                            <input type="text" class="form-control" id="nombre_carrera" name="nombre_carrera" required>
                         </div>
                     </div>
-                    
-                    <div class="mb-3">
-                        <label for="archivo_pdf" class="form-label">Archivo PDF (opcional)</label>
-                        <input type="file" class="form-control" id="archivo_pdf" name="archivo_pdf" accept=".pdf">
-                        <div class="form-text">Solo se permiten archivos PDF. Tamaño máximo: 10MB</div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" name="accion" value="agregar_carrera" class="btn btn-primary">Guardar</button>
                     </div>
-                    
-                    <button type="submit" class="btn btn-success" name="guardar">Agregar Recurso</button>
                 </form>
-            </div>
-        </div>
-        
-        <!-- Tabla de recursos existentes -->
-        <div class="card">
-            <div class="card-header bg-info text-white">
-                <h5 class="mb-0">Recursos Existentes</h5>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th>Título</th>
-                                <th>Carrera</th>
-                                <th>Tipo</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            $sql = "SELECT r.id_recurso, r.titulo, r.tipo, c.nombre as carrera 
-                                    FROM recursos r 
-                                    INNER JOIN categorias c ON r.id_categoria = c.id_categoria 
-                                    ORDER BY c.nombre, r.titulo";
-                            $result = $conn->query($sql);
-                            
-                            if ($result->num_rows > 0) {
-                                while($row = $result->fetch_assoc()) {
-                                    echo "<tr>
-                                        <td>".htmlspecialchars($row['titulo'])."</td>
-                                        <td>".htmlspecialchars($row['carrera'])."</td>
-                                        <td>".htmlspecialchars($row['tipo'])."</td>
-                                        <td>
-                                            <a href='gestionar-recu.php?eliminar=".$row['id_recurso']."' class='btn btn-danger btn-sm' onclick='return confirm(\"¿Estás seguro de que quieres eliminar este recurso?\")'>Eliminar</a>
-                                        </td>
-                                    </tr>";
-                                }
-                            } else {
-                                echo "<tr><td colspan='4' class='text-center'>No hay recursos registrados</td></tr>";
-                            }
-                            ?>
-                        </tbody>
-                    </table>
-                </div>
             </div>
         </div>
     </div>
 
-    <footer class="footer mt-5">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <p>&copy; 2024 Universidad UTPN. Todos los derechos reservados.</p>
-                </div>
-                <div class="col-md-6 text-end">
-                    <p>Departamento de Recursos Educativos</p>
-                </div>
+    <div class="modal fade" id="modalRecursoAgregar" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="gestionar_datos.php" method="POST">
+                    <div class="modal-header"><h5 class="modal-title">Agregar Recurso</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+                    <div class="modal-body">
+                        <div class="mb-3"><label for="add_titulo" class="form-label">Título</label><input type="text" class="form-control" id="add_titulo" name="titulo" required></div>
+                        <div class="mb-3"><label for="add_descripcion" class="form-label">Descripción</label><textarea class="form-control" id="add_descripcion" name="descripcion" rows="3"></textarea></div>
+                        <div class="mb-3">
+                            <label for="add_id_categoria" class="form-label">Carrera</label>
+                            <select class="form-select" id="add_id_categoria" name="id_categoria" required>
+                                <option value="">Selecciona una carrera...</option>
+                                <?php foreach ($categorias as $id => $nombre): ?><option value="<?php echo $id; ?>"><?php echo htmlspecialchars($nombre); ?></option><?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="add_tipo" class="form-label">Tipo de Recurso</label>
+                            <select class="form-select" id="add_tipo" name="tipo" required>
+                                <option value="">Selecciona un tipo...</option>
+                                <option value="Tesis">Tesis</option><option value="Articulos de investigacion">Artículo de Investigación</option><option value="Cursos">Cursos</option><option value="Libros">Libros</option><option value="Tutoriales">Tutoriales</option><option value="pdf adjuntos">PDF Adjunto</option><option value="Simuladores">Simuladores</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="add_enlace" class="form-label">Enlace (URL completa a PDF, Curso, Video, etc.)</label>
+                            <input type="url" class="form-control" id="add_enlace" name="enlace" placeholder="https://..." required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" name="accion" value="agregar_recurso" class="btn btn-primary">Guardar</button>
+                    </div>
+                </form>
             </div>
         </div>
-    </footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    </div>
+
+    <div class="modal fade" id="modalRecursoEditar" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="gestionar_datos.php" method="POST">
+                    <input type="hidden" id="edit_id_recurso" name="id_recurso">
+                    <div class="modal-header"><h5 class="modal-title">Editar Recurso</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+                    <div class="modal-body">
+                        <div class="mb-3"><label for="edit_titulo" class="form-label">Título</label><input type="text" class="form-control" id="edit_titulo" name="titulo" required></div>
+                        <div class="mb-3"><label for="edit_descripcion" class="form-label">Descripción</label><textarea class="form-control" id="edit_descripcion" name="descripcion" rows="3"></textarea></div>
+                        <div class="mb-3">
+                            <label for="edit_id_categoria" class="form-label">Carrera</label>
+                            <select class="form-select" id="edit_id_categoria" name="id_categoria" required>
+                                <?php foreach ($categorias as $id => $nombre): ?><option value="<?php echo $id; ?>"><?php echo htmlspecialchars($nombre); ?></option><?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit_tipo" class="form-label">Tipo de Recurso</label>
+                            <select class="form-select" id="edit_tipo" name="tipo" required>
+                                <option value="Tesis">Tesis</option><option value="Articulos de investigacion">Artículo de Investigación</option><option value="Cursos">Cursos</option><option value="Libros">Libros</option><option value="Tutoriales">Tutoriales</option><option value="pdf adjuntos">PDF Adjunto</option><option value="Simuladores">Simuladores</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit_enlace" class="form-label">Enlace (URL completa a PDF, Curso, Video, etc.)</label>
+                            <input type="url" class="form-control" id="edit_enlace" name="enlace" placeholder="https://..." required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" name="accion" value="editar_recurso" class="btn btn-primary">Actualizar Cambios</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const modalEditar = document.getElementById('modalRecursoEditar');
+        modalEditar.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget; // El botón que abrió el modal
+            
+            // Extraer datos de los atributos data-*
+            const id = button.getAttribute('data-id');
+            const titulo = button.getAttribute('data-titulo');
+            const desc = button.getAttribute('data-desc');
+            const catId = button.getAttribute('data-cat-id');
+            const tipo = button.getAttribute('data-tipo');
+            const enlace = button.getAttribute('data-enlace');
+
+            // Cargar los datos en los campos del formulario
+            modalEditar.querySelector('#edit_id_recurso').value = id;
+            modalEditar.querySelector('#edit_titulo').value = titulo;
+            modalEditar.querySelector('#edit_descripcion').value = desc;
+            modalEditar.querySelector('#edit_id_categoria').value = catId;
+            modalEditar.querySelector('#edit_tipo').value = tipo;
+            modalEditar.querySelector('#edit_enlace').value = enlace;
+        });
+    </script>
+
 </body>
 </html>
