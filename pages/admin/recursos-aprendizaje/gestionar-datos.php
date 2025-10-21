@@ -1,27 +1,32 @@
 <?php
 // --- FUNCIONES AUXILIARES PARA LEER Y GUARDAR ---
 function leerDatos() {
+    // Lee el archivo JSON
     $datos_json = file_get_contents('datos.json');
+    // Convierte el JSON en un array de PHP
     return json_decode($datos_json, true);
 }
 
 function guardarDatos($datos) {
-    // JSON_PRETTY_PRINT hace que el archivo .json sea legible
+    // Convierte el array de PHP de vuelta a JSON formateado
     $datos_json = json_encode($datos, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+    // Escribe el JSON de vuelta en el archivo
     file_put_contents('datos.json', $datos_json);
 }
 
 // --- MANEJO DE ACCIONES ---
 if (isset($_POST['accion'])) {
     
+    // 1. Lee los datos actuales
     $datos = leerDatos();
 
+    // 2. Ejecuta la acción solicitada
     switch ($_POST['accion']) {
         
-        // --- ACCIONES DE CARRERAS ---
         case 'agregar_carrera':
             $nuevo_nombre = $_POST['nombre_carrera'];
             if (!empty($nuevo_nombre)) {
+                // Obtiene el ID más alto y le suma 1
                 $nuevo_id = empty($datos['categorias']) ? 1 : max(array_keys($datos['categorias'])) + 1;
                 $datos['categorias'][$nuevo_id] = $nuevo_nombre;
             }
@@ -30,7 +35,9 @@ if (isset($_POST['accion'])) {
         case 'eliminar_carrera':
             $id_categoria = $_POST['id_categoria'];
             if (isset($datos['categorias'][$id_categoria])) {
+                // Borra la carrera
                 unset($datos['categorias'][$id_categoria]);
+                // Borra los recursos de esa carrera
                 foreach ($datos['recursos'] as $key => $recurso) {
                     if ($recurso['id_categoria'] == $id_categoria) {
                         unset($datos['recursos'][$key]);
@@ -39,10 +46,9 @@ if (isset($_POST['accion'])) {
             }
             break;
 
-        // --- ACCIONES DE RECURSOS ---
         case 'agregar_recurso':
-            $ids_recursos = array_column($datos['recursos'], 'id_recurso');
-            $nuevo_id_recurso = empty($ids_recursos) ? 1 : max($ids_recursos) + 1;
+            $ids_recursos = empty($datos['recursos']) ? [0] : array_column($datos['recursos'], 'id_recurso');
+            $nuevo_id_recurso = max($ids_recursos) + 1;
 
             $nuevo_recurso = [
                 'id_recurso' => $nuevo_id_recurso,
@@ -55,18 +61,17 @@ if (isset($_POST['accion'])) {
             $datos['recursos'][] = $nuevo_recurso;
             break;
 
-        // --- NUEVO: LÓGICA DE EDICIÓN ---
         case 'editar_recurso':
             $id_recurso_editar = $_POST['id_recurso'];
             foreach ($datos['recursos'] as $key => $recurso) {
                 if ($recurso['id_recurso'] == $id_recurso_editar) {
-                    // Actualizamos todos los datos del recurso
+                    // Actualiza los datos del recurso en el array
                     $datos['recursos'][$key]['id_categoria'] = intval($_POST['id_categoria']);
                     $datos['recursos'][$key]['titulo'] = $_POST['titulo'];
                     $datos['recursos'][$key]['descripcion'] = $_POST['descripcion'];
                     $datos['recursos'][$key]['tipo'] = $_POST['tipo'];
                     $datos['recursos'][$key]['enlace'] = $_POST['enlace'];
-                    break; // Terminamos el bucle una vez encontrado y editado
+                    break; 
                 }
             }
             break;
@@ -82,14 +87,14 @@ if (isset($_POST['accion'])) {
             break;
     }
     
-    // Re-indexar el array de recursos para que el JSON quede limpio
+    // 3. Re-indexa el array de recursos (importante)
     $datos['recursos'] = array_values($datos['recursos']);
     
-    // Guardar todos los cambios en el archivo JSON
+    // 4. Guarda los datos actualizados en el archivo
     guardarDatos($datos);
 }
 
-// Redireccionar siempre de vuelta al panel de admin
+// 5. Redirige de vuelta al panel de admin
 header('Location: admin_RA.php');
 exit;
 ?>

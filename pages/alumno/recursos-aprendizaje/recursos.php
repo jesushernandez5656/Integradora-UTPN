@@ -12,7 +12,7 @@ if (!isset($_GET['id_carrera']) || !isset($categorias[$_GET['id_carrera']])) {
 $id_carrera_actual = intval($_GET['id_carrera']);
 $nombre_carrera = $categorias[$id_carrera_actual];
 
-// 3. Filtramos los recursos para esta carrera
+// 3. Filtramos los recursos
 $recursos_filtrados = [];
 foreach ($recursos_todos as $recurso) {
     if ($recurso['id_categoria'] == $id_carrera_actual) {
@@ -37,9 +37,9 @@ sort($tipos_disponibles);
         .filtro-btn { border-radius: 20px; }
     </style>
 </head>
-<body>
+<body style="display: flex; flex-direction: column; min-height: 100vh; margin: 0;">
     <?php include "../../../includes/header.php"; ?>
-    <main class="container mt-4">
+    <main class="container mt-4" style="flex-grow: 1;">
         <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-2">
             <h1 class="mb-0 fs-2">Recursos: <?php echo htmlspecialchars($nombre_carrera); ?></h1>
             <a href="index.php" class="btn btn-outline-secondary">‹ Volver a Carreras</a>
@@ -71,7 +71,7 @@ sort($tipos_disponibles);
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title"><?php echo $icono . ' ' . htmlspecialchars($recurso['titulo']); ?></h5>
                             <p class="card-text flex-grow-1"><?php echo htmlspecialchars($recurso['descripcion']); ?></p>
-                            <a href="<?php echo htmlspecialchars($recurso['enlace']); ?>" target="_blank" class="btn btn-primary mt-auto">Acceder al Recurco</a>
+                            <a href="<?php echo htmlspecialchars($recurso['enlace']); ?>" target="_blank" class="btn btn-primary mt-auto">Acceder al Recurso</a>
                         </div>
                     </div>
                 </div>

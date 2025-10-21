@@ -20,7 +20,7 @@
             "titulo": "Tesis: Optimización de Brazo Robótico",
             "descripcion": "Tesis de grado sobre el control cinemático de un brazo robotizado.",
             "tipo": "Tesis",
-            "enlace": "pdfs/tesis-brazo-robotico.pdf"
+            "enlace": "https://ejemplo.com/pdfs/tesis-brazo-robotico.pdf"
         },
         {
             "id_recurso": 2,
@@ -36,15 +36,7 @@
             "titulo": "Fundamentos de Redes Digitales (PDF)",
             "descripcion": "Documento que cubre el modelo OSI, TCP/IP y protocolos.",
             "tipo": "Libros",
-            "enlace": "pdfs/fundamentos-redes.pdf"
-        },
-        {
-            "id_recurso": 4,
-            "id_categoria": 10,
-            "titulo": "Caso de Estudio: El éxito de Netflix",
-            "descripcion": "Análisis sobre el modelo de negocio y estrategias de marketing.",
-            "tipo": "pdf adjuntos",
-            "enlace": "pdfs/caso-estudio-netflix.pdf"
+            "enlace": "https://ejemplo.com/pdfs/fundamentos-redes.pdf"
         }
     ]
 }

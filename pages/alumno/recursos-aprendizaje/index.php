@@ -18,9 +18,9 @@ $categorias = $datos['categorias'];
         main { flex-grow: 1; }
     </style>
 </head>
-<body>
+<body style="display: flex; flex-direction: column; min-height: 100vh; margin: 0;">
     <?php include "../../../includes/header.php"; ?>
-    <main class="container mt-4">
+    <main class="container mt-4" style="flex-grow: 1;">
         <div class="text-center mb-5">
             <h1>Recursos de Aprendizaje por Carrera</h1>
             <p class="lead">Explora cursos, libros, videos y más, organizados para tu programa educativo.</p>
