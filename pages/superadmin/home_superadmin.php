@@ -14,10 +14,11 @@
     box-sizing: border-box;
 }
 
-body{
-    background: #EDE5D6;
+body{ 
+  background: #EDE5D6; 
 
 }
+
 a {
   text-decoration: none;
 }
@@ -165,7 +166,7 @@ main {
     <p>Recursos de aprendizaje</p>
   </div>
   </a>
-  <a href="../alumno/cibers_consejos.php">
+  <a href="../admin/cibers_consejos.php">
   <div class="logo">
     <svg
       fill="currentColor"

@@ -631,7 +631,7 @@ include __DIR__ . "/../../includes/header.php";
                 <button class="btn btn-primary" onclick="openModal('createModal')">
                     <i class="fas fa-plus"></i> Nuevo Consejo
                 </button>
-                <a href="consejos.php" class="btn btn-secondary">
+                <a href="../alumno/cibers_consejos.php" class="btn btn-secondary">
                     <i class="fas fa-eye"></i> Vista Usuario
                 </a>
             </div>

@@ -150,6 +150,7 @@ th {
   background: rgba(0,0,0,0.6);
   justify-content: center;
   align-items: center;
+  z-index: 1000;
 }
 
 .modal-content {
@@ -252,6 +253,81 @@ section.active {
 .neon-checkbox input:checked ~ .neon-checkbox__frame .neon-checkbox__glow {
   opacity: 0.3;
 }
+
+/* --- RESPONSIVE DESIGN --- */
+@media (max-width: 900px) {
+  body {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    min-height: auto;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 10px;
+  }
+
+  .sidebar img {
+    width: 50px;
+    height: 50px;
+    margin: 0;
+    padding: 3px;
+  }
+
+  .sidebar h2 {
+    display: none;
+  }
+
+  .sidebar ul {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .sidebar ul li {
+    margin: 0;
+  }
+
+  .sidebar ul li a {
+    padding: 8px 10px;
+    font-size: 14px;
+  }
+
+  header {
+    text-align: center;
+  }
+
+  table {
+    font-size: 14px;
+    overflow-x: auto;
+    display: block;
+  }
+
+  th, td {
+    padding: 8px;
+  }
+
+  .modal-content {
+    width: 90%;
+  }
+}
+
+@media (max-width: 500px) {
+  .sidebar ul li a {
+    font-size: 12px;
+    padding: 6px;
+  }
+
+  .btn {
+    font-size: 12px;
+    padding: 5px 8px;
+  }
+
+  table {
+    font-size: 12px;
+  }
+}
+
 </style>
 </head>
 <body>
