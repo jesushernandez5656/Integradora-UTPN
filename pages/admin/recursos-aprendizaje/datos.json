@@ -17,10 +17,10 @@
         {
             "id_recurso": 1,
             "id_categoria": 11,
-            "titulo": "Tesis: Optimización de Brazo Robótico",
+            "titulo": "PRUEBA DE EDICION",
             "descripcion": "Tesis de grado sobre el control cinemático de un brazo robotizado.",
             "tipo": "Tesis",
-            "enlace": "https://ejemplo.com/pdfs/tesis-brazo-robotico.pdf"
+            "enlace": "https:\/\/ejemplo.com\/pdfs\/tesis-brazo-robotico.pdf"
         },
         {
             "id_recurso": 2,
@@ -28,15 +28,23 @@
             "titulo": "Curso de AutoCAD para Mecatrónica",
             "descripcion": "Aprende a diseñar piezas mecánicas y sistemas en 2D y 3D.",
             "tipo": "Cursos",
-            "enlace": "https://www.udemy.com/course/autocad-mechanical/"
+            "enlace": "https:\/\/www.udemy.com\/course\/autocad-mechanical\/"
         },
         {
             "id_recurso": 3,
             "id_categoria": 9,
             "titulo": "Fundamentos de Redes Digitales (PDF)",
-            "descripcion": "Documento que cubre el modelo OSI, TCP/IP y protocolos.",
+            "descripcion": "Documento que cubre el modelo OSI, TCP\/IP y protocolos.",
             "tipo": "Libros",
-            "enlace": "https://ejemplo.com/pdfs/fundamentos-redes.pdf"
+            "enlace": "https:\/\/ejemplo.com\/pdfs\/fundamentos-redes.pdf"
+        },
+        {
+            "id_recurso": 4,
+            "id_categoria": 5,
+            "titulo": "PRUEBA",
+            "descripcion": "",
+            "tipo": "Simuladores",
+            "enlace": "https:\/\/chat.deepseek.com\/a\/chat\/s\/d0cc227a-193c-4613-b217-6910888aeada"
         }
     ]
 }
