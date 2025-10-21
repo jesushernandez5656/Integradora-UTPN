@@ -51,11 +51,7 @@ body {
   margin: 0;
   font-family: 'Plus Jakarta Sans', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, sans-serif;
   color: var(--txt);
-  background:
-    radial-gradient(1200px 800px at 80% -10%, rgba(64, 224, 208, 0.5), transparent 60%),
-    radial-gradient(1200px 800px at 20% 110%, rgba(64, 224, 208, 0.5), transparent 60%),
-    linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
-  background-attachment: fixed;
+  background-color: #fdf6ec; /* 🎨 crema claro, cálido y suave */
 }
 
 /* ================================
@@ -622,7 +618,7 @@ body {
     <div class="container grid grid-2">
       <div class="hero__copy">
         <div class="chip">Convocatorias abiertas</div>
-        <h1>Consigue la <span class="grad">beca</span> y pide <span class="grad alt">información</span> que te abren puertas</h1>
+        <h1>Consigue tu <span class="grad">beca</span> <br> Solicita <span class="grad alt">información</span> que te abran puertas</h1>
         <p class="muted">Explora convocatorias que te ayudaran en tu carrera.</p>
 
        <!-- <form class="search" action="#" method="get">
@@ -635,7 +631,7 @@ body {
 
         <div class="hero__badges">
           <span class="badge ok">5 becas especializadas</span>
-          <span class="badge">Porcentaje alto de entrar a la beca</span>
+          <span class="badge">Porcentaje alto de obtener la beca</span>
           <span class="badge warn">Facil de acceder</span>
         </div>
       </div>
@@ -658,7 +654,7 @@ body {
               <span>🌍 Beca Nacional</span>
               <span>Universitaria</span>
             </div>
-            <a class="btn ghost" href="https://subes.becasbenitojuarez.gob.mx/">Empezar</a>
+            <a class="btn ghost" href="https://subes.becasbenitojuarez.gob.mx/" target="_blank">Empezar</a>
           </div>
         </div>
       </div>
@@ -687,8 +683,8 @@ body {
             <li>Proyecto o portafolio</li>
             <li>Entrevista técnica</li>
           </ul>
-          <a class="btn block" href="#aplica">Postular</a>
-          <a class="btn block" href="#aplica">Descargar Convocatoria</a>
+          <a class="btn block" href="https://mitch.chihuahua.gob.mx/seaged-app-portal/tramites/inicio" target="_blank">Postular</a>
+          <a class="btn block" href="../../assets/PDF/beca_inscripcion_2.pdf" download>Descargar requisitos</a>
         </article>
 
         <article class="card2">
@@ -702,10 +698,8 @@ body {
             <li>Ensayo motivacional</li>
             <li>Servicio social</li>
           </ul>
-          <a class="btn block" href="#aplica">Postular</a>
-          <a class="btn block" href="../../assets/PDF/beca_material_y_equipo_tecnico_2.pdf" download>
-  📄 Descargar Convocatoria
-</a>
+          <a class="btn block" href="https://mitch.chihuahua.gob.mx/seaged-app-portal/tramites/inicio" target="_blank" >Postular</a>
+          <a class="btn block" href="../../assets/PDF/beca_material_y_equipo_tecnico_2.pdf" download>Descargar requisitos</a>
         </article>
 
         <article class="card2">
@@ -719,8 +713,8 @@ body {
             <li>Director de tesis</li>
             <li>Informe parcial</li>
           </ul>
-          <a class="btn block" href="#aplica">Postular</a>
-          <a class="btn block" href="#aplica">Descargar Convocatoria</a>
+          <a class="btn block" href="https://mitch.chihuahua.gob.mx/seaged-app-portal/tramites/inicio" target="_blank" >Postular</a>
+          <a class="btn block" href="../../assets/PDF/beca_titulacion_2.pdf" download>Descargar requisitos</a>
         </article>
 
         <article class="card2">
@@ -734,8 +728,8 @@ body {
             <li>Director de tesis</li>
             <li>Informe parcial</li>
           </ul>
-          <a class="btn block" href="#aplica">Postular</a>
-          <a class="btn block" href="#aplica">Descargar Convocatoria</a>
+          <a class="btn block" href="https://subes.becasbenitojuarez.gob.mx/" target="_blank">Postular</a>
+          <a class="btn block"  href="https://programasparaelbienestar.gob.mx/beca-bienestar-benito-juarez-educacion-superior/" target="_blank">Ver requisitos</a>
         </article>
 
         <article class="card2">
@@ -750,7 +744,7 @@ body {
             <li>Informe parcial</li>
           </ul>
           <a class="btn block" href="#aplica">Postular</a>
-          <a class="btn block" href="#aplica">Descargar Convocatoria</a>
+          <a class="btn block" href="../../assets/PDF/RequisitosBeca.pdf" download>Descargar requisitos</a>
         </article>
       </div>
     </div>
