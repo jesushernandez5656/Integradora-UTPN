@@ -15,14 +15,6 @@
     },
     "recursos": [
         {
-            "id_recurso": 1,
-            "id_categoria": 11,
-            "titulo": "PRUEBA DE EDICION",
-            "descripcion": "Tesis de grado sobre el control cinemático de un brazo robotizado.",
-            "tipo": "Tesis",
-            "enlace": "https:\/\/ejemplo.com\/pdfs\/tesis-brazo-robotico.pdf"
-        },
-        {
             "id_recurso": 2,
             "id_categoria": 11,
             "titulo": "Curso de AutoCAD para Mecatrónica",
@@ -40,11 +32,27 @@
         },
         {
             "id_recurso": 4,
-            "id_categoria": 5,
-            "titulo": "PRUEBA",
+            "id_categoria": 1,
+            "titulo": "Factores clave de la cadena logística del comercio exterior de un puerto mexicano: análisis a través de redes neuronales artificiales",
+            "descripcion": "Contaduría y administración, vol. 64, núm. 2, pp. 1-19, 2019\r\n\r\nFacultad de Contaduría y Administración, UNAM",
+            "tipo": "Articulos de investigacion",
+            "enlace": "https:\/\/www.redalyc.org\/journal\/395\/39571725007\/html\/?utm_source=chatgpt.com"
+        },
+        {
+            "id_recurso": 5,
+            "id_categoria": 1,
+            "titulo": "LEY DE COMERCIO EXTERIOR",
+            "descripcion": "Nueva Ley publicada en el Diario Oficial de la Federación el 27 de julio de 1993 \r\nTEXTO VIGENTE \r\nÚltima reforma publicada DOF 21-12-2006",
+            "tipo": "pdf adjuntos",
+            "enlace": "https:\/\/www.diputados.gob.mx\/LeyesBiblio\/pdf\/28.pdf"
+        },
+        {
+            "id_recurso": 6,
+            "id_categoria": 1,
+            "titulo": "El impacto de la logística en la facilitación del comercio internacional: un estudio de costos y beneficios",
             "descripcion": "",
-            "tipo": "Simuladores",
-            "enlace": "https:\/\/chat.deepseek.com\/a\/chat\/s\/d0cc227a-193c-4613-b217-6910888aeada"
+            "tipo": "pdf adjuntos",
+            "enlace": "https:\/\/epsir.net\/index.php\/epsir\/article\/view\/1626\/1448"
         }
     ]
 }

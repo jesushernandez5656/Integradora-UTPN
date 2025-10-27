@@ -29,17 +29,20 @@ sort($tipos_disponibles);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recursos de <?php echo htmlspecialchars($nombre_carrera); ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="/integradora-UTPN/assets/css/navbar.css">
+    <link rel="stylesheet" href="/integradora-UTPN/assets/css/footer.css">
+    
     <style>
-        body { display: flex; flex-direction: column; min-height: 100vh; }
-        main { flex-grow: 1; }
+        /* Estilos específicos de esta página */
         .recurso-card:hover { transform: translateY(-5px); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         .filtros-container { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1.5rem; }
         .filtro-btn { border-radius: 20px; }
     </style>
 </head>
-<body style="display: flex; flex-direction: column; min-height: 100vh; margin: 0;">
-    <?php include "../../../includes/header.php"; ?>
-    <main class="container mt-4" style="flex-grow: 1;">
+<body> <?php include "../../../includes/header.php"; ?>
+    
+    <main class="container mt-4" style="padding-bottom: 500px;">
         <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-2">
             <h1 class="mb-0 fs-2">Recursos: <?php echo htmlspecialchars($nombre_carrera); ?></h1>
             <a href="index.php" class="btn btn-outline-secondary">‹ Volver a Carreras</a>
@@ -81,7 +84,9 @@ sort($tipos_disponibles);
             <?php endif; ?>
         </div>
     </main>
+    
     <?php include "../../../includes/footer.php"; ?>
+    
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const botonesFiltro = document.querySelectorAll('.filtro-btn');
