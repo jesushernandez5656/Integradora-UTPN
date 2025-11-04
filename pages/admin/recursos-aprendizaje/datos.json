@@ -15,14 +15,6 @@
     },
     "recursos": [
         {
-            "id_recurso": 1,
-            "id_categoria": 11,
-            "titulo": "Tesis: Optimización de Brazo Robótico",
-            "descripcion": "Tesis de grado sobre el control cinemático de un brazo robotizado.",
-            "tipo": "Tesis",
-            "enlace": "https://ejemplo.com/pdfs/tesis-brazo-robotico.pdf"
-        },
-        {
             "id_recurso": 2,
             "id_categoria": 11,
             "titulo": "Curso de AutoCAD para Mecatrónica",
@@ -37,6 +29,190 @@
             "descripcion": "Documento que cubre el modelo OSI, TCP/IP y protocolos.",
             "tipo": "Libros",
             "enlace": "https://ejemplo.com/pdfs/fundamentos-redes.pdf"
+        },
+        {
+            "id_recurso": 4,
+            "id_categoria": 1,
+            "titulo": "Factores clave de la cadena logística del comercio exterior de un puerto mexicano: análisis a través de redes neuronales artificiales",
+            "descripcion": "Contaduría y administración, vol. 64, núm. 2, pp. 1-19, 2019. Facultad de Contaduría y Administración, UNAM",
+            "tipo": "Articulos de investigacion",
+            "enlace": "https://www.redalyc.org/journal/395/39571725007/html/?utm_source=chatgpt.com"
+        },
+        {
+            "id_recurso": 5,
+            "id_categoria": 1,
+            "titulo": "LEY DE COMERCIO EXTERIOR",
+            "descripcion": "Nueva Ley publicada en el Diario Oficial de la Federación el 27 de julio de 1993. TEXTO VIGENTE. Última reforma publicada DOF 21-12-2006",
+            "tipo": "pdf adjuntos",
+            "enlace": "https://www.diputados.gob.mx/LeyesBiblio/pdf/28.pdf"
+        },
+        {
+            "id_recurso": 6,
+            "id_categoria": 1,
+            "titulo": "El impacto de la logística en la facilitación del comercio internacional: un estudio de costos y beneficios",
+            "descripcion": "Análisis de costos y beneficios sobre la facilitación del comercio.",
+            "tipo": "pdf adjuntos",
+            "enlace": "https://epsir.net/index.php/epsir/article/view/1626/1448"
+        },
+        {
+            "id_recurso": 7,
+            "id_categoria": 5,
+            "titulo": "Robótica y Mecatrónica de Servicios: Teoría y Aplicaciones (Libro digital)",
+            "descripcion": "Presenta la teoría, pero se enfoca en aplicaciones y casos de servicio. Año 2016",
+            "tipo": "Libros",
+            "enlace": "https://www.mecamex.net/Libros/2016-Libro-MecatronicayRoboticadeServicio.pdf"
+        },
+        {
+            "id_recurso": 8,
+            "id_categoria": 5,
+            "titulo": "Manuales de Prácticas – Ing. Mecatrónica (UABC)",
+            "descripcion": "Listado de manuales que cubren prácticas de laboratorio de diversas áreas: OpAmps, Lógica, Sistemas de Control, MATLAB/LabVIEW. Año 2025",
+            "tipo": "Tutoriales",
+            "enlace": "https://ingenieria.mxl.uabc.mx/pe_ima/manuales-de-practica/"
+        },
+        {
+            "id_recurso": 9,
+            "id_categoria": 5,
+            "titulo": "Libro PDF: Ingeniería Mecatrónica: Proyectos y Aplicaciones",
+            "descripcion": "Contiene capítulos sobre proyectos específicos como la construcción de un Péndulo Invertido sobre un Carro y simulaciones de sistemas bípedos. Año 2014",
+            "tipo": "Libros",
+            "enlace": "https://www.mecamex.net/Libros/2014-Libro-IngenieriaMecatronica.pdf"
+        },
+        {
+            "id_recurso": 10,
+            "id_categoria": 5,
+            "titulo": "Arquitectura de control abierta por medio de una PC para sistemas mecatrónicos",
+            "descripcion": "Artículo de Redalyc que describe el diseño de una arquitectura de control abierta de bajo costo, flexible y reconfigurable, ideal para automatización y robótica didáctica. Año 2016",
+            "tipo": "Articulos de investigacion",
+            "enlace": "https://www.redalyc.org/pdf/4026/402650526004.pdf"
+        },
+        {
+            "id_recurso": 11,
+            "id_categoria": 5,
+            "titulo": "Arduino: aplicaciones en robótica, mecatrónica e ingenierías",
+            "descripcion": "Capítulo de libro que aborda el potencial de la plataforma Arduino para el desarrollo de proyectos de robótica, mecatrónica, control e instrumentación.",
+            "tipo": "Libros",
+            "enlace": "https://api.pageplace.de/preview/DT0400.9788426729460_A39794666/preview-9788426729460_A39794666.pdf"
+        },
+        {
+            "id_recurso": 12,
+            "id_categoria": 7,
+            "titulo": "Comercio internacional y logística: Perspectivas y aplicaciones",
+            "descripcion": "Libro que analiza las complejidades del comercio internacional, técnicas avanzadas de logística y gestión de operaciones. Año 2024",
+            "tipo": "Libros",
+            "enlace": "#"
+        },
+        {
+            "id_recurso": 13,
+            "id_categoria": 7,
+            "titulo": "Logística y distribución internacional (Tesis UNAM)",
+            "descripcion": "Excelente recurso para comprender la estructura conceptual y el enfoque sistémico de la logística y distribución internacional. Año 2002",
+            "tipo": "Tesis",
+            "enlace": "#"
+        },
+        {
+            "id_recurso": 14,
+            "id_categoria": 7,
+            "titulo": "INNOVACIÓN EMPRESARIAL EN LOGÍSTICA Y CADENAS DE SUMINISTRO",
+            "descripcion": "Documento enfocado en la innovación y la aplicación práctica de conceptos logísticos como la optimización en almacenes. Año 2019",
+            "tipo": "Articulos de investigacion",
+            "enlace": "#"
+        },
+        {
+            "id_recurso": 15,
+            "id_categoria": 7,
+            "titulo": "La logística de transportación internacional de mercancías en México (Tesis UNAM)",
+            "descripcion": "Ofrece una perspectiva práctica y regional (México) sobre la cadena logística, las dificultades y oportunidades en el transporte. Año 2004",
+            "tipo": "Tesis",
+            "enlace": "#"
+        },
+        {
+            "id_recurso": 16,
+            "id_categoria": 7,
+            "titulo": "LOGÍSTICA INTERNACIONAL (ResearchGate)",
+            "descripcion": "Documento que aborda el transporte y la logística internacional como un proceso complejo desde el pedido hasta la entrega. Año 2019",
+            "tipo": "Articulos de investigacion",
+            "enlace": "#"
+        },
+        {
+            "id_recurso": 17,
+            "id_categoria": 7,
+            "titulo": "Revisión de literatura sobre logística internacional: Un análisis de red y tendencias",
+            "descripcion": "Tendencias, servicios logísticos, cadena de abastecimiento, modelos de optimización. (Dialnet)",
+            "tipo": "Articulos de investigacion",
+            "enlace": "https://dialnet.unirioja.es/servlet/articulo?codigo=8702031"
+        },
+        {
+            "id_recurso": 18,
+            "id_categoria": 7,
+            "titulo": "Capacidades logísticas como factores determinantes para la internacionalización de las pymes",
+            "descripcion": "PyMES, internacionalización, cadena de abastecimiento, recursos logísticos, tecnología. (Redalyc)",
+            "tipo": "Articulos de investigacion",
+            "enlace": "https://www.redalyc.org/journal/6381/638174353006/html/"
+        },
+        {
+            "id_recurso": 19,
+            "id_categoria": 7,
+            "titulo": "Operaciones de logística internacional (Libro Open Access)",
+            "descripcion": "Comercio, cadena de suministro internacional, actores logísticos, plataformas logísticas, regímenes aduaneros. (Repositorio UOC)",
+            "tipo": "Libros",
+            "enlace": "https://openaccess.uoc.edu/handle/10609/147450"
+        },
+        {
+            "id_recurso": 20,
+            "id_categoria": 7,
+            "titulo": "Evaluando los operadores logísticos. Retos y tendencias",
+            "descripcion": "Operadores logísticos (3PL), métodos de decisión multicriterio, externalización logística. (Dialnet)",
+            "tipo": "Articulos de investigacion",
+            "enlace": "https://dialnet.unirioja.es/servlet/articulo?codigo=8728930"
+        },
+        {
+            "id_recurso": 21,
+            "id_categoria": 7,
+            "titulo": "Logística de transporte y desarrollo local en organizaciones exportadoras",
+            "descripcion": "Transporte internacional, exportación, seguridad (C-TPAT), servicio al cliente logístico. (SciELO México)",
+            "tipo": "Articulos de investigacion",
+            "enlace": "https://www.scielo.org.mx/scielo.php?script=sci_arttext&pid=S0188-45572018000100013"
+        },
+        {
+            "id_recurso": 22,
+            "id_categoria": 8,
+            "titulo": "Herramientas y Técnicas Lean Manufacturing en sistemas de producción y calidad",
+            "descripcion": "Documento que aborda los conceptos y la reseña histórica del Lean Manufacturing. Es altamente práctico. Año 2011",
+            "tipo": "Tutoriales",
+            "enlace": "#"
+        },
+        {
+            "id_recurso": 23,
+            "id_categoria": 8,
+            "titulo": "Revista de la Ingeniería Industrial (Acceso Abierto)",
+            "descripcion": "Revista especializada que publica artículos de investigación recientes en áreas como Investigación de Operaciones, Calidad y Productividad, Logística. Año 2024",
+            "tipo": "Articulos de investigacion",
+            "enlace": "#"
+        },
+        {
+            "id_recurso": 24,
+            "id_categoria": 8,
+            "titulo": "Ingeniería y Desarrollo en la Nueva Era (Creative Commons)",
+            "descripcion": "Publicación gratuita que incluye estudios variados, como el proceso analítico jerárquico para sostenibilidad de proyectos industriales. Año 2022",
+            "tipo": "Libros",
+            "enlace": "#"
+        },
+        {
+            "id_recurso": 25,
+            "id_categoria": 8,
+            "titulo": "INGENIERÍA INDUSTRIAL, OTRO ENFOQUE: LOS SERVICIOS (Tesis UNAM)",
+            "descripcion": "Tesis de la UNAM que aborda el diseño y mejoramiento de sistemas, pero con un enfoque en el sector servicios. Año 2017",
+            "tipo": "Tesis",
+            "enlace": "#"
+        },
+        {
+            "id_recurso": 26,
+            "id_categoria": 8,
+            "titulo": "Lean manufacturing (Todo Proyectos)",
+            "descripcion": "Un libro completo sobre Lean Manufacturing, detallando su exposición adaptada a la fabricación repetitiva y los procesos discretos. Año 2013",
+            "tipo": "Libros",
+            "enlace": "#"
         }
     ]
 }
