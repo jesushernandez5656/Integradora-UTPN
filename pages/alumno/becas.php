@@ -743,7 +743,7 @@ body {
             <li>Director de tesis</li>
             <li>Informe parcial</li>
           </ul>
-          <a class="btn block" href="#aplica">Postular</a>
+          <a class="btn block" href="https://www.juarez.gob.mx/becas-de-acceso-a-la-universidad" target="_blank">Postular</a>
           <a class="btn block" href="../../assets/PDF/RequisitosBeca.pdf" download>Descargar requisitos</a>
         </article>
       </div>
@@ -869,48 +869,35 @@ $(function(){
 
   function sendNewMessage() {
       var userInput = $('.text-box');
-      var newMessage = userInput.html().replace(/\<div\>|\<br.*?\>/ig, '\n').replace(/\<\/div\>/g, '').trim().replace(/\n/g, '<br>');
+      var newMessage = userInput.html()
+          .replace(/\<div\>|\<br.*?\>/ig, '\n')
+          .replace(/\<\/div\>/g, '')
+          .trim()
+          .replace(/\n/g, '<br>');
+
       if (!newMessage) return;
-      
+
       var messagesContainer = $('.messages');
       messagesContainer.append('<li class="self">' + newMessage + '</li>');
       userInput.html('');
-      
-      // Verificar si es un número del 1 al 5
-      var numero = newMessage.trim();
-      if (respuestas[numero]) {
-          setTimeout(function() {
-              var respuesta = respuestas[numero].replace(/\n/g, '<br>');
-              messagesContainer.append('<li class="other">' + respuesta + '</li>');
-              messagesContainer.finish().animate({
-                  scrollTop: messagesContainer.prop("scrollHeight")
-              }, 250);
-          }, 500);
-      } else if (numero.length === 1 && numero >= '1' && numero <= '5') {
-          setTimeout(function() {
-              messagesContainer.append('<li class="other">Por favor escribe un número del 1 al 5 📝</li>');
-              messagesContainer.finish().animate({
-                  scrollTop: messagesContainer.prop("scrollHeight")
-              }, 250);
-          }, 500);
-      } else {
-          setTimeout(function() {
-              messagesContainer.append('<li class="other">Por favor selecciona una opción escribiendo su número (1-5) 😊</li>');
-              messagesContainer.finish().animate({
-                  scrollTop: messagesContainer.prop("scrollHeight")
-              }, 250);
-          }, 500);
-      }
-      
-      userInput.focus();
-      messagesContainer.finish().animate({
-          scrollTop: messagesContainer.prop("scrollHeight")
-      }, 250);
+      messagesContainer.scrollTop(messagesContainer.prop("scrollHeight"));
+
+      // Buscar respuesta
+      var respuesta = respuestas[newMessage.trim()];
+      setTimeout(function() {
+          if (respuesta) {
+              messagesContainer.append('<li class="other">' + respuesta.replace(/\n/g, '<br>') + '</li>');
+          } else {
+              messagesContainer.append('<li class="other">🤖 No entendí tu opción. Escribe un número del 1 al 5 para continuar.</li>');
+          }
+          messagesContainer.scrollTop(messagesContainer.prop("scrollHeight"));
+      }, 700);
   }
 
   function onMetaAndEnter(event) {
-      if ((event.metaKey || event.ctrlKey) && event.keyCode == 13) {
+      if (event.keyCode === 13) {
           sendNewMessage();
+          event.preventDefault();
       }
   }
 });
