@@ -1,0 +1,116 @@
+[
+    {
+        "id": 1,
+        "consejo_id": 4,
+        "usuario_id": null,
+        "accion": "crear",
+        "datos_anteriores": null,
+        "datos_nuevos": {
+            "id": 4,
+            "titulo": "Piensa Antes de Publicar",
+            "categoria_id": 3,
+            "prioridad": "high",
+            "icono": "📌",
+            "descripcion": "<h3>El impacto permanente de lo que publicas<\/h3>\n                    <p>Internet tiene memoria permanente. Lo que compartes hoy puede afectarte años después. Las capturas de pantalla y los archivos pueden persistir incluso después de eliminar publicaciones.<\/p>",
+            "contenido_completo": "<h3>Antes de publicar, pregúntate:<\/h3>\n                    <ul>\n                        <li>¿Me sentiría cómodo si mi familia\/empleador viera esto?<\/li>\n                        <li>¿Podría esta información ser usada en mi contra?<\/li>\n                        <li>¿Estoy compartiendo información personal sensible?<\/li>\n                        <li>¿Esta publicación podría ofender o dañar a alguien?<\/li>\n                        <li>¿Tendré la misma opinión en 5 años?<\/li>\n                        <li>¿Es necesario compartir esto públicamente?<\/li>\n                    <\/ul>\n\n                    <h3>Riesgos de oversharing (compartir de más):<\/h3>\n                    <ul>\n                        <li><strong>Robo de identidad:<\/strong> Datos personales facilitan suplantación<\/li>\n                        <li><strong>Ingeniería social:<\/strong> Información para ataques dirigidos<\/li>\n                        <li><strong>Robo físico:<\/strong> Publicar vacaciones = casa vacía<\/li>\n                        <li><strong>Acoso\/stalking:<\/strong> Rastreo de ubicaciones y rutinas<\/li>\n                        <li><strong>Consecuencias laborales:<\/strong> Empleadores revisan redes sociales<\/li>\n                        <li><strong>Fraude:<\/strong> Respuestas a preguntas de seguridad<\/li>\n                    <\/ul>\n\n                    <h3>Ejemplos de información sensible:<\/h3>\n                    <div class=\"example-box\">\n                        ❌ \"¡Nos vamos de vacaciones 2 semanas! Casa vacía...\"<br>\n                        ❌ \"Mi primer auto fue un [respuesta de seguridad]\"<br>\n                        ❌ Foto del boarding pass con código de barras<br>\n                        ❌ \"Mi cumpleaños es...\" + año + ciudad natal<br>\n                        ❌ Fotos de llaves o documentos con datos visibles\n                    <\/div>\n\n                    <h3>Consejos para publicaciones seguras:<\/h3>\n                    <ul>\n                        <li>Publica fotos de vacaciones DESPUÉS de regresar<\/li>\n                        <li>Desactiva metadatos de ubicación en fotos<\/li>\n                        <li>No compartas tickets, pases o documentos<\/li>\n                        <li>Evita mostrar números de casa o placas de auto<\/li>\n                        <li>No publiques el nombre completo de menores<\/li>\n                        <li>Cuidado con fondos que revelan información<\/li>\n                    <\/ul>\n\n                    <h3>Regla del embarazo:<\/h3>\n                    <p><strong>\"Si no quieres que toda tu familia, jefe y extraños lo sepan, no lo publiques en redes sociales.\"<\/strong><\/p>\n\n                    <h3>Educación digital:<\/h3>\n                    <ul>\n                        <li>Enseña a menores sobre huella digital permanente<\/li>\n                        <li>Revisa configuraciones de privacidad con ellos<\/li>\n                        <li>Establece reglas familiares sobre publicaciones<\/li>\n                        <li>Practica el pensamiento crítico antes de compartir<\/li>\n                    <\/ul>",
+            "activo": 1,
+            "fecha": "2025-11-03 03:31:49",
+            "creado_por": null
+        },
+        "fecha": "2025-11-03 03:31:49",
+        "ip_address": "::1"
+    },
+    {
+        "id": 2,
+        "consejo_id": 5,
+        "usuario_id": null,
+        "accion": "crear",
+        "datos_anteriores": null,
+        "datos_nuevos": {
+            "id": 5,
+
+            "titulo": "Verifica el Remitente",
+            "categoria_id": 2,
+            "prioridad": "high",
+            "icono": "🎣",
+            "descripcion": "<p>Antes de hacer clic en enlaces o descargar archivos, verifica cuidadosamente la dirección de correo del remitente.<\/p>",
+            "contenido_completo": "<p>Antes de hacer clic en enlaces o descargar archivos, verifica cuidadosamente la dirección de correo del remitente.<\/p>",
+            "activo": 1,
+            "fecha": "2025-11-03 19:19:42",
+            "creado_por": null
+        },
+        "fecha": "2025-11-03 19:19:42",
+        "ip_address": "::1"
+    },
+    {
+        "id": 3,
+        "consejo_id": "5",
+        "usuario_id": null,
+        "accion": "eliminar",
+        "datos_anteriores": null,
+        "datos_nuevos": null,
+        "fecha": "2025-11-03 19:20:20",
+        "ip_address": "::1"
+    },
+    {
+        "id": 4,
+        "consejo_id": "4",
+        "usuario_id": null,
+        "accion": "eliminar",
+        "datos_anteriores": null,
+        "datos_nuevos": null,
+        "fecha": "2025-11-03 19:20:29",
+        "ip_address": "::1"
+    },
+    {
+        "id": 5,
+        "consejo_id": "1",
+        "usuario_id": null,
+        "accion": "eliminar",
+        "datos_anteriores": null,
+        "datos_nuevos": null,
+        "fecha": "2025-11-03 19:22:05",
+        "ip_address": "::1"
+    },
+    {
+        "id": 6,
+        "consejo_id": 5,
+        "usuario_id": null,
+        "accion": "crear",
+        "datos_anteriores": null,
+        "datos_nuevos": {
+            "id": 5,
+            "titulo": "Configura tu Privacidad",
+            "categoria_id": 3,
+            "prioridad": "low",
+            "icono": "📱",
+            "descripcion": "<p>Revisa y ajusta regularmente la configuración de privacidad en tus redes sociales. Limita quién puede ver tu información.<\/p>",
+            "contenido_completo": "<p>Revisa y ajusta regularmente la configuración de privacidad en tus redes sociales. Limita quién puede ver tu información.<\/p>",
+            "activo": 1,
+            "fecha": "2025-11-03 19:24:00",
+            "creado_por": null
+        },
+        "fecha": "2025-11-03 19:24:00",
+        "ip_address": "::1"
+    },
+    {
+        "id": 7,
+        "consejo_id": "3",
+        "usuario_id": null,
+        "accion": "eliminar",
+        "datos_anteriores": null,
+        "datos_nuevos": null,
+        "fecha": "2025-11-03 19:24:22",
+        "ip_address": "::1"
+    },
+    {
+        "id": 8,
+        "consejo_id": "5",
+        "usuario_id": null,
+        "accion": "eliminar",
+        "datos_anteriores": null,
+        "datos_nuevos": null,
+        "fecha": "2025-11-03 19:51:51"
+    }
+
+]

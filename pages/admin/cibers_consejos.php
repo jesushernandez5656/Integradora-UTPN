@@ -39,11 +39,10 @@ include __DIR__ . "/../../includes/header.php";
             min-height: 100vh;
         }
 
-        /* Admin Header */
         .admin-header {
             background: linear-gradient(135deg, var(--teal) 0%, #006b68 100%);
             color: white;
-            padding: 30px 20px;
+            padding: 20px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
@@ -54,63 +53,71 @@ include __DIR__ . "/../../includes/header.php";
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 20px;
+            gap: 15px;
         }
 
         .admin-title {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
+            flex: 1;
+            min-width: 250px;
         }
 
         .admin-title i {
-            font-size: 2em;
+            font-size: 1.8em;
             color: var(--gold);
         }
 
         .admin-title h1 {
-            font-size: 1.8em;
+            font-size: 1.5em;
             font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .admin-title p {
+            font-size: 0.9em;
+            opacity: 0.9;
+            margin-top: 5px;
         }
 
         .admin-actions {
             display: flex;
-            gap: 15px;
+            gap: 10px;
             flex-wrap: wrap;
         }
 
-        /* Container */
         .admin-container {
             max-width: 1400px;
-            margin: 40px auto;
-            padding: 0 20px;
+            margin: 20px auto;
+            padding: 0 15px;
         }
 
-        /* Tabs Navigation */
         .tabs-nav {
             display: flex;
-            gap: 10px;
-            margin-bottom: 30px;
+            gap: 8px;
+            margin-bottom: 20px;
             background: white;
-            padding: 15px;
-            border-radius: 15px;
+            padding: 12px;
+            border-radius: 12px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             flex-wrap: wrap;
         }
 
         .tab-btn {
-            padding: 12px 25px;
+            padding: 10px 20px;
             border: 2px solid var(--gray-light);
             background: white;
             color: var(--gray-medium);
-            border-radius: 10px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 1em;
+            font-size: 0.95em;
             font-weight: 600;
             transition: all 0.3s;
             display: flex;
             align-items: center;
             gap: 8px;
+            white-space: nowrap;
         }
 
         .tab-btn:hover {
@@ -125,7 +132,6 @@ include __DIR__ . "/../../includes/header.php";
             border-color: var(--teal);
         }
 
-        /* Tab Content */
         .tab-content {
             display: none;
             animation: fadeIn 0.5s;
@@ -140,12 +146,11 @@ include __DIR__ . "/../../includes/header.php";
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Buttons */
         .btn {
-            padding: 12px 25px;
+            padding: 10px 20px;
             border: none;
             border-radius: 8px;
-            font-size: 1em;
+            font-size: 0.95em;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
@@ -153,6 +158,7 @@ include __DIR__ . "/../../includes/header.php";
             align-items: center;
             gap: 8px;
             text-decoration: none;
+            white-space: nowrap;
         }
 
         .btn-primary {
@@ -203,24 +209,23 @@ include __DIR__ . "/../../includes/header.php";
         }
 
         .btn-sm {
-            padding: 8px 15px;
-            font-size: 0.9em;
+            padding: 6px 12px;
+            font-size: 0.85em;
         }
 
-        /* Cards */
         .card {
             background: white;
-            border-radius: 15px;
-            padding: 30px;
+            border-radius: 12px;
+            padding: 20px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
         .card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             padding-bottom: 15px;
             border-bottom: 2px solid var(--cream);
             flex-wrap: wrap;
@@ -229,22 +234,23 @@ include __DIR__ . "/../../includes/header.php";
 
         .card-title {
             color: var(--teal);
-            font-size: 1.5em;
+            font-size: 1.3em;
             font-weight: 700;
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        /* Table */
         .table-container {
             overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
             background: white;
+            min-width: 600px;
         }
 
         thead {
@@ -253,7 +259,7 @@ include __DIR__ . "/../../includes/header.php";
         }
 
         th, td {
-            padding: 15px;
+            padding: 12px 10px;
             text-align: left;
             border-bottom: 1px solid var(--gray-light);
         }
@@ -261,7 +267,7 @@ include __DIR__ . "/../../includes/header.php";
         th {
             font-weight: 600;
             text-transform: uppercase;
-            font-size: 0.9em;
+            font-size: 0.85em;
             letter-spacing: 0.5px;
         }
 
@@ -275,14 +281,15 @@ include __DIR__ . "/../../includes/header.php";
 
         .badge {
             display: inline-block;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.85em;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.8em;
             font-weight: 600;
             text-transform: uppercase;
+            white-space: nowrap;
         }
 
-        .badge-contraseñas { background: #e3f2fd; color: #1976d2; }
+        .badge-contrasenas { background: #e3f2fd; color: #1976d2; }
         .badge-phishing { background: #fff3e0; color: #f57c00; }
         .badge-redes-sociales { background: #f3e5f5; color: #7b1fa2; }
         .badge-wifi { background: #e8f5e9; color: #388e3c; }
@@ -292,25 +299,24 @@ include __DIR__ . "/../../includes/header.php";
         .badge-medium { background: #fff3e0; color: #f57c00; }
         .badge-low { background: #e8f5e9; color: #388e3c; }
 
-        /* Forms */
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             color: var(--gray-medium);
             font-weight: 600;
-            font-size: 0.95em;
+            font-size: 0.9em;
         }
 
         .form-control {
             width: 100%;
-            padding: 12px 15px;
+            padding: 10px 12px;
             border: 2px solid var(--gray-light);
             border-radius: 8px;
-            font-size: 1em;
+            font-size: 0.95em;
             transition: border-color 0.3s;
             font-family: inherit;
         }
@@ -321,7 +327,7 @@ include __DIR__ . "/../../includes/header.php";
         }
 
         textarea.form-control {
-            min-height: 120px;
+            min-height: 100px;
             resize: vertical;
         }
 
@@ -331,11 +337,10 @@ include __DIR__ . "/../../includes/header.php";
 
         .form-row {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
         }
 
-        /* Modal */
         .modal {
             display: none;
             position: fixed;
@@ -347,7 +352,8 @@ include __DIR__ . "/../../includes/header.php";
             z-index: 9999;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            padding: 15px;
+            overflow-y: auto;
         }
 
         .modal.active {
@@ -356,12 +362,13 @@ include __DIR__ . "/../../includes/header.php";
 
         .modal-dialog {
             background: white;
-            border-radius: 20px;
+            border-radius: 15px;
             max-width: 800px;
             width: 100%;
             max-height: 90vh;
             overflow-y: auto;
             animation: slideInModal 0.3s;
+            margin: auto;
         }
 
         @keyframes slideInModal {
@@ -376,26 +383,29 @@ include __DIR__ . "/../../includes/header.php";
         }
 
         .modal-header {
-            padding: 25px 30px;
+            padding: 20px;
             border-bottom: 2px solid var(--cream);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 10px;
         }
 
         .modal-header h2 {
             color: var(--teal);
-            font-size: 1.8em;
+            font-size: 1.4em;
             margin: 0;
+            word-break: break-word;
         }
 
         .modal-close {
-            font-size: 28px;
+            font-size: 24px;
             cursor: pointer;
             color: var(--gray-medium);
             background: var(--cream);
-            width: 40px;
-            height: 40px;
+            width: 35px;
+            height: 35px;
+            min-width: 35px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -411,11 +421,11 @@ include __DIR__ . "/../../includes/header.php";
         }
 
         .modal-body {
-            padding: 30px;
+            padding: 20px;
         }
 
         .modal-footer {
-            padding: 20px 30px;
+            padding: 15px 20px;
             border-top: 2px solid var(--cream);
             display: flex;
             justify-content: flex-end;
@@ -423,13 +433,12 @@ include __DIR__ . "/../../includes/header.php";
             flex-wrap: wrap;
         }
 
-        /* Alert Messages */
         .alert {
-            padding: 15px 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             gap: 10px;
             animation: slideDown 0.3s;
         }
@@ -463,22 +472,21 @@ include __DIR__ . "/../../includes/header.php";
             border-left: 4px solid #17a2b8;
         }
 
-        /* Stats Cards */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
         }
 
         .stat-card {
             background: white;
-            border-radius: 15px;
-            padding: 25px;
+            border-radius: 12px;
+            padding: 20px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 15px;
             transition: transform 0.3s;
         }
 
@@ -488,13 +496,14 @@ include __DIR__ . "/../../includes/header.php";
         }
 
         .stat-icon {
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
+            min-width: 50px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
+            font-size: 20px;
             color: white;
         }
 
@@ -504,90 +513,155 @@ include __DIR__ . "/../../includes/header.php";
         .stat-icon.purple { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
 
         .stat-info h3 {
-            font-size: 2em;
+            font-size: 1.6em;
             color: var(--teal);
-            margin-bottom: 5px;
+            margin-bottom: 3px;
         }
 
         .stat-info p {
             color: var(--gray-medium);
-            font-size: 0.95em;
+            font-size: 0.85em;
         }
 
-        /* Search Bar */
         .search-bar {
             position: relative;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            width: 100%;
+            max-width: 300px;
         }
 
         .search-bar input {
             width: 100%;
-            padding: 12px 45px 12px 15px;
+            padding: 10px 40px 10px 12px;
             border: 2px solid var(--gray-light);
-            border-radius: 10px;
-            font-size: 1em;
+            border-radius: 8px;
+            font-size: 0.95em;
         }
 
         .search-bar i {
             position: absolute;
-            right: 15px;
+            right: 12px;
             top: 50%;
             transform: translateY(-50%);
             color: var(--gray-medium);
         }
 
-        /* Action Buttons */
         .action-buttons {
             display: flex;
-            gap: 8px;
+            gap: 6px;
             flex-wrap: wrap;
         }
 
-        /* Empty State */
         .empty-state {
             text-align: center;
-            padding: 60px 20px;
+            padding: 40px 20px;
             color: var(--gray-medium);
         }
 
         .empty-state i {
-            font-size: 4em;
+            font-size: 3em;
             color: var(--gray-light);
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .empty-state h3 {
-            font-size: 1.5em;
-            margin-bottom: 10px;
+            font-size: 1.3em;
+            margin-bottom: 8px;
         }
 
-        /* Responsive */
+        /* ⭐ ESTILOS ESPECÍFICOS PARA BOTONES EN MÓVIL */
         @media (max-width: 768px) {
+            .action-buttons {
+                gap: 8px !important;
+            }
+            
+            .action-buttons .btn {
+                min-width: 44px !important;
+                min-height: 44px !important;
+                padding: 10px !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+            }
+            
+            .action-buttons .btn i {
+                font-size: 1.1em !important;
+            }
+            
+            /* Asegurar que los botones sean fácilmente clickeables en móvil */
+            .btn-danger, .btn-warning {
+                -webkit-tap-highlight-color: rgba(0, 0, 0, 0.3) !important;
+                touch-action: manipulation !important;
+            }
+            
+            /* Prevenir zoom en doble tap */
+            .action-buttons {
+                touch-action: pan-y !important;
+            }
+
+            .admin-header {
+                padding: 15px;
+            }
+
             .admin-header-content {
                 flex-direction: column;
-                align-items: flex-start;
+                align-items: stretch;
+            }
+
+            .admin-title {
+                min-width: 100%;
+            }
+
+            .admin-title i {
+                font-size: 1.5em;
+            }
+
+            .admin-title h1 {
+                font-size: 1.2em;
+            }
+
+            .admin-title p {
+                display: none;
             }
 
             .admin-actions {
                 width: 100%;
+                justify-content: stretch;
             }
 
             .admin-actions .btn {
                 flex: 1;
                 justify-content: center;
+                padding: 10px;
+                font-size: 0.9em;
             }
 
             .tabs-nav {
                 flex-direction: column;
+                padding: 10px;
             }
 
             .tab-btn {
                 width: 100%;
+                justify-content: center;
+                padding: 12px;
+            }
+
+            .card {
+                padding: 15px;
             }
 
             .card-header {
                 flex-direction: column;
-                align-items: flex-start;
+                align-items: stretch;
+            }
+
+            .card-title {
+                font-size: 1.1em;
+            }
+
+            .search-bar {
+                max-width: 100%;
             }
 
             .form-row {
@@ -595,15 +669,39 @@ include __DIR__ . "/../../includes/header.php";
             }
 
             table {
-                font-size: 0.9em;
+                font-size: 0.85em;
+                min-width: 550px;
             }
 
             th, td {
-                padding: 10px;
+                padding: 8px 6px;
             }
 
             .modal-dialog {
                 margin: 10px;
+                max-height: 95vh;
+            }
+
+            .modal-header {
+                padding: 15px;
+            }
+
+            .modal-header h2 {
+                font-size: 1.2em;
+            }
+
+            .modal-body {
+                padding: 15px;
+            }
+
+            .modal-footer {
+                padding: 12px 15px;
+                flex-direction: column-reverse;
+            }
+
+            .modal-footer .btn {
+                width: 100%;
+                justify-content: center;
             }
 
             .action-buttons {
@@ -612,7 +710,158 @@ include __DIR__ . "/../../includes/header.php";
 
             .action-buttons .btn {
                 width: 100%;
+                justify-content: center;
             }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+
+            .stat-card {
+                padding: 15px;
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+
+            .stat-info h3 {
+                font-size: 1.3em;
+            }
+
+            .stat-info p {
+                font-size: 0.75em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .admin-header {
+                padding: 12px;
+            }
+
+            .admin-title {
+                gap: 8px;
+            }
+
+            .admin-title i {
+                font-size: 1.3em;
+            }
+
+            .admin-title h1 {
+                font-size: 1.1em;
+            }
+
+            .admin-actions .btn {
+                font-size: 0.85em;
+                padding: 8px;
+            }
+
+            .btn {
+                padding: 8px 15px;
+                font-size: 0.9em;
+            }
+
+            .btn-sm {
+                padding: 5px 10px;
+                font-size: 0.8em;
+            }
+
+            .card {
+                padding: 12px;
+            }
+
+            .card-title {
+                font-size: 1em;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stat-card {
+                flex-direction: row;
+                justify-content: flex-start;
+                text-align: left;
+            }
+
+            table {
+                font-size: 0.8em;
+            }
+
+            .badge {
+                font-size: 0.7em;
+                padding: 3px 8px;
+            }
+
+            .form-control {
+                font-size: 0.9em;
+                padding: 8px 10px;
+            }
+
+            textarea.form-control {
+                min-height: 80px;
+            }
+
+            .modal-header h2 {
+                font-size: 1.1em;
+            }
+
+            .modal-close {
+                width: 30px;
+                height: 30px;
+                min-width: 30px;
+                font-size: 20px;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+        }
+
+        /* Touch-friendly improvements */
+        @media (hover: none) and (pointer: coarse) {
+            .btn, .tab-btn, .category-card {
+                -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+            }
+
+            .modal {
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+
+        /* Landscape mobile adjustments */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .modal-dialog {
+                max-height: 85vh;
+            }
+
+            .admin-header {
+                padding: 10px 15px;
+            }
+        }
+
+        /* ⭐ NUEVO: Estilos para prevenir problemas de z-index */
+        .modal {
+            z-index: 10000;
+        }
+
+        .btn:focus {
+            outline: 2px solid var(--teal);
+            outline-offset: 2px;
+        }
+
+        /* ⭐ NUEVO: Estilos para botones deshabilitados */
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .btn:disabled:hover {
+            transform: none !important;
+            box-shadow: none !important;
         }
     </style>
 </head>
@@ -624,14 +873,14 @@ include __DIR__ . "/../../includes/header.php";
                 <i class="fas fa-shield-alt"></i>
                 <div>
                     <h1>Administración de Consejos</h1>
-                    <p style="opacity: 0.9; margin-top: 5px;">Panel de gestión de contenido de ciberseguridad</p>
+                    <p>Panel de gestión de contenido de ciberseguridad</p>
                 </div>
             </div>
             <div class="admin-actions">
                 <button class="btn btn-primary" onclick="openModal('createModal')">
-                    <i class="fas fa-plus"></i> Nuevo Consejo
+                    <i class="fas fa-plus"></i> Nuevo
                 </button>
-                <a href="../alumno/cibers_consejos.php" class="btn btn-secondary">
+                <a href="../../pages/alumno/cibers_consejos.php" class="btn btn-secondary">
                     <i class="fas fa-eye"></i> Vista Usuario
                 </a>
             </div>
@@ -650,8 +899,8 @@ include __DIR__ . "/../../includes/header.php";
                     <i class="fas fa-book"></i>
                 </div>
                 <div class="stat-info">
-                    <h3 id="totalConsejos">18</h3>
-                    <p>Total de Consejos</p>
+                    <h3 id="totalConsejos">0</h3>
+                    <p>Total Consejos</p>
                 </div>
             </div>
             <div class="stat-card">
@@ -659,8 +908,8 @@ include __DIR__ . "/../../includes/header.php";
                     <i class="fas fa-check-circle"></i>
                 </div>
                 <div class="stat-info">
-                    <h3 id="consejosActivos">18</h3>
-                    <p>Consejos Activos</p>
+                    <h3 id="consejosActivos">0</h3>
+                    <p>Activos</p>
                 </div>
             </div>
             <div class="stat-card">
@@ -668,7 +917,7 @@ include __DIR__ . "/../../includes/header.php";
                     <i class="fas fa-folder"></i>
                 </div>
                 <div class="stat-info">
-                    <h3 id="totalCategorias">5</h3>
+                    <h3 id="totalCategorias">0</h3>
                     <p>Categorías</p>
                 </div>
             </div>
@@ -678,7 +927,7 @@ include __DIR__ . "/../../includes/header.php";
                 </div>
                 <div class="stat-info">
                     <h3>Hoy</h3>
-                    <p>Última Actualización</p>
+                    <p>Actualización</p>
                 </div>
             </div>
         </div>
@@ -686,7 +935,7 @@ include __DIR__ . "/../../includes/header.php";
         <!-- Tabs Navigation -->
         <nav class="tabs-nav">
             <button class="tab-btn active" onclick="switchTab('consejos')">
-                <i class="fas fa-list"></i> Gestión de Consejos
+                <i class="fas fa-list"></i> Consejos
             </button>
             <button class="tab-btn" onclick="switchTab('categorias')">
                 <i class="fas fa-tags"></i> Categorías
@@ -700,8 +949,8 @@ include __DIR__ . "/../../includes/header.php";
                     <h2 class="card-title">
                         <i class="fas fa-shield-alt"></i> Lista de Consejos
                     </h2>
-                    <div class="search-bar" style="max-width: 300px;">
-                        <input type="text" id="searchConsejos" placeholder="Buscar consejos..." onkeyup="filterConsejos()">
+                    <div class="search-bar">
+                        <input type="text" id="searchConsejos" placeholder="Buscar..." onkeyup="filterConsejos()">
                         <i class="fas fa-search"></i>
                     </div>
                 </div>
@@ -719,7 +968,12 @@ include __DIR__ . "/../../includes/header.php";
                             </tr>
                         </thead>
                         <tbody id="consejosTableBody">
-                            <!-- Los datos se cargarán dinámicamente -->
+                            <tr>
+                                <td colspan="6" style="text-align: center; padding: 40px;">
+                                    <i class="fas fa-spinner fa-spin" style="font-size: 2em; color: var(--teal);"></i>
+                                    <p style="margin-top: 10px;">Cargando consejos...</p>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -731,10 +985,10 @@ include __DIR__ . "/../../includes/header.php";
             <div class="card">
                 <div class="card-header">
                     <h2 class="card-title">
-                        <i class="fas fa-tags"></i> Gestión de Categorías
+                        <i class="fas fa-tags"></i> Categorías
                     </h2>
                     <button class="btn btn-primary" onclick="openModal('createCategoryModal')">
-                        <i class="fas fa-plus"></i> Nueva Categoría
+                        <i class="fas fa-plus"></i> Nueva
                     </button>
                 </div>
 
@@ -750,7 +1004,12 @@ include __DIR__ . "/../../includes/header.php";
                             </tr>
                         </thead>
                         <tbody id="categoriasTableBody">
-                            <!-- Los datos se cargarán dinámicamente -->
+                            <tr>
+                                <td colspan="5" style="text-align: center; padding: 40px;">
+                                    <i class="fas fa-spinner fa-spin" style="font-size: 2em; color: var(--teal);"></i>
+                                    <p style="margin-top: 10px;">Cargando categorías...</p>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -762,7 +1021,7 @@ include __DIR__ . "/../../includes/header.php";
     <div id="createModal" class="modal">
         <div class="modal-dialog">
             <div class="modal-header">
-                <h2 id="modalTitle">Nuevo Consejo de Seguridad</h2>
+                <h2 id="modalTitle">Nuevo Consejo</h2>
                 <button class="modal-close" onclick="closeModal('createModal')">&times;</button>
             </div>
             <div class="modal-body">
@@ -770,7 +1029,7 @@ include __DIR__ . "/../../includes/header.php";
                     <input type="hidden" id="consejoId">
                     
                     <div class="form-group">
-                        <label for="titulo">Título del Consejo *</label>
+                        <label for="titulo">Título *</label>
                         <input type="text" id="titulo" class="form-control" required placeholder="Ej: Contraseñas Fuertes">
                     </div>
 
@@ -778,19 +1037,14 @@ include __DIR__ . "/../../includes/header.php";
                         <div class="form-group">
                             <label for="categoria">Categoría *</label>
                             <select id="categoria" class="form-control" required>
-                                <option value="">Seleccionar categoría</option>
-                                <option value="contraseñas">🔐 Contraseñas</option>
-                                <option value="phishing">🎣 Phishing</option>
-                                <option value="redes-sociales">📱 Redes Sociales</option>
-                                <option value="wifi">📶 Redes WiFi</option>
-                                <option value="dispositivos">💻 Dispositivos</option>
+                                <option value="">Seleccionar</option>
                             </select>
                         </div>
 
                         <div class="form-group">
-                            <label for="prioridad">Nivel de Importancia *</label>
+                            <label for="prioridad">Prioridad *</label>
                             <select id="prioridad" class="form-control" required>
-                                <option value="">Seleccionar nivel</option>
+                                <option value="">Seleccionar</option>
                                 <option value="high">Alta</option>
                                 <option value="medium">Media</option>
                                 <option value="low">Baja</option>
@@ -799,20 +1053,20 @@ include __DIR__ . "/../../includes/header.php";
                     </div>
 
                     <div class="form-group">
-                        <label for="icono">Ícono (Emoji)</label>
+                        <label for="icono">Ícono</label>
                         <input type="text" id="icono" class="form-control" placeholder="Ej: 🔐" maxlength="2">
                     </div>
 
                     <div class="form-group">
                         <label for="descripcion">Descripción Corta *</label>
-                        <textarea id="descripcion" class="form-control" required placeholder="Descripción breve que aparece en la tarjeta..."></textarea>
+                        <textarea id="descripcion" class="form-control" required placeholder="Descripción breve..."></textarea>
                     </div>
 
                     <div class="form-group">
                         <label for="contenidoCompleto">Contenido Completo *</label>
-                        <textarea id="contenidoCompleto" class="form-control" required placeholder="Contenido detallado que aparece en el modal..." style="min-height: 200px;"></textarea>
+                        <textarea id="contenidoCompleto" class="form-control" required placeholder="Contenido detallado..." style="min-height: 150px;"></textarea>
                         <small style="color: var(--gray-medium); display: block; margin-top: 5px;">
-                            Puedes usar HTML básico: &lt;h3&gt;, &lt;p&gt;, &lt;ul&gt;, &lt;li&gt;, &lt;strong&gt;
+                            Puedes usar HTML: &lt;h3&gt;, &lt;p&gt;, &lt;ul&gt;, &lt;li&gt;, &lt;strong&gt;
                         </small>
                     </div>
                 </form>
@@ -822,7 +1076,7 @@ include __DIR__ . "/../../includes/header.php";
                     <i class="fas fa-times"></i> Cancelar
                 </button>
                 <button type="submit" form="consejoForm" class="btn btn-success">
-                    <i class="fas fa-save"></i> Guardar Consejo
+                    <i class="fas fa-save"></i> Guardar
                 </button>
             </div>
         </div>
@@ -840,18 +1094,18 @@ include __DIR__ . "/../../includes/header.php";
                     <input type="hidden" id="categoryId">
                     
                     <div class="form-group">
-                        <label for="categoryNombre">Nombre de la Categoría *</label>
+                        <label for="categoryNombre">Nombre *</label>
                         <input type="text" id="categoryNombre" class="form-control" required placeholder="Ej: Seguridad en Redes">
                     </div>
 
                     <div class="form-group">
-                        <label for="categoryIcono">Ícono (Emoji) *</label>
+                        <label for="categoryIcono">Ícono *</label>
                         <input type="text" id="categoryIcono" class="form-control" required placeholder="Ej: 🌐" maxlength="2">
                     </div>
 
                     <div class="form-group">
                         <label for="categoryDescripcion">Descripción</label>
-                        <textarea id="categoryDescripcion" class="form-control" placeholder="Descripción opcional de la categoría..."></textarea>
+                        <textarea id="categoryDescripcion" class="form-control" placeholder="Descripción opcional..."></textarea>
                     </div>
                 </form>
             </div>
@@ -860,7 +1114,7 @@ include __DIR__ . "/../../includes/header.php";
                     <i class="fas fa-times"></i> Cancelar
                 </button>
                 <button type="submit" form="categoryForm" class="btn btn-success">
-                    <i class="fas fa-save"></i> Guardar Categoría
+                    <i class="fas fa-save"></i> Guardar
                 </button>
             </div>
         </div>
@@ -893,464 +1147,8 @@ include __DIR__ . "/../../includes/header.php";
         </div>
     </div>
 
-    <script>
-        // Datos de ejemplo (en producción vendrían de la base de datos)
-        let consejos = [
-            {
-                id: 1,
-                titulo: "Contraseñas Fuertes",
-                categoria: "contraseñas",
-                prioridad: "high",
-                icono: "🔐",
-                descripcion: "Utiliza combinaciones de letras mayúsculas, minúsculas, números y símbolos especiales.",
-                contenidoCompleto: "<h3>¿Por qué son importantes?</h3><p>Una contraseña fuerte es tu primera línea de defensa...</p>",
-                fecha: "2025-01-15"
-            },
-            {
-                id: 2,
-                titulo: "No Reutilices Contraseñas",
-                categoria: "contraseñas",
-                prioridad: "high",
-                icono: "🔄",
-                descripcion: "Cada cuenta debe tener una contraseña única. Si una cuenta es comprometida, las demás permanecerán seguras.",
-                contenidoCompleto: "<h3>Riesgos de la reutilización</h3><p>Cuando reutilizas una contraseña...</p>",
-                fecha: "2025-01-15"
-            },
-            {
-                id: 3,
-                titulo: "Verifica el Remitente",
-                categoria: "phishing",
-                prioridad: "high",
-                icono: "🎣",
-                descripcion: "Antes de hacer clic en enlaces o descargar archivos, verifica cuidadosamente la dirección de correo.",
-                contenidoCompleto: "<h3>Señales de correo fraudulento</h3><p>Los atacantes se hacen pasar...</p>",
-                fecha: "2025-01-14"
-            },
-            {
-                id: 4,
-                titulo: "Configura tu Privacidad",
-                categoria: "redes-sociales",
-                prioridad: "medium",
-                icono: "📱",
-                descripcion: "Revisa y ajusta regularmente la configuración de privacidad en tus redes sociales.",
-                contenidoCompleto: "<h3>Configuración esencial</h3><p>Las redes sociales recopilan...</p>",
-                fecha: "2025-01-13"
-            },
-            {
-                id: 5,
-                titulo: "WiFi Públicas",
-                categoria: "wifi",
-                prioridad: "medium",
-                icono: "📶",
-                descripcion: "Las redes WiFi públicas son inseguras. Evita realizar transacciones bancarias en estas redes.",
-                contenidoCompleto: "<h3>Peligros del WiFi público</h3><p>Las redes WiFi en cafeterías...</p>",
-                fecha: "2025-01-12"
-            },
-            {
-                id: 6,
-                titulo: "Actualiza tu Software",
-                categoria: "dispositivos",
-                prioridad: "high",
-                icono: "💻",
-                descripcion: "Las actualizaciones incluyen parches de seguridad cruciales. Activa las actualizaciones automáticas.",
-                contenidoCompleto: "<h3>Importancia de actualizar</h3><p>Las actualizaciones no solo...</p>",
-                fecha: "2025-01-11"
-            }
-        ];
-
-        let categorias = [
-            { id: 1, nombre: "Contraseñas", icono: "🔐", descripcion: "Gestión segura de contraseñas", consejos: 2 },
-            { id: 2, nombre: "Phishing", icono: "🎣", descripcion: "Prevención de estafas y fraudes", consejos: 1 },
-            { id: 3, nombre: "Redes Sociales", icono: "📱", descripcion: "Privacidad en redes sociales", consejos: 1 },
-            { id: 4, nombre: "Redes WiFi", icono: "📶", descripcion: "Seguridad en conexiones WiFi", consejos: 1 },
-            { id: 5, nombre: "Dispositivos", icono: "💻", descripcion: "Protección de dispositivos", consejos: 1 }
-        ];
-
-        let deleteTarget = null;
-        let deleteType = null;
-
-        // Inicialización
-        document.addEventListener('DOMContentLoaded', function() {
-            loadConsejos();
-            loadCategorias();
-            updateStats();
-        });
-
-        // Switch between tabs
-        function switchTab(tabName) {
-            // Ocultar todos los tabs
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-
-            // Mostrar tab seleccionado
-            document.getElementById(tabName + '-tab').classList.add('active');
-            event.target.classList.add('active');
-        }
-
-        // Load Consejos Table
-        function loadConsejos() {
-            const tbody = document.getElementById('consejosTableBody');
-            
-            if (consejos.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="6">
-                            <div class="empty-state">
-                                <i class="fas fa-inbox"></i>
-                                <h3>No hay consejos registrados</h3>
-                                <p>Comienza agregando tu primer consejo de seguridad</p>
-                                <button class="btn btn-primary" onclick="openModal('createModal')" style="margin-top: 15px;">
-                                    <i class="fas fa-plus"></i> Crear Primer Consejo
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                `;
-                return;
-            }
-
-            tbody.innerHTML = consejos.map(consejo => `
-                <tr>
-                    <td><strong>#${consejo.id}</strong></td>
-                    <td>
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <span style="font-size: 1.5em;">${consejo.icono}</span>
-                            <strong>${consejo.titulo}</strong>
-                        </div>
-                    </td>
-                    <td><span class="badge badge-${consejo.categoria}">${getCategoryName(consejo.categoria)}</span></td>
-                    <td><span class="badge badge-${consejo.prioridad}">${getPriorityName(consejo.prioridad)}</span></td>
-                    <td>${formatDate(consejo.fecha)}</td>
-                    <td>
-                        <div class="action-buttons">
-                            <button class="btn btn-warning btn-sm" onclick="editConsejo(${consejo.id})" title="Editar">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="btn btn-danger btn-sm" onclick="deleteConsejo(${consejo.id})" title="Eliminar">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-            `).join('');
-        }
-
-        // Load Categorias Table
-        function loadCategorias() {
-            const tbody = document.getElementById('categoriasTableBody');
-            
-            if (categorias.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="5">
-                            <div class="empty-state">
-                                <i class="fas fa-tags"></i>
-                                <h3>No hay categorías registradas</h3>
-                                <p>Crea categorías para organizar los consejos</p>
-                                <button class="btn btn-primary" onclick="openModal('createCategoryModal')" style="margin-top: 15px;">
-                                    <i class="fas fa-plus"></i> Crear Primera Categoría
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                `;
-                return;
-            }
-
-            tbody.innerHTML = categorias.map(cat => `
-                <tr>
-                    <td><strong>#${cat.id}</strong></td>
-                    <td>
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <span style="font-size: 1.5em;">${cat.icono}</span>
-                            <div>
-                                <strong>${cat.nombre}</strong>
-                                ${cat.descripcion ? `<br><small style="color: var(--gray-medium);">${cat.descripcion}</small>` : ''}
-                            </div>
-                        </div>
-                    </td>
-                    <td><span style="font-size: 1.5em;">${cat.icono}</span></td>
-                    <td><span class="badge badge-${cat.nombre.toLowerCase().replace(/\s+/g, '-')}">${cat.consejos} consejos</span></td>
-                    <td>
-                        <div class="action-buttons">
-                            <button class="btn btn-warning btn-sm" onclick="editCategory(${cat.id})" title="Editar">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="btn btn-danger btn-sm" onclick="deleteCategory(${cat.id})" ${cat.consejos > 0 ? 'disabled title="No se puede eliminar con consejos asociados"' : ''}>
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-            `).join('');
-        }
-
-        // Update Stats
-        function updateStats() {
-            document.getElementById('totalConsejos').textContent = consejos.length;
-            document.getElementById('consejosActivos').textContent = consejos.length;
-            document.getElementById('totalCategorias').textContent = categorias.length;
-        }
-
-        // Modal Functions
-        function openModal(modalId) {
-            document.getElementById(modalId).classList.add('active');
-            document.body.style.overflow = 'hidden';
-            
-            // Reset form if creating new
-            if (modalId === 'createModal' && !event.target.dataset.edit) {
-                document.getElementById('consejoForm').reset();
-                document.getElementById('consejoId').value = '';
-                document.getElementById('modalTitle').textContent = 'Nuevo Consejo de Seguridad';
-            }
-            
-            if (modalId === 'createCategoryModal' && !event.target.dataset.edit) {
-                document.getElementById('categoryForm').reset();
-                document.getElementById('categoryId').value = '';
-                document.getElementById('categoryModalTitle').textContent = 'Nueva Categoría';
-            }
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-
-        // Save Consejo
-        function saveConsejo(event) {
-            event.preventDefault();
-            
-            const id = document.getElementById('consejoId').value;
-            const consejo = {
-                id: id ? parseInt(id) : consejos.length + 1,
-                titulo: document.getElementById('titulo').value,
-                categoria: document.getElementById('categoria').value,
-                prioridad: document.getElementById('prioridad').value,
-                icono: document.getElementById('icono').value || '📌',
-                descripcion: document.getElementById('descripcion').value,
-                contenidoCompleto: document.getElementById('contenidoCompleto').value,
-                fecha: new Date().toISOString().split('T')[0]
-            };
-
-            if (id) {
-                // Editar existente
-                const index = consejos.findIndex(c => c.id === parseInt(id));
-                consejos[index] = consejo;
-                showAlert('Consejo actualizado exitosamente', 'success');
-            } else {
-                // Crear nuevo
-                consejos.push(consejo);
-                showAlert('Consejo creado exitosamente', 'success');
-            }
-
-            closeModal('createModal');
-            loadConsejos();
-            updateStats();
-            
-            // En producción, aquí iría la llamada AJAX al servidor
-            // saveConsejoToDatabase(consejo);
-        }
-
-        // Edit Consejo
-        function editConsejo(id) {
-            const consejo = consejos.find(c => c.id === id);
-            if (!consejo) return;
-
-            document.getElementById('consejoId').value = consejo.id;
-            document.getElementById('titulo').value = consejo.titulo;
-            document.getElementById('categoria').value = consejo.categoria;
-            document.getElementById('prioridad').value = consejo.prioridad;
-            document.getElementById('icono').value = consejo.icono;
-            document.getElementById('descripcion').value = consejo.descripcion;
-            document.getElementById('contenidoCompleto').value = consejo.contenidoCompleto;
-            document.getElementById('modalTitle').textContent = 'Editar Consejo';
-
-            openModal('createModal');
-        }
-
-        // Delete Consejo
-        function deleteConsejo(id) {
-            deleteTarget = id;
-            deleteType = 'consejo';
-            const consejo = consejos.find(c => c.id === id);
-            document.getElementById('deleteMessage').textContent = `¿Estás seguro de eliminar el consejo "${consejo.titulo}"? Esta acción no se puede deshacer.`;
-            openModal('deleteModal');
-        }
-
-        // Save Category
-        function saveCategory(event) {
-            event.preventDefault();
-            
-            const id = document.getElementById('categoryId').value;
-            const category = {
-                id: id ? parseInt(id) : categorias.length + 1,
-                nombre: document.getElementById('categoryNombre').value,
-                icono: document.getElementById('categoryIcono').value,
-                descripcion: document.getElementById('categoryDescripcion').value,
-                consejos: id ? categorias.find(c => c.id === parseInt(id)).consejos : 0
-            };
-
-            if (id) {
-                // Editar existente
-                const index = categorias.findIndex(c => c.id === parseInt(id));
-                categorias[index] = category;
-                showAlert('Categoría actualizada exitosamente', 'success');
-            } else {
-                // Crear nueva
-                categorias.push(category);
-                showAlert('Categoría creada exitosamente', 'success');
-            }
-
-            closeModal('createCategoryModal');
-            loadCategorias();
-            updateStats();
-        }
-
-        // Edit Category
-        function editCategory(id) {
-            const category = categorias.find(c => c.id === id);
-            if (!category) return;
-
-            document.getElementById('categoryId').value = category.id;
-            document.getElementById('categoryNombre').value = category.nombre;
-            document.getElementById('categoryIcono').value = category.icono;
-            document.getElementById('categoryDescripcion').value = category.descripcion;
-            document.getElementById('categoryModalTitle').textContent = 'Editar Categoría';
-
-            openModal('createCategoryModal');
-        }
-
-        // Delete Category
-        function deleteCategory(id) {
-            const category = categorias.find(c => c.id === id);
-            if (category.consejos > 0) {
-                showAlert('No se puede eliminar una categoría con consejos asociados', 'danger');
-                return;
-            }
-            
-            deleteTarget = id;
-            deleteType = 'category';
-            document.getElementById('deleteMessage').textContent = `¿Estás seguro de eliminar la categoría "${category.nombre}"? Esta acción no se puede deshacer.`;
-            openModal('deleteModal');
-        }
-
-        // Confirm Delete
-        function confirmDelete() {
-            if (deleteType === 'consejo') {
-                consejos = consejos.filter(c => c.id !== deleteTarget);
-                loadConsejos();
-                showAlert('Consejo eliminado exitosamente', 'success');
-            } else if (deleteType === 'category') {
-                categorias = categorias.filter(c => c.id !== deleteTarget);
-                loadCategorias();
-                showAlert('Categoría eliminada exitosamente', 'success');
-            }
-
-            closeModal('deleteModal');
-            updateStats();
-            deleteTarget = null;
-            deleteType = null;
-        }
-
-        // Filter Consejos
-        function filterConsejos() {
-            const searchTerm = document.getElementById('searchConsejos').value.toLowerCase();
-            const rows = document.querySelectorAll('#consejosTableBody tr');
-
-            rows.forEach(row => {
-                const text = row.textContent.toLowerCase();
-                row.style.display = text.includes(searchTerm) ? '' : 'none';
-            });
-        }
-
-        // Show Alert
-        function showAlert(message, type) {
-            const alertContainer = document.getElementById('alertContainer');
-            const alertId = 'alert-' + Date.now();
-            
-            const alert = document.createElement('div');
-            alert.id = alertId;
-            alert.className = `alert alert-${type}`;
-            alert.innerHTML = `
-                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'danger' ? 'exclamation-circle' : 'info-circle'}"></i>
-                <span>${message}</span>
-            `;
-            
-            alertContainer.appendChild(alert);
-
-            // Auto-remove after 5 seconds
-            setTimeout(() => {
-                const alertElement = document.getElementById(alertId);
-                if (alertElement) {
-                    alertElement.style.animation = 'slideUp 0.3s reverse';
-                    setTimeout(() => alertElement.remove(), 300);
-                }
-            }, 5000);
-        }
-
-        // Helper Functions
-        function getCategoryName(categoria) {
-            const names = {
-                'contraseñas': 'Contraseñas',
-                'phishing': 'Phishing',
-                'redes-sociales': 'Redes Sociales',
-                'wifi': 'Redes WiFi',
-                'dispositivos': 'Dispositivos'
-            };
-            return names[categoria] || categoria;
-        }
-
-        function getPriorityName(prioridad) {
-            const names = {
-                'high': 'Alta',
-                'medium': 'Media',
-                'low': 'Baja'
-            };
-            return names[prioridad] || prioridad;
-        }
-
-        function formatDate(dateString) {
-            const date = new Date(dateString);
-            return date.toLocaleDateString('es-MX', { 
-                year: 'numeric', 
-                month: 'short', 
-                day: 'numeric' 
-            });
-        }
-
-        // Close modal when clicking outside
-        document.querySelectorAll('.modal').forEach(modal => {
-            modal.addEventListener('click', function(e) {
-                if (e.target === this) {
-                    this.classList.remove('active');
-                    document.body.style.overflow = 'auto';
-                }
-            });
-        });
-
-        // Close modal with ESC key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                document.querySelectorAll('.modal.active').forEach(modal => {
-                    modal.classList.remove('active');
-                    document.body.style.overflow = 'auto';
-                });
-            }
-        });
-
-        // Prevenir envío de formulario con Enter excepto en textarea
-        document.querySelectorAll('form').forEach(form => {
-            form.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') {
-                    e.preventDefault();
-                }
-            });
-        });
-    </script>
+    <!-- JavaScript externo -->
+    <script src="/INTEGRADORA-UTPN/assets/js/admin-consejos.js"></script>
 </body>
 </html>
 <?php include __DIR__ . "/../../includes/footer.php"; ?>

@@ -21,17 +21,17 @@
    Variables
 ================================ */
 :root {
-  --bg: #f0f8f7;
-  --bg-2: #0f172a;
-  --txt: #e6eaf2;
+  --bg: #f1CBA5;
+  --bg-2: #c79c4dff;
+  --txt: #1d1f24ff;
   --muted: #a6b0c3;
-  --brand: #7c3aed;   /* morado */
-  --brand-2: #06b6d4; /* cian */
+  --brand: #d0d1d1;   /* morado */
+  --brand-2: #7e8080; /* cian */
   --ok: #22c55e;
   --warn: #f59e0b;
-  --glass: rgba(64, 224, 208, 0.5);
-  --stroke: rgba(255,255,255,.12);
-  --shadow: 0 10px 30px rgba(2,6,23,.35);
+  --glass: #ddbf87ff;
+  --stroke: rgba(189, 145, 63, 0.12);
+  --shadow: 0 10px 30px rgba(230, 167, 73, 0.35);
   --radius: 24px;
   --max: 1200px;
 }
@@ -51,7 +51,7 @@ body {
   margin: 0;
   font-family: 'Plus Jakarta Sans', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, sans-serif;
   color: var(--txt);
-  background-color: #fdf6ec; /* 🎨 crema claro, cálido y suave */
+  background-color: #EDE5D6; /* 🎨 crema claro, cálido y suave */
 }
 
 /* ================================
@@ -743,7 +743,7 @@ body {
             <li>Director de tesis</li>
             <li>Informe parcial</li>
           </ul>
-          <a class="btn block" href="#aplica">Postular</a>
+          <a class="btn block" href="https://www.juarez.gob.mx/becas-de-acceso-a-la-universidad" target="_blank">Postular</a>
           <a class="btn block" href="../../assets/PDF/RequisitosBeca.pdf" download>Descargar requisitos</a>
         </article>
       </div>
@@ -756,17 +756,17 @@ body {
       <div class="feature">
         <div class="ico"></div>
         <h3>Revisión de documentos</h3>
-        <p>CV académico, carta de motivación y ensayo con retro precisa.</p>
+        <p>Documentacion cambia para cada una de las becas.</p>
       </div>
       <div class="feature">
         <div class="ico"></div>
-        <h3>Simulación de entrevista</h3>
-        <p>Preguntas reales, feedback y plan de mejora por sesión.</p>
+        <h3>Fechas precisas</h3>
+        <p>Entregar la documentación en fechas dadas.</p>
       </div>
       <div class="feature">
         <div class="ico"></div>
-        <h3>Estrategia de postulación</h3>
-        <p>Calendario, requisitos y priorización de convocatorias.</p>
+        <h3>Revision de consulta y revisados</h3>
+        <p>Estar atentos para no perder tu resultado de la beca.</p>
       </div>
     </div>
   </section>
@@ -869,48 +869,35 @@ $(function(){
 
   function sendNewMessage() {
       var userInput = $('.text-box');
-      var newMessage = userInput.html().replace(/\<div\>|\<br.*?\>/ig, '\n').replace(/\<\/div\>/g, '').trim().replace(/\n/g, '<br>');
+      var newMessage = userInput.html()
+          .replace(/\<div\>|\<br.*?\>/ig, '\n')
+          .replace(/\<\/div\>/g, '')
+          .trim()
+          .replace(/\n/g, '<br>');
+
       if (!newMessage) return;
-      
+
       var messagesContainer = $('.messages');
       messagesContainer.append('<li class="self">' + newMessage + '</li>');
       userInput.html('');
-      
-      // Verificar si es un número del 1 al 5
-      var numero = newMessage.trim();
-      if (respuestas[numero]) {
-          setTimeout(function() {
-              var respuesta = respuestas[numero].replace(/\n/g, '<br>');
-              messagesContainer.append('<li class="other">' + respuesta + '</li>');
-              messagesContainer.finish().animate({
-                  scrollTop: messagesContainer.prop("scrollHeight")
-              }, 250);
-          }, 500);
-      } else if (numero.length === 1 && numero >= '1' && numero <= '5') {
-          setTimeout(function() {
-              messagesContainer.append('<li class="other">Por favor escribe un número del 1 al 5 📝</li>');
-              messagesContainer.finish().animate({
-                  scrollTop: messagesContainer.prop("scrollHeight")
-              }, 250);
-          }, 500);
-      } else {
-          setTimeout(function() {
-              messagesContainer.append('<li class="other">Por favor selecciona una opción escribiendo su número (1-5) 😊</li>');
-              messagesContainer.finish().animate({
-                  scrollTop: messagesContainer.prop("scrollHeight")
-              }, 250);
-          }, 500);
-      }
-      
-      userInput.focus();
-      messagesContainer.finish().animate({
-          scrollTop: messagesContainer.prop("scrollHeight")
-      }, 250);
+      messagesContainer.scrollTop(messagesContainer.prop("scrollHeight"));
+
+      // Buscar respuesta
+      var respuesta = respuestas[newMessage.trim()];
+      setTimeout(function() {
+          if (respuesta) {
+              messagesContainer.append('<li class="other">' + respuesta.replace(/\n/g, '<br>') + '</li>');
+          } else {
+              messagesContainer.append('<li class="other">🤖 No entendí tu opción. Escribe un número del 1 al 5 para continuar.</li>');
+          }
+          messagesContainer.scrollTop(messagesContainer.prop("scrollHeight"));
+      }, 700);
   }
 
   function onMetaAndEnter(event) {
-      if ((event.metaKey || event.ctrlKey) && event.keyCode == 13) {
+      if (event.keyCode === 13) {
           sendNewMessage();
+          event.preventDefault();
       }
   }
 });

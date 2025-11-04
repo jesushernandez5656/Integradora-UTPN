@@ -1,0 +1,84 @@
+/* --- Fondo general --- */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #1e3c72, #2a5298); 
+  color: #fff;
+  margin: 0;
+  padding: 0;
+}
+
+/* --- Contenedor principal --- */
+.container {
+  max-width: 1200px;
+  margin: 30px auto;
+  padding: 20px;
+}
+
+/* --- Tarjetas --- */
+.card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 30px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.card h3 {
+  margin-top: 0;
+  text-align: center;
+  font-size: 1.5rem;
+  color: #ffdd57;
+}
+
+/* --- Estilo del mapa --- */
+#map {
+  height: 400px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* --- Estilo del calendario FullCalendar --- */
+#calendar {
+  background: #fff;
+  border-radius: 12px;
+  padding: 15px;
+  color: #333;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.fc-toolbar-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #2a5298;
+}
+
+.fc-button {
+  background: #2a5298 !important;
+  border: none !important;
+  border-radius: 6px !important;
+  color: #fff !important;
+  padding: 6px 12px !important;
+}
+
+.fc-button:hover {
+  background: #1e3c72 !important;
+}
+
+.fc-daygrid-day {
+  transition: 0.3s ease;
+}
+
+.fc-daygrid-day:hover {
+  background: rgba(42, 82, 152, 0.1);
+  cursor: pointer;
+}
+
+.fc-event {
+  background: #ff6b6b !important;
+  border: none !important;
+  border-radius: 6px;
+  padding: 3px 6px;
+  font-size: 0.9rem;
+}
