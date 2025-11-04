@@ -19,5 +19,26 @@
         },
         "fecha": "2025-11-03 03:31:49",
         "ip_address": "::1"
+    },
+    {
+        "id": 2,
+        "consejo_id": 5,
+        "usuario_id": null,
+        "accion": "crear",
+        "datos_anteriores": null,
+        "datos_nuevos": {
+            "id": 5,
+            "titulo": "Preuba",
+            "categoria_id": 1,
+            "prioridad": "low",
+            "icono": "❤️",
+            "descripcion": "prueba de agregar consejo",
+            "contenido_completo": "asdasd",
+            "activo": 1,
+            "fecha": "2025-11-03 18:31:47",
+            "creado_por": null
+        },
+        "fecha": "2025-11-03 18:31:47",
+        "ip_address": "::1"
     }
 ]
