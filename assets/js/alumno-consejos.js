@@ -50,9 +50,13 @@ async function cargarDatos() {
         
         // Procesar estadísticas
         const dataEstadisticas = await responseEstadisticas.json();
-        if (dataEstadisticas.success) {
-            console.log('✅ Estadísticas cargadas:', dataEstadisticas.data);
+        if (dataEstadisticas.success && dataEstadisticas.data) {
+            console.log('✅ Estadísticas cargadas desde API:', dataEstadisticas.data);
             actualizarEstadisticas(dataEstadisticas.data);
+        } else {
+            console.warn('⚠️ Estadísticas no disponibles desde API, calculando manualmente...');
+            // Si el API falla, calcular las estadísticas manualmente
+            actualizarEstadisticas(calcularEstadisticasManualmente());
         }
         
     } catch (error) {
@@ -63,24 +67,50 @@ async function cargarDatos() {
 
 // ⭐ NUEVA FUNCIÓN: Actualizar estadísticas dinámicamente
 function actualizarEstadisticas(stats) {
-    console.log('📊 Actualizando estadísticas en la UI...');
+    console.log('📊 Actualizando estadísticas en la UI...', stats);
+    
+    // Validar que stats existe y tiene las propiedades necesarias
+    if (!stats || typeof stats !== 'object') {
+        console.error('❌ Estadísticas inválidas:', stats);
+        // Usar estadísticas calculadas manualmente como fallback
+        stats = calcularEstadisticasManualmente();
+    }
+    
+    // Asegurar que los valores sean números válidos
+    const totalConsejos = parseInt(stats.total_consejos) || calcularTotalConsejos();
+    const totalCategorias = parseInt(stats.total_categorias) || categorias.length;
+    
+    console.log('📊 Valores finales a mostrar:', {
+        consejos: totalConsejos,
+        categorias: totalCategorias
+    });
     
     // Actualizar total de consejos
     const totalConsejosElement = document.getElementById('totalConsejos');
     if (totalConsejosElement) {
-        animarNumero(totalConsejosElement, 0, stats.total_consejos || 0, 1000);
+        animarNumero(totalConsejosElement, 0, totalConsejos, 1000);
     }
     
     // Actualizar total de categorías
     const totalCategoriasElement = document.getElementById('totalCategorias');
     if (totalCategoriasElement) {
-        animarNumero(totalCategoriasElement, 0, stats.total_categorias || 0, 1000);
+        animarNumero(totalCategoriasElement, 0, totalCategorias, 1000);
     }
     
-    console.log('✅ Estadísticas actualizadas:', {
-        consejos: stats.total_consejos,
-        categorias: stats.total_categorias
-    });
+    console.log('✅ Estadísticas actualizadas en la UI');
+}
+
+// ⭐ NUEVA FUNCIÓN: Calcular estadísticas manualmente como fallback
+function calcularEstadisticasManualmente() {
+    return {
+        total_consejos: calcularTotalConsejos(),
+        total_categorias: categorias.length
+    };
+}
+
+// ⭐ NUEVA FUNCIÓN: Calcular total de consejos activos
+function calcularTotalConsejos() {
+    return consejos.filter(c => c.activo === 1).length;
 }
 
 // ⭐ NUEVA FUNCIÓN: Animar números con efecto contador
