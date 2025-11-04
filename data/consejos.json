@@ -46,5 +46,17 @@
         "activo": 1,
         "fecha": "2025-11-03 03:31:49",
         "creado_por": null
+    },
+    {
+        "id": 5,
+        "titulo": "Preuba",
+        "categoria_id": 1,
+        "prioridad": "low",
+        "icono": "❤️",
+        "descripcion": "prueba de agregar consejo",
+        "contenido_completo": "asdasd",
+        "activo": 0,
+        "fecha": "2025-11-03 18:31:47",
+        "creado_por": null
     }
 ]
