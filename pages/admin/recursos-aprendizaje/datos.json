@@ -100,7 +100,7 @@
             "titulo": "Comercio internacional y logística: Perspectivas y aplicaciones",
             "descripcion": "Libro que analiza las complejidades del comercio internacional, técnicas avanzadas de logística y gestión de operaciones. Año 2024",
             "tipo": "Libros",
-            "enlace": "#"
+            "enlace": "https:\/\/www.researchgate.net\/publication\/388800839_Comercio_internacional_y_logistica_Perspectivas_y_aplicaciones"
         },
         {
             "id_recurso": 13,
@@ -108,7 +108,7 @@
             "titulo": "Logística y distribución internacional (Tesis UNAM)",
             "descripcion": "Excelente recurso para comprender la estructura conceptual y el enfoque sistémico de la logística y distribución internacional. Año 2002",
             "tipo": "Tesis",
-            "enlace": "#"
+            "enlace": "https:\/\/tesiunamdocumentos.dgb.unam.mx\/pdtestdf\/0312762\/0312762.pdf"
         },
         {
             "id_recurso": 14,
@@ -116,7 +116,7 @@
             "titulo": "INNOVACIÓN EMPRESARIAL EN LOGÍSTICA Y CADENAS DE SUMINISTRO",
             "descripcion": "Documento enfocado en la innovación y la aplicación práctica de conceptos logísticos como la optimización en almacenes. Año 2019",
             "tipo": "Articulos de investigacion",
-            "enlace": "#"
+            "enlace": "https:\/\/redibai-myd.org\/portal\/wp-content\/uploads\/2020\/01\/8617-42-5.pdf"
         },
         {
             "id_recurso": 15,
@@ -124,7 +124,7 @@
             "titulo": "La logística de transportación internacional de mercancías en México (Tesis UNAM)",
             "descripcion": "Ofrece una perspectiva práctica y regional (México) sobre la cadena logística, las dificultades y oportunidades en el transporte. Año 2004",
             "tipo": "Tesis",
-            "enlace": "#"
+            "enlace": "https:\/\/tesiunamdocumentos.dgb.unam.mx\/ppt2004\/0337477\/0337477.pdf"
         },
         {
             "id_recurso": 16,
@@ -132,47 +132,7 @@
             "titulo": "LOGÍSTICA INTERNACIONAL (ResearchGate)",
             "descripcion": "Documento que aborda el transporte y la logística internacional como un proceso complejo desde el pedido hasta la entrega. Año 2019",
             "tipo": "Articulos de investigacion",
-            "enlace": "#"
-        },
-        {
-            "id_recurso": 17,
-            "id_categoria": 7,
-            "titulo": "Revisión de literatura sobre logística internacional: Un análisis de red y tendencias",
-            "descripcion": "Tendencias, servicios logísticos, cadena de abastecimiento, modelos de optimización. (Dialnet)",
-            "tipo": "Articulos de investigacion",
-            "enlace": "https:\/\/dialnet.unirioja.es\/servlet\/articulo?codigo=8702031"
-        },
-        {
-            "id_recurso": 18,
-            "id_categoria": 7,
-            "titulo": "Capacidades logísticas como factores determinantes para la internacionalización de las pymes",
-            "descripcion": "PyMES, internacionalización, cadena de abastecimiento, recursos logísticos, tecnología. (Redalyc)",
-            "tipo": "Articulos de investigacion",
-            "enlace": "https:\/\/www.redalyc.org\/journal\/6381\/638174353006\/html\/"
-        },
-        {
-            "id_recurso": 19,
-            "id_categoria": 7,
-            "titulo": "Operaciones de logística internacional (Libro Open Access)",
-            "descripcion": "Comercio, cadena de suministro internacional, actores logísticos, plataformas logísticas, regímenes aduaneros. (Repositorio UOC)",
-            "tipo": "Libros",
-            "enlace": "https:\/\/openaccess.uoc.edu\/handle\/10609\/147450"
-        },
-        {
-            "id_recurso": 20,
-            "id_categoria": 7,
-            "titulo": "Evaluando los operadores logísticos. Retos y tendencias",
-            "descripcion": "Operadores logísticos (3PL), métodos de decisión multicriterio, externalización logística. (Dialnet)",
-            "tipo": "Articulos de investigacion",
-            "enlace": "https:\/\/dialnet.unirioja.es\/servlet\/articulo?codigo=8728930"
-        },
-        {
-            "id_recurso": 21,
-            "id_categoria": 7,
-            "titulo": "Logística de transporte y desarrollo local en organizaciones exportadoras",
-            "descripcion": "Transporte internacional, exportación, seguridad (C-TPAT), servicio al cliente logístico. (SciELO México)",
-            "tipo": "Articulos de investigacion",
-            "enlace": "https:\/\/www.scielo.org.mx\/scielo.php?script=sci_arttext&pid=S0188-45572018000100013"
+            "enlace": "https:\/\/www.researchgate.net\/publication\/335867879_LOGISTICA_INTERNACIONAL"
         },
         {
             "id_recurso": 22,
