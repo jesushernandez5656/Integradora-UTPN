@@ -1,6 +1,7 @@
 // Configuración de la API
 const API_BASE_URL = '/INTEGRADORA-UTPN/pages/api/consejos-json.php?action=listar';
 const API_CATEGORIAS_URL = '/INTEGRADORA-UTPN/pages/api/consejos-json.php?action=listar_categorias';
+const API_ESTADISTICAS_URL = '/INTEGRADORA-UTPN/pages/api/consejos-json.php?action=estadisticas';
 
 // Estado de la aplicación
 let consejos = [];
@@ -20,10 +21,11 @@ async function cargarDatos() {
     try {
         console.log('🔄 Iniciando carga de datos...');
         
-        // Cargar categorías y consejos en paralelo
-        const [responseCategorias, responseConsejos] = await Promise.all([
+        // Cargar categorías, consejos y estadísticas en paralelo
+        const [responseCategorias, responseConsejos, responseEstadisticas] = await Promise.all([
             fetch(API_CATEGORIAS_URL),
-            fetch(API_BASE_URL)
+            fetch(API_BASE_URL),
+            fetch(API_ESTADISTICAS_URL)
         ]);
         
         console.log('📡 Respuestas recibidas');
@@ -46,10 +48,57 @@ async function cargarDatos() {
             throw new Error(dataConsejos.error || 'Error al cargar consejos');
         }
         
+        // Procesar estadísticas
+        const dataEstadisticas = await responseEstadisticas.json();
+        if (dataEstadisticas.success) {
+            console.log('✅ Estadísticas cargadas:', dataEstadisticas.data);
+            actualizarEstadisticas(dataEstadisticas.data);
+        }
+        
     } catch (error) {
         console.error('💥 Error al cargar datos:', error);
         mostrarError('No se pudieron cargar los consejos. Por favor, recarga la página.');
     }
+}
+
+// ⭐ NUEVA FUNCIÓN: Actualizar estadísticas dinámicamente
+function actualizarEstadisticas(stats) {
+    console.log('📊 Actualizando estadísticas en la UI...');
+    
+    // Actualizar total de consejos
+    const totalConsejosElement = document.getElementById('totalConsejos');
+    if (totalConsejosElement) {
+        animarNumero(totalConsejosElement, 0, stats.total_consejos || 0, 1000);
+    }
+    
+    // Actualizar total de categorías
+    const totalCategoriasElement = document.getElementById('totalCategorias');
+    if (totalCategoriasElement) {
+        animarNumero(totalCategoriasElement, 0, stats.total_categorias || 0, 1000);
+    }
+    
+    console.log('✅ Estadísticas actualizadas:', {
+        consejos: stats.total_consejos,
+        categorias: stats.total_categorias
+    });
+}
+
+// ⭐ NUEVA FUNCIÓN: Animar números con efecto contador
+function animarNumero(elemento, inicio, fin, duracion) {
+    const rango = fin - inicio;
+    const incremento = rango / (duracion / 16); // 60 FPS
+    let actual = inicio;
+    
+    const timer = setInterval(() => {
+        actual += incremento;
+        
+        if ((incremento > 0 && actual >= fin) || (incremento < 0 && actual <= fin)) {
+            actual = fin;
+            clearInterval(timer);
+        }
+        
+        elemento.textContent = Math.round(actual);
+    }, 16);
 }
 
 // Cargar categorías en el DOM
@@ -179,7 +228,7 @@ function configurarEventosTarjetas() {
     container.addEventListener('click', handleReadMoreClick);
     
     const readMoreLinks = container.querySelectorAll('.read-more');
-    console.log(`📍 Enlaces encontrados: ${readMoreLinks.length}`);
+    console.log(`🔍 Enlaces encontrados: ${readMoreLinks.length}`);
 }
 
 // Manejador de clicks separado para mejor control
