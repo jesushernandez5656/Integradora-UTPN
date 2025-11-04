@@ -28,6 +28,7 @@
         "datos_anteriores": null,
         "datos_nuevos": {
             "id": 5,
+
             "titulo": "Verifica el Remitente",
             "categoria_id": 2,
             "prioridad": "high",
@@ -110,6 +111,6 @@
         "datos_anteriores": null,
         "datos_nuevos": null,
         "fecha": "2025-11-03 19:51:51",
-        "ip_address": "::1"
     }
+
 ]
