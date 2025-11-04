@@ -120,7 +120,7 @@ main {
     <p>Becas</p>
   </div>
   </a>
-  <a href="pages/alumno/recursos-aprendizaje/index.php">
+  <a href="pages/public/mapa_calendario.php">
   <div class="logo">
     <svg
       fill="currentColor"
