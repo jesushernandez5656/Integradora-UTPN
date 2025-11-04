@@ -149,7 +149,7 @@ main {
     <p>Comunidad Bienestar</p>
   </div>
   </a>
-    <a href="pages/alumno/recursos-aprendizaje/index.php">
+    <a href="../../pages/alumno/recursos-aprendizaje/index.php">
   <div class="logo">
     <svg
       fill="currentColor"

@@ -11,11 +11,209 @@ let editingId = null;
 
 // ==================== INICIALIZACIÓN ====================
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('🔧 Inicializando administración de consejos...');
+    inicializarSistema();
+});
+
+function inicializarSistema() {
     cargarCategorias();
     cargarConsejos();
     cargarEstadisticas();
     configurarEventListeners();
-});
+    configurarEventDelegation();
+    configurarClicsMoviles(); // ⭐ NUEVO: Configuración específica para móvil
+}
+
+// ==================== EVENT DELEGATION ROBUSTO ====================
+
+function configurarEventDelegation() {
+    console.log('🔧 Configurando event delegation robusto...');
+    
+    // Event delegation para la tabla de consejos
+    const consejosTable = document.getElementById('consejosTable');
+    if (consejosTable) {
+        consejosTable.addEventListener('click', manejarClickConsejos);
+    }
+    
+    // Event delegation para la tabla de categorías
+    const categoriasTable = document.getElementById('categoriasTable');
+    if (categoriasTable) {
+        categoriasTable.addEventListener('click', manejarClickCategorias);
+    }
+}
+
+function manejarClickConsejos(event) {
+    const target = event.target;
+    console.log('🖱️ Click en tabla consejos:', target);
+    
+    // Detectar clic en CUALQUIER parte del botón de editar (botón o icono)
+    const elementoEditar = target.closest('.btn-warning');
+    if (elementoEditar) {
+        event.preventDefault();
+        event.stopPropagation();
+        event.stopImmediatePropagation();
+        
+        console.log('✅ Click detectado en botón EDITAR');
+        
+        // Obtener el ID de múltiples formas
+        let id = elementoEditar.getAttribute('data-id');
+        console.log('📋 data-id:', id);
+        
+        if (!id) {
+            // Intentar extraer del onclick
+            const onclickAttr = elementoEditar.getAttribute('onclick');
+            console.log('📋 onclick attribute:', onclickAttr);
+            if (onclickAttr) {
+                const match = onclickAttr.match(/editConsejo\((\d+)\)/);
+                id = match ? match[1] : null;
+                console.log('📋 ID extraído de onclick:', id);
+            }
+        }
+        
+        if (!id) {
+            // Último recurso: buscar en el texto del botón o elementos cercanos
+            const fila = elementoEditar.closest('tr');
+            if (fila) {
+                const primeraCelda = fila.cells[0];
+                if (primeraCelda) {
+                    const match = primeraCelda.textContent.match(/#(\d+)/);
+                    id = match ? match[1] : null;
+                    console.log('📋 ID extraído de texto:', id);
+                }
+            }
+        }
+        
+        if (id) {
+            console.log('✏️ Editando consejo ID:', id);
+            editConsejo(id);
+        } else {
+            console.error('❌ No se pudo obtener el ID del consejo');
+        }
+        return;
+    }
+    
+    // Detectar clic en CUALQUIER parte del botón de eliminar (botón o icono)
+    const elementoEliminar = target.closest('.btn-danger');
+    if (elementoEliminar && !elementoEliminar.disabled) {
+        event.preventDefault();
+        event.stopPropagation();
+        event.stopImmediatePropagation();
+        
+        console.log('✅ Click detectado en botón ELIMINAR');
+        
+        // Obtener el ID de múltiples formas
+        let id = elementoEliminar.getAttribute('data-id');
+        console.log('📋 data-id:', id);
+        
+        if (!id) {
+            // Intentar extraer del onclick
+            const onclickAttr = elementoEliminar.getAttribute('onclick');
+            console.log('📋 onclick attribute:', onclickAttr);
+            if (onclickAttr) {
+                const match = onclickAttr.match(/deleteConsejo\((\d+)\)/);
+                id = match ? match[1] : null;
+                console.log('📋 ID extraído de onclick:', id);
+            }
+        }
+        
+        if (!id) {
+            // Último recurso: buscar en el texto del botón o elementos cercanos
+            const fila = elementoEliminar.closest('tr');
+            if (fila) {
+                const primeraCelda = fila.cells[0];
+                if (primeraCelda) {
+                    const match = primeraCelda.textContent.match(/#(\d+)/);
+                    id = match ? match[1] : null;
+                    console.log('📋 ID extraído de texto:', id);
+                }
+            }
+        }
+        
+        if (id) {
+            console.log('🗑️ Eliminando consejo ID:', id);
+            deleteConsejo(id);
+        } else {
+            console.error('❌ No se pudo obtener el ID del consejo');
+        }
+        return;
+    }
+}
+
+function manejarClickCategorias(event) {
+    const target = event.target;
+    
+    const botonEditar = target.closest('.btn-warning');
+    const botonEliminar = target.closest('.btn-danger');
+    
+    if (botonEditar && !botonEditar.disabled) {
+        event.preventDefault();
+        event.stopPropagation();
+        
+        let id = botonEditar.getAttribute('data-id');
+        if (!id) {
+            const onclickAttr = botonEditar.getAttribute('onclick');
+            if (onclickAttr) {
+                const match = onclickAttr.match(/editCategory\((\d+)\)/);
+                id = match ? match[1] : null;
+            }
+        }
+        
+        if (id) editCategory(id);
+        return;
+    }
+    
+    if (botonEliminar && !botonEliminar.disabled) {
+        event.preventDefault();
+        event.stopPropagation();
+        
+        let id = botonEliminar.getAttribute('data-id');
+        if (!id) {
+            const onclickAttr = botonEliminar.getAttribute('onclick');
+            if (onclickAttr) {
+                const match = onclickAttr.match(/deleteCategory\((\d+)\)/);
+                id = match ? match[1] : null;
+            }
+        }
+        
+        if (id) deleteCategory(id);
+        return;
+    }
+}
+
+// ⭐ NUEVA FUNCIÓN: Configuración específica para móvil
+function configurarClicsMoviles() {
+    if (window.innerWidth <= 768) {
+        console.log('📱 Configurando clics específicos para móvil...');
+        
+        const botonesEliminar = document.querySelectorAll('.btn-danger:not([disabled])');
+        botonesEliminar.forEach((btn, index) => {
+            console.log(`📱 Configurando botón eliminar móvil ${index + 1}`);
+            
+            // Agregar event listener directo como respaldo
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                e.stopImmediatePropagation();
+                
+                console.log('📱 Click directo en botón eliminar móvil');
+                
+                let id = this.getAttribute('data-id');
+                if (!id) {
+                    const onclickAttr = this.getAttribute('onclick');
+                    if (onclickAttr) {
+                        const match = onclickAttr.match(/deleteConsejo\((\d+)\)/);
+                        id = match ? match[1] : null;
+                    }
+                }
+                
+                if (id) {
+                    console.log('📱 Eliminando desde móvil ID:', id);
+                    deleteConsejo(id);
+                }
+            }, { passive: false });
+        });
+    }
+}
 
 // ==================== CONFIGURAR EVENT LISTENERS ====================
 function configurarEventListeners() {
@@ -54,6 +252,7 @@ async function cargarCategorias() {
 
         if (result.success) {
             categorias = result.data;
+            console.log('📂 Categorías cargadas:', categorias.length);
             actualizarSelectCategorias();
             loadCategorias();
         } else {
@@ -72,6 +271,7 @@ async function cargarConsejos() {
 
         if (result.success) {
             consejos = result.data;
+            console.log('📝 Consejos cargados:', consejos.length);
             loadConsejos();
         } else {
             mostrarAlerta('Error al cargar consejos: ' + result.error, 'danger');
@@ -133,8 +333,8 @@ async function saveConsejo(event) {
         if (result.success) {
             mostrarAlerta(isEditing ? 'Consejo actualizado exitosamente' : 'Consejo creado exitosamente', 'success');
             closeModal('createModal');
-            cargarConsejos();
-            cargarEstadisticas();
+            await cargarConsejos();
+            await cargarEstadisticas();
             resetForm();
         } else {
             mostrarAlerta('Error: ' + result.error, 'danger');
@@ -146,11 +346,19 @@ async function saveConsejo(event) {
 }
 
 function editConsejo(id) {
-    const consejo = consejos.find(c => c.id === id);
-    if (!consejo) return;
+    console.log('🔧 Editando consejo ID:', id);
+    
+    const numericId = parseInt(id);
+    const consejo = consejos.find(c => c.id == numericId);
+    
+    if (!consejo) {
+        console.error('❌ Consejo no encontrado:', id);
+        mostrarAlerta('Error: Consejo no encontrado', 'danger');
+        return;
+    }
 
     isEditing = true;
-    editingId = id;
+    editingId = numericId;
 
     document.getElementById('consejoId').value = consejo.id;
     document.getElementById('titulo').value = consejo.titulo;
@@ -165,9 +373,19 @@ function editConsejo(id) {
 }
 
 function deleteConsejo(id) {
-    deleteTarget = id;
+    console.log('🔧 Eliminando consejo ID:', id);
+    
+    const numericId = parseInt(id);
+    const consejo = consejos.find(c => c.id == numericId);
+    
+    if (!consejo) {
+        console.error('❌ Consejo no encontrado:', id);
+        mostrarAlerta('Error: Consejo no encontrado', 'danger');
+        return;
+    }
+
+    deleteTarget = numericId;
     deleteType = 'consejo';
-    const consejo = consejos.find(c => c.id === id);
     document.getElementById('deleteMessage').textContent = 
         `¿Estás seguro de eliminar el consejo "${consejo.titulo}"? Esta acción no se puede deshacer.`;
     openModal('deleteModal');
@@ -195,11 +413,11 @@ async function confirmDelete() {
             closeModal('deleteModal');
             
             if (deleteType === 'consejo') {
-                cargarConsejos();
+                await cargarConsejos();
             } else {
-                cargarCategorias();
+                await cargarCategorias();
             }
-            cargarEstadisticas();
+            await cargarEstadisticas();
         } else {
             mostrarAlerta('Error: ' + result.error, 'danger');
         }
@@ -248,8 +466,8 @@ async function saveCategory(event) {
         if (result.success) {
             mostrarAlerta(id ? 'Categoría actualizada exitosamente' : 'Categoría creada exitosamente', 'success');
             closeModal('createCategoryModal');
-            cargarCategorias();
-            cargarEstadisticas();
+            await cargarCategorias();
+            await cargarEstadisticas();
             resetCategoryForm();
         } else {
             mostrarAlerta('Error: ' + result.error, 'danger');
@@ -261,7 +479,7 @@ async function saveCategory(event) {
 }
 
 function editCategory(id) {
-    const category = categorias.find(c => c.id === id);
+    const category = categorias.find(c => c.id == id);
     if (!category) return;
 
     document.getElementById('categoryId').value = category.id;
@@ -274,7 +492,9 @@ function editCategory(id) {
 }
 
 function deleteCategory(id) {
-    const category = categorias.find(c => c.id === id);
+    const category = categorias.find(c => c.id == id);
+    if (!category) return;
+    
     if (category.total_consejos > 0) {
         mostrarAlerta('No se puede eliminar una categoría con consejos asociados', 'danger');
         return;
@@ -291,6 +511,7 @@ function deleteCategory(id) {
 
 function loadConsejos() {
     const tbody = document.getElementById('consejosTableBody');
+    console.log('🔧 Cargando consejos en la tabla...');
 
     if (consejos.length === 0) {
         tbody.innerHTML = `
@@ -310,30 +531,42 @@ function loadConsejos() {
         return;
     }
 
+    // ⭐ USAR DATA-ATTRIBUTES Y ONCLICK COMO FALLBACK
     tbody.innerHTML = consejos.map(consejo => `
         <tr>
             <td><strong>#${consejo.id}</strong></td>
             <td>
                 <div style="display: flex; align-items: center; gap: 10px;">
                     <span style="font-size: 1.5em;">${consejo.icono}</span>
-                    <strong>${consejo.titulo}</strong>
+                    <strong>${escapeHtml(consejo.titulo)}</strong>
                 </div>
             </td>
-            <td><span class="badge badge-${consejo.categoria}">${consejo.categoria_nombre || getCategoryName(consejo.categoria)}</span></td>
+            <td><span class="badge badge-${consejo.categoria}">${escapeHtml(consejo.categoria_nombre || getCategoryName(consejo.categoria))}</span></td>
             <td><span class="badge badge-${consejo.prioridad}">${getPriorityName(consejo.prioridad)}</span></td>
             <td>${formatDate(consejo.fecha)}</td>
             <td>
                 <div class="action-buttons">
-                    <button class="btn btn-warning btn-sm" onclick="editConsejo(${consejo.id})" title="Editar">
+                    <button class="btn btn-warning btn-sm" 
+                            data-id="${consejo.id}"
+                            onclick="editConsejo(${consejo.id})"
+                            title="Editar">
                         <i class="fas fa-edit"></i>
                     </button>
-                    <button class="btn btn-danger btn-sm" onclick="deleteConsejo(${consejo.id})" title="Eliminar">
+                    <button class="btn btn-danger btn-sm" 
+                            data-id="${consejo.id}"
+                            onclick="deleteConsejo(${consejo.id})"
+                            title="Eliminar">
                         <i class="fas fa-trash"></i>
                     </button>
                 </div>
             </td>
         </tr>
     `).join('');
+
+    console.log('✅ Tabla de consejos actualizada');
+    
+    // ⭐ RECONFIGURAR EVENTOS PARA MÓVIL DESPUÉS DE CARGAR
+    setTimeout(configurarClicsMoviles, 100);
 }
 
 function loadCategorias() {
@@ -364,8 +597,8 @@ function loadCategorias() {
                 <div style="display: flex; align-items: center; gap: 10px;">
                     <span style="font-size: 1.5em;">${cat.icono}</span>
                     <div>
-                        <strong>${cat.nombre}</strong>
-                        ${cat.descripcion ? `<br><small style="color: var(--gray-medium);">${cat.descripcion}</small>` : ''}
+                        <strong>${escapeHtml(cat.nombre)}</strong>
+                        ${cat.descripcion ? `<br><small style="color: var(--gray-medium);">${escapeHtml(cat.descripcion)}</small>` : ''}
                     </div>
                 </div>
             </td>
@@ -373,10 +606,16 @@ function loadCategorias() {
             <td><span class="badge badge-${cat.slug}">${cat.total_consejos} consejos</span></td>
             <td>
                 <div class="action-buttons">
-                    <button class="btn btn-warning btn-sm" onclick="editCategory(${cat.id})" title="Editar">
+                    <button class="btn btn-warning btn-sm" 
+                            data-id="${cat.id}"
+                            onclick="editCategory(${cat.id})"
+                            title="Editar">
                         <i class="fas fa-edit"></i>
                     </button>
-                    <button class="btn btn-danger btn-sm" onclick="deleteCategory(${cat.id})" ${cat.total_consejos > 0 ? 'disabled title="No se puede eliminar con consejos asociados"' : ''}>
+                    <button class="btn btn-danger btn-sm" 
+                            data-id="${cat.id}"
+                            onclick="deleteCategory(${cat.id})"
+                            ${cat.total_consejos > 0 ? 'disabled title="No se puede eliminar con consejos asociados"' : 'title="Eliminar"'}>
                         <i class="fas fa-trash"></i>
                     </button>
                 </div>
@@ -394,7 +633,7 @@ function updateStats(stats) {
 function actualizarSelectCategorias() {
     const select = document.getElementById('categoria');
     select.innerHTML = '<option value="">Seleccionar categoría</option>' +
-        categorias.map(cat => `<option value="${cat.id}">${cat.icono} ${cat.nombre}</option>`).join('');
+        categorias.map(cat => `<option value="${cat.id}">${cat.icono} ${escapeHtml(cat.nombre)}</option>`).join('');
 }
 
 function filterConsejos() {
@@ -490,6 +729,13 @@ function mostrarAlerta(mensaje, tipo) {
 
 // ==================== FUNCIONES HELPER ====================
 
+function escapeHtml(text) {
+    if (!text) return '';
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
 function getCategoryName(categoria) {
     const names = {
         'contrasenas': 'Contraseñas',
@@ -511,10 +757,45 @@ function getPriorityName(prioridad) {
 }
 
 function formatDate(dateString) {
+    if (!dateString) return 'N/A';
     const date = new Date(dateString);
     return date.toLocaleDateString('es-MX', {
         year: 'numeric',
         month: 'short',
         day: 'numeric'
     });
+}
+
+// ==================== DEBUG Y UTILIDADES ====================
+
+// Función para debug específico de móvil
+function debugMobile() {
+    if (window.innerWidth <= 768) {
+        console.log('=== 📱 DEBUG MÓVIL ===');
+        const botonesEliminar = document.querySelectorAll('.btn-danger');
+        
+        console.log(`Botones eliminar encontrados: ${botonesEliminar.length}`);
+        
+        botonesEliminar.forEach((btn, i) => {
+            const rect = btn.getBoundingClientRect();
+            console.log(`Botón eliminar ${i}:`, {
+                dataId: btn.getAttribute('data-id'),
+                onclick: btn.getAttribute('onclick'),
+                disabled: btn.disabled,
+                tamaño: `${rect.width}x${rect.height}`,
+                posición: `(${rect.x}, ${rect.y})`,
+                visible: rect.width > 0 && rect.height > 0
+            });
+        });
+    }
+}
+
+// Ejecutar debug después de cargar
+setTimeout(debugMobile, 1500);
+
+// Función para forzar la recreación de event listeners si es necesario
+function reinicializarEventos() {
+    console.log('🔄 Reinicializando eventos...');
+    configurarEventDelegation();
+    configurarClicsMoviles();
 }

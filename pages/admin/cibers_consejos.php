@@ -569,34 +569,40 @@ include __DIR__ . "/../../includes/header.php";
             margin-bottom: 8px;
         }
 
-        /* Responsive Improvements */
-        @media (max-width: 992px) {
+        /* ⭐ ESTILOS ESPECÍFICOS PARA BOTONES EN MÓVIL */
+        @media (max-width: 768px) {
+            .action-buttons {
+                gap: 8px !important;
+            }
+            
+            .action-buttons .btn {
+                min-width: 44px !important;
+                min-height: 44px !important;
+                padding: 10px !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+            }
+            
+            .action-buttons .btn i {
+                font-size: 1.1em !important;
+            }
+            
+            /* Asegurar que los botones sean fácilmente clickeables en móvil */
+            .btn-danger, .btn-warning {
+                -webkit-tap-highlight-color: rgba(0, 0, 0, 0.3) !important;
+                touch-action: manipulation !important;
+            }
+            
+            /* Prevenir zoom en doble tap */
+            .action-buttons {
+                touch-action: pan-y !important;
+            }
+
             .admin-header {
                 padding: 15px;
             }
 
-            .admin-title h1 {
-                font-size: 1.3em;
-            }
-
-            .admin-title p {
-                font-size: 0.85em;
-            }
-
-            .stats-grid {
-                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            }
-
-            .stat-info h3 {
-                font-size: 1.4em;
-            }
-
-            .stat-info p {
-                font-size: 0.8em;
-            }
-        }
-
-        @media (max-width: 768px) {
             .admin-header-content {
                 flex-direction: column;
                 align-items: stretch;
@@ -835,6 +841,28 @@ include __DIR__ . "/../../includes/header.php";
                 padding: 10px 15px;
             }
         }
+
+        /* ⭐ NUEVO: Estilos para prevenir problemas de z-index */
+        .modal {
+            z-index: 10000;
+        }
+
+        .btn:focus {
+            outline: 2px solid var(--teal);
+            outline-offset: 2px;
+        }
+
+        /* ⭐ NUEVO: Estilos para botones deshabilitados */
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .btn:disabled:hover {
+            transform: none !important;
+            box-shadow: none !important;
+        }
     </style>
 </head>
 <body>
@@ -943,7 +971,7 @@ include __DIR__ . "/../../includes/header.php";
                             <tr>
                                 <td colspan="6" style="text-align: center; padding: 40px;">
                                     <i class="fas fa-spinner fa-spin" style="font-size: 2em; color: var(--teal);"></i>
-                                    <p style="margin-top: 10px;">Cargando...</p>
+                                    <p style="margin-top: 10px;">Cargando consejos...</p>
                                 </td>
                             </tr>
                         </tbody>
@@ -979,7 +1007,7 @@ include __DIR__ . "/../../includes/header.php";
                             <tr>
                                 <td colspan="5" style="text-align: center; padding: 40px;">
                                     <i class="fas fa-spinner fa-spin" style="font-size: 2em; color: var(--teal);"></i>
-                                    <p style="margin-top: 10px;">Cargando...</p>
+                                    <p style="margin-top: 10px;">Cargando categorías...</p>
                                 </td>
                             </tr>
                         </tbody>
@@ -1096,7 +1124,7 @@ include __DIR__ . "/../../includes/header.php";
     <div id="deleteModal" class="modal">
         <div class="modal-dialog" style="max-width: 500px;">
             <div class="modal-header">
-                <h2>Confirmar</h2>
+                <h2>Confirmar Eliminación</h2>
                 <button class="modal-close" onclick="closeModal('deleteModal')">&times;</button>
             </div>
             <div class="modal-body">
