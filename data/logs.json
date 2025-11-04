@@ -40,5 +40,15 @@
         },
         "fecha": "2025-11-03 18:31:47",
         "ip_address": "::1"
+    },
+    {
+        "id": 3,
+        "consejo_id": "5",
+        "usuario_id": null,
+        "accion": "eliminar",
+        "datos_anteriores": null,
+        "datos_nuevos": null,
+        "fecha": "2025-11-04 17:35:01",
+        "ip_address": "::1"
     }
 ]
