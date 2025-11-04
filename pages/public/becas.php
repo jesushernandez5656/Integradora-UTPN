@@ -622,7 +622,7 @@ body {
       position: relative;
     }
     .card2.locked::after {
-      content: "🔒 Solo disponible para usuarios registrados";
+      content: "🔒 Solo disponible para estudiantes";
       position: absolute;
       inset: 0;
       display: flex;
