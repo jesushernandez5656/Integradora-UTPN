@@ -1,0 +1,47 @@
+[
+    {
+        "id": 1,
+        "nombre": "Contraseñas",
+        "icono": "🔐",
+        "descripcion": "Gestión segura de contraseñas",
+        "slug": "contrasenas",
+        "orden": 1,
+        "activo": 1
+    },
+    {
+        "id": 2,
+        "nombre": "Phishing",
+        "icono": "🎣",
+        "descripcion": "Prevención de estafas",
+        "slug": "phishing",
+        "orden": 2,
+        "activo": 1
+    },
+    {
+        "id": 3,
+        "nombre": "Redes Sociales",
+        "icono": "📱",
+        "descripcion": "Privacidad en redes sociales",
+        "slug": "redes-sociales",
+        "orden": 3,
+        "activo": 1
+    },
+    {
+        "id": 4,
+        "nombre": "Redes WiFi",
+        "icono": "📶",
+        "descripcion": "Seguridad en conexiones WiFi",
+        "slug": "wifi",
+        "orden": 4,
+        "activo": 1
+    },
+    {
+        "id": 5,
+        "nombre": "Dispositivos",
+        "icono": "💻",
+        "descripcion": "Protección de dispositivos",
+        "slug": "dispositivos",
+        "orden": 5,
+        "activo": 1
+    }
+]
