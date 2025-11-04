@@ -19,5 +19,97 @@
         },
         "fecha": "2025-11-03 03:31:49",
         "ip_address": "::1"
+    },
+    {
+        "id": 2,
+        "consejo_id": 5,
+        "usuario_id": null,
+        "accion": "crear",
+        "datos_anteriores": null,
+        "datos_nuevos": {
+            "id": 5,
+            "titulo": "Verifica el Remitente",
+            "categoria_id": 2,
+            "prioridad": "high",
+            "icono": "🎣",
+            "descripcion": "<p>Antes de hacer clic en enlaces o descargar archivos, verifica cuidadosamente la dirección de correo del remitente.<\/p>",
+            "contenido_completo": "<p>Antes de hacer clic en enlaces o descargar archivos, verifica cuidadosamente la dirección de correo del remitente.<\/p>",
+            "activo": 1,
+            "fecha": "2025-11-03 19:19:42",
+            "creado_por": null
+        },
+        "fecha": "2025-11-03 19:19:42",
+        "ip_address": "::1"
+    },
+    {
+        "id": 3,
+        "consejo_id": "5",
+        "usuario_id": null,
+        "accion": "eliminar",
+        "datos_anteriores": null,
+        "datos_nuevos": null,
+        "fecha": "2025-11-03 19:20:20",
+        "ip_address": "::1"
+    },
+    {
+        "id": 4,
+        "consejo_id": "4",
+        "usuario_id": null,
+        "accion": "eliminar",
+        "datos_anteriores": null,
+        "datos_nuevos": null,
+        "fecha": "2025-11-03 19:20:29",
+        "ip_address": "::1"
+    },
+    {
+        "id": 5,
+        "consejo_id": "1",
+        "usuario_id": null,
+        "accion": "eliminar",
+        "datos_anteriores": null,
+        "datos_nuevos": null,
+        "fecha": "2025-11-03 19:22:05",
+        "ip_address": "::1"
+    },
+    {
+        "id": 6,
+        "consejo_id": 5,
+        "usuario_id": null,
+        "accion": "crear",
+        "datos_anteriores": null,
+        "datos_nuevos": {
+            "id": 5,
+            "titulo": "Configura tu Privacidad",
+            "categoria_id": 3,
+            "prioridad": "low",
+            "icono": "📱",
+            "descripcion": "<p>Revisa y ajusta regularmente la configuración de privacidad en tus redes sociales. Limita quién puede ver tu información.<\/p>",
+            "contenido_completo": "<p>Revisa y ajusta regularmente la configuración de privacidad en tus redes sociales. Limita quién puede ver tu información.<\/p>",
+            "activo": 1,
+            "fecha": "2025-11-03 19:24:00",
+            "creado_por": null
+        },
+        "fecha": "2025-11-03 19:24:00",
+        "ip_address": "::1"
+    },
+    {
+        "id": 7,
+        "consejo_id": "3",
+        "usuario_id": null,
+        "accion": "eliminar",
+        "datos_anteriores": null,
+        "datos_nuevos": null,
+        "fecha": "2025-11-03 19:24:22",
+        "ip_address": "::1"
+    },
+    {
+        "id": 8,
+        "consejo_id": "5",
+        "usuario_id": null,
+        "accion": "eliminar",
+        "datos_anteriores": null,
+        "datos_nuevos": null,
+        "fecha": "2025-11-03 19:51:51",
+        "ip_address": "::1"
     }
 ]
