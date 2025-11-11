@@ -44,10 +44,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   <style>
     /* Fondo */
 body {
-  margin: 0;
   padding: 0;
-  font-family: Arial, sans-serif;
-  background: #EDE5D6; /* Crema claro */
+  margin: 0;
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, sans-serif;
+  color: var(--txt);
+  background-color: #EDE5D6; /* 🎨 crema claro, cálido y suave */
   height: 100vh;
   display: flex;
   justify-content: center;

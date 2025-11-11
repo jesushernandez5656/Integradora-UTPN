@@ -14,9 +14,9 @@
     box-sizing: border-box;
 }
 
-body{ 
-  background: #EDE5D6; 
-
+body {
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, sans-serif;
+  background-color: #EDE5D6; /* 🎨 crema claro, cálido y suave */
 }
 
 a {
@@ -109,22 +109,21 @@ main {
 <main>
     <!-- From Uiverse.io by gharsh11032000 --> 
 <div class="logos-container">
-    <a href="pages/public/becas.php">
-  <div class="logo">
-    <svg
-      fill="currentColor"
-      viewBox="0 0 24 24"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M23 18.9999H22V8.99991H18V6.58569L12 0.585693L6 6.58569V8.99991H2V18.9999H1V20.9999H23V18.9999ZM6 19H4V11H6V19ZM18 11H20V19H18V11ZM11 12H13V19H11V12Z"
-      ></path>
-    </svg>
-    
-    <p>Becas</p>
-  </div>
+  <a href="../admin/becas_admin.php">
+    <div class="logo">
+      <svg
+        fill="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+        >
+        <path
+          d="M23 18.9999H22V8.99991H18V6.58569L12 0.585693L6 6.58569V8.99991H2V18.9999H1V20.9999H23V18.9999ZM6 19H4V11H6V19ZM18 11H20V19H18V11ZM11 12H13V19H11V12Z"
+        ></path>
+      </svg>
+      <p>Becas</p>
+    </div>
   </a>
-<a href="pages/alumno/recursos-aprendizaje/index.php">
+<a href="../admin/cibers_consejos.php">
   <div class="logo">
     <svg
       fill="currentColor"
@@ -152,7 +151,7 @@ main {
     <p>Comunidad Bienestar</p>
   </div>
   </a>
-    <a href="../../pages/admin/recursos-aprendizaje/admin_RA.php">
+    <a href="../admin/recursos-aprendizaje/admin_RA.php">
   <div class="logo">
     <svg
       fill="currentColor"

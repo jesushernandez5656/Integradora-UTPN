@@ -79,7 +79,11 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: #EDE5D6; /* Crema claro */
+  margin: 0;
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, sans-serif;
+  color: var(--txt);
+  background-color: #EDE5D6; /* 🎨 crema claro, cálido y suave */
+
 }
 
 .container {
