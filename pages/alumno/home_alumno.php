@@ -14,8 +14,9 @@
     box-sizing: border-box;
 }
 
-body{
-    background: #EDE5D6;
+body {
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, sans-serif;
+  background-color: #EDE5D6; /* 🎨 crema claro, cálido y suave */
 }
 
   a {

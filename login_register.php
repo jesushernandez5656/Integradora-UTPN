@@ -19,6 +19,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, sans-serif;
   height: 100vh;
   background: #EDE5D6; /* Fondo crema */
 }

@@ -29,7 +29,7 @@ $admins = $admins_query->fetchAll(PDO::FETCH_ASSOC);
 /* --- General --- */
 body {
   margin: 0;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, sans-serif;
   display: flex;
   background: #EDE5D6;
 }

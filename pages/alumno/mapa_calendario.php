@@ -1,104 +1,125 @@
 <?php include("../../includes/header.php"); ?>
 
-<!-- CSS de Leaflet -->
+<!-- ===================== CSS EXTERNOS ===================== -->
+<!-- Leaflet (Mapa) -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-
-<!-- CSS de FullCalendar -->
+<!-- FullCalendar (Calendario) -->
 <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.css" rel="stylesheet">
 
-<!-- Tus CSS locales -->
-<link rel="stylesheet" href="../../assets/css/mapa_calendario.css">
-<link rel="stylesheet" href="../../assets/css/navbar.css">
-<link rel="stylesheet" href="../../assets/css/footer.css">
-<link rel="stylesheet" href="../../assets/css/style.css">
-
+<!-- ===================== ESTILOS LOCALES ===================== -->
 <style>
-  #info-edificios {
-    margin-top: 20px;
+  :root {
+    --txt: #2e2e2e;
   }
 
-  .acordeon {
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  body {
+    margin: 0;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, sans-serif;
+    color: var(--txt);
+    background-color: #EDE5D6; /* 🎨 crema claro, cálido y suave */
   }
 
-  .acordeon-item {
-    border-bottom: 1px solid #ddd;
+  .contenedor-principal {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
   }
 
-  .acordeon-header {
-    background-color: #19a473ff;
-    color: white;
-    padding: 12px 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.3s;
+  h1, h2 {
+    text-align: center;
+    font-weight: 700;
+    color: #3b3b3b;
+    margin-bottom: 20px;
   }
 
-  .acordeon-header:hover {
-    background-color: #148a60ff;
+  h1 {
+    font-size: 2.2rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
   }
 
-  .acordeon-content {
-    display: none;
-    padding: 12px 16px;
-    background: #f8f8f8;
-    line-height: 1.6;
+  h2 {
+    font-size: 1.6rem;
+    margin-top: 40px;
   }
 
-  .acordeon-content p {
-    margin: 5px 0;
-  }
-
+  /* ==== MAPA ==== */
   #map {
     height: 450px;
-    width: 100%;
-    border-radius: 8px;
-    margin-bottom: 30px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    margin-bottom: 40px;
   }
 
+  /* ==== CALENDARIO ==== */
   #calendar {
-    margin-top: 20px;
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+
+  /* ==== SECCIONES DE DESCRIPCIÓN ==== */
+  .seccion-lugares {
+    margin-top: 40px;
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+
+  .seccion-lugares h3 {
+    margin-bottom: 10px;
+    color: #444;
+  }
+
+  .seccion-lugares p {
+    margin: 0 0 10px;
   }
 </style>
 
-<div class="container">
-  <h2>Mapa y Calendario de la UTPN</h2>
+<!-- ===================== CONTENIDO ===================== -->
+<div class="contenedor-principal">
+  <h1>Mapa Interactivo y Calendario de Actividades</h1>
 
-  <!-- MAPA -->
-  <h3>Mapa de la Universidad</h3>
   <div id="map"></div>
 
-  <!-- Información de los Edificios -->
-  <div id="info-edificios">
-    <!-- (Todo tu contenido del acordeón igual que antes) -->
-  </div>
-
-  <!-- CALENDARIO -->
-  <h3>Calendario de Actividades</h3>
+  <h2>Calendario Académico</h2>
   <div id="calendar"></div>
+
+  <div class="seccion-lugares">
+    <h2>Ubicaciones dentro del Campus</h2>
+
+    <div id="edificioA">
+      <h3>Edificio A</h3>
+      <p>Área administrativa principal del campus.</p>
+    </div>
+
+    <div id="edificioB">
+      <h3>Edificio B</h3>
+      <p>Salones de clase y oficinas de profesores.</p>
+    </div>
+
+    <div id="cafetería">
+      <h3>Cafetería</h3>
+      <p>Espacio para descansar y disfrutar alimentos.</p>
+    </div>
+
+    <div id="canchadefutbol">
+      <h3>Cancha de Fútbol</h3>
+      <p>Área deportiva principal del campus.</p>
+    </div>
+
+    <!-- Puedes seguir agregando más secciones si gustas -->
+  </div>
 </div>
 
-<!-- JS de Leaflet -->
+<!-- ===================== JS EXTERNOS ===================== -->
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-
-<!-- JS de FullCalendar -->
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js"></script>
 
-<!-- Tus JS locales -->
+<!-- ===================== JS LOCAL ===================== -->
 <script src="../../assets/js/mapa_calendario.js"></script>
-
-<script>
-  // --- LÓGICA DEL ACORDEÓN ---
-  document.querySelectorAll(".acordeon-header").forEach(header => {
-    header.addEventListener("click", () => {
-      const content = header.nextElementSibling;
-      const isOpen = content.style.display === "block";
-      document.querySelectorAll(".acordeon-content").forEach(c => c.style.display = "none");
-      content.style.display = isOpen ? "none" : "block";
-    });
-  });
-</script>
 
 <?php include("../../includes/footer.php"); ?>

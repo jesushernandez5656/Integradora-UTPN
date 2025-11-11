@@ -1,7 +1,7 @@
 <?php
 $datos_json = file_get_contents('../../admin/recursos-aprendizaje/datos.json');
-$datos = json_decode($datos_json, true);
-$categorias = $datos['categorias'];
+$datos = json_decode($datos_json, true) ?: ['categorias' => [], 'recursos' => []];
+$categorias = $datos['categorias'] ?? [];
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -14,10 +14,41 @@ $categorias = $datos['categorias'];
     <link rel="stylesheet" href="/integradora-UTPN/assets/css/navbar.css">
     <link rel="stylesheet" href="/integradora-UTPN/assets/css/footer.css">
     
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700&display=swap" rel="stylesheet">
+
     <style>
-        /* Estilos específicos de esta página */
-        .card-carrera { text-decoration: none; color: inherit; display: block; height: 100%; transition: transform 0.2s, box-shadow 0.2s; }
-        .card-carrera:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.15); color: inherit; }
+        /* NUEVO: Estilos del Body y Layout */
+        body {
+            /* Tus nuevos estilos */
+            margin: 0;
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, sans-serif;
+            color: var(--txt, #212529);
+            background-color: #EDE5D6; /* 🎨 crema claro */
+
+            /* Estilos de layout que estaban en el tag <body> */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        main {
+            flex-grow: 1;
+        }
+    
+        /* Estilos específicos de esta página (ya los tenías) */
+        .card-carrera { 
+            text-decoration: none; 
+            color: inherit; 
+            display: block; 
+            height: 100%; 
+            transition: transform 0.2s, box-shadow 0.2s; 
+        }
+        .card-carrera:hover { 
+            transform: translateY(-5px); 
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15); 
+            color: inherit; 
+        }
     </style>
 </head>
 <body> <?php include "../../../includes/header.php"; ?>
@@ -43,6 +74,10 @@ $categorias = $datos['categorias'];
             <?php endif; ?>
         </div>
     </main>
-    <?php include "../../../includes/footer.php"; ?>
+    
+    <?php 
+    // $conn->close(); // Esta línea ya no es necesaria
+    include "../../../includes/footer.php"; 
+    ?>
 </body>
 </html>

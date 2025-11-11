@@ -43,11 +43,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   <title>Nueva contraseña</title>
   <style>
    /* Fondo */
-body {
+body{
   margin: 0;
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, sans-serif;
+  background-color: #EDE5D6; /* 🎨 crema claro, cálido y suave */
   padding: 0;
-  font-family: Arial, sans-serif;
-  background: #EDE5D6; /* Crema claro */
   height: 100vh;
   display: flex;
   justify-content: center;
