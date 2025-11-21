@@ -18,7 +18,7 @@ if (!$data) {
         "titulo_pagina" => "Becas Universitarias | Impulsa tu camino",
         "hero" => [
             "chip_texto" => "Convocatorias abiertas",
-            "titulo_principal" => "Consigue tu <span class=\"grad\">beca</span> <br> Solicita <span class=\"grad alt\">informaci&oacute;n</span> que te abran puertas",
+            "titulo_principal" => "Consigue tu <span class=\"grad\">beca</span> <br> Solicita <span class=\"grad alt\">información</span> que te abran puertas",
             "descripcion" => "Explora convocatorias que te ayudaran en tu carrera.",
             "insignias" => [
                 ["texto" => "5 becas especializadas", "clase" => "ok"],
@@ -41,7 +41,7 @@ if (!$data) {
             "becas" => []
         ],
         "seccion_asesorias" => [
-            "titulo_seccion" => "Asesor&iacute;as",
+            "titulo_seccion" => "Asesorías",
             "caracteristicas" => []
         ],
         "chatbot" => [
@@ -56,17 +56,130 @@ if (!$data) {
 $success = "";
 $error = "";
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['json_data'])) {
-        $new_data = json_decode($_POST['json_data'], true);
-        if ($new_data) {
-            if (file_put_contents($json_file, json_encode($new_data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE))) {
-                $data = $new_data;
-                $success = "¡Datos guardados correctamente en el servidor!";
-            } else {
-                $error = "Error: No se pudo guardar el archivo JSON";
-            }
+    if (isset($_POST['section'])) {
+        $section = $_POST['section'];
+        
+        // Procesar según la sección
+        switch($section) {
+            case 'general':
+                $data['titulo_pagina'] = $_POST['titulo_pagina'];
+                break;
+                
+            case 'hero':
+                $data['hero']['chip_texto'] = $_POST['chip_texto'];
+                $data['hero']['titulo_principal'] = $_POST['titulo_principal'];
+                $data['hero']['descripcion'] = $_POST['descripcion'];
+                
+                // Procesar insignias
+                $data['hero']['insignias'] = [];
+                if (isset($_POST['insignia_texto'])) {
+                    foreach ($_POST['insignia_texto'] as $index => $texto) {
+                        if (!empty($texto)) {
+                            $data['hero']['insignias'][] = [
+                                'texto' => $texto,
+                                'clase' => $_POST['insignia_clase'][$index] ?? ''
+                            ];
+                        }
+                    }
+                }
+                
+                // Procesar tarjetas
+                $data['hero']['tarjetas_ejemplo'] = [];
+                if (isset($_POST['tarjeta_titulo'])) {
+                    foreach ($_POST['tarjeta_titulo'] as $index => $titulo) {
+                        if (!empty($titulo)) {
+                            $metadata = isset($_POST['tarjeta_metadata'][$index]) ? 
+                                array_filter(array_map('trim', explode(',', $_POST['tarjeta_metadata'][$index]))) : [];
+                            
+                            $data['hero']['tarjetas_ejemplo'][] = [
+                                'titulo' => $titulo,
+                                'descripcion' => $_POST['tarjeta_descripcion'][$index] ?? '',
+                                'metadata' => $metadata,
+                                'enlace_texto' => $_POST['tarjeta_enlace_texto'][$index] ?? null,
+                                'enlace_url' => $_POST['tarjeta_enlace_url'][$index] ?? null
+                            ];
+                        }
+                    }
+                }
+                break;
+                
+            case 'becas_destacadas':
+                $data['seccion_becas_destacadas']['titulo'] = $_POST['becas_titulo'];
+                $data['seccion_becas_destacadas']['subtitulo'] = $_POST['becas_subtitulo'];
+                
+                // Procesar becas
+                $data['seccion_becas_destacadas']['becas'] = [];
+                if (isset($_POST['beca_nombre'])) {
+                    foreach ($_POST['beca_nombre'] as $index => $nombre) {
+                        if (!empty($nombre)) {
+                            $requisitos = isset($_POST['beca_requisitos'][$index]) ? 
+                                array_filter(array_map('trim', explode(',', $_POST['beca_requisitos'][$index]))) : [];
+                            
+                            $data['seccion_becas_destacadas']['becas'][] = [
+                                'id' => $_POST['beca_id'][$index] ?? time() + $index,
+                                'nombre' => $nombre,
+                                'monto' => $_POST['beca_monto'][$index] ?? '',
+                                'resumen' => $_POST['beca_resumen'][$index] ?? '',
+                                'requisitos' => $requisitos,
+                                'enlace_postular' => $_POST['beca_enlace_postular'][$index] ?? '',
+                                'enlace_descarga_requisitos' => $_POST['beca_enlace_requisitos'][$index] ?? ''
+                            ];
+                        }
+                    }
+                }
+                break;
+                
+            case 'asesorias':
+                $data['seccion_asesorias']['titulo_seccion'] = $_POST['asesorias_titulo'];
+                
+                // Procesar características
+                $data['seccion_asesorias']['caracteristicas'] = [];
+                if (isset($_POST['caracteristica_titulo'])) {
+                    foreach ($_POST['caracteristica_titulo'] as $index => $titulo) {
+                        if (!empty($titulo)) {
+                            $data['seccion_asesorias']['caracteristicas'][] = [
+                                'titulo' => $titulo,
+                                'descripcion' => $_POST['caracteristica_descripcion'][$index] ?? ''
+                            ];
+                        }
+                    }
+                }
+                break;
+                
+            case 'chatbot':
+                $data['chatbot']['nombre'] = $_POST['chatbot_nombre'];
+                
+                // Procesar opciones
+                $data['chatbot']['opciones_iniciales'] = [];
+                if (isset($_POST['opcion_texto'])) {
+                    foreach ($_POST['opcion_texto'] as $texto) {
+                        if (!empty($texto)) {
+                            $data['chatbot']['opciones_iniciales'][] = $texto;
+                        }
+                    }
+                }
+                
+                // Procesar respuestas
+                $data['chatbot']['respuestas_pregrabadas'] = [];
+                if (isset($_POST['respuesta_clave'])) {
+                    foreach ($_POST['respuesta_clave'] as $index => $clave) {
+                        if (!empty($clave)) {
+                            $data['chatbot']['respuestas_pregrabadas'][$clave] = $_POST['respuesta_texto'][$index] ?? '';
+                        }
+                    }
+                }
+                // Asegurar respuesta por defecto
+                if (!isset($data['chatbot']['respuestas_pregrabadas']['default'])) {
+                    $data['chatbot']['respuestas_pregrabadas']['default'] = '🤖 No entendí tu pregunta. Por favor, reformula tu pregunta. 😊';
+                }
+                break;
+        }
+        
+        // Guardar en el archivo JSON
+        if (file_put_contents($json_file, json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE))) {
+            $success = "¡Cambios guardados correctamente!";
         } else {
-            $error = "Error: JSON inválido";
+            $error = "Error: No se pudo guardar el archivo JSON";
         }
     }
     
@@ -310,31 +423,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             font-size: 0.85rem;
         }
 
-        /* Tables */
-        .table {
-            width: 100%;
-            border-collapse: collapse;
+        /* Dynamic List */
+        .dynamic-list {
+            margin-bottom: 15px;
         }
 
-        .table th, .table td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        .table th {
-            background: #f8f9fa;
-            font-weight: 600;
-            color: #555;
-        }
-
-        .table tr:hover {
-            background: #f8f9fa;
-        }
-
-        .actions {
+        .list-item {
             display: flex;
-            gap: 5px;
+            gap: 10px;
+            margin-bottom: 10px;
+            align-items: center;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+
+        .list-item input, .list-item select, .list-item textarea {
+            flex: 1;
+        }
+
+        /* Alerts */
+        .alert {
+            padding: 12px 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
         }
 
         /* Tabs */
@@ -365,78 +489,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             display: block;
         }
 
-        /* Alerts */
-        .alert {
-            padding: 12px 15px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-
-        .alert-success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-
-        .alert-error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-
-        /* Badges */
-        .badge {
-            display: inline-block;
-            padding: 4px 8px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-
-        .badge-primary {
-            background: var(--primary);
-            color: white;
-        }
-
-        .badge-success {
-            background: var(--success);
-            color: white;
-        }
-
-        .badge-warning {
-            background: var(--warning);
-            color: white;
-        }
-
-        /* JSON Preview */
-        .json-preview {
-            background: #f8f9fa;
-            border: 1px solid #e0e0e0;
-            border-radius: 5px;
-            padding: 15px;
-            font-family: monospace;
-            white-space: pre-wrap;
-            max-height: 400px;
-            overflow-y: auto;
-            font-size: 0.9rem;
-        }
-
-        /* Dynamic List */
-        .dynamic-list {
-            margin-bottom: 15px;
-        }
-
-        .list-item {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 10px;
-            align-items: center;
-        }
-
-        .list-item input {
-            flex: 1;
-        }
-
         /* Responsive */
         @media (max-width: 768px) {
             .admin-container {
@@ -460,6 +512,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             .sidebar-menu a {
                 padding: 10px 15px;
             }
+            
+            .list-item {
+                flex-direction: column;
+                align-items: stretch;
+            }
         }
     </style>
 </head>
@@ -472,11 +529,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
             <ul class="sidebar-menu">
                 <li><a href="#" class="active" data-tab="dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="#" data-tab="general"><i class="fas fa-cog"></i> General</a></li>
                 <li><a href="#" data-tab="hero"><i class="fas fa-home"></i> Sección Hero</a></li>
                 <li><a href="#" data-tab="becas"><i class="fas fa-graduation-cap"></i> Becas Destacadas</a></li>
                 <li><a href="#" data-tab="asesorias"><i class="fas fa-hands-helping"></i> Asesorías</a></li>
                 <li><a href="#" data-tab="chatbot"><i class="fas fa-robot"></i> Chatbot</a></li>
-                <li><a href="#" data-tab="json"><i class="fas fa-code"></i> JSON Completo</a></li>
             </ul>
         </div>
 
@@ -488,7 +545,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="user-avatar">A</div>
                     <span>Administrador</span>
                     <form method="POST" style="display: inline;">
-                        
+                        <button type="submit" name="logout" class="btn btn-danger btn-sm">
+                            <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                        </button>
                     </form>
                 </div>
             </div>
@@ -517,19 +576,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <div class="card">
                                 <div class="card-body">
                                     <h4>Becas Destacadas</h4>
-                                    <p id="becas-count"><?php echo count($data['seccion_becas_destacadas']['becas']); ?> becas registradas</p>
+                                    <p><?php echo count($data['seccion_becas_destacadas']['becas']); ?> becas registradas</p>
                                 </div>
                             </div>
                             <div class="card">
                                 <div class="card-body">
                                     <h4>Características de Asesorías</h4>
-                                    <p id="asesorias-count"><?php echo count($data['seccion_asesorias']['caracteristicas']); ?> características</p>
+                                    <p><?php echo count($data['seccion_asesorias']['caracteristicas']); ?> características</p>
                                 </div>
                             </div>
                             <div class="card">
                                 <div class="card-body">
                                     <h4>Opciones del Chatbot</h4>
-                                    <p id="chatbot-count"><?php echo count($data['chatbot']['opciones_iniciales']); ?> opciones iniciales</p>
+                                    <p><?php echo count($data['chatbot']['opciones_iniciales']); ?> opciones iniciales</p>
                                 </div>
                             </div>
                         </div>
@@ -542,112 +601,318 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                     <div class="card-body">
                         <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-                            <button class="btn btn-primary" data-tab="hero">
+                            <button class="btn btn-primary" data-tab="general">
+                                <i class="fas fa-cog"></i> Configuración General
+                            </button>
+                            <button class="btn btn-success" data-tab="hero">
                                 <i class="fas fa-edit"></i> Editar Hero
                             </button>
-                            <button class="btn btn-success" data-tab="becas">
-                                <i class="fas fa-plus"></i> Agregar Beca
-                            </button>
-                            <button class="btn btn-warning" data-tab="asesorias">
-                                <i class="fas fa-cog"></i> Configurar Asesorías
-                            </button>
-                            <button class="btn btn-primary" data-tab="json">
-                                <i class="fas fa-download"></i> Exportar JSON
+                            <button class="btn btn-warning" data-tab="becas">
+                                <i class="fas fa-plus"></i> Gestionar Becas
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- JSON Completo -->
-            <div id="json" class="tab-content">
+            <!-- Configuración General -->
+            <div id="general" class="tab-content">
                 <div class="card">
                     <div class="card-header">
-                        <h3><i class="fas fa-code"></i> JSON Completo</h3>
+                        <h3><i class="fas fa-cog"></i> Configuración General</h3>
                     </div>
                     <div class="card-body">
-                        <p>Aquí puedes ver y editar el JSON completo de tu configuración:</p>
                         <form method="POST">
+                            <input type="hidden" name="section" value="general">
                             <div class="form-group">
-                                <label for="json_data">Datos JSON:</label>
-                                <textarea 
-                                    id="json_data" 
-                                    name="json_data" 
-                                    class="json-preview" 
-                                    required
-                                    rows="20"
-                                ><?php echo htmlspecialchars(json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)); ?></textarea>
+                                <label for="titulo_pagina">Título de la Página</label>
+                                <input type="text" id="titulo_pagina" name="titulo_pagina" class="form-control" 
+                                       value="<?php echo htmlspecialchars($data['titulo_pagina']); ?>" required>
+                            </div>
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-save"></i> Guardar Cambios
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección Hero -->
+            <div id="hero" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-home"></i> Sección Hero</h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST">
+                            <input type="hidden" name="section" value="hero">
+                            
+                            <div class="form-group">
+                                <label for="chip_texto">Texto del Chip</label>
+                                <input type="text" id="chip_texto" name="chip_texto" class="form-control" 
+                                       value="<?php echo htmlspecialchars($data['hero']['chip_texto']); ?>">
                             </div>
                             
-                            <div style="margin-top: 15px;">
+                            <div class="form-group">
+                                <label for="titulo_principal">Título Principal</label>
+                                <textarea id="titulo_principal" name="titulo_principal" class="form-control" rows="3"><?php echo htmlspecialchars($data['hero']['titulo_principal']); ?></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="descripcion">Descripción</label>
+                                <textarea id="descripcion" name="descripcion" class="form-control" rows="3"><?php echo htmlspecialchars($data['hero']['descripcion']); ?></textarea>
+                            </div>
+                            
+                            <h4>Insignias</h4>
+                            <div id="insignias-list" class="dynamic-list">
+                                <?php foreach ($data['hero']['insignias'] as $index => $insignia): ?>
+                                <div class="list-item">
+                                    <input type="text" name="insignia_texto[]" class="form-control" placeholder="Texto de la insignia" 
+                                           value="<?php echo htmlspecialchars($insignia['texto']); ?>">
+                                    <select name="insignia_clase[]" class="form-control">
+                                        <option value="" <?php echo $insignia['clase'] === '' ? 'selected' : ''; ?>>Normal</option>
+                                        <option value="ok" <?php echo $insignia['clase'] === 'ok' ? 'selected' : ''; ?>>Éxito</option>
+                                        <option value="warn" <?php echo $insignia['clase'] === 'warn' ? 'selected' : ''; ?>>Advertencia</option>
+                                    </select>
+                                    <button type="button" class="btn btn-danger btn-sm remove-item">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                                <?php endforeach; ?>
+                            </div>
+                            <button type="button" class="btn btn-primary btn-sm" id="add-insignia">
+                                <i class="fas fa-plus"></i> Agregar Insignia
+                            </button>
+                            
+                            <h4 style="margin-top: 20px;">Tarjetas de Ejemplo</h4>
+                            <div id="tarjetas-list" class="dynamic-list">
+                                <?php foreach ($data['hero']['tarjetas_ejemplo'] as $index => $tarjeta): ?>
+                                <div class="card" style="margin-bottom: 15px; padding: 15px; background: #f8f9fa;">
+                                    <div class="form-group">
+                                        <label>Título</label>
+                                        <input type="text" name="tarjeta_titulo[]" class="form-control" 
+                                               value="<?php echo htmlspecialchars($tarjeta['titulo']); ?>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Descripción</label>
+                                        <textarea name="tarjeta_descripcion[]" class="form-control" rows="2"><?php echo htmlspecialchars($tarjeta['descripcion']); ?></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Metadata (separar con comas)</label>
+                                        <input type="text" name="tarjeta_metadata[]" class="form-control" 
+                                               value="<?php echo htmlspecialchars(implode(', ', $tarjeta['metadata'])); ?>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Texto del Enlace (opcional)</label>
+                                        <input type="text" name="tarjeta_enlace_texto[]" class="form-control" 
+                                               value="<?php echo htmlspecialchars($tarjeta['enlace_texto'] ?? ''); ?>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>URL del Enlace (opcional)</label>
+                                        <input type="url" name="tarjeta_enlace_url[]" class="form-control" 
+                                               value="<?php echo htmlspecialchars($tarjeta['enlace_url'] ?? ''); ?>">
+                                    </div>
+                                    <button type="button" class="btn btn-danger btn-sm remove-tarjeta">
+                                        <i class="fas fa-trash"></i> Eliminar Tarjeta
+                                    </button>
+                                </div>
+                                <?php endforeach; ?>
+                            </div>
+                            <button type="button" class="btn btn-primary btn-sm" id="add-tarjeta">
+                                <i class="fas fa-plus"></i> Agregar Tarjeta
+                            </button>
+                            
+                            <div style="margin-top: 20px;">
                                 <button type="submit" class="btn btn-success">
-                                    <i class="fas fa-save"></i> Guardar en Servidor
+                                    <i class="fas fa-save"></i> Guardar Cambios Hero
                                 </button>
-                                <button type="button" class="btn btn-primary" id="download-json">
-                                    <i class="fas fa-download"></i> Descargar JSON
-                                </button>
-                                <a href="../" class="btn btn-warning" target="_blank">
-                                    <i class="fas fa-eye"></i> Ver Sitio Web
-                                </a>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
 
-            <!-- Otras secciones (Hero, Becas, Asesorías, Chatbot) -->
-            <div id="hero" class="tab-content">
-                <div class="card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-home"></i> Información General</h3>
-                    </div>
-                    <div class="card-body">
-                        <p>Para editar la sección Hero, ve a la pestaña "JSON Completo" y modifica la estructura correspondiente.</p>
-                        <div class="json-preview">
-<?php echo htmlspecialchars(json_encode($data['hero'], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)); ?>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+            <!-- Becas Destacadas -->
             <div id="becas" class="tab-content">
                 <div class="card">
                     <div class="card-header">
-                        <h3><i class="fas fa-graduation-cap"></i> Información de Becas</h3>
+                        <h3><i class="fas fa-graduation-cap"></i> Becas Destacadas</h3>
                     </div>
                     <div class="card-body">
-                        <p>Para gestionar las becas destacadas, ve a la pestaña "JSON Completo" y modifica la estructura correspondiente.</p>
-                        <div class="json-preview">
-<?php echo htmlspecialchars(json_encode($data['seccion_becas_destacadas'], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)); ?>
-                        </div>
+                        <form method="POST">
+                            <input type="hidden" name="section" value="becas_destacadas">
+                            
+                            <div class="form-group">
+                                <label for="becas_titulo">Título de la Sección</label>
+                                <input type="text" id="becas_titulo" name="becas_titulo" class="form-control" 
+                                       value="<?php echo htmlspecialchars($data['seccion_becas_destacadas']['titulo']); ?>">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="becas_subtitulo">Subtítulo</label>
+                                <input type="text" id="becas_subtitulo" name="becas_subtitulo" class="form-control" 
+                                       value="<?php echo htmlspecialchars($data['seccion_becas_destacadas']['subtitulo']); ?>">
+                            </div>
+                            
+                            <h4>Becas</h4>
+                            <div id="becas-list" class="dynamic-list">
+                                <?php foreach ($data['seccion_becas_destacadas']['becas'] as $index => $beca): ?>
+                                <div class="card" style="margin-bottom: 15px; padding: 15px; background: #f8f9fa;">
+                                    <input type="hidden" name="beca_id[]" value="<?php echo $beca['id']; ?>">
+                                    <div class="form-group">
+                                        <label>Nombre de la Beca</label>
+                                        <input type="text" name="beca_nombre[]" class="form-control" 
+                                               value="<?php echo htmlspecialchars($beca['nombre']); ?>" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Monto/Estímulo</label>
+                                        <input type="text" name="beca_monto[]" class="form-control" 
+                                               value="<?php echo htmlspecialchars($beca['monto']); ?>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Resumen/Descripción</label>
+                                        <textarea name="beca_resumen[]" class="form-control" rows="2"><?php echo htmlspecialchars($beca['resumen']); ?></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Requisitos (separar con comas)</label>
+                                        <input type="text" name="beca_requisitos[]" class="form-control" 
+                                               value="<?php echo htmlspecialchars(implode(', ', $beca['requisitos'])); ?>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Enlace para Postular</label>
+                                        <input type="url" name="beca_enlace_postular[]" class="form-control" 
+                                               value="<?php echo htmlspecialchars($beca['enlace_postular']); ?>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Enlace de Requisitos</label>
+                                        <input type="url" name="beca_enlace_requisitos[]" class="form-control" 
+                                               value="<?php echo htmlspecialchars($beca['enlace_descarga_requisitos']); ?>">
+                                    </div>
+                                    <button type="button" class="btn btn-danger btn-sm remove-beca">
+                                        <i class="fas fa-trash"></i> Eliminar Beca
+                                    </button>
+                                </div>
+                                <?php endforeach; ?>
+                            </div>
+                            <button type="button" class="btn btn-primary btn-sm" id="add-beca">
+                                <i class="fas fa-plus"></i> Agregar Beca
+                            </button>
+                            
+                            <div style="margin-top: 20px;">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fas fa-save"></i> Guardar Becas
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
 
+            <!-- Asesorías -->
             <div id="asesorias" class="tab-content">
                 <div class="card">
                     <div class="card-header">
-                        <h3><i class="fas fa-hands-helping"></i> Información de Asesorías</h3>
+                        <h3><i class="fas fa-hands-helping"></i> Asesorías</h3>
                     </div>
                     <div class="card-body">
-                        <p>Para gestionar las asesorías, ve a la pestaña "JSON Completo" y modifica la estructura correspondiente.</p>
-                        <div class="json-preview">
-<?php echo htmlspecialchars(json_encode($data['seccion_asesorias'], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)); ?>
-                        </div>
+                        <form method="POST">
+                            <input type="hidden" name="section" value="asesorias">
+                            
+                            <div class="form-group">
+                                <label for="asesorias_titulo">Título de la Sección</label>
+                                <input type="text" id="asesorias_titulo" name="asesorias_titulo" class="form-control" 
+                                       value="<?php echo htmlspecialchars($data['seccion_asesorias']['titulo_seccion']); ?>">
+                            </div>
+                            
+                            <h4>Características</h4>
+                            <div id="caracteristicas-list" class="dynamic-list">
+                                <?php foreach ($data['seccion_asesorias']['caracteristicas'] as $index => $caracteristica): ?>
+                                <div class="list-item">
+                                    <input type="text" name="caracteristica_titulo[]" class="form-control" placeholder="Título" 
+                                           value="<?php echo htmlspecialchars($caracteristica['titulo']); ?>">
+                                    <input type="text" name="caracteristica_descripcion[]" class="form-control" placeholder="Descripción" 
+                                           value="<?php echo htmlspecialchars($caracteristica['descripcion']); ?>">
+                                    <button type="button" class="btn btn-danger btn-sm remove-item">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                                <?php endforeach; ?>
+                            </div>
+                            <button type="button" class="btn btn-primary btn-sm" id="add-caracteristica">
+                                <i class="fas fa-plus"></i> Agregar Característica
+                            </button>
+                            
+                            <div style="margin-top: 20px;">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fas fa-save"></i> Guardar Asesorías
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
 
+            <!-- Chatbot -->
             <div id="chatbot" class="tab-content">
                 <div class="card">
                     <div class="card-header">
-                        <h3><i class="fas fa-robot"></i> Información del Chatbot</h3>
+                        <h3><i class="fas fa-robot"></i> Chatbot</h3>
                     </div>
                     <div class="card-body">
-                        <p>Para configurar el chatbot, ve a la pestaña "JSON Completo" y modifica la estructura correspondiente.</p>
-                        <div class="json-preview">
-<?php echo htmlspecialchars(json_encode($data['chatbot'], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)); ?>
-                        </div>
+                        <form method="POST">
+                            <input type="hidden" name="section" value="chatbot">
+                            
+                            <div class="form-group">
+                                <label for="chatbot_nombre">Nombre del Bot</label>
+                                <input type="text" id="chatbot_nombre" name="chatbot_nombre" class="form-control" 
+                                       value="<?php echo htmlspecialchars($data['chatbot']['nombre']); ?>">
+                            </div>
+                            
+                            <h4>Opciones Iniciales</h4>
+                            <div id="opciones-list" class="dynamic-list">
+                                <?php foreach ($data['chatbot']['opciones_iniciales'] as $index => $opcion): ?>
+                                <div class="list-item">
+                                    <input type="text" name="opcion_texto[]" class="form-control" placeholder="Texto de la opción" 
+                                           value="<?php echo htmlspecialchars($opcion); ?>">
+                                    <button type="button" class="btn btn-danger btn-sm remove-item">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                                <?php endforeach; ?>
+                            </div>
+                            <button type="button" class="btn btn-primary btn-sm" id="add-opcion">
+                                <i class="fas fa-plus"></i> Agregar Opción
+                            </button>
+                            
+                            <h4 style="margin-top: 20px;">Respuestas Pregrabadas</h4>
+                            <div id="respuestas-list" class="dynamic-list">
+                                <?php foreach ($data['chatbot']['respuestas_pregrabadas'] as $clave => $texto): ?>
+                                <div class="card" style="margin-bottom: 15px; padding: 15px; background: #f8f9fa;">
+                                    <div class="form-group">
+                                        <label>Clave (número o palabra clave)</label>
+                                        <input type="text" name="respuesta_clave[]" class="form-control" 
+                                               value="<?php echo htmlspecialchars($clave); ?>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Texto de Respuesta</label>
+                                        <textarea name="respuesta_texto[]" class="form-control" rows="3"><?php echo htmlspecialchars($texto); ?></textarea>
+                                    </div>
+                                    <button type="button" class="btn btn-danger btn-sm remove-respuesta">
+                                        <i class="fas fa-trash"></i> Eliminar Respuesta
+                                    </button>
+                                </div>
+                                <?php endforeach; ?>
+                            </div>
+                            <button type="button" class="btn btn-primary btn-sm" id="add-respuesta">
+                                <i class="fas fa-plus"></i> Agregar Respuesta
+                            </button>
+                            
+                            <div style="margin-top: 20px;">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fas fa-save"></i> Guardar Chatbot
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -678,41 +943,144 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $(`#${tab}`).addClass('active');
             });
 
-            // Descargar JSON
-            $('#download-json').on('click', function() {
-                const dataStr = $('#json_data').val();
-                const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
-                
-                const exportFileDefaultName = 'becas-data.json';
-                
-                const linkElement = document.createElement('a');
-                linkElement.setAttribute('href', dataUri);
-                linkElement.setAttribute('download', exportFileDefaultName);
-                linkElement.click();
+            // Funciones para agregar elementos dinámicos
+            $('#add-insignia').on('click', function() {
+                $('#insignias-list').append(`
+                    <div class="list-item">
+                        <input type="text" name="insignia_texto[]" class="form-control" placeholder="Texto de la insignia">
+                        <select name="insignia_clase[]" class="form-control">
+                            <option value="">Normal</option>
+                            <option value="ok">Éxito</option>
+                            <option value="warn">Advertencia</option>
+                        </select>
+                        <button type="button" class="btn btn-danger btn-sm remove-item">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `);
             });
 
-            // Validación básica del JSON antes de enviar
-            $('form').on('submit', function(e) {
-                const jsonTextarea = document.getElementById('json_data');
-                try {
-                    JSON.parse(jsonTextarea.value);
-                } catch (error) {
-                    e.preventDefault();
-                    alert('Error: JSON inválido. Por favor corrige los errores antes de guardar.\n\n' + error.message);
-                    jsonTextarea.focus();
-                }
+            $('#add-tarjeta').on('click', function() {
+                $('#tarjetas-list').append(`
+                    <div class="card" style="margin-bottom: 15px; padding: 15px; background: #f8f9fa;">
+                        <div class="form-group">
+                            <label>Título</label>
+                            <input type="text" name="tarjeta_titulo[]" class="form-control" placeholder="Título de la tarjeta">
+                        </div>
+                        <div class="form-group">
+                            <label>Descripción</label>
+                            <textarea name="tarjeta_descripcion[]" class="form-control" rows="2" placeholder="Descripción"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Metadata (separar con comas)</label>
+                            <input type="text" name="tarjeta_metadata[]" class="form-control" placeholder="Ej: México, Licenciatura, Fecha">
+                        </div>
+                        <div class="form-group">
+                            <label>Texto del Enlace (opcional)</label>
+                            <input type="text" name="tarjeta_enlace_texto[]" class="form-control" placeholder="Ej: Empezar">
+                        </div>
+                        <div class="form-group">
+                            <label>URL del Enlace (opcional)</label>
+                            <input type="url" name="tarjeta_enlace_url[]" class="form-control" placeholder="https://...">
+                        </div>
+                        <button type="button" class="btn btn-danger btn-sm remove-tarjeta">
+                            <i class="fas fa-trash"></i> Eliminar Tarjeta
+                        </button>
+                    </div>
+                `);
             });
-            
-            // Auto-indentación del JSON
-            document.getElementById('json_data').addEventListener('keydown', function(e) {
-                if (e.key === 'Tab') {
-                    e.preventDefault();
-                    const start = this.selectionStart;
-                    const end = this.selectionEnd;
-                    
-                    this.value = this.value.substring(0, start) + '    ' + this.value.substring(end);
-                    this.selectionStart = this.selectionEnd = start + 4;
-                }
+
+            $('#add-beca').on('click', function() {
+                $('#becas-list').append(`
+                    <div class="card" style="margin-bottom: 15px; padding: 15px; background: #f8f9fa;">
+                        <input type="hidden" name="beca_id[]" value="${Date.now()}">
+                        <div class="form-group">
+                            <label>Nombre de la Beca</label>
+                            <input type="text" name="beca_nombre[]" class="form-control" placeholder="Nombre de la beca" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Monto/Estímulo</label>
+                            <input type="text" name="beca_monto[]" class="form-control" placeholder="Ej: $3000">
+                        </div>
+                        <div class="form-group">
+                            <label>Resumen/Descripción</label>
+                            <textarea name="beca_resumen[]" class="form-control" rows="2" placeholder="Descripción de la beca"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Requisitos (separar con comas)</label>
+                            <input type="text" name="beca_requisitos[]" class="form-control" placeholder="Ej: Promedio 8.5, Entrevista técnica">
+                        </div>
+                        <div class="form-group">
+                            <label>Enlace para Postular</label>
+                            <input type="url" name="beca_enlace_postular[]" class="form-control" placeholder="https://...">
+                        </div>
+                        <div class="form-group">
+                            <label>Enlace de Requisitos</label>
+                            <input type="url" name="beca_enlace_requisitos[]" class="form-control" placeholder="https://...">
+                        </div>
+                        <button type="button" class="btn btn-danger btn-sm remove-beca">
+                            <i class="fas fa-trash"></i> Eliminar Beca
+                        </button>
+                    </div>
+                `);
+            });
+
+            $('#add-caracteristica').on('click', function() {
+                $('#caracteristicas-list').append(`
+                    <div class="list-item">
+                        <input type="text" name="caracteristica_titulo[]" class="form-control" placeholder="Título">
+                        <input type="text" name="caracteristica_descripcion[]" class="form-control" placeholder="Descripción">
+                        <button type="button" class="btn btn-danger btn-sm remove-item">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `);
+            });
+
+            $('#add-opcion').on('click', function() {
+                $('#opciones-list').append(`
+                    <div class="list-item">
+                        <input type="text" name="opcion_texto[]" class="form-control" placeholder="Texto de la opción">
+                        <button type="button" class="btn btn-danger btn-sm remove-item">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `);
+            });
+
+            $('#add-respuesta').on('click', function() {
+                $('#respuestas-list').append(`
+                    <div class="card" style="margin-bottom: 15px; padding: 15px; background: #f8f9fa;">
+                        <div class="form-group">
+                            <label>Clave (número o palabra clave)</label>
+                            <input type="text" name="respuesta_clave[]" class="form-control" placeholder="Ej: 1, ayuda, monto">
+                        </div>
+                        <div class="form-group">
+                            <label>Texto de Respuesta</label>
+                            <textarea name="respuesta_texto[]" class="form-control" rows="3" placeholder="Respuesta del chatbot"></textarea>
+                        </div>
+                        <button type="button" class="btn btn-danger btn-sm remove-respuesta">
+                            <i class="fas fa-trash"></i> Eliminar Respuesta
+                        </button>
+                    </div>
+                `);
+            });
+
+            // Eliminar elementos
+            $(document).on('click', '.remove-item', function() {
+                $(this).closest('.list-item').remove();
+            });
+
+            $(document).on('click', '.remove-tarjeta', function() {
+                $(this).closest('.card').remove();
+            });
+
+            $(document).on('click', '.remove-beca', function() {
+                $(this).closest('.card').remove();
+            });
+
+            $(document).on('click', '.remove-respuesta', function() {
+                $(this).closest('.card').remove();
             });
         });
     </script>
