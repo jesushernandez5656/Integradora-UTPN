@@ -1,0 +1,16 @@
+# Ignorar archivo donde guardas la API Key
+pages/api/config.php
+
+# Ignorar archivos sensibles
+*.env
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Archivos temporales de PHP
+*.log
+*.cache
+
+# Carpeta vendor si usas composer
+/vendor/
