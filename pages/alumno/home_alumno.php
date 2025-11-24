@@ -107,7 +107,7 @@ main {
     <main>
     <!-- From Uiverse.io by gharsh11032000 --> 
 <div class="logos-container">
-    <a href="pages/public/becas.php">
+    <a href="../../pages/alumno/becas.php">
   <div class="logo">
     <svg
       fill="currentColor"
@@ -122,7 +122,7 @@ main {
     <p>Becas</p>
   </div>
   </a>
-<a href="pages/alumno/recursos-aprendizaje/index.php">
+<a href="../../pages/alumno/mapa_calendario.php">
   <div class="logo">
     <svg
       fill="currentColor"
@@ -136,7 +136,7 @@ main {
     <p>Mapa</p>
   </div>
   </a>
-  <a href="pages/alumno/recursos-aprendizaje/index.php">
+  <a href="../../pages/alumno/Foro.php">
   <div class="logo">
     <svg
       fill="currentColor"

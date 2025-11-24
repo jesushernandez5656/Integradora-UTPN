@@ -1,9 +1,17 @@
 <?php
-// Inicializar datos de ejemplo (mismos que index.php)
+// 1. INICIAR LA SESIÓN. Debe ser la primera línea ejecutada.
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+// 2. Incluir el encabezado.
 include "../../includes/header.php";
-// Si no hay datos inicializados, redirigir al index
+
+// 3. Si no hay datos inicializados, redirigir al archivo que los inicializa (Foro.php o el index principal).
+// He asumido que deben redirigir a Foro.php o index.php, ajústalo según tu estructura de carpetas.
 if (!isset($_SESSION['grupos']) || !isset($_SESSION['publicaciones'])) {
-    header('Location: index.php');
+    // Ajusta esta ruta de redirección si 'Foro.php' o 'index.php' están en otro lugar relativo.
+    header('Location: ../alumno/Foro.php'); 
     exit;
 }
 
@@ -472,7 +480,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </div>
 
-    <!-- FOOTER AL FINAL -->
     <footer id="final">
         <div class="contacto">
             <h1>Contáctanos</h1>

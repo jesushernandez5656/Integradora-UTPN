@@ -137,7 +137,7 @@ main {
     <p>Mapa</p>
   </div>
   </a>
-  <a href="pages/alumno/recursos-aprendizaje/index.php">
+  <a href="../admin/foroadmin.php">
   <div class="logo">
     <svg
       fill="currentColor"
