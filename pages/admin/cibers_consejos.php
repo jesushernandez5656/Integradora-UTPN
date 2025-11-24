@@ -6,7 +6,7 @@
     <title>Administración de Consejos - UTPN</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Tus estilos CSS existentes aquí - se mantienen igual */
+        
         :root {
             --teal: #00837F;
             --gold: #AE874C;
