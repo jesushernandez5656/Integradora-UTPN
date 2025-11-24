@@ -5,7 +5,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $input = $_POST["message"];
     $config = include "../api/config.php";
     $apiKey = $config["apiKey"];
- 
+  
     $ch = curl_init("https://api.openai.com/v1/chat/completions");
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
