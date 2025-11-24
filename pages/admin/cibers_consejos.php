@@ -1984,6 +1984,7 @@
         // ==================== DEBUG Y UTILIDADES ====================
 
         // Función para debug específico de móvil
+        //comentario nuevo
         function debugMobile() {
             if (window.innerWidth <= 768) {
                 console.log('=== 📱 DEBUG MÓVIL ===');
