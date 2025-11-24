@@ -1,3 +1,4 @@
+<?php include __DIR__ . "/../../includes/header.php"; ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -2018,3 +2019,4 @@
     </script>
 </body>
 </html>
+<?php include __DIR__ . "/../../includes/footer.php"; ?>

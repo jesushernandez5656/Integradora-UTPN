@@ -82,5 +82,29 @@
         "activo": 1,
         "fecha": "2025-11-24 19:42:06",
         "creado_por": null
+    },
+    {
+        "id": 8,
+        "titulo": "Seguridad en Redes WiFi",
+        "categoria_id": 4,
+        "prioridad": "medium",
+        "icono": "📶",
+        "descripcion": "Conéctate de forma segura a redes inalámbricas.",
+        "contenido_completo": "<ul>\n    <li>Evita conectarte a redes WiFi públicas para transacciones sensibles<\/li>\n    <li>Usa una VPN cuando te conectes a redes públicas<\/li>\n    <li>Verifica que estás conectado a la red WiFi correcta (evita redes con nombres similares)<\/li>\n    <li>Desactiva la conexión automática a redes WiFi en tus dispositivos<\/li>\n    <li>En casa, cambia la contraseña predeterminada de tu router<\/li>\n    <li>Actualiza regularmente el firmware de tu router<\/li>\n  <\/ul>",
+        "activo": 1,
+        "fecha": "2025-11-24 19:55:10",
+        "creado_por": null
+    },
+    {
+        "id": 9,
+        "titulo": "Protección de Dispositivos",
+        "categoria_id": 5,
+        "prioridad": "high",
+        "icono": "💻",
+        "descripcion": "Mantén seguros tus dispositivos electrónicos.",
+        "contenido_completo": "<ul>\n    <li>Instala y mantén actualizado un software antivirus<\/li>\n    <li>Actualiza regularmente el sistema operativo y las aplicaciones<\/li>\n    <li>Habilita el bloqueo de pantalla con contraseña o patrón<\/li>\n    <li>Realiza copias de seguridad periódicas de tu información importante<\/li>\n    <li>No descargues aplicaciones de fuentes no oficiales<\/li>\n    <li>Revisa los permisos que concedes a las aplicaciones<\/li>\n  <\/ul>",
+        "activo": 1,
+        "fecha": "2025-11-24 19:57:17",
+        "creado_por": null
     }
 ]
