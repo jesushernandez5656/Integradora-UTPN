@@ -99,6 +99,45 @@ Tu labor es escuchar con empatía, acompañar emocionalmente y recordar que siem
       background-color: #f0f0f0;
     }
     
+    /* Botón de recursos */
+    .resources-button-container {
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+      background: linear-gradient(to right, #a8edea, #fed6e3);
+    }
+    
+    .resources-btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 50px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    
+    .resources-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+      background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+    }
+    
+    .resources-btn:active {
+      transform: translateY(0);
+    }
+    
+    .btn-icon {
+      font-size: 18px;
+    }
+    
     /* Main Content Styles */
     .main-content {
       flex: 1;
@@ -250,6 +289,11 @@ Tu labor es escuchar con empatía, acompañar emocionalmente y recordar que siem
         gap: 10px;
       }
       
+      .resources-btn {
+        padding: 12px 25px;
+        font-size: 14px;
+      }
+      
       .chat-container {
         height: 70vh;
       }
@@ -269,6 +313,14 @@ Tu labor es escuchar con empatía, acompañar emocionalmente y recordar que siem
   </style>
 </head>
 <body>
+  
+  <!-- Botón de Recursos - Colocado debajo del header -->
+  <div class="resources-button-container">
+    <a href="Foro.php" class="resources-btn">
+      <span class="btn-icon">📚</span>
+      Foro Estudiantil
+    </a>
+  </div>
   
   <!-- Main Content -->
   <main class="main-content">

@@ -163,6 +163,47 @@ if ($grupo_seleccionado) {
             background-color: #365899;
         }
         
+        /* Botón de recursos */
+        .resources-button-container {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            background: linear-gradient(to right, #667eea, #764ba2);
+            margin-bottom: 20px;
+        }
+        
+        .resources-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            border: 2px solid white;
+        }
+        
+        .resources-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+        
+        .resources-btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn-icon {
+            font-size: 18px;
+        }
+        
         .main-content {
             display: flex;
             margin-top: 20px;
@@ -293,6 +334,11 @@ if ($grupo_seleccionado) {
                 margin-top: 15px;
                 justify-content: center;
             }
+            
+            .resources-btn {
+                padding: 12px 25px;
+                font-size: 14px;
+            }
         }
 
         /* Estilos footer (específicos para no afectar otros) */
@@ -351,6 +397,14 @@ if ($grupo_seleccionado) {
 </head>
 <body>
     
+    <!-- Botón de Recursos - Colocado debajo del header -->
+    <div class="resources-button-container">
+        <a href="ChatBot.php" class="resources-btn">
+            <span class="btn-icon">📚</span>
+            Ayuda Psicológica
+        </a>
+    </div>
+
     <div class="container">
         <?php if ($mensaje): ?>
             <div class="mensaje"><?php echo $mensaje; ?></div>
