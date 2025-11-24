@@ -19,7 +19,7 @@
         "icono": "🔄",
         "descripcion": "Cada cuenta debe tener una contraseña única.",
         "contenido_completo": "<h3>Riesgos<\/h3><p>Si comprometen una, comprometen todas.<\/p>",
-        "activo": 1,
+        "activo": 0,
         "fecha": "2025-11-03 02:12:36",
         "creado_por": null
     },
@@ -47,6 +47,4 @@
         "fecha": "2025-11-03 03:31:49",
         "creado_por": null
     }
-
-
 ]
