@@ -120,5 +120,68 @@
         "datos_nuevos": null,
         "fecha": "2025-11-24 19:12:34",
         "ip_address": "::1"
+    },
+    {
+        "id": 10,
+        "consejo_id": 5,
+        "usuario_id": null,
+        "accion": "crear",
+        "datos_anteriores": null,
+        "datos_nuevos": {
+            "id": 5,
+            "titulo": "contraseñas fuertes",
+            "categoria_id": 1,
+            "prioridad": "high",
+            "icono": "📌",
+            "descripcion": "Crea contraseñas robustas y únicas para cada cuenta.",
+            "contenido_completo": "<ul>\n    <li>Usa al menos 12 caracteres en tus contraseñas<\/li>\n    <li>Combina mayúsculas, minúsculas, números y símbolos<\/li>\n    <li>No uses información personal como nombres o fechas<\/li>\n    <li>Utiliza un gestor de contraseñas para recordarlas todas<\/li>\n    <li>Activa la autenticación de dos factores cuando esté disponible<\/li>\n    <li>Cambia tus contraseñas regularmente, especialmente después de una filtración<\/li>\n  <\/ul>",
+            "activo": 1,
+            "fecha": "2025-11-24 19:39:01",
+            "creado_por": null
+        },
+        "fecha": "2025-11-24 19:39:01",
+        "ip_address": "::1"
+    },
+    {
+        "id": 11,
+        "consejo_id": 6,
+        "usuario_id": null,
+        "accion": "crear",
+        "datos_anteriores": null,
+        "datos_nuevos": {
+            "id": 6,
+            "titulo": "Prevención de Phishing",
+            "categoria_id": 2,
+            "prioridad": "high",
+            "icono": "🎣",
+            "descripcion": "Identifica y evita intentos de suplantación de identidad.",
+            "contenido_completo": "<ul>\n    <li>Verifica siempre la dirección del remitente en correos sospechosos<\/li>\n    <li>No hagas clic en enlaces de correos no solicitados<\/li>\n    <li>Las empresas legítimas nunca te pedirán contraseñas por correo<\/li>\n    <li>Busca errores gramaticales y ortográficos como señales de alerta<\/li>\n    <li>Si tienes dudas, contacta directamente a la empresa por teléfono<\/li>\n    <li>Instala extensiones de navegador que detecten sitios de phishing<\/li>\n  <\/ul>",
+            "activo": 1,
+            "fecha": "2025-11-24 19:40:13",
+            "creado_por": null
+        },
+        "fecha": "2025-11-24 19:40:13",
+        "ip_address": "::1"
+    },
+    {
+        "id": 12,
+        "consejo_id": 7,
+        "usuario_id": null,
+        "accion": "crear",
+        "datos_anteriores": null,
+        "datos_nuevos": {
+            "id": 7,
+            "titulo": "Privacidad en Redes Sociales",
+            "categoria_id": 3,
+            "prioridad": "medium",
+            "icono": "📱",
+            "descripcion": "Protege tu información personal en plataformas sociales.",
+            "contenido_completo": "<ul>\n    <li>Revisa y ajusta regularmente tu configuración de privacidad<\/li>\n    <li>No compartas información personal como tu dirección o teléfono públicamente<\/li>\n    <li>Ten cuidado con lo que publicas sobre tu ubicación en tiempo real<\/li>\n    <li>No aceptes solicitudes de amistad de desconocidos<\/li>\n    <li>Usa contraseñas diferentes para cada red social<\/li>\n    <li>Desactiva la geolocalización en tus publicaciones<\/li>\n  <\/ul>",
+            "activo": 1,
+            "fecha": "2025-11-24 19:42:06",
+            "creado_por": null
+        },
+        "fecha": "2025-11-24 19:42:06",
+        "ip_address": "::1"
     }
 ]
