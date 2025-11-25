@@ -89,27 +89,7 @@
   <div id="calendar"></div>
 
   <div class="seccion-lugares">
-    <h2>Ubicaciones dentro del Campus</h2>
 
-    <div id="edificioA">
-      <h3>Edificio A</h3>
-      <p>Área administrativa principal del campus.</p>
-    </div>
-
-    <div id="edificioB">
-      <h3>Edificio B</h3>
-      <p>Salones de clase y oficinas de profesores.</p>
-    </div>
-
-    <div id="cafetería">
-      <h3>Cafetería</h3>
-      <p>Espacio para descansar y disfrutar alimentos.</p>
-    </div>
-
-    <div id="canchadefutbol">
-      <h3>Cancha de Fútbol</h3>
-      <p>Área deportiva principal del campus.</p>
-    </div>
 
     <!-- Puedes seguir agregando más secciones si gustas -->
   </div>
