@@ -1,7 +1,6 @@
 <?php
 include "../../includes/header.php";
 
-
 // Ruta del archivo JSON
 $json_file = '../../assets/js/becas.json';
 
@@ -52,6 +51,18 @@ if (!$data) {
     ];
 }
 
+// Obtener lista de PDFs disponibles
+$pdf_folder = '../../assets/PDF/';
+$pdf_files = [];
+if (is_dir($pdf_folder)) {
+    $files = scandir($pdf_folder);
+    foreach ($files as $file) {
+        if (pathinfo($file, PATHINFO_EXTENSION) === 'pdf') {
+            $pdf_files[] = $file;
+        }
+    }
+}
+
 // Procesar guardado de datos
 $success = "";
 $error = "";
@@ -67,7 +78,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 
             case 'hero':
                 $data['hero']['chip_texto'] = $_POST['chip_texto'];
-                $data['hero']['titulo_principal'] = $_POST['titulo_principal'];
+                
+                // Procesar título principal - convertir texto a HTML
+                $titulo_texto = $_POST['titulo_principal'];
+                $titulo_html = $titulo_texto;
+                // Aplicar formato grad a "beca"
+                $titulo_html = preg_replace('/(^|\s)(beca)($|\s)/', '$1<span class="grad">$2</span>$3', $titulo_html);
+                // Aplicar formato grad alt a "información"
+                $titulo_html = preg_replace('/(^|\s)(información)($|\s)/', '$1<span class="grad alt">$2</span>$3', $titulo_html);
+                // Reemplazar saltos de línea por <br>
+                $titulo_html = str_replace("\n", '<br>', $titulo_html);
+                $data['hero']['titulo_principal'] = $titulo_html;
+                
                 $data['hero']['descripcion'] = $_POST['descripcion'];
                 
                 // Procesar insignias
@@ -115,6 +137,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             $requisitos = isset($_POST['beca_requisitos'][$index]) ? 
                                 array_filter(array_map('trim', explode(',', $_POST['beca_requisitos'][$index]))) : [];
                             
+                            // Procesar enlace de requisitos - agregar ruta si es un PDF
+                            $enlace_requisitos = $_POST['beca_enlace_requisitos'][$index] ?? '';
+                            if (!empty($enlace_requisitos) && !str_contains($enlace_requisitos, '://')) {
+                                $enlace_requisitos = 'assets/PDF/' . $enlace_requisitos;
+                            }
+                            
                             $data['seccion_becas_destacadas']['becas'][] = [
                                 'id' => $_POST['beca_id'][$index] ?? time() + $index,
                                 'nombre' => $nombre,
@@ -122,7 +150,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 'resumen' => $_POST['beca_resumen'][$index] ?? '',
                                 'requisitos' => $requisitos,
                                 'enlace_postular' => $_POST['beca_enlace_postular'][$index] ?? '',
-                                'enlace_descarga_requisitos' => $_POST['beca_enlace_requisitos'][$index] ?? ''
+                                'enlace_descarga_requisitos' => $enlace_requisitos
                             ];
                         }
                     }
@@ -149,7 +177,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             case 'chatbot':
                 $data['chatbot']['nombre'] = $_POST['chatbot_nombre'];
                 
-                // Procesar opciones
+                // Procesar opciones - extraer solo el texto visible
                 $data['chatbot']['opciones_iniciales'] = [];
                 if (isset($_POST['opcion_texto'])) {
                     foreach ($_POST['opcion_texto'] as $texto) {
@@ -159,7 +187,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     }
                 }
                 
-                // Procesar respuestas
+                // Procesar respuestas - extraer solo el texto visible
                 $data['chatbot']['respuestas_pregrabadas'] = [];
                 if (isset($_POST['respuesta_clave'])) {
                     foreach ($_POST['respuesta_clave'] as $index => $clave) {
@@ -183,12 +211,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
     
-    // Logout
-    if (isset($_POST['logout'])) {
-        session_destroy();
-        header('Location: admin-login.php');
-        exit;
-    }
+
 }
 ?>
 <!DOCTYPE html>
@@ -245,13 +268,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             margin-bottom: 20px;
         }
 
-        .sidebar-header h2 {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 1.3rem;
-        }
-
         .sidebar-menu {
             list-style: none;
         }
@@ -275,11 +291,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             border-left: 4px solid white;
         }
 
-        .sidebar-menu i {
-            width: 20px;
-            text-align: center;
-        }
-
         /* Main Content */
         .main-content {
             flex: 1;
@@ -294,17 +305,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             margin-bottom: 30px;
             padding-bottom: 15px;
             border-bottom: 1px solid #e0e0e0;
-        }
-
-        .header h1 {
-            color: var(--dark);
-            font-size: 1.8rem;
-        }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
 
         .user-avatar {
@@ -337,13 +337,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             align-items: center;
         }
 
-        .card-header h3 {
-            font-size: 1.2rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
         .card-body {
             padding: 20px;
         }
@@ -366,7 +359,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             border: 1px solid #ddd;
             border-radius: 5px;
             font-size: 1rem;
-            transition: border 0.3s;
         }
 
         .form-control:focus {
@@ -397,10 +389,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .btn-primary {
             background: var(--primary);
             color: white;
-        }
-
-        .btn-primary:hover {
-            background: var(--secondary);
         }
 
         .btn-success {
@@ -438,10 +426,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             border-radius: 5px;
         }
 
-        .list-item input, .list-item select, .list-item textarea {
-            flex: 1;
-        }
-
         /* Alerts */
         .alert {
             padding: 12px 15px;
@@ -462,31 +446,79 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         /* Tabs */
-        .tabs {
-            display: flex;
-            border-bottom: 1px solid #e0e0e0;
-            margin-bottom: 20px;
-        }
-
-        .tab {
-            padding: 10px 20px;
-            cursor: pointer;
-            border-bottom: 3px solid transparent;
-            transition: all 0.3s;
-        }
-
-        .tab.active {
-            border-bottom-color: var(--primary);
-            color: var(--primary);
-            font-weight: 600;
-        }
-
         .tab-content {
             display: none;
         }
 
         .tab-content.active {
             display: block;
+        }
+
+        /* Editor de texto mejorado */
+        .text-editor-container {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .editor-toolbar {
+            background: #f8f9fa;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .editor-toolbar button {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .text-editor {
+            width: 100%;
+            min-height: 200px;
+            padding: 15px;
+            border: none;
+            font-size: 16px;
+            line-height: 1.5;
+            resize: vertical;
+        }
+
+        .preview-container {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            background: white;
+            margin-top: 15px;
+        }
+
+        .preview-title {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .preview-content {
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .grad {
+            background: linear-gradient(90deg, #AE874C, #AE874C);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: bold;
+        }
+
+        .grad.alt {
+            filter: saturate(140%);
         }
 
         /* Responsive */
@@ -497,7 +529,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
             .sidebar {
                 width: 100%;
-                height: auto;
             }
             
             .sidebar-menu {
@@ -505,18 +536,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 overflow-x: auto;
             }
             
-            .sidebar-menu li {
-                flex-shrink: 0;
-            }
-            
-            .sidebar-menu a {
-                padding: 10px 15px;
-            }
-            
             .list-item {
                 flex-direction: column;
-                align-items: stretch;
             }
+        }
+
+        /* Estilos para elementos activos del sidebar */
+        .sidebar-menu a.active {
+            background: rgba(255,255,255,0.1);
+            border-left: 4px solid white;
         }
     </style>
 </head>
@@ -542,12 +570,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="header">
                 <h1>Panel de Administración - Becas Universitarias</h1>
                 <div class="user-info">
-                    <div class="user-avatar">A</div>
-                    <span>Administrador</span>
                     <form method="POST" style="display: inline;">
-                        <button type="submit" name="logout" class="btn btn-danger btn-sm">
-                            <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
-                        </button>
+                       
                     </form>
                 </div>
             </div>
@@ -572,7 +596,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <h3><i class="fas fa-tachometer-alt"></i> Resumen del Sistema</h3>
                     </div>
                     <div class="card-body">
-                        <div class="grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px;">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px;">
                             <div class="card">
                                 <div class="card-body">
                                     <h4>Becas Destacadas</h4>
@@ -655,7 +679,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             
                             <div class="form-group">
                                 <label for="titulo_principal">Título Principal</label>
-                                <textarea id="titulo_principal" name="titulo_principal" class="form-control" rows="3"><?php echo htmlspecialchars($data['hero']['titulo_principal']); ?></textarea>
+                                <div class="text-editor-container">
+                                    <div class="editor-toolbar">
+                                        <button type="button" data-format="bold"><i class="fas fa-bold"></i></button>
+                                        <button type="button" data-format="italic"><i class="fas fa-italic"></i></button>
+                                        <button type="button" data-format="grad">Beca</button>
+                                        <button type="button" data-format="grad-alt">Información</button>
+                                        <button type="button" data-format="linebreak">Salto de línea</button>
+                                    </div>
+                                    <textarea id="titulo_principal" name="titulo_principal" class="text-editor" rows="3"><?php 
+                                        // Extraer texto visible del HTML
+                                        $titulo = $data['hero']['titulo_principal'];
+                                        $titulo = preg_replace('/<span class="grad">(.*?)<\/span>/', '$1', $titulo);
+                                        $titulo = preg_replace('/<span class="grad alt">(.*?)<\/span>/', '$1', $titulo);
+                                        $titulo = str_replace('<br>', "\n", $titulo);
+                                        echo htmlspecialchars($titulo);
+                                    ?></textarea>
+                                </div>
+                                <div class="preview-container">
+                                    <div class="preview-title">Vista previa:</div>
+                                    <div class="preview-content" id="tituloPreview"></div>
+                                </div>
                             </div>
                             
                             <div class="form-group">
@@ -784,9 +828,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                                value="<?php echo htmlspecialchars($beca['enlace_postular']); ?>">
                                     </div>
                                     <div class="form-group">
-                                        <label>Enlace de Requisitos</label>
-                                        <input type="url" name="beca_enlace_requisitos[]" class="form-control" 
-                                               value="<?php echo htmlspecialchars($beca['enlace_descarga_requisitos']); ?>">
+                                        <label>Enlace de Requisitos (PDF)</label>
+                                        <select name="beca_enlace_requisitos[]" class="form-control">
+                                            <option value="">Seleccionar PDF...</option>
+                                            <?php foreach ($pdf_files as $pdf): ?>
+                                                <?php 
+                                                $current_pdf = basename($beca['enlace_descarga_requisitos']);
+                                                $selected = ($current_pdf === $pdf) ? 'selected' : '';
+                                                ?>
+                                                <option value="<?php echo $pdf; ?>" <?php echo $selected; ?>>
+                                                    <?php echo $pdf; ?>
+                                                </option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                        <small class="text-muted">PDFs disponibles en assets/PDF/</small>
                                     </div>
                                     <button type="button" class="btn btn-danger btn-sm remove-beca">
                                         <i class="fas fa-trash"></i> Eliminar Beca
@@ -922,23 +977,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script>
         // Configurar navegación entre pestañas
         $(document).ready(function() {
+            // Manejar clics en el sidebar
             $('.sidebar-menu a').on('click', function(e) {
                 e.preventDefault();
                 const tab = $(this).data('tab');
                 
+                // Actualizar sidebar
                 $('.sidebar-menu a').removeClass('active');
                 $(this).addClass('active');
                 
+                // Mostrar contenido correspondiente
                 $('.tab-content').removeClass('active');
                 $(`#${tab}`).addClass('active');
             });
 
+            // Manejar botones de acciones rápidas
             $('[data-tab]').on('click', function() {
                 const tab = $(this).data('tab');
                 
+                // Actualizar sidebar
                 $('.sidebar-menu a').removeClass('active');
                 $(`.sidebar-menu a[data-tab="${tab}"]`).addClass('active');
                 
+                // Mostrar contenido correspondiente
                 $('.tab-content').removeClass('active');
                 $(`#${tab}`).addClass('active');
             });
@@ -1015,8 +1076,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <input type="url" name="beca_enlace_postular[]" class="form-control" placeholder="https://...">
                         </div>
                         <div class="form-group">
-                            <label>Enlace de Requisitos</label>
-                            <input type="url" name="beca_enlace_requisitos[]" class="form-control" placeholder="https://...">
+                            <label>Enlace de Requisitos (PDF)</label>
+                            <select name="beca_enlace_requisitos[]" class="form-control">
+                                <option value="">Seleccionar PDF...</option>
+                                <?php foreach ($pdf_files as $pdf): ?>
+                                    <option value="<?php echo $pdf; ?>"><?php echo $pdf; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                            <small class="text-muted">PDFs disponibles en assets/PDF/</small>
                         </div>
                         <button type="button" class="btn btn-danger btn-sm remove-beca">
                             <i class="fas fa-trash"></i> Eliminar Beca
@@ -1082,8 +1149,90 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $(document).on('click', '.remove-respuesta', function() {
                 $(this).closest('.card').remove();
             });
+
+            // Editor de texto para título principal
+            function updateTituloPreview() {
+                const editor = document.getElementById('titulo_principal');
+                const preview = document.getElementById('tituloPreview');
+                
+                if (!editor || !preview) return;
+                
+                // Convertir texto a HTML para la vista previa
+                let html = editor.value;
+                
+                // Aplicar formato grad a "beca"
+                html = html.replace(/(^|\s)(beca)($|\s)/g, '$1<span class="grad">$2</span>$3');
+                
+                // Aplicar formato grad alt a "información"
+                html = html.replace(/(^|\s)(información)($|\s)/g, '$1<span class="grad alt">$2</span>$3');
+                
+                // Reemplazar saltos de línea por <br>
+                html = html.replace(/\n/g, '<br>');
+                
+                preview.innerHTML = html;
+            }
+
+            // Configurar editor de texto
+            const editor = document.getElementById('titulo_principal');
+            const toolbar = document.querySelector('.editor-toolbar');
+            
+            if (editor) {
+                editor.addEventListener('input', updateTituloPreview);
+                
+                // Inicializar vista previa
+                updateTituloPreview();
+            }
+
+            if (toolbar) {
+                toolbar.addEventListener('click', function(e) {
+                    if (e.target.tagName === 'BUTTON') {
+                        const format = e.target.dataset.format;
+                        applyFormat(format, editor);
+                    }
+                });
+            }
+
+            function applyFormat(format, editor) {
+                if (!editor) return;
+                
+                const start = editor.selectionStart;
+                const end = editor.selectionEnd;
+                const text = editor.value;
+                let newText = '';
+                
+                switch(format) {
+                    case 'bold':
+                        newText = text.substring(0, start) + '**' + text.substring(start, end) + '**' + text.substring(end);
+                        break;
+                    case 'italic':
+                        newText = text.substring(0, start) + '_' + text.substring(start, end) + '_' + text.substring(end);
+                        break;
+                    case 'grad':
+                        newText = text.substring(0, start) + 'beca' + text.substring(end);
+                        break;
+                    case 'grad-alt':
+                        newText = text.substring(0, start) + 'información' + text.substring(end);
+                        break;
+                    case 'linebreak':
+                        newText = text.substring(0, start) + '\n' + text.substring(end);
+                        break;
+                }
+                
+                editor.value = newText;
+                updateTituloPreview();
+                
+                // Restaurar el foco y la selección
+                editor.focus();
+                const newPosition = format === 'linebreak' ? start + 1 : start;
+                editor.setSelectionRange(newPosition, newPosition);
+            }
+
+            // Prevenir envío duplicado de formularios
+            $('form').on('submit', function() {
+                $(this).find('button[type="submit"]').prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Guardando...');
+            });
         });
     </script>
+   <?php include "../../includes/footer.php"; ?> 
 </body>
-<?php include "../../includes/footer.php"; ?>
 </html>
