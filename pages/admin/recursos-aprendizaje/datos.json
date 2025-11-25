@@ -4,8 +4,8 @@
         "2": "T.S.U. en Sistemas de Gestión de la Calidad",
         "3": "T.S.U. en Infraestructura de Redes Digitales",
         "4": "T.S.U. en Emprendimiento, Formulación y Evaluación de Proyectos",
-        "5": "TSU en Mecatrónica",
-        "6": "T.S.U en Diseño Arquitectónico",
+        "5": "T.S.U. en Mecatrónica",
+        "6": "T.S.U. en Diseño Arquitectónico",
         "7": "Ingeniería en Logística Internacional",
         "8": "Ingeniería Industrial",
         "9": "Ingeniería en Tecnologías de la Información e Innovación Digital",
@@ -59,7 +59,7 @@
             "id_categoria": 5,
             "titulo": "Robótica y Mecatrónica de Servicios: Teoría y Aplicaciones (Libro digital)",
             "descripcion": "Presenta la teoría, pero se enfoca en aplicaciones y casos de servicio. Año 2016",
-            "tipo": "Libros",
+            "tipo": "pdf adjuntos",
             "enlace": "https:\/\/www.mecamex.net\/Libros\/2016-Libro-MecatronicayRoboticadeServicio.pdf"
         },
         {
@@ -75,7 +75,7 @@
             "id_categoria": 5,
             "titulo": "Libro PDF: Ingeniería Mecatrónica: Proyectos y Aplicaciones",
             "descripcion": "Contiene capítulos sobre proyectos específicos como la construcción de un Péndulo Invertido sobre un Carro y simulaciones de sistemas bípedos. Año 2014",
-            "tipo": "Libros",
+            "tipo": "pdf adjuntos",
             "enlace": "https:\/\/www.mecamex.net\/Libros\/2014-Libro-IngenieriaMecatronica.pdf"
         },
         {
@@ -163,8 +163,24 @@
             "id_categoria": 8,
             "titulo": "Lean manufacturing (Todo Proyectos)",
             "descripcion": "Un libro completo sobre Lean Manufacturing, detallando su exposición adaptada a la fabricación repetitiva y los procesos discretos. Año 2013",
-            "tipo": "Libros",
+            "tipo": "pdf adjuntos",
             "enlace": "https:\/\/todoproyecto.wordpress.com\/wp-content\/uploads\/2020\/09\/lean_manufacturing_francisco_madariaga_r.pdf"
+        },
+        {
+            "id_recurso": 27,
+            "id_categoria": 1,
+            "titulo": "Operaciones de comercio exterior: logística en aduana fronteriza norte",
+            "descripcion": "Al realizar una actividad aduanera se deben realizar actos y formalidades para internar una determinada mercancía a territorio nacional.",
+            "tipo": "pdf adjuntos",
+            "enlace": "https:\/\/www.pag.org.mx\/index.php\/PAG\/article\/view\/666\/845"
+        },
+        {
+            "id_recurso": 28,
+            "id_categoria": 1,
+            "titulo": "El sistema logístico del comercio exterior en los países del APEC",
+            "descripcion": "El objetivo de esta investigación es determinar la eficiencia de la red logística del comercio\r\nexterior de diecinueve economías de la región del APEC para el año 2016. Se trabaja para\r\nello con el Data Envelopment Analysis (DEA) network.",
+            "tipo": "Articulos de investigacion",
+            "enlace": "https:\/\/www.scielo.org.mx\/pdf\/confines\/v15n29\/1870-3569-confines-15-29-87.pdf"
         }
     ]
 }

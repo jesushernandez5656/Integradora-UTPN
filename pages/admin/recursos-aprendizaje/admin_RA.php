@@ -1,10 +1,10 @@
 <?php
 // Lee los datos del archivo JSON
 $datos_json = file_get_contents('datos.json');
-// Decodifica el JSON a un array PHP, manejando posible error de archivo vacío o inválido
-$datos = json_decode($datos_json, true) ?: ['categorias' => [], 'recursos' => []]; // Si falla, usa arrays vacíos
-$categorias = $datos['categorias'] ?? []; // Usa ?? para evitar error si 'categorias' no existe
-$recursos = $datos['recursos'] ?? [];   // Usa ?? para evitar error si 'recursos' no existe
+// Decodifica el JSON a un array PHP
+$datos = json_decode($datos_json, true) ?: ['categorias' => [], 'recursos' => []];
+$categorias = $datos['categorias'] ?? [];
+$recursos = $datos['recursos'] ?? [];
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -12,6 +12,7 @@ $recursos = $datos['recursos'] ?? [];   // Usa ?? para evitar error si 'recursos
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Administración</title>
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     
     <link rel="stylesheet" href="/integradora-UTPN/assets/css/navbar.css">
@@ -19,36 +20,36 @@ $recursos = $datos['recursos'] ?? [];   // Usa ?? para evitar error si 'recursos
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
         body {
-            /* Tus nuevos estilos */
             margin: 0;
             font-family: 'Plus Jakarta Sans', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, sans-serif;
-            color: var(--txt, #212529); /* Color de fallback por si --txt no está definido */
-            background-color: #EDE5D6; /* 🎨 crema claro */
+            color: var(--txt, #212529); 
+            background-color: #EDE5D6; /* 🎨 crema claro, cálido y suave */
             
-            /* Estilos de layout necesarios */
+            /* Estilos estructurales para el footer */
             display: flex;
             flex-direction: column;
             min-height: 100vh;
         }
+        
         main {
-            flex-grow: 1; /* Asegura que el contenido principal crezca */
+            flex-grow: 1;
         }
-        /* Añadido para que las secciones tengan contraste con el fondo crema */
-        section.border {
+
+        /* Fondo blanco para las tarjetas y secciones para que resalten sobre el crema */
+        section.border, .card {
             background-color: #FFFFFF;
         }
     </style>
 </head>
-<body> <?php 
-    // Incluye el header
-    include "../../../includes/header.php"; 
-    ?>
+<body>
 
-    <main class="container mt-4" style="flex-grow: 1; padding-bottom: 500px;"> 
+    <?php include "../../../includes/header.php"; ?>
+
+    <main class="container mt-4" style="padding-bottom: 500px;"> 
     
         <h1 class="mb-4">Panel de Administración de Recursos</h1>
 
@@ -79,7 +80,6 @@ $recursos = $datos['recursos'] ?? [];   // Usa ?? para evitar error si 'recursos
         </section>
 
         <section class="p-4 border rounded shadow-sm">
-            
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <div class="d-flex align-items-center gap-3">
                     <h2 class="h4 mb-0">Gestionar Recursos</h2>
@@ -135,21 +135,146 @@ $recursos = $datos['recursos'] ?? [];   // Usa ?? para evitar error si 'recursos
             </div>
         </section>
 
-        <div class="modal fade" id="modalCarreraAgregar" tabindex="-1">...</div>
-        <div class="modal fade" id="modalRecursoAgregar" tabindex="-1">...</div>
-        <div class="modal fade" id="modalRecursoEditar" tabindex="-1">...</div>
+        <div class="modal fade" id="modalCarreraAgregar" tabindex="-1">
+            <div class="modal-dialog"><div class="modal-content">
+                <form action="gestionar_datos.php" method="POST">
+                    <div class="modal-header"><h5 class="modal-title">Agregar Carrera</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="nombre_carrera" class="form-label">Nombre de la Carrera</label>
+                            <input type="text" class="form-control" id="nombre_carrera" name="nombre_carrera" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" name="accion" value="agregar_carrera" class="btn btn-primary">Guardar</button>
+                    </div>
+                </form>
+            </div></div>
+        </div>
+
+        <div class="modal fade" id="modalRecursoAgregar" tabindex="-1">
+            <div class="modal-dialog"><div class="modal-content">
+                <form action="gestionar_datos.php" method="POST">
+                    <div class="modal-header"><h5 class="modal-title">Agregar Recurso</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+                    <div class="modal-body">
+                        <div class="mb-3"><label for="add_titulo" class="form-label">Título</label><input type="text" class="form-control" id="add_titulo" name="titulo" required></div>
+                        <div class="mb-3"><label for="add_descripcion" class="form-label">Descripción</label><textarea class="form-control" id="add_descripcion" name="descripcion" rows="3"></textarea></div>
+                        <div class="mb-3">
+                            <label for="add_id_categoria" class="form-label">Carrera</label>
+                            <select class="form-select" id="add_id_categoria" name="id_categoria" required>
+                                <option value="">Selecciona una carrera...</option>
+                                <?php foreach ($categorias as $id => $nombre): ?><option value="<?php echo $id; ?>"><?php echo htmlspecialchars($nombre); ?></option><?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="add_tipo" class="form-label">Tipo de Recurso</label>
+                            <select class="form-select" id="add_tipo" name="tipo" required>
+                                <option value="">Selecciona un tipo...</option>
+                                <option value="Tesis">Tesis</option><option value="Articulos de investigacion">Artículo de Investigación</option><option value="Cursos">Cursos</option><option value="Libros">Libros</option><option value="Tutoriales">Tutoriales</option><option value="pdf adjuntos">PDF Adjunto</option><option value="Simuladores">Simuladores</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="add_enlace" class="form-label">Enlace</label>
+                            <input type="url" class="form-control" id="add_enlace" name="enlace" placeholder="https://..." required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" name="accion" value="agregar_recurso" class="btn btn-primary">Guardar</button>
+                    </div>
+                </form>
+            </div></div>
+        </div>
+
+        <div class="modal fade" id="modalRecursoEditar" tabindex="-1">
+            <div class="modal-dialog"><div class="modal-content">
+                <form action="gestionar_datos.php" method="POST">
+                    <input type="hidden" id="edit_id_recurso" name="id_recurso">
+                    <div class="modal-header"><h5 class="modal-title">Editar Recurso</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+                    <div class="modal-body">
+                        <div class="mb-3"><label for="edit_titulo" class="form-label">Título</label><input type="text" class="form-control" id="edit_titulo" name="titulo" required></div>
+                        <div class="mb-3"><label for="edit_descripcion" class="form-label">Descripción</label><textarea class="form-control" id="edit_descripcion" name="descripcion" rows="3"></textarea></div>
+                        <div class="mb-3">
+                            <label for="edit_id_categoria" class="form-label">Carrera</label>
+                            <select class="form-select" id="edit_id_categoria" name="id_categoria" required>
+                                <?php foreach ($categorias as $id => $nombre): ?><option value="<?php echo $id; ?>"><?php echo htmlspecialchars($nombre); ?></option><?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit_tipo" class="form-label">Tipo de Recurso</label>
+                            <select class="form-select" id="edit_tipo" name="tipo" required>
+                                <option value="Tesis">Tesis</option><option value="Articulos de investigacion">Artículo de Investigación</option><option value="Cursos">Cursos</option><option value="Libros">Libros</option><option value="Tutoriales">Tutoriales</option><option value="pdf adjuntos">PDF Adjunto</option><option value="Simuladores">Simuladores</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit_enlace" class="form-label">Enlace</label>
+                            <input type="url" class="form-control" id="edit_enlace" name="enlace" placeholder="https://..." required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" name="accion" value="editar_recurso" class="btn btn-primary">Actualizar Cambios</button>
+                    </div>
+                </form>
+            </div></div>
+        </div>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
         <script>
-            // Espera a que el DOM esté completamente cargado
             document.addEventListener('DOMContentLoaded', function () {
-                // ... (Tu script de modal y filtro va aquí) ...
+                
+                // --- Script Modal Editar ---
+                try {
+                    const modalEditar = document.getElementById('modalRecursoEditar');
+                    if (modalEditar) { 
+                        modalEditar.addEventListener('show.bs.modal', function (event) {
+                            const button = event.relatedTarget;
+                            if (button) {
+                                const id = button.getAttribute('data-id');
+                                const titulo = button.getAttribute('data-titulo');
+                                const desc = button.getAttribute('data-desc');
+                                const catId = button.getAttribute('data-cat-id');
+                                const tipo = button.getAttribute('data-tipo');
+                                const enlace = button.getAttribute('data-enlace');
+                                
+                                modalEditar.querySelector('#edit_id_recurso').value = id || '';
+                                modalEditar.querySelector('#edit_titulo').value = titulo || '';
+                                modalEditar.querySelector('#edit_descripcion').value = desc || '';
+                                modalEditar.querySelector('#edit_id_categoria').value = catId || '';
+                                modalEditar.querySelector('#edit_tipo').value = tipo || '';
+                                modalEditar.querySelector('#edit_enlace').value = enlace || '';
+                            }
+                        });
+                    }
+                } catch (error) { console.error(error); }
+
+                // --- Script Filtro Carreras ---
+                try {
+                    const filtroSelect = document.getElementById('filtroCarreraAdmin');
+                    const contenedorTarjetas = document.getElementById('lista-recursos-admin'); 
+
+                    if (filtroSelect && contenedorTarjetas) {
+                        const todasLasTarjetas = contenedorTarjetas.querySelectorAll('.recurso-card-admin');
+                        filtroSelect.addEventListener('change', function () {
+                            const idCarreraSeleccionada = this.value;
+                            todasLasTarjetas.forEach(function (tarjeta) {
+                                const idCarreraTarjeta = tarjeta.getAttribute('data-id-carrera');
+                                if (idCarreraSeleccionada === 'todos' || idCarreraSeleccionada === idCarreraTarjeta) {
+                                    tarjeta.style.display = ''; 
+                                } else {
+                                    tarjeta.style.display = 'none'; 
+                                }
+                            });
+                        });
+                    }
+                } catch (error) { console.error(error); }
             });
         </script>
 
-    </main> <?php 
-    // Incluye el footer (Debe ser solo un fragmento HTML)
-    include "../../../includes/footer.php"; 
-    ?>
+    </main> 
+
+    <?php include "../../../includes/footer.php"; ?>
+
 </body>
 </html>

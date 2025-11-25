@@ -20,10 +20,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $_SESSION["pending_user_id"] = $user['id'];
         $_SESSION["reset_mode"] = true; // 🔹 diferenciamos que es recuperación
 
-        $subject = "Recuperación de contraseña - UTPN";
+        $subject = "Recuperacion de contraseña - UTPN";
         $body = "<p>Hola {$user['name']},</p>
-                 <p>Tu código de recuperación es: <b>$code</b></p>
-                 <p>Este código vence en 10 minutos.</p>";
+                 <p>Tu codigo de recuperacion es: <b>$code</b></p>
+                 <p>Este codigo vence en 10 minutos.</p>";
 
         send_email($email, $user['name'], $subject, $body);
 

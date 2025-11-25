@@ -1,160 +1,149 @@
 <?php include "includes/header.php"; ?>
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UTPN</title>
-</head>
-<body>
-  <style>
-    *{
-    padding: 0;
+
+    <style>
+* {
     margin: 0;
+    padding: 0;
     box-sizing: border-box;
+    font-family: Arial, sans-serif;
 }
 
 body {
-  margin: 0;
   font-family: 'Plus Jakarta Sans', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, sans-serif;
-  background-color: #EDE5D6; /* 🎨 crema claro, cálido y suave */
-}
-a {
-  text-decoration: none;
+  background-color: #EDE5D6; /* 🎨 crema claro */
 }
 
-main {
-  padding: 100px ; /* 80px arriba y abajo, 20px a los lados */
-}
- 
-/* Contenedor de logos */
+/* ------------------------------- */
+/*   CONTENEDOR PRINCIPAL (MÓVIL)  */
+/* ------------------------------- */
+
 .logos-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 30px auto 0 auto;
     display: grid;
-    grid-template-columns: repeat(3, 220px); /* 3 columnas en PC */
-    grid-auto-rows: 220px;
-    justify-content: center; /* centra la cuadrícula horizontalmente */
-    gap: 10px;
-    width: max-content; /* contenedor ajustado al contenido */
-    margin: 60px auto; /* margen superior e inferior */
-    transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
+    grid-template-columns: 1fr; /* 1 columna en móvil */
+    gap: 20px;
+    place-items: center;
 }
 
-/* Cada logo */
+/* Evita subrayados */
+.logos-container a {
+    text-decoration: none;
+}
+
+/* ------------------------------- */
+/*         ESTILO DE CADA LOGO     */
+/* ------------------------------- */
+
 .logo {
-    width: 220px;
-    height: 220px;
+    width: 140px;
+    height: 140px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
     display: flex;
-    flex-direction: column; /* svg arriba, texto debajo */
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    border-radius: 12px;
-    background-color: #ffffff;
-    transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
-    cursor: pointer;
-    text-align: center;
+    padding: 10px;
+    transition: 0.2s ease-in-out;
 }
 
-/* Svg dentro del logo */
-.logo svg {
-    width: 32px;
-    height: 32px;
-    fill: #AE874C;
-    transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-/* Hover original que tenías */
 .logo:hover {
-    background-color: #00837f;
-    box-shadow:
-        0rem 6px 13px rgba(10, 60, 255, 0.1),
-        0rem 24px 24px rgba(10, 60, 255, 0.09),
-        0rem 55px 33px rgba(10, 60, 255, 0.05),
-        0rem 97px 39px rgba(10, 60, 255, 0.01),
-        0rem 152px 43px rgba(10, 60, 255, 0);
+    transform: scale(1.06);
 }
 
-.logo:hover svg {
-    fill: #ffffff;
+.logo svg {
+    width: 50px;
+    height: 50px;
+    color: #b2842a;
+    margin-bottom: 8px;
 }
 
-/* Texto debajo del svg */
+/* Elimina líneas debajo del texto */
 .logo p {
-    margin-top: 10px;
-    font-size: 16px;
-    color: #333333;
+    color: #333;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1.1;
+    border-bottom: none !important;
+    max-width: 100%;
 }
 
-/* Responsive: Pantallas menores a 700px */
-@media screen and (max-width: 700px) {
+/* ------------------------------- */
+/*       MODO ESCRITORIO (DESKTOP) */
+/* ------------------------------- */
+
+@media (min-width: 768px) {
     .logos-container {
-        grid-template-columns: repeat(2, 200px); /* 2 columnas */
-        grid-auto-rows: 200px;
-        gap: 10px;
-        width: max-content;
+        max-width: 900px;
+        grid-template-columns: repeat(3, 1fr); /* 3 columnas */
+        gap: 25px;
+        place-items: center;
     }
 
     .logo {
-        width: 200px;
-        height: 200px;
+        width: 160px;
+        height: 160px;
     }
 
     .logo svg {
-        width: 28px;
-        height: 28px;
+        width: 55px;
+        height: 55px;
+    }
+
+    .logo p {
+        font-size: 16px;
     }
 }
-  </style>
-    <main>
-    <!-- From Uiverse.io by gharsh11032000 --> 
-<a href="pages/public/becas.php">
-    <div class="logos-container">
-  <div class="logo">
-    <svg
-      fill="currentColor"
-      viewBox="0 0 24 24"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M23 18.9999H22V8.99991H18V6.58569L12 0.585693L6 6.58569V8.99991H2V18.9999H1V20.9999H23V18.9999ZM6 19H4V11H6V19ZM18 11H20V19H18V11ZM11 12H13V19H11V12Z"
-      ></path>
-    </svg>
-    
-    <p>Becas</p>
-  </div>
-  </a>
-  <a href="pages/public/mapa_calendario.php">
-  <div class="logo">
-    <svg
-      fill="currentColor"
-      viewBox="0 0 24 24"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M17 7C13.5705 7 10.6449 9.15804 9.50734 12.1903L11.3805 12.8927C12.2337 10.6185 14.4278 9 17 9C17.6983 9 18.3687 9.11928 18.992 9.33857C21.3265 10.16 23 12.3846 23 15C23 18.3137 20.3137 21 17 21H7C3.68629 21 1 18.3137 1 15C1 12.3846 2.67346 10.16 5.00804 9.33857C5.0027 9.22639 5 9.11351 5 9C5 5.13401 8.13401 2 12 2C15.242 2 17.9693 4.20399 18.7652 7.19539C18.1973 7.0675 17.6065 7 17 7Z"
-      ></path>
-    </svg>
-    
-    <p>Mapa</p>
-  </div>
-  </a>
-  <a href="pages/alumno/ChatBot.php">
-    <div class="logos-container">
-  <div class="logo">
-    <svg
-      fill="currentColor"
-      viewBox="0 0 24 24"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M23 18.9999H22V8.99991H18V6.58569L12 0.585693L6 6.58569V8.99991H2V18.9999H1V20.9999H23V18.9999ZM6 19H4V11H6V19ZM18 11H20V19H18V11ZM11 12H13V19H11V12Z"
-      ></path>
-    </svg>
-    <p>ChatBot</p>
-  </div>
-  </a>
-</div>
-</main>
 
+    </style>
+
+</head>
+<body>
+    <main>
+        <div class="logos-container">
+
+            <!-- Becas -->
+            <a href="pages/public/becas.php">
+                <div class="logo">
+                    <svg fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M23 18.9999H22V8.99991H18V6.58569L12 0.585693L6 6.58569V8.99991H2V18.9999H1V20.9999H23V18.9999ZM6 19H4V11H6V19ZM18 11H20V19H18V11ZM11 12H13V19H11V12Z"></path>
+                    </svg>
+                    <p>Becas</p>
+                </div>
+            </a>
+
+            <!-- Mapa -->
+            <a href="pages/public/mapa_calendario.php">
+                <div class="logo">
+                    <svg fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M17 7C13.5705 7 10.6449 9.15804 9.50734 12.1903L11.3805 12.8927C12.2337 10.6185 14.4278 9 17 9C17.6983 9 18.3687 9.11928 18.992 9.33857C21.3265 10.16 23 12.3846 23 15C23 18.3137 20.3137 21 17 21H7C3.68629 21 1 18.3137 1 15C1 12.3846 2.67346 10.16 5.00804 9.33857C5.0027 9.22639 5 9.11351 5 9C5 5.13401 8.13401 2 12 2C15.242 2 17.9693 4.20399 18.7652 7.19539C18.1973 7.0675 17.6065 7 17 7Z"></path>
+                    </svg>
+                    <p>Mapa</p>
+                </div>
+            </a>
+
+            <!-- ChatBot -->
+            <a href="pages/alumno/ChatBot.php">
+                <div class="logo">
+                    <svg fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2.00004C6.48577 2.00004 2 6.48581 2 12.0001C2 14.5989 3.03816 16.9204 4.70817 18.6757L4.08836 21.3918C4.01353 21.7138 4.30138 21.9961 4.62243 21.9213L7.38883 21.2982C9.0716 22.457 11.0089 22.9996 13 22.9996C18.5143 22.9996 23 18.5139 23 12.9996C23 7.48541 18.5143 2.00004 12 2.00004ZM12.0001 20.9996C11.6667 20.9996 11.3333 20.9996 11 20.9996C6.58172 20.9996 3 17.4179 3 12.9996C3 8.58137 6.58172 5.00004 11 5.00004C15.4183 5.00004 19 8.58137 19 12.9996C19 17.4179 15.4183 20.9996 11 20.9996Z"></path>
+                    </svg>
+                    <p>ChatBot</p>
+                </div>
+            </a>
+
+        </div>
+    </main>
 </body>
 <?php include "includes/footer.php"; ?>
 </html>
