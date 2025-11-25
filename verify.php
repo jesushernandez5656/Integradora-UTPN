@@ -46,8 +46,9 @@ $_SESSION["pending_user_type"] = $user["user_type"];
 // ✅ Enviar correo con el código
 $subject = "Código de verificación 2FA - UTPN";
 $body = "<p>Hola {$user['name']},</p>
-         <p>Tu código de verificación es: <b>$code2fa</b></p>
-         <p>Este código vence en 10 minutos.</p>";
+<p>Tu codigo de verificacion es: <b>$code2fa</b></p>
+<p>Este codigo vence en 10 minutos.</p>"
+;
 send_email($email, $user["name"], $subject, $body);
 
 $_SESSION['alert'] = ["type" => "success", "message" => "✅ Cuenta verificada, introduce el código enviado a tu correo."];

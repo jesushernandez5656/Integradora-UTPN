@@ -1,10 +1,20 @@
-<?php include "../../includes/header.php"; ?>
+<?php 
+include "../../includes/header.php"; 
+
+// Cargar y decodificar el JSON
+$json_file = '../../assets/js/becas.json';
+$json_data = file_get_contents($json_file);
+$data = json_decode($json_data, true);
+
+// Usar los datos específicos de la página de becas universitarias
+$pagina = $data['pagina_becas_universitarias'];
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Becas Universitarias | Impulsa tu camino</title>
+  <title><?php echo htmlspecialchars($pagina['titulo_pagina']); ?></title>
   <link rel="stylesheet" href="/INTEGRADORA-UTPN/assets/css/header.css">
   <link rel="stylesheet" href="/INTEGRADORA-UTPN/assets/css/footer.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -49,6 +59,7 @@ body {
   font-family: 'Plus Jakarta Sans', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, sans-serif;
   color: var(--txt);
   background-color: #EDE5D6; /* 🎨 crema claro, cálido y suave */
+  overflow-x: hidden;
 }
 
 /* ================================
@@ -58,12 +69,12 @@ body {
   width: 100%;
   max-width: var(--max);
   margin-inline: auto;
-  padding: clamp(16px, 3vw, 28px);
+  padding: clamp(12px, 3vw, 28px);
 }
 
 .grid {
   display: grid;
-  gap: clamp(16px, 2.2vw, 28px);
+  gap: clamp(12px, 2.2vw, 28px);
 }
 
 .grid-2 {
@@ -74,12 +85,219 @@ body {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-@media (max-width:1024px) {
-  .grid-3 { grid-template-columns: 1fr 1fr; }
+/* ================================
+   NUEVO DISEÑO HERO - COMPACTO
+================================ */
+.hero {
+  position: relative;
+  padding: clamp(20px, 4vw, 40px) 0;
+  background: linear-gradient(135deg, #f8f4ec 0%, #EDE5D6 100%);
 }
 
-@media (max-width:720px) {
-  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+.hero-compact {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.hero-main {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 20px;
+  align-items: center;
+}
+
+.hero-content {
+  flex: 1;
+}
+
+.hero-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  background: linear-gradient(135deg, #AE874C, #c79c4d);
+  color: white;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.hero-title {
+  font-size: clamp(20px, 4vw, 32px);
+  line-height: 1.2;
+  margin: 0 0 10px 0;
+  color: var(--txt);
+}
+
+.hero-title .highlight {
+  background: linear-gradient(135deg, #AE874C, #c79c4d);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: 800;
+}
+
+.hero-description {
+  color: var(--muted);
+  font-size: clamp(14px, 1.8vw, 16px);
+  line-height: 1.4;
+  margin: 0 0 15px 0;
+}
+
+.hero-features {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.feature-tag {
+  padding: 4px 10px;
+  background: rgba(174, 135, 76, 0.1);
+  border: 1px solid rgba(174, 135, 76, 0.3);
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #AE874C;
+}
+
+.feature-tag.success {
+  background: rgba(34, 197, 94, 0.1);
+  border-color: rgba(34, 197, 94, 0.3);
+  color: #16a34a;
+}
+
+.feature-tag.warning {
+  background: rgba(245, 158, 11, 0.1);
+  border-color: rgba(245, 158, 11, 0.3);
+  color: #d97706;
+}
+
+.hero-card {
+  background: var(--glass);
+  border: 1px solid var(--stroke);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: var(--shadow);
+  min-width: 280px;
+  max-width: 320px;
+}
+
+.card-compact {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  padding: 16px;
+  border: 1px solid rgba(189, 145, 63, 0.2);
+}
+
+.card-compact h3 {
+  font-size: 16px;
+  margin: 0 0 8px 0;
+  color: var(--txt);
+  font-weight: 700;
+}
+
+.card-compact p {
+  font-size: 13px;
+  color: var(--muted);
+  margin: 0 0 12px 0;
+  line-height: 1.3;
+}
+
+.card-meta {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+}
+
+.meta-item {
+  padding: 4px 8px;
+  background: rgba(174, 135, 76, 0.1);
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #AE874C;
+}
+
+.card-action {
+  width: 100%;
+  padding: 10px 16px;
+  background: linear-gradient(135deg, #d0d1d1, #7e8080);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  display: block;
+  transition: transform 0.2s ease;
+}
+
+.card-action:hover {
+  transform: translateY(-2px);
+  color: white;
+}
+
+/* ================================
+   Responsive Breakpoints
+================================ */
+@media (max-width: 1024px) {
+  .grid-3 { 
+    grid-template-columns: repeat(2, minmax(0, 1fr)); 
+  }
+}
+
+@media (max-width: 768px) {
+  .grid-2, 
+  .grid-3 { 
+    grid-template-columns: 1fr; 
+  }
+  
+  .hero-main {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  
+  .hero-card {
+    max-width: 100%;
+    order: -1;
+  }
+  
+  .section__head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 10px;
+  }
+  
+  .hero {
+    padding: 15px 0;
+  }
+  
+  .hero-compact {
+    gap: 15px;
+  }
+  
+  .hero-features {
+    gap: 6px;
+  }
+  
+  .feature-tag {
+    font-size: 10px;
+    padding: 3px 8px;
+  }
+  
+  .card-compact {
+    padding: 12px;
+  }
 }
 
 /* ================================
@@ -96,21 +314,24 @@ body {
   --bgbtn: linear-gradient(90deg, var(--brand), var(--brand-2));
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
+  gap: 8px;
   background: var(--bgbtn);
   color: white;
   text-decoration: none;
   font-weight: 700;
-  padding: 14px 20px;
-  border-radius: 16px;
+  padding: 12px 16px;
+  border-radius: 12px;
   border: 1px solid transparent;
   box-shadow: var(--shadow);
   transform: translateZ(0);
   transition: transform .2s ease, filter .2s ease;
+  text-align: center;
+  font-size: 14px;
 }
 
 .btn.small {
-  padding: 10px 14px;
+  padding: 8px 12px;
   font-weight: 700;
 }
 
@@ -141,6 +362,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 0 12px;
 }
 
 .nav__links {
@@ -168,6 +390,7 @@ body {
   letter-spacing: .3px;
   text-decoration: none;
   color: var(--txt);
+  font-size: clamp(16px, 4vw, 18px);
 }
 
 .brand__accent {
@@ -178,169 +401,18 @@ body {
 }
 
 .brand__dot {
-  width: 12px;
-  height: 12px;
+  width: 8px;
+  height: 8px;
   border-radius: 999px;
   background: linear-gradient(90deg, var(--brand), var(--brand-2));
   box-shadow: 0 0 18px rgba(124,58,237,.7);
 }
 
 /* ================================
-   Hero
-================================ */
-.hero {
-  position: relative;
-  padding: clamp(48px, 8vw, 96px) 0;
-}
-
-.hero__copy h1 {
-  font-size: clamp(32px, 5vw, 56px);
-  line-height: 1.05;
-  margin: .2em 0 .3em;
-}
-
-.hero__copy p {
-  font-size: clamp(16px, 1.6vw, 18px);
-}
-
-.chip {
-  display: inline-block;
-  padding: 8px 12px;
-  border-radius: 999px;
-  background: linear-gradient(90deg, rgba(124,58,237,.18), rgba(6,182,212,.18));
-  border: 1px solid var(--stroke);
-  font-weight: 700;
-  color: #dfe7ff;
-}
-
-.grad {
-  background: linear-gradient(90deg, #AE874C, #AE874C);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-.grad.alt { filter: saturate(140%); }
-
-.search {
-  margin-top: 18px;
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-
-.search input {
-  flex: 1;
-  padding: 14px 16px;
-  border-radius: 14px;
-  border: 1px solid var(--stroke);
-  background: rgba(255,255,255,.04);
-  color: var(--txt);
-  outline: none;
-}
-
-.search input::placeholder { color: #9aa4b8; }
-
-.search button svg { margin-top: -2px; }
-
-.hero__badges {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 14px;
-}
-
-.badge {
-  padding: 8px 12px;
-  border-radius: 12px;
-  background: rgba(10, 240, 133, 0.05);
-  border: 1px solid var(--stroke);
-}
-
-.badge.ok {
-  border-color: rgba(34,197,94,.4);
-  box-shadow: 0 0 0 1px rgba(34,197,94,.25) inset;
-}
-
-.badge.warn {
-  border-color: rgba(245,158,11,.4);
-  box-shadow: 0 0 0 1px rgba(245,158,11,.25) inset;
-}
-
-.hero__visual {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.glass {
-  background: var(--glass);
-  border: 1px solid var(--stroke);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-}
-
-.card--stack {
-  position: relative;
-  aspect-ratio: 4/3;
-  min-height: 360px;
-  display: grid;
-  place-items: center;
-  padding: 24px;
-  overflow: hidden;
-}
-
-.card--stack .card {
-  position: absolute;
-  inset: auto 24px 24px 24px;
-  padding: 22px;
-  border-radius: 20px;
-  background: rgba(7,12,25,.7);
-  border: 1px solid var(--stroke);
-  transform: rotate(-2deg) translateY(-6px);
-  animation: float 6s ease-in-out infinite;
-}
-
-.card--stack .card.delay {
-  inset: 24px;
-  transform: rotate(2deg) translateY(6px);
-  animation-delay: 1.2s;
-}
-
-.card h3 {
-  margin: 0 0 6px;
-  font-size: 20px;
-}
-
-.card p {
-  margin: 0 0 12px;
-  color: var(--muted);
-}
-
-.card .meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin: 10px 0 14px;
-}
-
-.card .meta span {
-  padding: 6px 10px;
-  border: 1px solid var(--stroke);
-  border-radius: 999px;
-  background: rgba(255,255,255,.04);
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(-4px) rotate(-2deg); }
-  50% { transform: translateY(4px) rotate(-2deg); }
-}
-
-/* ================================
    Sections
 ================================ */
 .section {
-  padding: clamp(40px, 7vw, 84px) 0;
+  padding: clamp(24px, 6vw, 64px) 0;
 }
 
 .section.alt {
@@ -351,54 +423,65 @@ body {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 20px;
+  gap: 12px;
+  margin-bottom: 16px;
 }
 
 .section__head h2 {
   margin: 0;
-  font-size: clamp(24px, 3.5vw, 36px);
+  font-size: clamp(20px, 3.5vw, 32px);
 }
 
-.cards { margin-top: 10px; }
+.cards { margin-top: 8px; }
 
 .card2 {
-  padding: 22px;
-  border-radius: 18px;
+  padding: 16px;
+  border-radius: 16px;
   background: rgba(255,255,255,.04);
   border: 1px solid var(--stroke);
   box-shadow: var(--shadow);
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
+  min-height: 240px;
 }
 
 .card2__head {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
+  gap: 8px;
 }
 
-.card2__head h3 { margin: 0; }
+.card2__head h3 { 
+  margin: 0; 
+  font-size: clamp(16px, 2.5vw, 18px);
+  line-height: 1.2;
+}
 
 .pill {
-  padding: 6px 10px;
+  padding: 5px 8px;
   border-radius: 999px;
   background: linear-gradient(90deg, var(--brand), var(--brand-2));
   font-weight: 700;
+  font-size: 12px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .list {
-  margin: 0 0 8px 0;
+  margin: 0 0 6px 0;
   padding: 0;
   list-style: none;
   color: var(--muted);
 }
 
 .list li {
-  padding-left: 14px;
+  padding-left: 12px;
   position: relative;
-  margin: .25rem 0;
+  margin: .2rem 0;
+  font-size: 13px;
+  line-height: 1.3;
 }
 
 .list li:before {
@@ -412,28 +495,32 @@ body {
    Features
 ================================ */
 .feature {
-  padding: 22px;
-  border-radius: 18px;
+  padding: 16px;
+  border-radius: 16px;
   border: 1px solid var(--stroke);
   background: rgba(255,255,255,.04);
+  min-height: 160px;
 }
 
 .feature h3 {
-  margin: .2rem 0 .4rem;
+  margin: .2rem 0 .3rem;
+  font-size: clamp(16px, 2.5vw, 18px);
 }
 
 .feature p {
   margin: 0;
   color: var(--muted);
+  font-size: 13px;
+  line-height: 1.4;
 }
 
 .feature .ico {
-  width: 36px;
-  height: 36px;
-  border-radius: 12px;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
   background: linear-gradient(90deg, var(--brand), var(--brand-2));
   box-shadow: var(--shadow);
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 /* ================================
@@ -441,67 +528,44 @@ body {
 ================================ */
 .footer {
   border-top: 1px solid var(--stroke);
-  padding: 32px 0;
+  padding: 20px 0;
   background: rgba(255,255,255,.02);
 }
 
 .footer__inner {
   display: grid;
-  gap: 10px;
+  gap: 8px;
   align-items: center;
   justify-items: center;
+  text-align: center;
 }
 
 .footer__links {
   display: flex;
-  gap: 16px;
+  gap: 12px;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .footer__links a {
   color: var(--muted);
   text-decoration: none;
+  font-size: 13px;
 }
 
 .brand--footer {
   font-weight: 800;
 }
 
-/* ================================
-   Decorative Blurs
-================================ */
-.hero__blur {
-  position: absolute;
-  filter: blur(60px);
-  opacity: .7;
-  pointer-events: none;
-}
-
-.hero__blur--1 {
-  width: 420px;
-  height: 420px;
-  background: radial-gradient(closest-side, rgba(124,58,237,.4), transparent);
-  top: -80px;
-  right: 5%;
-}
-
-.hero__blur--2 {
-  width: 360px;
-  height: 360px;
-  background: radial-gradient(closest-side, rgba(6,182,212,.35), transparent);
-  bottom: -60px;
-  left: 8%;
-}
-
 /* --- CHAT FLOTANTE --- */
 .floating-chat {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
+  bottom: 15px;
+  right: 15px;
   background: #4f46e5;
   color: #fff;
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -518,16 +582,16 @@ body {
 }
 
 .floating-chat i {
-  font-size: 26px;
+  font-size: 22px;
 }
 
 /* --- CUADRO DE CHAT --- */
 .floating-chat .chat {
   position: absolute;
-  bottom: 70px;
+  bottom: 60px;
   right: 0;
-  width: 300px;
-  max-height: 400px;
+  width: 280px;
+  max-height: 350px;
   background: #fff;
   color: #333;
   border-radius: 12px;
@@ -537,11 +601,30 @@ body {
   overflow: hidden;
 }
 
+@media (max-width: 480px) {
+  .floating-chat {
+    bottom: 10px;
+    right: 10px;
+    width: 45px;
+    height: 45px;
+  }
+  
+  .floating-chat i {
+    font-size: 20px;
+  }
+  
+  .floating-chat .chat {
+    width: calc(100vw - 20px);
+    right: -10px;
+    bottom: 55px;
+  }
+}
+
 /* Header */
 .floating-chat .chat .header {
   background: #4f46e5;
   color: #fff;
-  padding: 12px;
+  padding: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -551,25 +634,28 @@ body {
   background: transparent;
   border: none;
   color: #fff;
-  font-size: 16px;
+  font-size: 14px;
   cursor: pointer;
 }
 
 /* Mensajes */
 .floating-chat .chat .messages {
   list-style: none;
-  padding: 12px;
+  padding: 10px;
   margin: 0;
   flex: 1;
   overflow-y: auto;
-  font-size: 14px;
+  font-size: 13px;
+  max-height: 250px;
 }
 
 .floating-chat .chat .messages li {
-  margin-bottom: 8px;
-  padding: 8px 12px;
+  margin-bottom: 6px;
+  padding: 6px 10px;
   border-radius: 8px;
-  max-width: 75%;
+  max-width: 85%;
+  word-wrap: break-word;
+  font-size: 13px;
 }
 
 .floating-chat .chat .messages li.other {
@@ -590,18 +676,23 @@ body {
 
 .floating-chat .chat .text-box {
   flex: 1;
-  padding: 10px;
+  padding: 8px;
   outline: none;
-  font-size: 14px;
+  font-size: 13px;
+  min-height: 40px;
+  max-height: 80px;
+  overflow-y: auto;
 }
 
 .floating-chat .chat button {
   background: #4f46e5;
   color: #fff;
   border: none;
-  padding: 10px 16px;
+  padding: 8px 12px;
   cursor: pointer;
   transition: background 0.2s;
+  white-space: nowrap;
+  font-size: 13px;
 }
 
 .floating-chat .chat button:hover {
@@ -609,63 +700,124 @@ body {
 }
 
 /* 🔒 Bloquear botones de becas */
-    .btn.disabled {
-      background: #bdbdbd !important;
-      cursor: not-allowed !important;
-      pointer-events: none !important;
-      color: #666 !important;
-      box-shadow: none !important;
-    }
-    .card2.locked {
-      opacity: 0.6;
-      filter: grayscale(0.8);
-      position: relative;
-    }
-    .card2.locked::after {
-      content: "🔒 Solo disponible para estudiantes";
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 1rem;
-      color: #333;
-      background: rgba(255,255,255,0.7);
-      border-radius: 18px;
-      text-align: center;
-      padding: 10px;
-    }
+.btn.disabled {
+  background: #bdbdbd !important;
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+  color: #666 !important;
+  box-shadow: none !important;
+}
 
-    </style>
+.card2.locked {
+  opacity: 0.6;
+  filter: grayscale(0.8);
+  position: relative;
+}
 
-    </head>
+.card2.locked::after {
+  content: "🔒 Solo disponible para estudiantes";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: clamp(12px, 2.5vw, 14px);
+  color: #333;
+  background: rgba(255,255,255,0.7);
+  border-radius: 16px;
+  text-align: center;
+  padding: 16px;
+}
+
+/* MEJORAS ESPECÍFICAS PARA MÓVIL PEQUEÑO */
+@media (max-width: 360px) {
+  .container {
+    padding: 8px;
+  }
+  
+  .card2 {
+    padding: 12px;
+    min-height: 220px;
+  }
+  
+  .feature {
+    padding: 12px;
+    min-height: 140px;
+  }
+  
+  .btn {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+  
+  .hero-title {
+    font-size: 18px;
+  }
+  
+  .hero-description {
+    font-size: 13px;
+  }
+  
+  .card-compact {
+    padding: 10px;
+  }
+  
+  .card-compact h3 {
+    font-size: 14px;
+  }
+  
+  .card-compact p {
+    font-size: 12px;
+  }
+  
+  .meta-item {
+    font-size: 10px;
+    padding: 3px 6px;
+  }
+  
+  .card-action {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+}
+  </style>
+</head>
 <body>
 
-  <!-- HERO -->
+  <!-- HERO COMPACTO -->
   <section class="hero">
-    <div class="container grid grid-2">
-      <div class="hero__copy">
-        <div class="chip">Convocatorias limitadas</div>
-        <h1>Consigue tu <span class="grad">beca</span><br> de <span class="grad alt">Acceso a la Universidad</span></h1>
-        <p class="muted">Solo disponible para estudiantes sin registro.</p>
-
-        <div class="hero__badges">
-          <span class="badge ok">Beca disponible</span>
-          <span class="badge warn">Acceso restringido</span>
-        </div>
-      </div>
-
-      <div class="hero__visual">
-        <div class="glass card--stack">
-          <div class="card">
-            <h3>Beca Acceso a la Universidad</h3>
-            <p>Primer paso hacia tu futuro académico.</p>
-            <div class="meta">
-              <span>🇲🇽 México</span>
-              <span>Nuevo ingreso</span>
+    <div class="container">
+      <div class="hero-compact">
+        <div class="hero-main">
+          <div class="hero-content">
+            <div class="hero-badge"><?php echo htmlspecialchars($pagina['hero']['chip_texto']); ?></div>
+            <h1 class="hero-title">
+              Consigue tu <span class="highlight">beca</span> de 
+              <span class="highlight">Acceso a la Universidad</span>
+            </h1>
+            <p class="hero-description"><?php echo htmlspecialchars($pagina['hero']['descripcion']); ?></p>
+            
+            <div class="hero-features">
+              <?php foreach ($pagina['hero']['insignias'] as $insignia): ?>
+                <span class="feature-tag <?php echo $insignia['clase']; ?>"><?php echo htmlspecialchars($insignia['texto']); ?></span>
+              <?php endforeach; ?>
             </div>
-            <a class="btn ghost" href="https://www.juarez.gob.mx/becas-de-acceso-a-la-universidad" target="_blank">Solicitar</a>
+          </div>
+          
+          <div class="hero-card">
+            <div class="card-compact">
+              <h3><?php echo htmlspecialchars($pagina['hero']['tarjeta_ejemplo']['titulo']); ?></h3>
+              <p><?php echo htmlspecialchars($pagina['hero']['tarjeta_ejemplo']['descripcion']); ?></p>
+              <div class="card-meta">
+                <?php foreach ($pagina['hero']['tarjeta_ejemplo']['metadata'] as $meta): ?>
+                  <span class="meta-item"><?php echo htmlspecialchars($meta); ?></span>
+                <?php endforeach; ?>
+              </div>
+              <a class="card-action" href="<?php echo htmlspecialchars($pagina['hero']['tarjeta_ejemplo']['enlace_url']); ?>" target="_blank">
+                <?php echo htmlspecialchars($pagina['hero']['tarjeta_ejemplo']['enlace_texto']); ?>
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -676,87 +828,32 @@ body {
   <section id="becas" class="section">
     <div class="container">
       <div class="section__head">
-        <h2>Becas disponibles</h2>
-        <p class="muted">Inicia sesión para desbloquear todas las becas.</p>
+        <h2><?php echo htmlspecialchars($pagina['seccion_becas']['titulo']); ?></h2>
+        <p class="muted"><?php echo htmlspecialchars($pagina['seccion_becas']['subtitulo']); ?></p>
       </div>
 
       <div class="grid grid-3 cards">
-        <!-- 🔒 Bloqueadas -->
-        <article class="card2 locked">
-          <div class="card2__head">
-            <h3>Beca Inscripción</h3>
-            <span class="pill">$3000</span>
-          </div>
-          <p>Para carreras de TI y ciencia de datos.</p>
-          <ul class="list">
-            <li>Promedio ≥ 8.5</li>
-            <li>Proyecto o portafolio</li>
-            <li>Entrevista técnica</li>
-          </ul>
-          <a class="btn block disabled">Postular</a>
-          <a class="btn block disabled">Descargar requisitos</a>
-        </article>
-
-        <article class="card2 locked">
-          <div class="card2__head">
-            <h3>Beca Material y Equipo Técnico</h3>
-            <span class="pill">$3000</span>
-          </div>
-          <p>Apoyo para herramientas de estudio.</p>
-          <ul class="list">
-            <li>Idiomas B2+</li>
-            <li>Ensayo motivacional</li>
-            <li>Servicio social</li>
-          </ul>
-          <a class="btn block disabled">Postular</a>
-          <a class="btn block disabled">Descargar requisitos</a>
-        </article>
-
-        <article class="card2 locked">
-          <div class="card2__head">
-            <h3>Beca Titulación</h3>
-            <span class="pill">$3000</span>
-          </div>
-          <p>Apoyo para procesos de titulación.</p>
-          <ul class="list">
-            <li>Protocolo avalado</li>
-            <li>Director de tesis</li>
-            <li>Informe parcial</li>
-          </ul>
-          <a class="btn block disabled">Postular</a>
-          <a class="btn block disabled">Descargar requisitos</a>
-        </article>
-
-        <article class="card2 locked">
-          <div class="card2__head">
-            <h3>Jóvenes Escribiendo el Futuro</h3>
-            <span class="pill">Estímulo $5800</span>
-          </div>
-          <p>Beca nacional para universitarios.</p>
-          <ul class="list">
-            <li>Protocolo avalado</li>
-            <li>Director de tesis</li>
-            <li>Informe parcial</li>
-          </ul>
-          <a class="btn block disabled">Postular</a>
-          <a class="btn block disabled">Ver requisitos</a>
-        </article>
-
-        <!-- ✅ Abierta -->
-        <article class="card2">
-          <div class="card2__head">
-            <h3>Beca Acceso a la Universidad</h3>
-            <span class="pill">Pago primer cuatrimestre</span>
-          </div>
-          <p>Solo estudiantes de nuevo ingreso.</p>
-          <ul class="list">
-            <li>Acta de nacimiento</li>
-            <li>Comprobante de estudios</li>
-            <li>CURP y comprobante de domicilio</li>
-          </ul>
-          <a class="btn block" href="https://www.juarez.gob.mx/becas-de-acceso-a-la-universidad" target="_blank" >Postular</a>
-          <a class="btn block" href="../../assets/PDF/RequisitosBeca.pdf" download>Descargar requisitos</a>
-        </article>
+        <?php foreach ($pagina['seccion_becas']['becas'] as $beca): ?>
+          <article class="card2 <?php echo $beca['bloqueada'] ? 'locked' : ''; ?>">
+            <div class="card2__head">
+              <h3><?php echo htmlspecialchars($beca['nombre']); ?></h3>
+              <span class="pill"><?php echo htmlspecialchars($beca['monto']); ?></span>
+            </div>
+            <p><?php echo htmlspecialchars($beca['resumen']); ?></p>
+            <ul class="list">
+              <?php foreach ($beca['requisitos'] as $requisito): ?>
+                <li><?php echo htmlspecialchars($requisito); ?></li>
+              <?php endforeach; ?>
+            </ul>
+            <?php if ($beca['bloqueada']): ?>
+              <a class="btn block disabled">Postular</a>
+              <a class="btn block disabled">Descargar requisitos</a>
+            <?php else: ?>
+              <a class="btn block" href="<?php echo htmlspecialchars($beca['enlace_postular']); ?>" target="_blank">Postular</a>
+              <a class="btn block" href="<?php echo htmlspecialchars($beca['enlace_descarga_requisitos']); ?>" download>Descargar requisitos</a>
+            <?php endif; ?>
+          </article>
+        <?php endforeach; ?>
       </div>
     </div>
   </section>
@@ -764,69 +861,49 @@ body {
   <!-- SECCIÓN: ASESORÍAS -->
   <section id="asesorias" class="section alt">
     <div class="container grid grid-3">
-      <div class="feature">
-        <div class="ico"></div>
-        <h3>Revisión de documentos</h3>
-        <p>Documentacion cambia para cada una de las becas.</p>
-      </div>
-      <div class="feature">
-        <div class="ico"></div>
-        <h3>Fechas precisas</h3>
-        <p>Entregar la documentación en fechas dadas.</p>
-      </div>
-      <div class="feature">
-        <div class="ico"></div>
-        <h3>Revision de consulta y revisados</h3>
-        <p>Estar atentos para no perder tu resultado de la beca.</p>
-      </div>
+      <?php foreach ($pagina['seccion_asesorias']['caracteristicas'] as $caracteristica): ?>
+        <div class="feature">
+          <div class="ico"></div>
+          <h3><?php echo htmlspecialchars($caracteristica['titulo']); ?></h3>
+          <p><?php echo htmlspecialchars($caracteristica['descripcion']); ?></p>
+        </div>
+      <?php endforeach; ?>
     </div>
   </section>
 
+  <!-- CHATBOT -->
   <div class="floating-chat">
     <i class="fa fa-comments" aria-hidden="true"></i>
     <div class="chat">
         <div class="header">
             <span class="title">
-                UTPN-BOT
+                <?php echo htmlspecialchars($pagina['chatbot']['nombre']); ?>
             </span>
             <button>
                 <i class="fa fa-times" aria-hidden="true"></i>
-            </button>
-                         
+            </button>                         
         </div>
         <ul class="messages">
-            <li class="other">¡Hola! 👋 Selecciona una opción escribiendo el número:</li>
-            <li class="other">1️⃣ ¿Qué becas están disponibles?</li>
-            <li class="other">2️⃣ ¿Cuáles son los requisitos?</li>
-            <li class="other">3️⃣ ¿Cómo solicitar una beca?</li>
-            <li class="other">4️⃣ ¿Cuándo cierran las convocatorias?</li>
-            <li class="other">5️⃣ ¿Ofrecen asesorías personalizadas?</li>
+            <li class="other"><?php echo htmlspecialchars($pagina['chatbot']['mensaje_bienvenida']); ?></li>
+            <?php foreach ($pagina['chatbot']['opciones_iniciales'] as $opcion): ?>
+                <li class="other"><?php echo htmlspecialchars($opcion); ?></li>
+            <?php endforeach; ?>
         </ul>
         <div class="footer">
             <div class="text-box" contenteditable="true" disabled="true"></div>
             <button id="sendMessage">send</button>
         </div>
     </div>
-</div>
-  <!-- FOOTER -->
+  </div>
 
-
-  <!-- CHATBOT JS -->
- <!-- CHATBOT JS -->
-<script>
+  <script>
 $(function(){
   var element = $('.floating-chat');
   var chatID = createUUID();
   var isOpen = false;
 
-  // Respuestas pregrabadas
-  var respuestas = {
-      '1': '📚 Actualmente tenemos disponibles:\n• Beca Talento Digital (hasta 80%)\n• Beca Líder Global (100%)\n• Apoyo Investigación\n• Y más opciones en la sección de becas destacadas',
-      '2': '📋 Los requisitos varían según la beca:\n• Promedio mínimo: 8.0-8.5\n• Documentos: CV, carta motivación, comprobantes\n• Algunos requieren entrevista o proyecto\n• Revisa cada convocatoria para detalles específicos',
-      '3': '✍️ Pasos para solicitar:\n1. Revisa las becas disponibles\n2. Verifica que cumples los requisitos\n3. Prepara tu documentación\n4. Click en "Postular" en la beca que te interesa\n5. Llena el formulario completo\n6. ¡Listo! Recibirás confirmación por email',
-      '4': '📅 Las convocatorias tienen diferentes fechas:\n• Revisa cada beca para ver su fecha límite\n• Generalmente abren al inicio de cada cuatrimestre\n• Te recomendamos aplicar con anticipación\n• Suscríbete para recibir notificaciones',
-      '5': '👨‍🏫 ¡Sí! Ofrecemos:\n• Revisión de documentos\n• Simulación de entrevistas\n• Estrategia de postulación\n• Agenda una cita en la sección de Asesorías'
-  };
+  // Respuestas pregrabadas desde JSON
+  var respuestas = <?php echo json_encode($pagina['chatbot']['respuestas_pregrabadas']); ?>;
 
   setTimeout(function() {
       element.addClass('enter');
