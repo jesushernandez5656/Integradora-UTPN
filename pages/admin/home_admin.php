@@ -25,92 +25,114 @@ function tienePermiso($pagina) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UTPN</title>
     <style>
-    *{
-        padding: 0;
-        margin: 0;
-        box-sizing: border-box;
-    }
-body {
-  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, sans-serif;
-  background-color: #EDE5D6; /* 🎨 crema claro, cálido y suave */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
 }
 
+body {
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, sans-serif;
+  background-color: #EDE5D6;
+}
 
-    a {
-        text-decoration: none;
-    }
-    main {
-        padding: 100px;
-    }
+/* ------------------------------- */
+/*       BOTONES DESHABILITADOS    */
+/* ------------------------------- */
+
+.disabled {
+    opacity: 0.4;
+    pointer-events: none; /* No hace clic */
+    filter: grayscale(100%);
+}
+
+/* ------------------------------- */
+/*   CONTENEDOR PRINCIPAL (MÓVIL)  */
+/* ------------------------------- */
+
+.logos-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 30px auto 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    place-items: center;
+     margin-bottom: 120px; /* evita que el footer tape los botones */
+}
+
+.logos-container a {
+    text-decoration: none;
+}
+
+/* ------------------------------- */
+/*         ESTILO DE CADA LOGO     */
+/* ------------------------------- */
+
+.logo {
+    width: 140px;
+    height: 140px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    transition: 0.2s ease-in-out;
+}
+
+.logo:hover {
+    transform: scale(1.06);
+}
+
+.logo svg {
+    width: 50px;
+    height: 50px;
+    color: #b2842a;
+    margin-bottom: 8px;
+}
+
+.logo p {
+    color: #333;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1.1;
+    border-bottom: none !important;
+    max-width: 100%;
+}
+
+/* ------------------------------- */
+/*       MODO ESCRITORIO (DESKTOP) */
+/* ------------------------------- */
+
+@media (min-width: 768px) {
     .logos-container {
-        display: grid;
-        grid-template-columns: repeat(3, 220px);
-        grid-auto-rows: 220px;
-        justify-content: center;
-        gap: 10px;
-        width: max-content;
-        margin: 60px auto;
-        transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
+        max-width: 900px;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 25px;
+        place-items: center;
     }
+
     .logo {
-        width: 220px;
-        height: 220px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        border-radius: 12px;
-        background-color: #ffffff;
-        transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
-        cursor: pointer;
-        text-align: center;
+        width: 160px;
+        height: 160px;
     }
+
     .logo svg {
-        width: 32px;
-        height: 32px;
-        fill: #AE874C;
-        transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
+        width: 55px;
+        height: 55px;
     }
-    .logo:hover {
-        background-color: #00837f;
-        box-shadow:
-            0rem 6px 13px rgba(10, 60, 255, 0.1),
-            0rem 24px 24px rgba(10, 60, 255, 0.09),
-            0rem 55px 33px rgba(10, 60, 255, 0.05),
-            0rem 97px 39px rgba(10, 60, 255, 0.01),
-            0rem 152px 43px rgba(10, 60, 255, 0);
-    }
-    .logo:hover svg {
-        fill: #ffffff;
-    }
+
     .logo p {
-        margin-top: 10px;
         font-size: 16px;
-        color: #333333;
     }
-    /* DESACTIVADO */
-    .logo.disabled {
-        opacity: 0.5;
-        pointer-events: none;
-        filter: grayscale(80%);
-        cursor: not-allowed;
-    }
-    @media screen and (max-width: 700px) {
-        .logos-container {
-            grid-template-columns: repeat(2, 200px);
-            grid-auto-rows: 200px;
-            gap: 10px;
-            width: max-content;
-        }
-        .logo {
-            width: 200px;
-            height: 200px;
-        }
-        .logo svg {
-            width: 28px;
-            height: 28px;
-        }
-    }
+}
+
     </style>
 </head>
 <body>
@@ -118,7 +140,7 @@ body {
     <div class="logos-container">
 
         <!-- 📌 Becas -->
-        <a href="<?= tienePermiso('becas') ? '../pages/admin/becas_admin.php' : '#' ?>">
+        <a href="<?= tienePermiso('becas') ? '../admin/becas_admin.php' : '#' ?>">
             <div class="logo <?= !tienePermiso('becas') ? 'disabled' : '' ?>">
                 <svg fill="currentColor" viewBox="0 0 24 24"><path d="M23 18.9999H22V8.99991H18V6.58569L12 0.585693L6 6.58569V8.99991H2V18.9999H1V20.9999H23V18.9999ZM6 19H4V11H6V19ZM18 11H20V19H18V11ZM11 12H13V19H11V12Z"></path></svg>
                 <p>Becas</p>
@@ -156,6 +178,7 @@ body {
                 <p>Ciberseguridad</p>
             </div>
         </a>
+
     </div>
 </main>
 <?php include "../../includes/footer.php"; ?>
