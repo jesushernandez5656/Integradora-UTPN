@@ -11,9 +11,12 @@ if (file_exists($json_file)) {
     $data = json_decode($json_data, true);
 }
 
-// Si hay error cargando el JSON, usar array vacío (la página se verá sin contenido)
-if (!$data) {
-    $data = [
+// Usar la página original del JSON
+$pagina = $data['pagina_original'] ?? [];
+
+// Si no existe la página original, usar estructura vacía
+if (!$pagina) {
+    $pagina = [
         'titulo_pagina' => 'Becas Universitarias | Impulsa tu camino',
         'hero' => [
             'chip_texto' => '',
@@ -44,7 +47,7 @@ if (!$data) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo htmlspecialchars($data['titulo_pagina']); ?></title>
+    <title><?php echo htmlspecialchars($pagina['titulo_pagina']); ?></title>
     <link rel="stylesheet" href="/INTEGRADORA-UTPN/assets/css/header.css">
     <link rel="stylesheet" href="/INTEGRADORA-UTPN/assets/css/footer.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -693,25 +696,25 @@ if (!$data) {
         }
     </style>
 
-    <!-- HERO SECTION (Estructura con datos dinámicos) -->
+    <!-- HERO SECTION -->
     <section class="hero">
         <div class="container grid grid-2">
             <div class="hero__copy">
-                <?php if (!empty($data['hero']['chip_texto'])): ?>
-                    <div class="chip"><?php echo htmlspecialchars($data['hero']['chip_texto']); ?></div>
+                <?php if (!empty($pagina['hero']['chip_texto'])): ?>
+                    <div class="chip"><?php echo htmlspecialchars($pagina['hero']['chip_texto']); ?></div>
                 <?php endif; ?>
                 
-                <?php if (!empty($data['hero']['titulo_principal'])): ?>
-                    <h1><?php echo $data['hero']['titulo_principal']; ?></h1>
+                <?php if (!empty($pagina['hero']['titulo_principal'])): ?>
+                    <h1><?php echo $pagina['hero']['titulo_principal']; ?></h1>
                 <?php endif; ?>
                 
-                <?php if (!empty($data['hero']['descripcion'])): ?>
-                    <p class="muted"><?php echo htmlspecialchars($data['hero']['descripcion']); ?></p>
+                <?php if (!empty($pagina['hero']['descripcion'])): ?>
+                    <p class="muted"><?php echo htmlspecialchars($pagina['hero']['descripcion']); ?></p>
                 <?php endif; ?>
 
-                <?php if (!empty($data['hero']['insignias'])): ?>
+                <?php if (!empty($pagina['hero']['insignias'])): ?>
                     <div class="hero__badges">
-                        <?php foreach ($data['hero']['insignias'] as $insignia): ?>
+                        <?php foreach ($pagina['hero']['insignias'] as $insignia): ?>
                             <span class="badge <?php echo $insignia['clase']; ?>">
                                 <?php echo htmlspecialchars($insignia['texto']); ?>
                             </span>
@@ -721,9 +724,9 @@ if (!$data) {
             </div>
 
             <div class="hero__visual">
-                <?php if (!empty($data['hero']['tarjetas_ejemplo'])): ?>
+                <?php if (!empty($pagina['hero']['tarjetas_ejemplo'])): ?>
                     <div class="glass card--stack">
-                        <?php foreach ($data['hero']['tarjetas_ejemplo'] as $index => $tarjeta): ?>
+                        <?php foreach ($pagina['hero']['tarjetas_ejemplo'] as $index => $tarjeta): ?>
                             <div class="card <?php echo $index === 1 ? 'delay' : ''; ?>">
                                 <h3><?php echo htmlspecialchars($tarjeta['titulo']); ?></h3>
                                 <p><?php echo htmlspecialchars($tarjeta['descripcion']); ?></p>
@@ -751,18 +754,18 @@ if (!$data) {
     <section id="becas" class="section">
         <div class="container">
             <div class="section__head">
-                <?php if (!empty($data['seccion_becas_destacadas']['titulo'])): ?>
-                    <h2><?php echo htmlspecialchars($data['seccion_becas_destacadas']['titulo']); ?></h2>
+                <?php if (!empty($pagina['seccion_becas_destacadas']['titulo'])): ?>
+                    <h2><?php echo htmlspecialchars($pagina['seccion_becas_destacadas']['titulo']); ?></h2>
                 <?php endif; ?>
                 
-                <?php if (!empty($data['seccion_becas_destacadas']['subtitulo'])): ?>
-                    <p class="muted"><?php echo htmlspecialchars($data['seccion_becas_destacadas']['subtitulo']); ?></p>
+                <?php if (!empty($pagina['seccion_becas_destacadas']['subtitulo'])): ?>
+                    <p class="muted"><?php echo htmlspecialchars($pagina['seccion_becas_destacadas']['subtitulo']); ?></p>
                 <?php endif; ?>
             </div>
 
-            <?php if (!empty($data['seccion_becas_destacadas']['becas'])): ?>
+            <?php if (!empty($pagina['seccion_becas_destacadas']['becas'])): ?>
                 <div class="grid grid-3 cards">
-                    <?php foreach ($data['seccion_becas_destacadas']['becas'] as $beca): ?>
+                    <?php foreach ($pagina['seccion_becas_destacadas']['becas'] as $beca): ?>
                         <article class="card2">
                             <div class="card2__head">
                                 <h3><?php echo htmlspecialchars($beca['nombre']); ?></h3>
@@ -778,10 +781,15 @@ if (!$data) {
                                 </ul>
                             <?php endif; ?>
                             
-                            <a class="btn block" href="<?php echo htmlspecialchars($beca['enlace_postular']); ?>" target="_blank">Postular</a>
-                            <a class="btn block" href="<?php echo htmlspecialchars($beca['enlace_descarga_requisitos']); ?>" <?php echo strpos($beca['enlace_descarga_requisitos'], 'http') === 0 ? 'target="_blank"' : 'download'; ?>>
-                                <?php echo strpos($beca['enlace_descarga_requisitos'], 'http') === 0 ? 'Ver requisitos' : 'Descargar requisitos'; ?>
-                            </a>
+                            <?php if (!empty($beca['enlace_postular'])): ?>
+                                <a class="btn block" href="<?php echo htmlspecialchars($beca['enlace_postular']); ?>" target="_blank">Postular</a>
+                            <?php endif; ?>
+                            
+                            <?php if (!empty($beca['enlace_descarga_requisitos'])): ?>
+                                <a class="btn block" href="<?php echo htmlspecialchars($beca['enlace_descarga_requisitos']); ?>" <?php echo strpos($beca['enlace_descarga_requisitos'], 'http') === 0 ? 'target="_blank"' : 'download'; ?>>
+                                    <?php echo strpos($beca['enlace_descarga_requisitos'], 'http') === 0 ? 'Ver requisitos' : 'Descargar requisitos'; ?>
+                                </a>
+                            <?php endif; ?>
                         </article>
                     <?php endforeach; ?>
                 </div>
@@ -792,8 +800,8 @@ if (!$data) {
     <!-- ASESORÍAS SECTION -->
     <section id="asesorias" class="section alt">
         <div class="container grid grid-3">
-            <?php if (!empty($data['seccion_asesorias']['caracteristicas'])): ?>
-                <?php foreach ($data['seccion_asesorias']['caracteristicas'] as $caracteristica): ?>
+            <?php if (!empty($pagina['seccion_asesorias']['caracteristicas'])): ?>
+                <?php foreach ($pagina['seccion_asesorias']['caracteristicas'] as $caracteristica): ?>
                     <div class="feature">
                         <div class="ico"></div>
                         <h3><?php echo htmlspecialchars($caracteristica['titulo']); ?></h3>
@@ -811,7 +819,7 @@ if (!$data) {
             <div class="header">
                 <span class="title">
                     <i class="fa-solid fa-robot"></i> 
-                    <?php echo !empty($data['chatbot']['nombre']) ? htmlspecialchars($data['chatbot']['nombre']) : 'UTPN-BOT'; ?>
+                    <?php echo !empty($pagina['chatbot']['nombre']) ? htmlspecialchars($pagina['chatbot']['nombre']) : 'UTPN-BOT'; ?>
                 </span>
                 <button>
                     <i class="fa fa-times" aria-hidden="true"></i>
@@ -819,8 +827,8 @@ if (!$data) {
             </div>
             <ul class="messages">
                 <li class="other">¡Hola! 👋 Soy tu asistente de becas. Selecciona una opción o escribe tu pregunta:</li>
-                <?php if (!empty($data['chatbot']['opciones_iniciales'])): ?>
-                    <?php foreach ($data['chatbot']['opciones_iniciales'] as $opcion): ?>
+                <?php if (!empty($pagina['chatbot']['opciones_iniciales'])): ?>
+                    <?php foreach ($pagina['chatbot']['opciones_iniciales'] as $opcion): ?>
                         <li class="other"><?php echo htmlspecialchars($opcion); ?></li>
                     <?php endforeach; ?>
                 <?php endif; ?>
@@ -834,7 +842,7 @@ if (!$data) {
 
     <script>
         // Configuración del chatbot desde JSON
-        var respuestas = <?php echo !empty($data['chatbot']['respuestas_pregrabadas']) ? json_encode($data['chatbot']['respuestas_pregrabadas']) : '{}'; ?>;
+        var respuestas = <?php echo !empty($pagina['chatbot']['respuestas_pregrabadas']) ? json_encode($pagina['chatbot']['respuestas_pregrabadas']) : '{}'; ?>;
 
         // Tu código JavaScript del chatbot (sin cambios)
         $(function(){
