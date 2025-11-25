@@ -1,907 +1,1238 @@
-<?php include "../../includes/header.php"; ?>
-<!DOCTYPE html>
+<?php
+include "../../includes/header.php";
 
-<html lang="en">
+// Ruta del archivo JSON
+$json_file = '../../assets/js/becas.json';
+
+// Cargar datos del JSON
+$data = [];
+if (file_exists($json_file)) {
+    $json_data = file_get_contents($json_file);
+    $data = json_decode($json_data, true);
+}
+
+// Si hay error cargando el JSON, usar datos por defecto
+if (!$data) {
+    $data = [
+        "titulo_pagina" => "Becas Universitarias | Impulsa tu camino",
+        "hero" => [
+            "chip_texto" => "Convocatorias abiertas",
+            "titulo_principal" => "Consigue tu <span class=\"grad\">beca</span> <br> Solicita <span class=\"grad alt\">información</span> que te abran puertas",
+            "descripcion" => "Explora convocatorias que te ayudaran en tu carrera.",
+            "insignias" => [
+                ["texto" => "5 becas especializadas", "clase" => "ok"],
+                ["texto" => "Porcentaje alto de obtener la beca", "clase" => ""],
+                ["texto" => "Facil de acceder", "clase" => "warn"]
+            ],
+            "tarjetas_ejemplo" => [
+                [
+                    "titulo" => "Beca Subes",
+                    "descripcion" => "Requisitos claros.",
+                    "metadata" => ["🇲🇽 México", "Licenciatura e Ingenieria", "Fecha de inicio: Empezando cuatrimestre"],
+                    "enlace_texto" => null,
+                    "enlace_url" => null
+                ]
+            ]
+        ],
+        "seccion_becas_destacadas" => [
+            "titulo" => "Becas destacadas",
+            "subtitulo" => "Curadas y verificadas por nuestro equipo.",
+            "becas" => []
+        ],
+        "seccion_asesorias" => [
+            "titulo_seccion" => "Asesorías",
+            "caracteristicas" => []
+        ],
+        "chatbot" => [
+            "nombre" => "UTPN-BOT",
+            "opciones_iniciales" => [],
+            "respuestas_pregrabadas" => []
+        ]
+    ];
+}
+
+// Obtener lista de PDFs disponibles
+$pdf_folder = '../../assets/PDF/';
+$pdf_files = [];
+if (is_dir($pdf_folder)) {
+    $files = scandir($pdf_folder);
+    foreach ($files as $file) {
+        if (pathinfo($file, PATHINFO_EXTENSION) === 'pdf') {
+            $pdf_files[] = $file;
+        }
+    }
+}
+
+// Procesar guardado de datos
+$success = "";
+$error = "";
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['section'])) {
+        $section = $_POST['section'];
+        
+        // Procesar según la sección
+        switch($section) {
+            case 'general':
+                $data['titulo_pagina'] = $_POST['titulo_pagina'];
+                break;
+                
+            case 'hero':
+                $data['hero']['chip_texto'] = $_POST['chip_texto'];
+                
+                // Procesar título principal - convertir texto a HTML
+                $titulo_texto = $_POST['titulo_principal'];
+                $titulo_html = $titulo_texto;
+                // Aplicar formato grad a "beca"
+                $titulo_html = preg_replace('/(^|\s)(beca)($|\s)/', '$1<span class="grad">$2</span>$3', $titulo_html);
+                // Aplicar formato grad alt a "información"
+                $titulo_html = preg_replace('/(^|\s)(información)($|\s)/', '$1<span class="grad alt">$2</span>$3', $titulo_html);
+                // Reemplazar saltos de línea por <br>
+                $titulo_html = str_replace("\n", '<br>', $titulo_html);
+                $data['hero']['titulo_principal'] = $titulo_html;
+                
+                $data['hero']['descripcion'] = $_POST['descripcion'];
+                
+                // Procesar insignias
+                $data['hero']['insignias'] = [];
+                if (isset($_POST['insignia_texto'])) {
+                    foreach ($_POST['insignia_texto'] as $index => $texto) {
+                        if (!empty($texto)) {
+                            $data['hero']['insignias'][] = [
+                                'texto' => $texto,
+                                'clase' => $_POST['insignia_clase'][$index] ?? ''
+                            ];
+                        }
+                    }
+                }
+                
+                // Procesar tarjetas
+                $data['hero']['tarjetas_ejemplo'] = [];
+                if (isset($_POST['tarjeta_titulo'])) {
+                    foreach ($_POST['tarjeta_titulo'] as $index => $titulo) {
+                        if (!empty($titulo)) {
+                            $metadata = isset($_POST['tarjeta_metadata'][$index]) ? 
+                                array_filter(array_map('trim', explode(',', $_POST['tarjeta_metadata'][$index]))) : [];
+                            
+                            $data['hero']['tarjetas_ejemplo'][] = [
+                                'titulo' => $titulo,
+                                'descripcion' => $_POST['tarjeta_descripcion'][$index] ?? '',
+                                'metadata' => $metadata,
+                                'enlace_texto' => $_POST['tarjeta_enlace_texto'][$index] ?? null,
+                                'enlace_url' => $_POST['tarjeta_enlace_url'][$index] ?? null
+                            ];
+                        }
+                    }
+                }
+                break;
+                
+            case 'becas_destacadas':
+                $data['seccion_becas_destacadas']['titulo'] = $_POST['becas_titulo'];
+                $data['seccion_becas_destacadas']['subtitulo'] = $_POST['becas_subtitulo'];
+                
+                // Procesar becas
+                $data['seccion_becas_destacadas']['becas'] = [];
+                if (isset($_POST['beca_nombre'])) {
+                    foreach ($_POST['beca_nombre'] as $index => $nombre) {
+                        if (!empty($nombre)) {
+                            $requisitos = isset($_POST['beca_requisitos'][$index]) ? 
+                                array_filter(array_map('trim', explode(',', $_POST['beca_requisitos'][$index]))) : [];
+                            
+                            // Procesar enlace de requisitos - agregar ruta si es un PDF
+                            $enlace_requisitos = $_POST['beca_enlace_requisitos'][$index] ?? '';
+                            if (!empty($enlace_requisitos) && !str_contains($enlace_requisitos, '://')) {
+                                $enlace_requisitos = 'assets/PDF/' . $enlace_requisitos;
+                            }
+                            
+                            $data['seccion_becas_destacadas']['becas'][] = [
+                                'id' => $_POST['beca_id'][$index] ?? time() + $index,
+                                'nombre' => $nombre,
+                                'monto' => $_POST['beca_monto'][$index] ?? '',
+                                'resumen' => $_POST['beca_resumen'][$index] ?? '',
+                                'requisitos' => $requisitos,
+                                'enlace_postular' => $_POST['beca_enlace_postular'][$index] ?? '',
+                                'enlace_descarga_requisitos' => $enlace_requisitos
+                            ];
+                        }
+                    }
+                }
+                break;
+                
+            case 'asesorias':
+                $data['seccion_asesorias']['titulo_seccion'] = $_POST['asesorias_titulo'];
+                
+                // Procesar características
+                $data['seccion_asesorias']['caracteristicas'] = [];
+                if (isset($_POST['caracteristica_titulo'])) {
+                    foreach ($_POST['caracteristica_titulo'] as $index => $titulo) {
+                        if (!empty($titulo)) {
+                            $data['seccion_asesorias']['caracteristicas'][] = [
+                                'titulo' => $titulo,
+                                'descripcion' => $_POST['caracteristica_descripcion'][$index] ?? ''
+                            ];
+                        }
+                    }
+                }
+                break;
+                
+            case 'chatbot':
+                $data['chatbot']['nombre'] = $_POST['chatbot_nombre'];
+                
+                // Procesar opciones - extraer solo el texto visible
+                $data['chatbot']['opciones_iniciales'] = [];
+                if (isset($_POST['opcion_texto'])) {
+                    foreach ($_POST['opcion_texto'] as $texto) {
+                        if (!empty($texto)) {
+                            $data['chatbot']['opciones_iniciales'][] = $texto;
+                        }
+                    }
+                }
+                
+                // Procesar respuestas - extraer solo el texto visible
+                $data['chatbot']['respuestas_pregrabadas'] = [];
+                if (isset($_POST['respuesta_clave'])) {
+                    foreach ($_POST['respuesta_clave'] as $index => $clave) {
+                        if (!empty($clave)) {
+                            $data['chatbot']['respuestas_pregrabadas'][$clave] = $_POST['respuesta_texto'][$index] ?? '';
+                        }
+                    }
+                }
+                // Asegurar respuesta por defecto
+                if (!isset($data['chatbot']['respuestas_pregrabadas']['default'])) {
+                    $data['chatbot']['respuestas_pregrabadas']['default'] = '🤖 No entendí tu pregunta. Por favor, reformula tu pregunta. 😊';
+                }
+                break;
+        }
+        
+        // Guardar en el archivo JSON
+        if (file_put_contents($json_file, json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE))) {
+            $success = "¡Cambios guardados correctamente!";
+        } else {
+            $error = "Error: No se pudo guardar el archivo JSON";
+        }
+    }
+    
+
+}
+?>
+<!DOCTYPE html>
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Becas Universitarias | Impulsa tu camino</title>
-    <!-- <link rel="stylesheet" href= "/INTEGRADORA-UTPN/assets/css/becas.css"> -->
-    <link rel="stylesheet" href="/INTEGRADORA-UTPN/assets/css/header.css">
-    <link rel="stylesheet" href="/INTEGRADORA-UTPN/assets/css/footer.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <title>Panel Admin - Becas Universitarias</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --success: #4cc9f0;
+            --danger: #f72585;
+            --warning: #f8961e;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --bg: #f1CBA5;
+            --bg-2: #c79c4dff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fb;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .admin-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: linear-gradient(135deg, var(--bg-2), var(--bg));
+            color: white;
+            padding: 20px 0;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 20px;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 5px;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background: rgba(255,255,255,0.1);
+            border-left: 4px solid white;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 15px 20px;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.2);
+        }
+
+        textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-warning {
+            background: var(--warning);
+            color: white;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 0.85rem;
+        }
+
+        /* Dynamic List */
+        .dynamic-list {
+            margin-bottom: 15px;
+        }
+
+        .list-item {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            align-items: center;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+
+        /* Alerts */
+        .alert {
+            padding: 12px 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        /* Tabs */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Editor de texto mejorado */
+        .text-editor-container {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .editor-toolbar {
+            background: #f8f9fa;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .editor-toolbar button {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .text-editor {
+            width: 100%;
+            min-height: 200px;
+            padding: 15px;
+            border: none;
+            font-size: 16px;
+            line-height: 1.5;
+            resize: vertical;
+        }
+
+        .preview-container {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            background: white;
+            margin-top: 15px;
+        }
+
+        .preview-title {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .preview-content {
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .grad {
+            background: linear-gradient(90deg, #AE874C, #AE874C);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: bold;
+        }
+
+        .grad.alt {
+            filter: saturate(140%);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .admin-container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+            }
+            
+            .sidebar-menu {
+                display: flex;
+                overflow-x: auto;
+            }
+            
+            .list-item {
+                flex-direction: column;
+            }
+        }
+
+        /* Estilos para elementos activos del sidebar */
+        .sidebar-menu a.active {
+            background: rgba(255,255,255,0.1);
+            border-left: 4px solid white;
+        }
+    </style>
 </head>
 <body>
-    <style>
-        /* ================================
-   Variables
-================================ */
-:root {
-  --bg: #f1CBA5;
-  --bg-2: #c79c4dff;
-  --txt: #1d1f24ff;
-  --muted: #a6b0c3;
-  --brand: #d0d1d1;   /* morado */
-  --brand-2: #7e8080; /* cian */
-  --ok: #22c55e;
-  --warn: #f59e0b;
-  --glass: #ddbf87ff;
-  --stroke: rgba(189, 145, 63, 0.12);
-  --shadow: 0 10px 30px rgba(230, 167, 73, 0.35);
-  --radius: 24px;
-  --max: 1200px;
-}
-
-/* ================================
-   Reset & Base
-================================ */
-* {
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  margin: 0;
-  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, sans-serif;
-  color: var(--txt);
-  background-color: #EDE5D6; /* 🎨 crema claro, cálido y suave */
-}
-
-/* ================================
-   Layout
-================================ */
-.container {
-  width: 100%;
-  max-width: var(--max);
-  margin-inline: auto;
-  padding: clamp(16px, 3vw, 28px);
-}
-
-.grid {
-  display: grid;
-  gap: clamp(16px, 2.2vw, 28px);
-}
-
-.grid-2 {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.grid-3 {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-@media (max-width:1024px) {
-  .grid-3 { grid-template-columns: 1fr 1fr; }
-}
-
-@media (max-width:720px) {
-  .grid-2, .grid-3 { grid-template-columns: 1fr; }
-}
-
-/* ================================
-   Utilities
-================================ */
-.muted { color: var(--muted); }
-.small { font-size: .9rem; }
-.block { display: block; width: 100%; }
-
-/* ================================
-   Buttons
-================================ */
-.btn {
-  --bgbtn: linear-gradient(90deg, var(--brand), var(--brand-2));
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  background: var(--bgbtn);
-  color: white;
-  text-decoration: none;
-  font-weight: 700;
-  padding: 14px 20px;
-  border-radius: 16px;
-  border: 1px solid transparent;
-  box-shadow: var(--shadow);
-  transform: translateZ(0);
-  transition: transform .2s ease, filter .2s ease;
-}
-
-.btn.small {
-  padding: 10px 14px;
-  font-weight: 700;
-}
-
-.btn:hover {
-  filter: brightness(1.08);
-  transform: translateY(-2px);
-}
-
-.btn.ghost {
-  background: transparent;
-  border-color: var(--stroke);
-  font-weight: 600;
-}
-
-/* ================================
-   Navigation
-================================ */
-.nav {
-  position: sticky;
-  top: 0;
-  backdrop-filter: saturate(140%) blur(8px);
-  background: rgba(64, 224, 208, 0.5);
-  border-bottom: 1px solid var(--stroke);
-  z-index: 30;
-}
-
-.nav__inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.nav__links {
-  display: flex;
-  gap: 18px;
-  align-items: center;
-}
-
-.nav__links a {
-  color: var(--txt);
-  text-decoration: none;
-  opacity: .9;
-}
-
-.nav__links a:hover { opacity: 1; }
-
-/* ================================
-   Brand
-================================ */
-.brand {
-  display: flex;
-  align-items: center;
-  gap: .5ch;
-  font-weight: 800;
-  letter-spacing: .3px;
-  text-decoration: none;
-  color: var(--txt);
-}
-
-.brand__accent {
-  background: linear-gradient(90deg, var(--brand), var(--brand-2));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-.brand__dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 999px;
-  background: linear-gradient(90deg, var(--brand), var(--brand-2));
-  box-shadow: 0 0 18px rgba(124,58,237,.7);
-}
-
-/* ================================
-   Hero
-================================ */
-.hero {
-  position: relative;
-  padding: clamp(48px, 8vw, 96px) 0;
-}
-
-.hero__copy h1 {
-  font-size: clamp(32px, 5vw, 56px);
-  line-height: 1.05;
-  margin: .2em 0 .3em;
-}
-
-.hero__copy p {
-  font-size: clamp(16px, 1.6vw, 18px);
-}
-
-.chip {
-  display: inline-block;
-  padding: 8px 12px;
-  border-radius: 999px;
-  background: linear-gradient(90deg, rgba(124,58,237,.18), rgba(6,182,212,.18));
-  border: 1px solid var(--stroke);
-  font-weight: 700;
-  color: #dfe7ff;
-}
-
-.grad {
-  background: linear-gradient(90deg, #AE874C, #AE874C);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-.grad.alt { filter: saturate(140%); }
-
-.search {
-  margin-top: 18px;
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-
-.search input {
-  flex: 1;
-  padding: 14px 16px;
-  border-radius: 14px;
-  border: 1px solid var(--stroke);
-  background: rgba(255,255,255,.04);
-  color: var(--txt);
-  outline: none;
-}
-
-.search input::placeholder { color: #9aa4b8; }
-
-.search button svg { margin-top: -2px; }
-
-.hero__badges {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 14px;
-}
-
-.badge {
-  padding: 8px 12px;
-  border-radius: 12px;
-  background: rgba(10, 240, 133, 0.05);
-  border: 1px solid var(--stroke);
-}
-
-.badge.ok {
-  border-color: rgba(34,197,94,.4);
-  box-shadow: 0 0 0 1px rgba(34,197,94,.25) inset;
-}
-
-.badge.warn {
-  border-color: rgba(245,158,11,.4);
-  box-shadow: 0 0 0 1px rgba(245,158,11,.25) inset;
-}
-
-.hero__visual {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.glass {
-  background: var(--glass);
-  border: 1px solid var(--stroke);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-}
-
-.card--stack {
-  position: relative;
-  aspect-ratio: 4/3;
-  min-height: 360px;
-  display: grid;
-  place-items: center;
-  padding: 24px;
-  overflow: hidden;
-}
-
-.card--stack .card {
-  position: absolute;
-  inset: auto 24px 24px 24px;
-  padding: 22px;
-  border-radius: 20px;
-  background: rgba(7,12,25,.7);
-  border: 1px solid var(--stroke);
-  transform: rotate(-2deg) translateY(-6px);
-  animation: float 6s ease-in-out infinite;
-}
-
-.card--stack .card.delay {
-  inset: 24px;
-  transform: rotate(2deg) translateY(6px);
-  animation-delay: 1.2s;
-}
-
-.card h3 {
-  margin: 0 0 6px;
-  font-size: 20px;
-}
-
-.card p {
-  margin: 0 0 12px;
-  color: var(--muted);
-}
-
-.card .meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin: 10px 0 14px;
-}
-
-.card .meta span {
-  padding: 6px 10px;
-  border: 1px solid var(--stroke);
-  border-radius: 999px;
-  background: rgba(255,255,255,.04);
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(-4px) rotate(-2deg); }
-  50% { transform: translateY(4px) rotate(-2deg); }
-}
-
-/* ================================
-   Sections
-================================ */
-.section {
-  padding: clamp(40px, 7vw, 84px) 0;
-}
-
-.section.alt {
-  background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0));
-}
-
-.section__head {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 20px;
-}
-
-.section__head h2 {
-  margin: 0;
-  font-size: clamp(24px, 3.5vw, 36px);
-}
-
-.cards { margin-top: 10px; }
-
-.card2 {
-  padding: 22px;
-  border-radius: 18px;
-  background: rgba(255,255,255,.04);
-  border: 1px solid var(--stroke);
-  box-shadow: var(--shadow);
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.card2__head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.card2__head h3 { margin: 0; }
-
-.pill {
-  padding: 6px 10px;
-  border-radius: 999px;
-  background: linear-gradient(90deg, var(--brand), var(--brand-2));
-  font-weight: 700;
-}
-
-.list {
-  margin: 0 0 8px 0;
-  padding: 0;
-  list-style: none;
-  color: var(--muted);
-}
-
-.list li {
-  padding-left: 14px;
-  position: relative;
-  margin: .25rem 0;
-}
-
-.list li:before {
-  content: '•';
-  position: absolute;
-  left: 0;
-  opacity: .6;
-}
-
-/* ================================
-   Features
-================================ */
-.feature {
-  padding: 22px;
-  border-radius: 18px;
-  border: 1px solid var(--stroke);
-  background: rgba(255,255,255,.04);
-}
-
-.feature h3 {
-  margin: .2rem 0 .4rem;
-}
-
-.feature p {
-  margin: 0;
-  color: var(--muted);
-}
-
-.feature .ico {
-  width: 36px;
-  height: 36px;
-  border-radius: 12px;
-  background: linear-gradient(90deg, var(--brand), var(--brand-2));
-  box-shadow: var(--shadow);
-  margin-bottom: 10px;
-}
-
-/* ================================
-   Footer
-================================ */
-.footer {
-  border-top: 1px solid var(--stroke);
-  padding: 32px 0;
-  background: rgba(255,255,255,.02);
-}
-
-.footer__inner {
-  display: grid;
-  gap: 10px;
-  align-items: center;
-  justify-items: center;
-}
-
-.footer__links {
-  display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-
-.footer__links a {
-  color: var(--muted);
-  text-decoration: none;
-}
-
-.brand--footer {
-  font-weight: 800;
-}
-
-/* ================================
-   Decorative Blurs
-================================ */
-.hero__blur {
-  position: absolute;
-  filter: blur(60px);
-  opacity: .7;
-  pointer-events: none;
-}
-
-.hero__blur--1 {
-  width: 420px;
-  height: 420px;
-  background: radial-gradient(closest-side, rgba(124,58,237,.4), transparent);
-  top: -80px;
-  right: 5%;
-}
-
-.hero__blur--2 {
-  width: 360px;
-  height: 360px;
-  background: radial-gradient(closest-side, rgba(6,182,212,.35), transparent);
-  bottom: -60px;
-  left: 8%;
-}
-
-/* --- CHAT FLOTANTE --- */
-.floating-chat {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: #4f46e5;
-  color: #fff;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
-  z-index: 9999;
-  transition: transform 0.2s ease-in-out, background 0.3s;
-}
-
-.floating-chat:hover {
-  background: #3730a3;
-  transform: scale(1.1);
-}
-
-.floating-chat i {
-  font-size: 26px;
-}
-
-/* --- CUADRO DE CHAT --- */
-.floating-chat .chat {
-  position: absolute;
-  bottom: 70px;
-  right: 0;
-  width: 300px;
-  max-height: 400px;
-  background: #fff;
-  color: #333;
-  border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-  display: none;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-/* Header */
-.floating-chat .chat .header {
-  background: #4f46e5;
-  color: #fff;
-  padding: 12px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.floating-chat .chat .header button {
-  background: transparent;
-  border: none;
-  color: #fff;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-/* Mensajes */
-.floating-chat .chat .messages {
-  list-style: none;
-  padding: 12px;
-  margin: 0;
-  flex: 1;
-  overflow-y: auto;
-  font-size: 14px;
-}
-
-.floating-chat .chat .messages li {
-  margin-bottom: 8px;
-  padding: 8px 12px;
-  border-radius: 8px;
-  max-width: 75%;
-}
-
-.floating-chat .chat .messages li.other {
-  background: #f3f4f6;
-  align-self: flex-start;
-}
-
-.floating-chat .chat .messages li.self {
-  background: #e0e7ff;
-  align-self: flex-end;
-}
-
-/* Footer */
-.floating-chat .chat .footer {
-  display: flex;
-  border-top: 1px solid #ddd;
-}
-
-.floating-chat .chat .text-box {
-  flex: 1;
-  padding: 10px;
-  outline: none;
-  font-size: 14px;
-}
-
-.floating-chat .chat button {
-  background: #4f46e5;
-  color: #fff;
-  border: none;
-  padding: 10px 16px;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.floating-chat .chat button:hover {
-  background: #3730a3;
-}
-    </style>
-  </header>
-
-  <!-- HERO -->
-  <section class="hero">
-    <div class="container grid grid-2">
-      <div class="hero__copy">
-        <div class="chip">Convocatorias abiertas</div>
-        <h1>Consigue tu <span class="grad">beca</span> <br> Solicita <span class="grad alt">información</span> que te abran puertas</h1>
-        <p class="muted">Explora convocatorias que te ayudaran en tu carrera.</p>
-
-       <!-- <form class="search" action="#" method="get">
-          <input name="q" type="text" placeholder="Busca: ‘ingeniería’, ‘posgrado’, ‘internacional’…" aria-label="Buscar becas">
-          <button class="btn" type="submit">
-            <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 18a8 8 0 1 1 5.293-14.293A8 8 0 0 1 10 18Zm11 3-5.4-5.4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-            Buscar
-          </button>
-        </form>-->
-
-        <div class="hero__badges">
-          <span class="badge ok">5 becas especializadas</span>
-          <span class="badge">Porcentaje alto de obtener la beca</span>
-          <span class="badge warn">Facil de acceder</span>
-        </div>
-      </div>
-
-      <div class="hero__visual">
-        <div class="glass card--stack">
-          <div class="card">
-            <h3>Beca Subes</h3>
-            <p>Requisitos claros.</p>
-            <div class="meta">
-              <span>🇲🇽 México</span>
-              <span>Licenciatura e Ingenieria</span>
-              <span>Fecha de inicio: Empezando cuatrimestre</span>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2><i class="fas fa-cogs"></i> Panel Admin</h2>
             </div>
-          </div>
-          <div class="card delay">
-            <h3>Jovenes Escribiendo el Futuro</h3>
-            <p>Apoyo economico durante tu carrera universitaria</p>
-            <div class="meta">
-              <span>🌍 Beca Nacional</span>
-              <span>Universitaria</span>
+            <ul class="sidebar-menu">
+                <li><a href="#" class="active" data-tab="dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="#" data-tab="general"><i class="fas fa-cog"></i> General</a></li>
+                <li><a href="#" data-tab="hero"><i class="fas fa-home"></i> Sección Hero</a></li>
+                <li><a href="#" data-tab="becas"><i class="fas fa-graduation-cap"></i> Becas Destacadas</a></li>
+                <li><a href="#" data-tab="asesorias"><i class="fas fa-hands-helping"></i> Asesorías</a></li>
+                <li><a href="#" data-tab="chatbot"><i class="fas fa-robot"></i> Chatbot</a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="header">
+                <h1>Panel de Administración - Becas Universitarias</h1>
+                <div class="user-info">
+                    <form method="POST" style="display: inline;">
+                       
+                    </form>
+                </div>
             </div>
-            <a class="btn ghost" href="https://subes.becasbenitojuarez.gob.mx/" target="_blank">Empezar</a>
-          </div>
+
+            <!-- Alertas -->
+            <?php if ($success): ?>
+                <div class="alert alert-success">
+                    <i class="fas fa-check-circle"></i> <?php echo htmlspecialchars($success); ?>
+                </div>
+            <?php endif; ?>
+            
+            <?php if ($error): ?>
+                <div class="alert alert-error">
+                    <i class="fas fa-exclamation-circle"></i> <?php echo htmlspecialchars($error); ?>
+                </div>
+            <?php endif; ?>
+
+            <!-- Dashboard -->
+            <div id="dashboard" class="tab-content active">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-tachometer-alt"></i> Resumen del Sistema</h3>
+                    </div>
+                    <div class="card-body">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px;">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4>Becas Destacadas</h4>
+                                    <p><?php echo count($data['seccion_becas_destacadas']['becas']); ?> becas registradas</p>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4>Características de Asesorías</h4>
+                                    <p><?php echo count($data['seccion_asesorias']['caracteristicas']); ?> características</p>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4>Opciones del Chatbot</h4>
+                                    <p><?php echo count($data['chatbot']['opciones_iniciales']); ?> opciones iniciales</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-rocket"></i> Acciones Rápidas</h3>
+                    </div>
+                    <div class="card-body">
+                        <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                            <button class="btn btn-primary" data-tab="general">
+                                <i class="fas fa-cog"></i> Configuración General
+                            </button>
+                            <button class="btn btn-success" data-tab="hero">
+                                <i class="fas fa-edit"></i> Editar Hero
+                            </button>
+                            <button class="btn btn-warning" data-tab="becas">
+                                <i class="fas fa-plus"></i> Gestionar Becas
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Configuración General -->
+            <div id="general" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-cog"></i> Configuración General</h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST">
+                            <input type="hidden" name="section" value="general">
+                            <div class="form-group">
+                                <label for="titulo_pagina">Título de la Página</label>
+                                <input type="text" id="titulo_pagina" name="titulo_pagina" class="form-control" 
+                                       value="<?php echo htmlspecialchars($data['titulo_pagina']); ?>" required>
+                            </div>
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-save"></i> Guardar Cambios
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección Hero -->
+            <div id="hero" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-home"></i> Sección Hero</h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST">
+                            <input type="hidden" name="section" value="hero">
+                            
+                            <div class="form-group">
+                                <label for="chip_texto">Texto del Chip</label>
+                                <input type="text" id="chip_texto" name="chip_texto" class="form-control" 
+                                       value="<?php echo htmlspecialchars($data['hero']['chip_texto']); ?>">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="titulo_principal">Título Principal</label>
+                                <div class="text-editor-container">
+                                    <div class="editor-toolbar">
+                                        <button type="button" data-format="bold"><i class="fas fa-bold"></i></button>
+                                        <button type="button" data-format="italic"><i class="fas fa-italic"></i></button>
+                                        <button type="button" data-format="grad">Beca</button>
+                                        <button type="button" data-format="grad-alt">Información</button>
+                                        <button type="button" data-format="linebreak">Salto de línea</button>
+                                    </div>
+                                    <textarea id="titulo_principal" name="titulo_principal" class="text-editor" rows="3"><?php 
+                                        // Extraer texto visible del HTML
+                                        $titulo = $data['hero']['titulo_principal'];
+                                        $titulo = preg_replace('/<span class="grad">(.*?)<\/span>/', '$1', $titulo);
+                                        $titulo = preg_replace('/<span class="grad alt">(.*?)<\/span>/', '$1', $titulo);
+                                        $titulo = str_replace('<br>', "\n", $titulo);
+                                        echo htmlspecialchars($titulo);
+                                    ?></textarea>
+                                </div>
+                                <div class="preview-container">
+                                    <div class="preview-title">Vista previa:</div>
+                                    <div class="preview-content" id="tituloPreview"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="descripcion">Descripción</label>
+                                <textarea id="descripcion" name="descripcion" class="form-control" rows="3"><?php echo htmlspecialchars($data['hero']['descripcion']); ?></textarea>
+                            </div>
+                            
+                            <h4>Insignias</h4>
+                            <div id="insignias-list" class="dynamic-list">
+                                <?php foreach ($data['hero']['insignias'] as $index => $insignia): ?>
+                                <div class="list-item">
+                                    <input type="text" name="insignia_texto[]" class="form-control" placeholder="Texto de la insignia" 
+                                           value="<?php echo htmlspecialchars($insignia['texto']); ?>">
+                                    <select name="insignia_clase[]" class="form-control">
+                                        <option value="" <?php echo $insignia['clase'] === '' ? 'selected' : ''; ?>>Normal</option>
+                                        <option value="ok" <?php echo $insignia['clase'] === 'ok' ? 'selected' : ''; ?>>Éxito</option>
+                                        <option value="warn" <?php echo $insignia['clase'] === 'warn' ? 'selected' : ''; ?>>Advertencia</option>
+                                    </select>
+                                    <button type="button" class="btn btn-danger btn-sm remove-item">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                                <?php endforeach; ?>
+                            </div>
+                            <button type="button" class="btn btn-primary btn-sm" id="add-insignia">
+                                <i class="fas fa-plus"></i> Agregar Insignia
+                            </button>
+                            
+                            <h4 style="margin-top: 20px;">Tarjetas de Ejemplo</h4>
+                            <div id="tarjetas-list" class="dynamic-list">
+                                <?php foreach ($data['hero']['tarjetas_ejemplo'] as $index => $tarjeta): ?>
+                                <div class="card" style="margin-bottom: 15px; padding: 15px; background: #f8f9fa;">
+                                    <div class="form-group">
+                                        <label>Título</label>
+                                        <input type="text" name="tarjeta_titulo[]" class="form-control" 
+                                               value="<?php echo htmlspecialchars($tarjeta['titulo']); ?>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Descripción</label>
+                                        <textarea name="tarjeta_descripcion[]" class="form-control" rows="2"><?php echo htmlspecialchars($tarjeta['descripcion']); ?></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Metadata (separar con comas)</label>
+                                        <input type="text" name="tarjeta_metadata[]" class="form-control" 
+                                               value="<?php echo htmlspecialchars(implode(', ', $tarjeta['metadata'])); ?>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Texto del Enlace (opcional)</label>
+                                        <input type="text" name="tarjeta_enlace_texto[]" class="form-control" 
+                                               value="<?php echo htmlspecialchars($tarjeta['enlace_texto'] ?? ''); ?>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>URL del Enlace (opcional)</label>
+                                        <input type="url" name="tarjeta_enlace_url[]" class="form-control" 
+                                               value="<?php echo htmlspecialchars($tarjeta['enlace_url'] ?? ''); ?>">
+                                    </div>
+                                    <button type="button" class="btn btn-danger btn-sm remove-tarjeta">
+                                        <i class="fas fa-trash"></i> Eliminar Tarjeta
+                                    </button>
+                                </div>
+                                <?php endforeach; ?>
+                            </div>
+                            <button type="button" class="btn btn-primary btn-sm" id="add-tarjeta">
+                                <i class="fas fa-plus"></i> Agregar Tarjeta
+                            </button>
+                            
+                            <div style="margin-top: 20px;">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fas fa-save"></i> Guardar Cambios Hero
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Becas Destacadas -->
+            <div id="becas" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-graduation-cap"></i> Becas Destacadas</h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST">
+                            <input type="hidden" name="section" value="becas_destacadas">
+                            
+                            <div class="form-group">
+                                <label for="becas_titulo">Título de la Sección</label>
+                                <input type="text" id="becas_titulo" name="becas_titulo" class="form-control" 
+                                       value="<?php echo htmlspecialchars($data['seccion_becas_destacadas']['titulo']); ?>">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="becas_subtitulo">Subtítulo</label>
+                                <input type="text" id="becas_subtitulo" name="becas_subtitulo" class="form-control" 
+                                       value="<?php echo htmlspecialchars($data['seccion_becas_destacadas']['subtitulo']); ?>">
+                            </div>
+                            
+                            <h4>Becas</h4>
+                            <div id="becas-list" class="dynamic-list">
+                                <?php foreach ($data['seccion_becas_destacadas']['becas'] as $index => $beca): ?>
+                                <div class="card" style="margin-bottom: 15px; padding: 15px; background: #f8f9fa;">
+                                    <input type="hidden" name="beca_id[]" value="<?php echo $beca['id']; ?>">
+                                    <div class="form-group">
+                                        <label>Nombre de la Beca</label>
+                                        <input type="text" name="beca_nombre[]" class="form-control" 
+                                               value="<?php echo htmlspecialchars($beca['nombre']); ?>" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Monto/Estímulo</label>
+                                        <input type="text" name="beca_monto[]" class="form-control" 
+                                               value="<?php echo htmlspecialchars($beca['monto']); ?>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Resumen/Descripción</label>
+                                        <textarea name="beca_resumen[]" class="form-control" rows="2"><?php echo htmlspecialchars($beca['resumen']); ?></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Requisitos (separar con comas)</label>
+                                        <input type="text" name="beca_requisitos[]" class="form-control" 
+                                               value="<?php echo htmlspecialchars(implode(', ', $beca['requisitos'])); ?>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Enlace para Postular</label>
+                                        <input type="url" name="beca_enlace_postular[]" class="form-control" 
+                                               value="<?php echo htmlspecialchars($beca['enlace_postular']); ?>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Enlace de Requisitos (PDF)</label>
+                                        <select name="beca_enlace_requisitos[]" class="form-control">
+                                            <option value="">Seleccionar PDF...</option>
+                                            <?php foreach ($pdf_files as $pdf): ?>
+                                                <?php 
+                                                $current_pdf = basename($beca['enlace_descarga_requisitos']);
+                                                $selected = ($current_pdf === $pdf) ? 'selected' : '';
+                                                ?>
+                                                <option value="<?php echo $pdf; ?>" <?php echo $selected; ?>>
+                                                    <?php echo $pdf; ?>
+                                                </option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                        <small class="text-muted">PDFs disponibles en assets/PDF/</small>
+                                    </div>
+                                    <button type="button" class="btn btn-danger btn-sm remove-beca">
+                                        <i class="fas fa-trash"></i> Eliminar Beca
+                                    </button>
+                                </div>
+                                <?php endforeach; ?>
+                            </div>
+                            <button type="button" class="btn btn-primary btn-sm" id="add-beca">
+                                <i class="fas fa-plus"></i> Agregar Beca
+                            </button>
+                            
+                            <div style="margin-top: 20px;">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fas fa-save"></i> Guardar Becas
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Asesorías -->
+            <div id="asesorias" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-hands-helping"></i> Asesorías</h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST">
+                            <input type="hidden" name="section" value="asesorias">
+                            
+                            <div class="form-group">
+                                <label for="asesorias_titulo">Título de la Sección</label>
+                                <input type="text" id="asesorias_titulo" name="asesorias_titulo" class="form-control" 
+                                       value="<?php echo htmlspecialchars($data['seccion_asesorias']['titulo_seccion']); ?>">
+                            </div>
+                            
+                            <h4>Características</h4>
+                            <div id="caracteristicas-list" class="dynamic-list">
+                                <?php foreach ($data['seccion_asesorias']['caracteristicas'] as $index => $caracteristica): ?>
+                                <div class="list-item">
+                                    <input type="text" name="caracteristica_titulo[]" class="form-control" placeholder="Título" 
+                                           value="<?php echo htmlspecialchars($caracteristica['titulo']); ?>">
+                                    <input type="text" name="caracteristica_descripcion[]" class="form-control" placeholder="Descripción" 
+                                           value="<?php echo htmlspecialchars($caracteristica['descripcion']); ?>">
+                                    <button type="button" class="btn btn-danger btn-sm remove-item">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                                <?php endforeach; ?>
+                            </div>
+                            <button type="button" class="btn btn-primary btn-sm" id="add-caracteristica">
+                                <i class="fas fa-plus"></i> Agregar Característica
+                            </button>
+                            
+                            <div style="margin-top: 20px;">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fas fa-save"></i> Guardar Asesorías
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chatbot -->
+            <div id="chatbot" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-robot"></i> Chatbot</h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST">
+                            <input type="hidden" name="section" value="chatbot">
+                            
+                            <div class="form-group">
+                                <label for="chatbot_nombre">Nombre del Bot</label>
+                                <input type="text" id="chatbot_nombre" name="chatbot_nombre" class="form-control" 
+                                       value="<?php echo htmlspecialchars($data['chatbot']['nombre']); ?>">
+                            </div>
+                            
+                            <h4>Opciones Iniciales</h4>
+                            <div id="opciones-list" class="dynamic-list">
+                                <?php foreach ($data['chatbot']['opciones_iniciales'] as $index => $opcion): ?>
+                                <div class="list-item">
+                                    <input type="text" name="opcion_texto[]" class="form-control" placeholder="Texto de la opción" 
+                                           value="<?php echo htmlspecialchars($opcion); ?>">
+                                    <button type="button" class="btn btn-danger btn-sm remove-item">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                                <?php endforeach; ?>
+                            </div>
+                            <button type="button" class="btn btn-primary btn-sm" id="add-opcion">
+                                <i class="fas fa-plus"></i> Agregar Opción
+                            </button>
+                            
+                            <h4 style="margin-top: 20px;">Respuestas Pregrabadas</h4>
+                            <div id="respuestas-list" class="dynamic-list">
+                                <?php foreach ($data['chatbot']['respuestas_pregrabadas'] as $clave => $texto): ?>
+                                <div class="card" style="margin-bottom: 15px; padding: 15px; background: #f8f9fa;">
+                                    <div class="form-group">
+                                        <label>Clave (número o palabra clave)</label>
+                                        <input type="text" name="respuesta_clave[]" class="form-control" 
+                                               value="<?php echo htmlspecialchars($clave); ?>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Texto de Respuesta</label>
+                                        <textarea name="respuesta_texto[]" class="form-control" rows="3"><?php echo htmlspecialchars($texto); ?></textarea>
+                                    </div>
+                                    <button type="button" class="btn btn-danger btn-sm remove-respuesta">
+                                        <i class="fas fa-trash"></i> Eliminar Respuesta
+                                    </button>
+                                </div>
+                                <?php endforeach; ?>
+                            </div>
+                            <button type="button" class="btn btn-primary btn-sm" id="add-respuesta">
+                                <i class="fas fa-plus"></i> Agregar Respuesta
+                            </button>
+                            
+                            <div style="margin-top: 20px;">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fas fa-save"></i> Guardar Chatbot
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-    <div class="hero__blur hero__blur--1"></div>
-    <div class="hero__blur hero__blur--2"></div>
-  </section>
 
-  <!-- SECCIÓN: BECAS DESTACADAS -->
-  <section id="becas" class="section">
-    <div class="container">
-      <div class="section__head">
-        <h2>Becas destacadas</h2>
-        <p class="muted">Curadas y verificadas por nuestro equipo.</p>
-      </div>
+    <script>
+        // Configurar navegación entre pestañas
+        $(document).ready(function() {
+            // Manejar clics en el sidebar
+            $('.sidebar-menu a').on('click', function(e) {
+                e.preventDefault();
+                const tab = $(this).data('tab');
+                
+                // Actualizar sidebar
+                $('.sidebar-menu a').removeClass('active');
+                $(this).addClass('active');
+                
+                // Mostrar contenido correspondiente
+                $('.tab-content').removeClass('active');
+                $(`#${tab}`).addClass('active');
+            });
 
-      <div class="grid grid-3 cards">
-        <article class="card2">
-          <div class="card2__head">
-            <h3>Beca Inscripción</h3>
-            <span class="pill">$3000</span>
-          </div>
-          <p>Para carreras de TI y ciencia de datos. Incluye mentoría.</p>
-          <ul class="list">
-            <li>Promedio ≥ 8.5</li>
-            <li>Proyecto o portafolio</li>
-            <li>Entrevista técnica</li>
-          </ul>
-          <a class="btn block" href="https://mitch.chihuahua.gob.mx/seaged-app-portal/tramites/inicio" target="_blank">Postular</a>
-          <a class="btn block" href="../../assets/PDF/beca_inscripcion_2.pdf" download>Descargar requisitos</a>
-        </article>
+            // Manejar botones de acciones rápidas
+            $('[data-tab]').on('click', function() {
+                const tab = $(this).data('tab');
+                
+                // Actualizar sidebar
+                $('.sidebar-menu a').removeClass('active');
+                $(`.sidebar-menu a[data-tab="${tab}"]`).addClass('active');
+                
+                // Mostrar contenido correspondiente
+                $('.tab-content').removeClass('active');
+                $(`#${tab}`).addClass('active');
+            });
 
-        <article class="card2">
-          <div class="card2__head">
-            <h3>Beca Material y Equipo Técnico</h3>
-            <span class="pill">$3000</span>
-          </div>
-          <p>Movilidad internacional y manutención por méritos académicos.</p>
-          <ul class="list">
-            <li>Idiomas B2+</li>
-            <li>Ensayo motivacional</li>
-            <li>Servicio social</li>
-          </ul>
-          <a class="btn block" href="https://mitch.chihuahua.gob.mx/seaged-app-portal/tramites/inicio" target="_blank" >Postular</a>
-          <a class="btn block" href="../../assets/PDF/beca_material_y_equipo_tecnico_2.pdf" download>Descargar requisitos</a>
-        </article>
+            // Funciones para agregar elementos dinámicos
+            $('#add-insignia').on('click', function() {
+                $('#insignias-list').append(`
+                    <div class="list-item">
+                        <input type="text" name="insignia_texto[]" class="form-control" placeholder="Texto de la insignia">
+                        <select name="insignia_clase[]" class="form-control">
+                            <option value="">Normal</option>
+                            <option value="ok">Éxito</option>
+                            <option value="warn">Advertencia</option>
+                        </select>
+                        <button type="button" class="btn btn-danger btn-sm remove-item">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `);
+            });
 
-        <article class="card2">
-          <div class="card2__head">
-            <h3>Beca Titulación</h3>
-            <span class="pill">$3000</span>
-          </div>
-          <p>Fondos para proyectos universitarios y publicaciones.</p>
-          <ul class="list">
-            <li>Protocolo avalado</li>
-            <li>Director de tesis</li>
-            <li>Informe parcial</li>
-          </ul>
-          <a class="btn block" href="https://mitch.chihuahua.gob.mx/seaged-app-portal/tramites/inicio" target="_blank" >Postular</a>
-          <a class="btn block" href="../../assets/PDF/beca_titulacion_2.pdf" download>Descargar requisitos</a>
-        </article>
+            $('#add-tarjeta').on('click', function() {
+                $('#tarjetas-list').append(`
+                    <div class="card" style="margin-bottom: 15px; padding: 15px; background: #f8f9fa;">
+                        <div class="form-group">
+                            <label>Título</label>
+                            <input type="text" name="tarjeta_titulo[]" class="form-control" placeholder="Título de la tarjeta">
+                        </div>
+                        <div class="form-group">
+                            <label>Descripción</label>
+                            <textarea name="tarjeta_descripcion[]" class="form-control" rows="2" placeholder="Descripción"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Metadata (separar con comas)</label>
+                            <input type="text" name="tarjeta_metadata[]" class="form-control" placeholder="Ej: México, Licenciatura, Fecha">
+                        </div>
+                        <div class="form-group">
+                            <label>Texto del Enlace (opcional)</label>
+                            <input type="text" name="tarjeta_enlace_texto[]" class="form-control" placeholder="Ej: Empezar">
+                        </div>
+                        <div class="form-group">
+                            <label>URL del Enlace (opcional)</label>
+                            <input type="url" name="tarjeta_enlace_url[]" class="form-control" placeholder="https://...">
+                        </div>
+                        <button type="button" class="btn btn-danger btn-sm remove-tarjeta">
+                            <i class="fas fa-trash"></i> Eliminar Tarjeta
+                        </button>
+                    </div>
+                `);
+            });
 
-        <article class="card2">
-          <div class="card2__head">
-            <h3>Jóvenes Escribiendo el Futuro</h3>
-            <span class="pill">Estímulo $5800</span>
-          </div>
-          <p>Fondos para proyectos universitarios y publicaciones.</p>
-          <ul class="list">
-            <li>Protocolo avalado</li>
-            <li>Director de tesis</li>
-            <li>Informe parcial</li>
-          </ul>
-          <a class="btn block" href="https://subes.becasbenitojuarez.gob.mx/" target="_blank">Postular</a>
-          <a class="btn block"  href="https://programasparaelbienestar.gob.mx/beca-bienestar-benito-juarez-educacion-superior/" target="_blank">Ver requisitos</a>
-        </article>
+            $('#add-beca').on('click', function() {
+                $('#becas-list').append(`
+                    <div class="card" style="margin-bottom: 15px; padding: 15px; background: #f8f9fa;">
+                        <input type="hidden" name="beca_id[]" value="${Date.now()}">
+                        <div class="form-group">
+                            <label>Nombre de la Beca</label>
+                            <input type="text" name="beca_nombre[]" class="form-control" placeholder="Nombre de la beca" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Monto/Estímulo</label>
+                            <input type="text" name="beca_monto[]" class="form-control" placeholder="Ej: $3000">
+                        </div>
+                        <div class="form-group">
+                            <label>Resumen/Descripción</label>
+                            <textarea name="beca_resumen[]" class="form-control" rows="2" placeholder="Descripción de la beca"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Requisitos (separar con comas)</label>
+                            <input type="text" name="beca_requisitos[]" class="form-control" placeholder="Ej: Promedio 8.5, Entrevista técnica">
+                        </div>
+                        <div class="form-group">
+                            <label>Enlace para Postular</label>
+                            <input type="url" name="beca_enlace_postular[]" class="form-control" placeholder="https://...">
+                        </div>
+                        <div class="form-group">
+                            <label>Enlace de Requisitos (PDF)</label>
+                            <select name="beca_enlace_requisitos[]" class="form-control">
+                                <option value="">Seleccionar PDF...</option>
+                                <?php foreach ($pdf_files as $pdf): ?>
+                                    <option value="<?php echo $pdf; ?>"><?php echo $pdf; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                            <small class="text-muted">PDFs disponibles en assets/PDF/</small>
+                        </div>
+                        <button type="button" class="btn btn-danger btn-sm remove-beca">
+                            <i class="fas fa-trash"></i> Eliminar Beca
+                        </button>
+                    </div>
+                `);
+            });
 
-        <article class="card2">
-          <div class="card2__head">
-            <h3>Beca Acceso a la Universidad</h3>
-            <span class="pill">Pago primer cuatrimestre</span>
-          </div>
-          <p>Solo estudiantes de nuevo ingreso.</p>
-          <ul class="list">
-            <li>Protocolo avalado</li>
-            <li>Director de tesis</li>
-            <li>Informe parcial</li>
-          </ul>
-          <a class="btn block" href="https://www.juarez.gob.mx/becas-de-acceso-a-la-universidad" target="_blank">Postular</a>
-          <a class="btn block" href="../../assets/PDF/RequisitosBeca.pdf" download>Descargar requisitos</a>
-        </article>
-      </div>
-    </div>
-  </section>
+            $('#add-caracteristica').on('click', function() {
+                $('#caracteristicas-list').append(`
+                    <div class="list-item">
+                        <input type="text" name="caracteristica_titulo[]" class="form-control" placeholder="Título">
+                        <input type="text" name="caracteristica_descripcion[]" class="form-control" placeholder="Descripción">
+                        <button type="button" class="btn btn-danger btn-sm remove-item">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `);
+            });
 
-  <!-- SECCIÓN: ASESORÍAS -->
-  <section id="asesorias" class="section alt">
-    <div class="container grid grid-3">
-      <div class="feature">
-        <div class="ico"></div>
-        <h3>Revisión de documentos</h3>
-        <p>Documentacion cambia para cada una de las becas.</p>
-      </div>
-      <div class="feature">
-        <div class="ico"></div>
-        <h3>Fechas precisas</h3>
-        <p>Entregar la documentación en fechas dadas.</p>
-      </div>
-      <div class="feature">
-        <div class="ico"></div>
-        <h3>Revision de consulta y revisados</h3>
-        <p>Estar atentos para no perder tu resultado de la beca.</p>
-      </div>
-    </div>
-  </section>
+            $('#add-opcion').on('click', function() {
+                $('#opciones-list').append(`
+                    <div class="list-item">
+                        <input type="text" name="opcion_texto[]" class="form-control" placeholder="Texto de la opción">
+                        <button type="button" class="btn btn-danger btn-sm remove-item">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `);
+            });
 
-  <div class="floating-chat">
-    <i class="fa fa-comments" aria-hidden="true"></i>
-    <div class="chat">
-        <div class="header">
-            <span class="title">
-                UTPN-BOT
-            </span>
-            <button>
-                <i class="fa fa-times" aria-hidden="true"></i>
-            </button>
-                         
-        </div>
-        <ul class="messages">
-            <li class="other">¡Hola! 👋 Selecciona una opción escribiendo el número:</li>
-            <li class="other">1️⃣ ¿Qué becas están disponibles?</li>
-            <li class="other">2️⃣ ¿Cuáles son los requisitos?</li>
-            <li class="other">3️⃣ ¿Cómo solicitar una beca?</li>
-            <li class="other">4️⃣ ¿Cuándo cierran las convocatorias?</li>
-            <li class="other">5️⃣ ¿Ofrecen asesorías personalizadas?</li>
-        </ul>
-        <div class="footer">
-            <div class="text-box" contenteditable="true" disabled="true"></div>
-            <button id="sendMessage">send</button>
-        </div>
-    </div>
-</div>
-  <!-- FOOTER -->
+            $('#add-respuesta').on('click', function() {
+                $('#respuestas-list').append(`
+                    <div class="card" style="margin-bottom: 15px; padding: 15px; background: #f8f9fa;">
+                        <div class="form-group">
+                            <label>Clave (número o palabra clave)</label>
+                            <input type="text" name="respuesta_clave[]" class="form-control" placeholder="Ej: 1, ayuda, monto">
+                        </div>
+                        <div class="form-group">
+                            <label>Texto de Respuesta</label>
+                            <textarea name="respuesta_texto[]" class="form-control" rows="3" placeholder="Respuesta del chatbot"></textarea>
+                        </div>
+                        <button type="button" class="btn btn-danger btn-sm remove-respuesta">
+                            <i class="fas fa-trash"></i> Eliminar Respuesta
+                        </button>
+                    </div>
+                `);
+            });
 
+            // Eliminar elementos
+            $(document).on('click', '.remove-item', function() {
+                $(this).closest('.list-item').remove();
+            });
 
-  <!-- CHATBOT JS -->
- <!-- CHATBOT JS -->
-<script>
-$(function(){
-  var element = $('.floating-chat');
-  var chatID = createUUID();
-  var isOpen = false;
+            $(document).on('click', '.remove-tarjeta', function() {
+                $(this).closest('.card').remove();
+            });
 
-  // Respuestas pregrabadas
-  var respuestas = {
-      '1': '📚 Actualmente tenemos disponibles:\n• Beca Talento Digital (hasta 80%)\n• Beca Líder Global (100%)\n• Apoyo Investigación\n• Y más opciones en la sección de becas destacadas',
-      '2': '📋 Los requisitos varían según la beca:\n• Promedio mínimo: 8.0-8.5\n• Documentos: CV, carta motivación, comprobantes\n• Algunos requieren entrevista o proyecto\n• Revisa cada convocatoria para detalles específicos',
-      '3': '✍️ Pasos para solicitar:\n1. Revisa las becas disponibles\n2. Verifica que cumples los requisitos\n3. Prepara tu documentación\n4. Click en "Postular" en la beca que te interesa\n5. Llena el formulario completo\n6. ¡Listo! Recibirás confirmación por email',
-      '4': '📅 Las convocatorias tienen diferentes fechas:\n• Revisa cada beca para ver su fecha límite\n• Generalmente abren al inicio de cada cuatrimestre\n• Te recomendamos aplicar con anticipación\n• Suscríbete para recibir notificaciones',
-      '5': '👨‍🏫 ¡Sí! Ofrecemos:\n• Revisión de documentos\n• Simulación de entrevistas\n• Estrategia de postulación\n• Agenda una cita en la sección de Asesorías'
-  };
+            $(document).on('click', '.remove-beca', function() {
+                $(this).closest('.card').remove();
+            });
 
-  setTimeout(function() {
-      element.addClass('enter');
-  }, 1000);
+            $(document).on('click', '.remove-respuesta', function() {
+                $(this).closest('.card').remove();
+            });
 
-  element.click(toggleChat);
+            // Editor de texto para título principal
+            function updateTituloPreview() {
+                const editor = document.getElementById('titulo_principal');
+                const preview = document.getElementById('tituloPreview');
+                
+                if (!editor || !preview) return;
+                
+                // Convertir texto a HTML para la vista previa
+                let html = editor.value;
+                
+                // Aplicar formato grad a "beca"
+                html = html.replace(/(^|\s)(beca)($|\s)/g, '$1<span class="grad">$2</span>$3');
+                
+                // Aplicar formato grad alt a "información"
+                html = html.replace(/(^|\s)(información)($|\s)/g, '$1<span class="grad alt">$2</span>$3');
+                
+                // Reemplazar saltos de línea por <br>
+                html = html.replace(/\n/g, '<br>');
+                
+                preview.innerHTML = html;
+            }
 
-  function toggleChat() {
-      if (isOpen) {
-          closeElement();
-      } else {
-          openElement();
-      }
-  }
+            // Configurar editor de texto
+            const editor = document.getElementById('titulo_principal');
+            const toolbar = document.querySelector('.editor-toolbar');
+            
+            if (editor) {
+                editor.addEventListener('input', updateTituloPreview);
+                
+                // Inicializar vista previa
+                updateTituloPreview();
+            }
 
-  function openElement() {
-      var messages = element.find('.messages');
-      var textInput = element.find('.text-box');
-      element.find('>i').removeClass('fa-comments').addClass('fa-times');
-      element.addClass('expand');
-      element.find('.chat').css('display', 'flex');
-      textInput.prop("disabled", false).focus();
-      element.find('.header button').click(closeElement);
-      element.find('#sendMessage').click(sendNewMessage);
-      messages.scrollTop(messages.prop("scrollHeight"));
-      textInput.keydown(onMetaAndEnter);
-      isOpen = true;
-  }
+            if (toolbar) {
+                toolbar.addEventListener('click', function(e) {
+                    if (e.target.tagName === 'BUTTON') {
+                        const format = e.target.dataset.format;
+                        applyFormat(format, editor);
+                    }
+                });
+            }
 
-  function closeElement() {
-      element.find('.chat').css('display', 'none');
-      element.find('>i').removeClass('fa-times').addClass('fa-comments');
-      element.removeClass('expand');
-      element.find('.header button').off('click', closeElement);
-      element.find('#sendMessage').off('click', sendNewMessage);
-      element.find('.text-box').off('keydown', onMetaAndEnter).prop("disabled", true).blur();
-      isOpen = false;
-  }
+            function applyFormat(format, editor) {
+                if (!editor) return;
+                
+                const start = editor.selectionStart;
+                const end = editor.selectionEnd;
+                const text = editor.value;
+                let newText = '';
+                
+                switch(format) {
+                    case 'bold':
+                        newText = text.substring(0, start) + '**' + text.substring(start, end) + '**' + text.substring(end);
+                        break;
+                    case 'italic':
+                        newText = text.substring(0, start) + '_' + text.substring(start, end) + '_' + text.substring(end);
+                        break;
+                    case 'grad':
+                        newText = text.substring(0, start) + 'beca' + text.substring(end);
+                        break;
+                    case 'grad-alt':
+                        newText = text.substring(0, start) + 'información' + text.substring(end);
+                        break;
+                    case 'linebreak':
+                        newText = text.substring(0, start) + '\n' + text.substring(end);
+                        break;
+                }
+                
+                editor.value = newText;
+                updateTituloPreview();
+                
+                // Restaurar el foco y la selección
+                editor.focus();
+                const newPosition = format === 'linebreak' ? start + 1 : start;
+                editor.setSelectionRange(newPosition, newPosition);
+            }
 
-  function createUUID() {
-      var s = [];
-      var hexDigits = "0123456789abcdef";
-      for (var i = 0; i < 36; i++) {
-          s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
-      }
-      s[14] = "4";
-      s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1);
-      s[8] = s[13] = s[18] = s[23] = "-";
-      return s.join("");
-  }
-
-  function sendNewMessage() {
-      var userInput = $('.text-box');
-      var newMessage = userInput.html()
-          .replace(/\<div\>|\<br.*?\>/ig, '\n')
-          .replace(/\<\/div\>/g, '')
-          .trim()
-          .replace(/\n/g, '<br>');
-
-      if (!newMessage) return;
-
-      var messagesContainer = $('.messages');
-      messagesContainer.append('<li class="self">' + newMessage + '</li>');
-      userInput.html('');
-      messagesContainer.scrollTop(messagesContainer.prop("scrollHeight"));
-
-      // Buscar respuesta
-      var respuesta = respuestas[newMessage.trim()];
-      setTimeout(function() {
-          if (respuesta) {
-              messagesContainer.append('<li class="other">' + respuesta.replace(/\n/g, '<br>') + '</li>');
-          } else {
-              messagesContainer.append('<li class="other">🤖 No entendí tu opción. Escribe un número del 1 al 5 para continuar.</li>');
-          }
-          messagesContainer.scrollTop(messagesContainer.prop("scrollHeight"));
-      }, 700);
-  }
-
-  function onMetaAndEnter(event) {
-      if (event.keyCode === 13) {
-          sendNewMessage();
-          event.preventDefault();
-      }
-  }
-});
-</script>
+            // Prevenir envío duplicado de formularios
+            $('form').on('submit', function() {
+                $(this).find('button[type="submit"]').prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Guardando...');
+            });
+        });
+    </script>
+   <?php include "../../includes/footer.php"; ?> 
 </body>
-<?php include "../../includes/footer.php"; ?>
 </html>

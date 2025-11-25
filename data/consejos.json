@@ -19,7 +19,7 @@
         "icono": "🔄",
         "descripcion": "Cada cuenta debe tener una contraseña única.",
         "contenido_completo": "<h3>Riesgos<\/h3><p>Si comprometen una, comprometen todas.<\/p>",
-        "activo": 1,
+        "activo": 0,
         "fecha": "2025-11-03 02:12:36",
         "creado_por": null
     },
@@ -46,7 +46,65 @@
         "activo": 0,
         "fecha": "2025-11-03 03:31:49",
         "creado_por": null
+    },
+    {
+        "id": 5,
+        "titulo": "contraseñas fuertes",
+        "categoria_id": 1,
+        "prioridad": "high",
+        "icono": "📌",
+        "descripcion": "Crea contraseñas robustas y únicas para cada cuenta.",
+        "contenido_completo": "<ul>\n    <li>Usa al menos 12 caracteres en tus contraseñas<\/li>\n    <li>Combina mayúsculas, minúsculas, números y símbolos<\/li>\n    <li>No uses información personal como nombres o fechas<\/li>\n    <li>Utiliza un gestor de contraseñas para recordarlas todas<\/li>\n    <li>Activa la autenticación de dos factores cuando esté disponible<\/li>\n    <li>Cambia tus contraseñas regularmente, especialmente después de una filtración<\/li>\n  <\/ul>",
+        "activo": 1,
+        "fecha": "2025-11-24 19:39:01",
+        "creado_por": null
+    },
+    {
+        "id": 6,
+        "titulo": "Prevención de Phishing",
+        "categoria_id": 2,
+        "prioridad": "high",
+        "icono": "🎣",
+        "descripcion": "Identifica y evita intentos de suplantación de identidad.",
+        "contenido_completo": "<ul>\n    <li>Verifica siempre la dirección del remitente en correos sospechosos<\/li>\n    <li>No hagas clic en enlaces de correos no solicitados<\/li>\n    <li>Las empresas legítimas nunca te pedirán contraseñas por correo<\/li>\n    <li>Busca errores gramaticales y ortográficos como señales de alerta<\/li>\n    <li>Si tienes dudas, contacta directamente a la empresa por teléfono<\/li>\n    <li>Instala extensiones de navegador que detecten sitios de phishing<\/li>\n  <\/ul>",
+        "activo": 1,
+        "fecha": "2025-11-24 19:40:13",
+        "creado_por": null
+    },
+    {
+        "id": 7,
+        "titulo": "Privacidad en Redes Sociales",
+        "categoria_id": 3,
+        "prioridad": "medium",
+        "icono": "📱",
+        "descripcion": "Protege tu información personal en plataformas sociales.",
+        "contenido_completo": "<ul>\n    <li>Revisa y ajusta regularmente tu configuración de privacidad<\/li>\n    <li>No compartas información personal como tu dirección o teléfono públicamente<\/li>\n    <li>Ten cuidado con lo que publicas sobre tu ubicación en tiempo real<\/li>\n    <li>No aceptes solicitudes de amistad de desconocidos<\/li>\n    <li>Usa contraseñas diferentes para cada red social<\/li>\n    <li>Desactiva la geolocalización en tus publicaciones<\/li>\n  <\/ul>",
+        "activo": 1,
+        "fecha": "2025-11-24 19:42:06",
+        "creado_por": null
+    },
+    {
+        "id": 8,
+        "titulo": "Seguridad en Redes WiFi",
+        "categoria_id": 4,
+        "prioridad": "medium",
+        "icono": "📶",
+        "descripcion": "Conéctate de forma segura a redes inalámbricas.",
+        "contenido_completo": "<ul>\n    <li>Evita conectarte a redes WiFi públicas para transacciones sensibles<\/li>\n    <li>Usa una VPN cuando te conectes a redes públicas<\/li>\n    <li>Verifica que estás conectado a la red WiFi correcta (evita redes con nombres similares)<\/li>\n    <li>Desactiva la conexión automática a redes WiFi en tus dispositivos<\/li>\n    <li>En casa, cambia la contraseña predeterminada de tu router<\/li>\n    <li>Actualiza regularmente el firmware de tu router<\/li>\n  <\/ul>",
+        "activo": 1,
+        "fecha": "2025-11-24 19:55:10",
+        "creado_por": null
+    },
+    {
+        "id": 9,
+        "titulo": "Protección de Dispositivos",
+        "categoria_id": 5,
+        "prioridad": "high",
+        "icono": "💻",
+        "descripcion": "Mantén seguros tus dispositivos electrónicos.",
+        "contenido_completo": "<ul>\n    <li>Instala y mantén actualizado un software antivirus<\/li>\n    <li>Actualiza regularmente el sistema operativo y las aplicaciones<\/li>\n    <li>Habilita el bloqueo de pantalla con contraseña o patrón<\/li>\n    <li>Realiza copias de seguridad periódicas de tu información importante<\/li>\n    <li>No descargues aplicaciones de fuentes no oficiales<\/li>\n    <li>Revisa los permisos que concedes a las aplicaciones<\/li>\n  <\/ul>",
+        "activo": 1,
+        "fecha": "2025-11-24 19:57:17",
+        "creado_por": null
     }
-
-
 ]

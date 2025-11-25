@@ -162,7 +162,7 @@ function cargarCategorias() {
     });
 }
 
-// Mostrar consejos filtrados
+// Mostrar consejos filtrados - VERSIÓN MEJORADA
 function mostrarConsejos() {
     const container = document.getElementById('consejosContainer');
     if (!container) {
@@ -191,9 +191,18 @@ function mostrarConsejos() {
     // Animar las tarjetas
     animarTarjetas();
     
+    // CONFIGURAR EVENTOS INMEDIATAMENTE después de renderizar
+    setTimeout(() => {
+        configurarEventosTarjetas();
+    }, 100);
+}
+    
+    // Animar las tarjetas
+    animarTarjetas();
+    
     // Configurar eventos usando event delegation
     configurarEventosTarjetas();
-}
+
 
 // Filtrar consejos
 function filtrarConsejos() {
@@ -246,19 +255,56 @@ function animarTarjetas() {
     }, 50);
 }
 
-// Configurar eventos de las tarjetas usando Event Delegation
+// Configurar eventos de las tarjetas usando Event Delegation - VERSIÓN CORREGIDA
 function configurarEventosTarjetas() {
     console.log('🔧 Configurando eventos de tarjetas...');
     
     const container = document.getElementById('consejosContainer');
     if (!container) return;
     
-    // Usar event delegation - un solo listener en el contenedor padre
+    // ELIMINAR todos los listeners anteriores para evitar duplicados
     container.removeEventListener('click', handleReadMoreClick);
-    container.addEventListener('click', handleReadMoreClick);
+    
+    // AGREGAR nuevo listener con captura mejorada
+    container.addEventListener('click', function(e) {
+        console.log('🖱️ Click detectado en contenedor:', e.target);
+        
+        const readMoreLink = e.target.closest('.read-more');
+        
+        if (readMoreLink) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const consejoId = parseInt(readMoreLink.dataset.id);
+            console.log(`🔗 Click en consejo ID: ${consejoId}`);
+            
+            if (consejoId) {
+                abrirModal(consejoId);
+            }
+        }
+    }, true); // ← AGREGAR 'true' para usar captura phase
     
     const readMoreLinks = container.querySelectorAll('.read-more');
-    console.log(`🔍 Enlaces encontrados: ${readMoreLinks.length}`);
+    console.log(`🔍 Enlaces "Ver más" encontrados: ${readMoreLinks.length}`);
+    
+    // AGREGAR listeners directos como fallback para escritorio
+    readMoreLinks.forEach(link => {
+        link.removeEventListener('click', handleDirectClick);
+        link.addEventListener('click', handleDirectClick);
+    });
+}
+
+// NUEVA FUNCIÓN: Manejador directo para escritorio
+function handleDirectClick(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    const consejoId = parseInt(this.dataset.id);
+    console.log(`💻 Click directo en consejo ID: ${consejoId}`);
+    
+    if (consejoId) {
+        abrirModal(consejoId);
+    }
 }
 
 // Manejador de clicks separado para mejor control
