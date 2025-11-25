@@ -156,7 +156,7 @@ body {
         </a>
 
         <!-- 📌 Comunidad Bienestar -->
-        <a href="<?= tienePermiso('becas') ? '../admin/admin.php' : '#' ?>">
+        <a href="<?= tienePermiso('becas') ? '../admin/foroadmin.php' : '#' ?>">
             <div class="logo <?= !tienePermiso('becas') ? 'disabled' : '' ?>">
                 <svg fill="currentColor" viewBox="0 0 24 24"><path d="M23 18.9999H22V8.99991H18V6.58569L12 0.585693L6 6.58569V8.99991H2V18.9999H1V20.9999H23V18.9999ZM6 19H4V11H6V19ZM18 11H20V19H18V11ZM11 12H13V19H11V12Z"></path></svg>
                 <p>Comunidad Bienestar</p>
