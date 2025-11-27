@@ -1921,6 +1921,7 @@
             `).join('');
             
             // ⭐ RECONFIGURAR EVENTOS PARA MÓVIL DESPUÉS DE CARGAR
+            //cambio
             setTimeout(configurarClicsMoviles, 100);
         }
 
