@@ -25,7 +25,6 @@ function tienePermiso($pagina) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UTPN</title>
     <style>
-
 * {
     margin: 0;
     padding: 0;
@@ -35,17 +34,7 @@ function tienePermiso($pagina) {
 
 body {
   font-family: 'Plus Jakarta Sans', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, sans-serif;
-  background-color: #EDE5D6;
-}
-
-/* ------------------------------- */
-/*       BOTONES DESHABILITADOS    */
-/* ------------------------------- */
-
-.disabled {
-    opacity: 0.4;
-    pointer-events: none; /* No hace clic */
-    filter: grayscale(100%);
+  background-color: #EDE5D6; /* 🎨 crema claro */
 }
 
 /* ------------------------------- */
@@ -57,12 +46,12 @@ body {
     max-width: 400px;
     margin: 30px auto 0 auto;
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr; /* 1 columna en móvil */
     gap: 20px;
     place-items: center;
-     margin-bottom: 120px; /* evita que el footer tape los botones */
 }
 
+/* Evita subrayados */
 .logos-container a {
     text-decoration: none;
 }
@@ -96,6 +85,7 @@ body {
     margin-bottom: 8px;
 }
 
+/* Elimina líneas debajo del texto */
 .logo p {
     color: #333;
     font-size: 15px;
@@ -113,7 +103,7 @@ body {
 @media (min-width: 768px) {
     .logos-container {
         max-width: 900px;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(3, 1fr); /* 3 columnas */
         gap: 25px;
         place-items: center;
     }
