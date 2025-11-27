@@ -181,6 +181,46 @@
             "descripcion": "El objetivo de esta investigación es determinar la eficiencia de la red logística del comercio\r\nexterior de diecinueve economías de la región del APEC para el año 2016. Se trabaja para\r\nello con el Data Envelopment Analysis (DEA) network.",
             "tipo": "Articulos de investigacion",
             "enlace": "https:\/\/www.scielo.org.mx\/pdf\/confines\/v15n29\/1870-3569-confines-15-29-87.pdf"
+        },
+        {
+            "id_recurso": 29,
+            "id_categoria": 2,
+            "titulo": "Aproximación teórica al concepto de calidad y los sistemas de gestión",
+            "descripcion": "La calidad ha evolucionado hacia la “Calidad Total”, un enfoque de gestión que busca mayor satisfacción del cliente con menores costos y que involucra a toda la organización y sus partes interesadas. Esta investigación revisa literatura y normativas para definir el concepto de calidad, basándose en los aportes de autores clave como Deming, Juran, Ishikawa, Crosby y Feigenbaum.",
+            "tipo": "pdf adjuntos",
+            "enlace": "https:\/\/aunarcali.edu.co\/revistas\/index.php\/RDCES\/article\/view\/110\/77"
+        },
+        {
+            "id_recurso": 30,
+            "id_categoria": 2,
+            "titulo": "Sistemas de Gestión en Instituciones de Educación Superior, su Operación y la Correlación con la Calidad en el Servicio",
+            "descripcion": "El objetivo de la presente fue determinar la correlación entre la Operación de un Sistema de\r\nGestión de la Calidad (OSGC) y la Calidad en el servicio en un Sistema de Gestión (CSG). Para\r\nla metodología se aplicaron cuestionarios a los trabajadores de una Institución de Educación\r\nSuperior (IES) en el Estado de Durango, México.",
+            "tipo": "Articulos de investigacion",
+            "enlace": "https:\/\/www.scielo.org.mx\/pdf\/ride\/v14n27\/2007-7467-ride-14-27-e507.pdf"
+        },
+        {
+            "id_recurso": 31,
+            "id_categoria": 2,
+            "titulo": "Artículo de Revisión. Teorías, Modelos y Sistemas de Gestión de Calidad",
+            "descripcion": "El objetivo del presente artículo es trasladar al lector a una breve reseña de las teorías de\r\nla calidad, su evolución hacia modelos de mejora continua, y su confluencia en sistemas de\r\ngestión de la calidad. Una vez revisados los modelos vigentes, se revisa el impacto de la\r\ncertificación de calidad, en diferentes empresas e instituciones productoras de bienes y\r\nservicios, como factor agregador de valor que permite incrementar el nivel de satisfacción\r\ndel cliente o usuario final.",
+            "tipo": "pdf adjuntos",
+            "enlace": "https:\/\/www.revistaespacios.com\/a18v39n50\/a18v39n50p14.pdf?utm_source=chatgpt.com"
+        },
+        {
+            "id_recurso": 32,
+            "id_categoria": 4,
+            "titulo": "Proyectos de emprendimiento",
+            "descripcion": "",
+            "tipo": "pdf adjuntos",
+            "enlace": "https:\/\/dspace.ups.edu.ec\/bitstream\/123456789\/5649\/1\/Proyectos%20de%20Emprendimiento%20.pdf?utm_source=chatgpt.com"
+        },
+        {
+            "id_recurso": 33,
+            "id_categoria": 4,
+            "titulo": "Estudio Técnico…. Elemento indispensable en la evaluación de proyectos de inversión ",
+            "descripcion": "El estudio técnico describe detalladamente el producto o proceso para identificar los requerimientos necesarios y definir el tamaño óptimo de la planta según la demanda. Con estos elementos se analiza la inversión y se determina la viabilidad económica del proyecto.",
+            "tipo": "pdf adjuntos",
+            "enlace": "https:\/\/www.itson.mx\/publicaciones\/pacioli\/documents\/no56\/estudiotecnico.pdf?utm"
         }
     ]
 }
