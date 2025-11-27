@@ -7,7 +7,7 @@
     <title>UTPN</title>
 </head>
 <body>
-  <style>
+    <style>
 * {
     margin: 0;
     padding: 0;
@@ -106,7 +106,7 @@ body {
     }
 }
 
-  </style>
+    </style>
     <main>
     <!-- From Uiverse.io by gharsh11032000 --> 
 <div class="logos-container">
