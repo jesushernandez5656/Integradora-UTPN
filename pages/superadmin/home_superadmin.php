@@ -7,8 +7,7 @@
     <title>UTPN</title>
 </head>
 <body>
-  <style>
- /* Reset básico */
+    <style>
 * {
     margin: 0;
     padding: 0;
@@ -38,7 +37,6 @@ body {
 /* Evita subrayados */
 .logos-container a {
     text-decoration: none;
-     margin-bottom: 120px; /* evita que el footer tape los botones */
 }
 
 /* ------------------------------- */
@@ -108,7 +106,7 @@ body {
     }
 }
 
-  </style>
+    </style>
 <main>
     <!-- From Uiverse.io by gharsh11032000 --> 
 <div class="logos-container">

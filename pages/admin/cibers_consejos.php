@@ -855,6 +855,90 @@
             transform: none !important;
             box-shadow: none !important;
         }
+        @media (max-width: 768px) {
+    
+    /* 1. Contenedor Principal */
+    .admin-container {
+        margin: 20px; /* Reducir margen en móviles */
+        padding: 15px;
+    }
+
+    /* 2. Estadísticas (Stats Grid) */
+    /* Cambiar de 3 columnas a 1 columna */
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* 3. Formularios (Form Grid) */
+    /* Cambiar de 2 columnas a 1 columna */
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    /* 4. Tablas (La parte más importante) */
+    
+    /* Ocultar las cabeceras de la tabla (solo se necesita el contenido) */
+    .table-responsive table thead {
+        display: none;
+    }
+    
+    /* Mostrar las filas y celdas como bloques para apilarlas verticalmente */
+    .table-responsive table,
+    .table-responsive tbody,
+    .table-responsive tr,
+    .table-responsive td {
+        display: block;
+        width: 100%;
+    }
+    
+    /* Dar formato de 'tarjeta' a cada fila */
+    .table-responsive tr {
+        margin-bottom: 15px;
+        border: 1px solid var(--gray-light);
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        padding: 10px 0; /* Padding vertical para espacio */
+    }
+    
+    /* Formato de celdas para apilar la etiqueta (header) y el valor */
+    .table-responsive td {
+        text-align: right;
+        padding: 10px 10px 10px 50%; /* Dejar espacio a la izquierda para la etiqueta */
+        position: relative;
+        border-bottom: none; /* Eliminar bordes internos entre celdas */
+    }
+    
+    /* Mostrar las etiquetas de las columnas (ej: "ID", "Título") */
+    .table-responsive td::before {
+        content: attr(data-label); /* Usa el atributo data-label de la celda */
+        position: absolute;
+        left: 0;
+        width: 45%;
+        padding-left: 10px;
+        white-space: nowrap;
+        text-align: left;
+        font-weight: bold;
+        color: var(--teal);
+    }
+    
+    /* Ajuste para la celda de Acciones */
+    .table-responsive td:last-child {
+        text-align: left; /* Alineamos los botones a la izquierda */
+        padding-left: 10px;
+    }
+    
+    .table-responsive td .btn {
+        margin-right: 5px;
+        margin-bottom: 5px;
+    }
+}
+
+/* Ajuste opcional para tablets (más de una columna, menos de 3) */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 columnas en tablets */
+    }
+}
     </style>
 </head>
 <body>
@@ -1837,6 +1921,7 @@
             `).join('');
             
             // ⭐ RECONFIGURAR EVENTOS PARA MÓVIL DESPUÉS DE CARGAR
+            //cambio
             setTimeout(configurarClicsMoviles, 100);
         }
 
