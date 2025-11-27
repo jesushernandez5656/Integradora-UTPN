@@ -48,12 +48,17 @@ $recursos = $datos['recursos'] ?? [];
         <h1 class="mb-4">Panel de Administración de Recursos</h1>
 
         <section class="mb-5 p-4 border rounded shadow-sm">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h2 class="h4">Gestionar Carreras</h2>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCarreraAgregar">
-                    Agregar Carrera
-                </button>
+            <div class="row g-3 align-items-center mb-3">
+                <div class="col-12 col-md">
+                    <h2 class="h4 mb-0">Gestionar Carreras</h2>
+                </div>
+                <div class="col-12 col-md-auto">
+                    <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#modalCarreraAgregar">
+                        Agregar Carrera
+                    </button>
+                </div>
             </div>
+
             <ul class="list-group">
                 <?php if (!empty($categorias)): ?>
                     <?php foreach ($categorias as $id => $nombre): ?>
@@ -74,10 +79,14 @@ $recursos = $datos['recursos'] ?? [];
         </section>
 
         <section class="p-4 border rounded shadow-sm">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <div class="d-flex align-items-center gap-3">
+            
+            <div class="row g-3 align-items-center mb-3">
+                <div class="col-12 col-md-auto">
                     <h2 class="h4 mb-0">Gestionar Recursos</h2>
-                    <select class="form-select form-select-sm" id="filtroCarreraAdmin" style="width: auto;">
+                </div>
+                
+                <div class="col-12 col-md">
+                    <select class="form-select form-select-sm" id="filtroCarreraAdmin">
                         <option value="todos">Mostrar Todas las Carreras</option>
                         <?php if (!empty($categorias)): ?>
                             <?php foreach ($categorias as $id => $nombre): ?>
@@ -86,9 +95,12 @@ $recursos = $datos['recursos'] ?? [];
                         <?php endif; ?>
                     </select>
                 </div>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalRecursoAgregar">
-                    Agregar Recurso
-                </button>
+
+                <div class="col-12 col-md-auto">
+                    <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#modalRecursoAgregar">
+                        Agregar Recurso
+                    </button>
+                </div>
             </div>
 
             <div class="row g-3" id="lista-recursos-admin">
@@ -268,7 +280,7 @@ $recursos = $datos['recursos'] ?? [];
     </script>
 
     <?php 
-    // Incluye el footer (Cierra el body y html)
+    // Incluye el footer
     include "../../../includes/footer.php"; 
     ?>
 </body>
