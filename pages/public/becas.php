@@ -557,146 +557,206 @@ body {
   font-weight: 800;
 }
 
-/* --- CHAT FLOTANTE --- */
+/* --- CHAT FLOTANTE MEJORADO --- */
 .floating-chat {
   position: fixed;
-  bottom: 15px;
-  right: 15px;
-  background: #4f46e5;
-  color: #fff;
-  width: 50px;
-  height: 50px;
+  bottom: 20px;
+  right: 20px;
+  background: linear-gradient(135deg, var(--brand), var(--brand-2));
+  color: white;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  box-shadow: var(--shadow);
   z-index: 9999;
-  transition: transform 0.2s ease-in-out, background 0.3s;
+  transition: all 0.3s ease;
+  border: 2px solid rgba(255, 255, 255, 0.5);
 }
 
-.floating-chat:hover {
-  background: #3730a3;
-  transform: scale(1.1);
+.floating-chat.expand {
+  width: 60px;
+  height: 60px;
+  transform: scale(1.05);
 }
 
 .floating-chat i {
-  font-size: 22px;
+  font-size: 24px;
+  transition: transform 0.3s ease;
 }
 
-/* --- CUADRO DE CHAT --- */
+.floating-chat:hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+}
+
 .floating-chat .chat {
   position: absolute;
-  bottom: 60px;
+  bottom: 70px;
   right: 0;
-  width: 280px;
-  max-height: 350px;
-  background: #fff;
-  color: #333;
-  border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  width: min(100vw - 40px, 340px);
+  max-height: 480px;
+  background: var(--glass);
+  backdrop-filter: blur(10px);
+  color: var(--txt);
+  border-radius: var(--radius);
+  border: 1px solid var(--stroke);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
   display: none;
   flex-direction: column;
   overflow: hidden;
+  animation: fadeIn .3s ease-out;
 }
 
-@media (max-width: 480px) {
-  .floating-chat {
-    bottom: 10px;
-    right: 10px;
-    width: 45px;
-    height: 45px;
-  }
-  
-  .floating-chat i {
-    font-size: 20px;
-  }
-  
-  .floating-chat .chat {
-    width: calc(100vw - 20px);
-    right: -10px;
-    bottom: 55px;
-  }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-/* Header */
 .floating-chat .chat .header {
-  background: #4f46e5;
-  color: #fff;
-  padding: 10px;
+  background: var(--bg-2);
+  color: white;
+  padding: 14px 18px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  font-weight: 700;
+}
+
+.floating-chat .chat .header .title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .floating-chat .chat .header button {
   background: transparent;
   border: none;
-  color: #fff;
-  font-size: 14px;
+  color: white;
+  font-size: 18px;
   cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.2s;
 }
 
-/* Mensajes */
+.floating-chat .chat .header button:hover {
+  opacity: 1;
+}
+
 .floating-chat .chat .messages {
   list-style: none;
-  padding: 10px;
+  padding: 15px;
   margin: 0;
   flex: 1;
   overflow-y: auto;
-  font-size: 13px;
-  max-height: 250px;
+  font-size: 15px;
+  line-height: 1.5;
+  scroll-behavior: smooth;
+}
+
+.floating-chat .chat .messages::-webkit-scrollbar { width: 6px; }
+.floating-chat .chat .messages::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
 }
 
 .floating-chat .chat .messages li {
-  margin-bottom: 6px;
-  padding: 6px 10px;
-  border-radius: 8px;
+  margin-bottom: 10px;
+  padding: 10px 14px;
+  border-radius: 16px;
   max-width: 85%;
-  word-wrap: break-word;
-  font-size: 13px;
+  clear: both;
 }
 
 .floating-chat .chat .messages li.other {
   background: #f3f4f6;
-  align-self: flex-start;
+  float: left;
+  border-bottom-left-radius: 4px;
 }
 
 .floating-chat .chat .messages li.self {
-  background: #e0e7ff;
-  align-self: flex-end;
+  background: linear-gradient(90deg, var(--brand), var(--brand-2));
+  color: white;
+  float: right;
+  border-bottom-right-radius: 4px;
 }
 
-/* Footer */
 .floating-chat .chat .footer {
   display: flex;
-  border-top: 1px solid #ddd;
+  border-top: 1px solid var(--stroke);
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.8);
 }
 
 .floating-chat .chat .text-box {
   flex: 1;
-  padding: 8px;
+  padding: 10px;
+  background: transparent;
+  border: 1px solid var(--stroke);
+  border-radius: 10px;
   outline: none;
-  font-size: 13px;
-  min-height: 40px;
+  font-size: 15px;
+  resize: none;
+  margin-right: 8px;
+  transition: border-color 0.2s;
+  line-height: 1.4;
   max-height: 80px;
   overflow-y: auto;
 }
 
+.floating-chat .chat .text-box:focus {
+  border-color: var(--brand);
+}
+
 .floating-chat .chat button {
-  background: #4f46e5;
-  color: #fff;
+  background: linear-gradient(90deg, var(--brand), var(--brand-2));
+  color: white;
   border: none;
-  padding: 8px 12px;
+  border-radius: 10px;
+  padding: 0 16px;
   cursor: pointer;
-  transition: background 0.2s;
-  white-space: nowrap;
-  font-size: 13px;
+  transition: transform 0.2s, filter 0.2s;
+  font-weight: 700;
 }
 
 .floating-chat .chat button:hover {
-  background: #3730a3;
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+.floating-chat .chat .messages li.typing {
+  background: #f3f4f6;
+  padding: 12px 16px;
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  width: fit-content;
+  float: left;
+}
+
+.floating-chat .chat .messages li.typing span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--muted);
+  animation: typing 1.4s infinite;
+}
+
+.floating-chat .chat .messages li.other a {
+  color: var(--brand);
+  text-decoration: underline;
+}
+
+.floating-chat .chat .messages li.other strong {
+  color: var(--txt);
+}
+
+@keyframes typing {
+  0%, 60%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-5px); }
 }
 
 /* 🔒 Bloquear botones de becas */
@@ -779,6 +839,23 @@ body {
   .card-action {
     padding: 8px 12px;
     font-size: 12px;
+  }
+  
+  .floating-chat {
+    bottom: 10px;
+    right: 10px;
+    width: 50px;
+    height: 50px;
+  }
+  
+  .floating-chat i {
+    font-size: 20px;
+  }
+  
+  .floating-chat .chat {
+    width: calc(100vw - 20px);
+    right: -10px;
+    bottom: 60px;
   }
 }
   </style>
@@ -871,12 +948,13 @@ body {
     </div>
   </section>
 
-  <!-- CHATBOT -->
+  <!-- CHATBOT MEJORADO -->
   <div class="floating-chat">
-    <i class="fa fa-comments" aria-hidden="true"></i>
+    <i class="fa-solid fa-graduation-cap" aria-hidden="true"></i>
     <div class="chat">
         <div class="header">
             <span class="title">
+                <i class="fa-solid fa-robot"></i> 
                 <?php echo htmlspecialchars($pagina['chatbot']['nombre']); ?>
             </span>
             <button>
@@ -884,32 +962,35 @@ body {
             </button>                         
         </div>
         <ul class="messages">
-            <li class="other"><?php echo htmlspecialchars($pagina['chatbot']['mensaje_bienvenida']); ?></li>
+            <li class="other">¡Hola! 👋 Soy tu asistente de becas. Selecciona una opción o escribe tu pregunta:</li>
             <?php foreach ($pagina['chatbot']['opciones_iniciales'] as $opcion): ?>
                 <li class="other"><?php echo htmlspecialchars($opcion); ?></li>
             <?php endforeach; ?>
         </ul>
         <div class="footer">
-            <div class="text-box" contenteditable="true" disabled="true"></div>
-            <button id="sendMessage">send</button>
+            <textarea class="text-box" placeholder="Escribe tu mensaje..." rows="1"></textarea>
+            <button id="sendMessage"><i class="fa fa-paper-plane"></i></button>
         </div>
     </div>
   </div>
 
   <script>
 $(function(){
-  var element = $('.floating-chat');
-  var chatID = createUUID();
-  var isOpen = false;
-
-  // Respuestas pregrabadas desde JSON
+  // Configuración del chatbot desde JSON
   var respuestas = <?php echo json_encode($pagina['chatbot']['respuestas_pregrabadas']); ?>;
+  
+  var element = $('.floating-chat');
+  var isOpen = false;
+  
+  element.find('.chat').click(function(e) {
+      e.stopPropagation();
+  });
+
+  element.click(toggleChat);
 
   setTimeout(function() {
       element.addClass('enter');
   }, 1000);
-
-  element.click(toggleChat);
 
   function toggleChat() {
       if (isOpen) {
@@ -922,68 +1003,90 @@ $(function(){
   function openElement() {
       var messages = element.find('.messages');
       var textInput = element.find('.text-box');
-      element.find('>i').removeClass('fa-comments').addClass('fa-times');
+      
+      element.find('>i').removeClass('fa-graduation-cap').addClass('fa-times');
       element.addClass('expand');
       element.find('.chat').css('display', 'flex');
       textInput.prop("disabled", false).focus();
       element.find('.header button').click(closeElement);
       element.find('#sendMessage').click(sendNewMessage);
       messages.scrollTop(messages.prop("scrollHeight"));
-      textInput.keydown(onMetaAndEnter);
+      
+      textInput.keydown(onEnterPress);
+      textInput.on('input', autoResizeTextarea);
+      autoResizeTextarea.call(textInput.get(0));
+      
       isOpen = true;
   }
 
   function closeElement() {
       element.find('.chat').css('display', 'none');
-      element.find('>i').removeClass('fa-times').addClass('fa-comments');
+      element.find('>i').removeClass('fa-times').addClass('fa-graduation-cap');
       element.removeClass('expand');
       element.find('.header button').off('click', closeElement);
       element.find('#sendMessage').off('click', sendNewMessage);
-      element.find('.text-box').off('keydown', onMetaAndEnter).prop("disabled", true).blur();
+      element.find('.text-box').off('keydown', onEnterPress).off('input', autoResizeTextarea).prop("disabled", true).blur();
       isOpen = false;
   }
 
-  function createUUID() {
-      var s = [];
-      var hexDigits = "0123456789abcdef";
-      for (var i = 0; i < 36; i++) {
-          s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
+  function autoResizeTextarea() {
+      this.style.height = 'auto';
+      this.style.height = (this.scrollHeight) + 'px';
+      if (this.scrollHeight > 80) {
+          this.style.overflowY = 'auto';
+      } else {
+          this.style.overflowY = 'hidden';
       }
-      s[14] = "4";
-      s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1);
-      s[8] = s[13] = s[18] = s[23] = "-";
-      return s.join("");
   }
 
   function sendNewMessage() {
       var userInput = $('.text-box');
-      var newMessage = userInput.html()
-          .replace(/\<div\>|\<br.*?\>/ig, '\n')
-          .replace(/\<\/div\>/g, '')
-          .trim()
-          .replace(/\n/g, '<br>');
+      var newMessage = userInput.val().trim();
 
       if (!newMessage) return;
 
       var messagesContainer = $('.messages');
-      messagesContainer.append('<li class="self">' + newMessage + '</li>');
-      userInput.html('');
+      
+      messagesContainer.append('<li class="self">' + newMessage.replace(/\n/g, '<br>') + '</li>');
+      
+      userInput.val('');
+      autoResizeTextarea.call(userInput.get(0));
+      
       messagesContainer.scrollTop(messagesContainer.prop("scrollHeight"));
 
-      // Buscar respuesta
-      var respuesta = respuestas[newMessage.trim()];
+      messagesContainer.append('<li class="other typing"><span></span><span></span><span></span></li>');
+      messagesContainer.scrollTop(messagesContainer.prop("scrollHeight"));
+
       setTimeout(function() {
-          if (respuesta) {
-              messagesContainer.append('<li class="other">' + respuesta.replace(/\n/g, '<br>') + '</li>');
-          } else {
-              messagesContainer.append('<li class="other">🤖 No entendí tu opción. Escribe un número del 1 al 5 para continuar.</li>');
-          }
+          messagesContainer.find('.typing').remove();
+          
+          var respuesta = generarRespuesta(newMessage.toLowerCase());
+          
+          messagesContainer.append('<li class="other">' + respuesta + '</li>');
           messagesContainer.scrollTop(messagesContainer.prop("scrollHeight"));
-      }, 700);
+      }, 800 + Math.random() * 400); 
   }
 
-  function onMetaAndEnter(event) {
-      if (event.keyCode === 13) {
+  function generarRespuesta(mensaje) {
+      mensaje = mensaje.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+      
+      // Buscar respuesta exacta
+      if (respuestas[mensaje]) {
+          return respuestas[mensaje];
+      }
+
+      // Buscar por número
+      var numeros = mensaje.match(/\d+/);
+      if (numeros && respuestas[numeros[0]]) {
+          return respuestas[numeros[0]];
+      }
+
+      // Respuesta por defecto
+      return respuestas['default'] || '🤖 No estoy seguro de entender tu pregunta. Por favor, reformula tu pregunta. 😊';
+  }
+
+  function onEnterPress(event) {
+      if (event.keyCode === 13 && !event.shiftKey) {
           sendNewMessage();
           event.preventDefault();
       }

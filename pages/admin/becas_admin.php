@@ -1,8 +1,14 @@
 <?php
 include "../../includes/header.php";
 
-// Ruta del archivo JSON
+// Configuración de rutas
 $json_file = '../../assets/js/becas.json';
+$pdf_folder = '../../assets/PDF/';
+$json_folder = '../../assets/js/';
+
+// Crear carpetas si no existen
+if (!is_dir($pdf_folder)) mkdir($pdf_folder, 0755, true);
+if (!is_dir($json_folder)) mkdir($json_folder, 0755, true);
 
 // Cargar datos del JSON
 $data = [];
@@ -13,10 +19,9 @@ if (file_exists($json_file)) {
 
 // Determinar qué página editar
 $pagina_activa = isset($_GET['pagina']) ? $_GET['pagina'] : 'pagina_becas_universitarias';
-$pagina = $data[$pagina_activa] ?? [];
 
-// Si hay error cargando el JSON, usar datos por defecto
-if (!$data || !$pagina) {
+// Si no hay datos, usar estructura por defecto
+if (!$data || !isset($data[$pagina_activa])) {
     $data = [
         "pagina_becas_universitarias" => [
             "titulo_pagina" => "Becas Universitarias | Impulsa tu camino",
@@ -51,13 +56,49 @@ if (!$data || !$pagina) {
                 "opciones_iniciales" => [],
                 "respuestas_pregrabadas" => []
             ]
+        ],
+        "pagina_original" => [
+            "titulo_pagina" => "Becas Universitarias | Impulsa tu camino",
+            "hero" => [
+                "chip_texto" => "Convocatorias abiertas",
+                "titulo_principal" => "Consigue tu <span class=\"grad\">beca</span> <br> Solicita <span class=\"grad alt\">información</span> que te abran puertas",
+                "descripcion" => "Explora convocatorias que te ayudaran en tu carrera.",
+                "insignias" => [
+                    ["texto" => "5 becas especializadas", "clase" => "ok"],
+                    ["texto" => "Porcentaje alto de obtener la beca", "clase" => ""],
+                    ["texto" => "Facil de acceder", "clase" => "warn"]
+                ],
+                "tarjetas_ejemplo" => [
+                    [
+                        "titulo" => "Jovenes Escribiendo el Futuro",
+                        "descripcion" => "Apoyo economico durante tu carrera universitaria",
+                        "metadata" => ["🌍 Beca Nacional", "Universitaria"],
+                        "enlace_texto" => "Empezar",
+                        "enlace_url" => "https://subes.becasbenitojuarez.gob.mx/"
+                    ]
+                ]
+            ],
+            "seccion_becas_destacadas" => [
+                "titulo" => "Becas destacadas",
+                "subtitulo" => "Curadas y verificadas por nuestro equipo.",
+                "becas" => []
+            ],
+            "seccion_asesorias" => [
+                "titulo_seccion" => "Asesorías",
+                "caracteristicas" => []
+            ],
+            "chatbot" => [
+                "nombre" => "UTPN-BOT",
+                "opciones_iniciales" => [],
+                "respuestas_pregrabadas" => []
+            ]
         ]
     ];
-    $pagina = $data[$pagina_activa];
 }
 
-// Obtener lista de PDFs disponibles
-$pdf_folder = '../../assets/PDF/';
+$pagina = $data[$pagina_activa];
+
+// Obtener lista de PDFs
 $pdf_files = [];
 if (is_dir($pdf_folder)) {
     $files = scandir($pdf_folder);
@@ -68,167 +109,269 @@ if (is_dir($pdf_folder)) {
     }
 }
 
-// Procesar guardado de datos
+// Variables de mensajes
 $success = "";
 $error = "";
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['section'])) {
-        $section = $_POST['section'];
-        
-        try {
-            switch($section) {
-                case 'general':
-                    $data[$pagina_activa]['titulo_pagina'] = $_POST['titulo_pagina'];
-                    break;
-                    
-                case 'hero':
-                    $data[$pagina_activa]['hero']['chip_texto'] = $_POST['chip_texto'];
-                    
-                    // Procesar título principal
-                    $titulo_texto = $_POST['titulo_principal'];
-                    $titulo_html = $titulo_texto;
-                    
-                    if ($pagina_activa === 'pagina_becas_universitarias') {
-                        $titulo_html = preg_replace('/(^|\s)(beca)($|\s)/', '$1<span class="grad">$2</span>$3', $titulo_html);
-                        $titulo_html = preg_replace('/(^|\s)(Acceso a la Universidad)($|\s)/', '$1<span class="grad alt">$2</span>$3', $titulo_html);
-                    } else {
-                        $titulo_html = preg_replace('/(^|\s)(beca)($|\s)/', '$1<span class="grad">$2</span>$3', $titulo_html);
-                        $titulo_html = preg_replace('/(^|\s)(información)($|\s)/', '$1<span class="grad alt">$2</span>$3', $titulo_html);
-                    }
-                    
-                    $titulo_html = str_replace("\n", '<br>', $titulo_html);
-                    $data[$pagina_activa]['hero']['titulo_principal'] = $titulo_html;
-                    
-                    $data[$pagina_activa]['hero']['descripcion'] = $_POST['descripcion'];
-                    
-                    // Procesar insignias
-                    $data[$pagina_activa]['hero']['insignias'] = [];
-                    if (isset($_POST['insignia_texto'])) {
-                        foreach ($_POST['insignia_texto'] as $index => $texto) {
-                            if (!empty($texto)) {
-                                $data[$pagina_activa]['hero']['insignias'][] = [
-                                    'texto' => $texto,
-                                    'clase' => $_POST['insignia_clase'][$index] ?? ''
-                                ];
-                            }
-                        }
-                    }
-                    
-                    // Procesar tarjetas
-                    if ($pagina_activa === 'pagina_becas_universitarias') {
-                        if (isset($_POST['tarjeta_titulo'][0]) && !empty($_POST['tarjeta_titulo'][0])) {
-                            $metadata = isset($_POST['tarjeta_metadata'][0]) ? 
-                                array_filter(array_map('trim', explode(',', $_POST['tarjeta_metadata'][0]))) : [];
-                            
-                            $data[$pagina_activa]['hero']['tarjeta_ejemplo'] = [
-                                'titulo' => $_POST['tarjeta_titulo'][0],
-                                'descripcion' => $_POST['tarjeta_descripcion'][0] ?? '',
-                                'metadata' => $metadata,
-                                'enlace_texto' => $_POST['tarjeta_enlace_texto'][0] ?? '',
-                                'enlace_url' => $_POST['tarjeta_enlace_url'][0] ?? ''
+
+// PROCESAR SUBIDA DE PDFs
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['nuevo_pdf'])) {
+    $target_file = $pdf_folder . basename($_FILES["nuevo_pdf"]["name"]);
+    $uploadOk = 1;
+    $fileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+
+    if($fileType != "pdf") {
+        $error = "Solo se permiten archivos PDF.";
+        $uploadOk = 0;
+    }
+
+    if ($_FILES["nuevo_pdf"]["size"] > 10000000) {
+        $error = "El archivo es demasiado grande. Máximo 10MB.";
+        $uploadOk = 0;
+    }
+
+    if (file_exists($target_file)) {
+        $error = "El archivo ya existe.";
+        $uploadOk = 0;
+    }
+
+    if ($uploadOk == 1) {
+        if (move_uploaded_file($_FILES["nuevo_pdf"]["tmp_name"], $target_file)) {
+            $success = "El archivo ". htmlspecialchars(basename($_FILES["nuevo_pdf"]["name"])) . " ha sido subido.";
+            $pdf_files[] = basename($_FILES["nuevo_pdf"]["name"]);
+        } else {
+            $error = "Error al subir el archivo.";
+        }
+    }
+}
+
+// PROCESAR ELIMINACIÓN DE PDFs
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['eliminar_pdf'])) {
+    $pdf_to_delete = $_POST['eliminar_pdf'];
+    $file_path = $pdf_folder . $pdf_to_delete;
+    
+    if (file_exists($file_path)) {
+        if (unlink($file_path)) {
+            $success = "El archivo " . htmlspecialchars($pdf_to_delete) . " ha sido eliminado.";
+            $pdf_files = array_filter($pdf_files, function($pdf) use ($pdf_to_delete) {
+                return $pdf !== $pdf_to_delete;
+            });
+        } else {
+            $error = "Error al eliminar el archivo.";
+        }
+    } else {
+        $error = "El archivo no existe.";
+    }
+}
+
+// PROCESAR GUARDADO DE DATOS
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['guardar'])) {
+    $section = $_POST['guardar'];
+    
+    try {
+        switch($section) {
+            case 'general':
+                $data[$pagina_activa]['titulo_pagina'] = $_POST['titulo_pagina'] ?? '';
+                break;
+                
+            case 'hero':
+                $data[$pagina_activa]['hero']['chip_texto'] = $_POST['chip_texto'] ?? '';
+                
+                // Procesar título principal
+                $titulo_texto = $_POST['titulo_principal'] ?? '';
+                $titulo_html = $titulo_texto;
+                
+                if ($pagina_activa === 'pagina_becas_universitarias') {
+                    $titulo_html = preg_replace('/(^|\s)(beca)($|\s)/', '$1<span class="grad">$2</span>$3', $titulo_html);
+                    $titulo_html = preg_replace('/(^|\s)(Acceso a la Universidad)($|\s)/', '$1<span class="grad alt">$2</span>$3', $titulo_html);
+                } else {
+                    $titulo_html = preg_replace('/(^|\s)(beca)($|\s)/', '$1<span class="grad">$2</span>$3', $titulo_html);
+                    $titulo_html = preg_replace('/(^|\s)(información)($|\s)/', '$1<span class="grad alt">$2</span>$3', $titulo_html);
+                }
+                
+                $titulo_html = str_replace("\n", '<br>', $titulo_html);
+                $data[$pagina_activa]['hero']['titulo_principal'] = $titulo_html;
+                
+                $data[$pagina_activa]['hero']['descripcion'] = $_POST['descripcion'] ?? '';
+                
+                // Procesar insignias
+                $data[$pagina_activa]['hero']['insignias'] = [];
+                if (isset($_POST['insignia_texto'])) {
+                    foreach ($_POST['insignia_texto'] as $index => $texto) {
+                        if (!empty($texto)) {
+                            $data[$pagina_activa]['hero']['insignias'][] = [
+                                'texto' => $texto,
+                                'clase' => $_POST['insignia_clase'][$index] ?? ''
                             ];
                         }
                     }
-                    break;
-                    
-                case 'becas_destacadas':
-                    if ($pagina_activa === 'pagina_becas_universitarias') {
-                        $data[$pagina_activa]['seccion_becas']['titulo'] = $_POST['becas_titulo'];
-                        $data[$pagina_activa]['seccion_becas']['subtitulo'] = $_POST['becas_subtitulo'];
+                }
+                
+                // Procesar tarjetas según la página
+                if ($pagina_activa === 'pagina_becas_universitarias') {
+                    if (isset($_POST['tarjeta_titulo'][0]) && !empty($_POST['tarjeta_titulo'][0])) {
+                        $metadata = isset($_POST['tarjeta_metadata'][0]) ? 
+                            array_filter(array_map('trim', explode(',', $_POST['tarjeta_metadata'][0]))) : [];
                         
-                        $data[$pagina_activa]['seccion_becas']['becas'] = [];
-                        if (isset($_POST['beca_nombre'])) {
-                            foreach ($_POST['beca_nombre'] as $index => $nombre) {
-                                if (!empty($nombre)) {
-                                    $requisitos = isset($_POST['beca_requisitos'][$index]) ? 
-                                        array_filter(array_map('trim', explode(',', $_POST['beca_requisitos'][$index]))) : [];
-                                    
-                                    $enlace_requisitos = $_POST['beca_enlace_requisitos'][$index] ?? '';
-                                    if (!empty($enlace_requisitos) && !str_contains($enlace_requisitos, '://')) {
-                                        $enlace_requisitos = '../../assets/PDF/' . $enlace_requisitos;
-                                    }
-                                    
-                                    $beca_data = [
-                                        'id' => $_POST['beca_id'][$index] ?? time() + $index,
-                                        'nombre' => $nombre,
-                                        'monto' => $_POST['beca_monto'][$index] ?? '',
-                                        'resumen' => $_POST['beca_resumen'][$index] ?? '',
-                                        'requisitos' => $requisitos,
-                                        'bloqueada' => isset($_POST['beca_bloqueada'][$index]) ? true : false
-                                    ];
-                                    
-                                    if (!$beca_data['bloqueada']) {
-                                        $beca_data['enlace_postular'] = $_POST['beca_enlace_postular'][$index] ?? '';
-                                        $beca_data['enlace_descarga_requisitos'] = $enlace_requisitos;
-                                    }
-                                    
-                                    $data[$pagina_activa]['seccion_becas']['becas'][] = $beca_data;
-                                }
-                            }
-                        }
+                        $data[$pagina_activa]['hero']['tarjeta_ejemplo'] = [
+                            'titulo' => $_POST['tarjeta_titulo'][0],
+                            'descripcion' => $_POST['tarjeta_descripcion'][0] ?? '',
+                            'metadata' => $metadata,
+                            'enlace_texto' => $_POST['tarjeta_enlace_texto'][0] ?? '',
+                            'enlace_url' => $_POST['tarjeta_enlace_url'][0] ?? ''
+                        ];
                     }
-                    break;
-                    
-                case 'asesorias':
-                    $data[$pagina_activa]['seccion_asesorias']['titulo_seccion'] = $_POST['asesorias_titulo'];
-                    
-                    $data[$pagina_activa]['seccion_asesorias']['caracteristicas'] = [];
-                    if (isset($_POST['caracteristica_titulo'])) {
-                        foreach ($_POST['caracteristica_titulo'] as $index => $titulo) {
+                } else {
+                    // Para página original - múltiples tarjetas
+                    $data[$pagina_activa]['hero']['tarjetas_ejemplo'] = [];
+                    if (isset($_POST['tarjeta_titulo'])) {
+                        foreach ($_POST['tarjeta_titulo'] as $index => $titulo) {
                             if (!empty($titulo)) {
-                                $data[$pagina_activa]['seccion_asesorias']['caracteristicas'][] = [
+                                $metadata = isset($_POST['tarjeta_metadata'][$index]) ? 
+                                    array_filter(array_map('trim', explode(',', $_POST['tarjeta_metadata'][$index]))) : [];
+                                
+                                $data[$pagina_activa]['hero']['tarjetas_ejemplo'][] = [
                                     'titulo' => $titulo,
-                                    'descripcion' => $_POST['caracteristica_descripcion'][$index] ?? ''
+                                    'descripcion' => $_POST['tarjeta_descripcion'][$index] ?? '',
+                                    'metadata' => $metadata,
+                                    'enlace_texto' => $_POST['tarjeta_enlace_texto'][$index] ?? '',
+                                    'enlace_url' => $_POST['tarjeta_enlace_url'][$index] ?? ''
                                 ];
                             }
                         }
                     }
-                    break;
+                }
+                break;
+                
+            case 'becas_destacadas':
+                if ($pagina_activa === 'pagina_becas_universitarias') {
+                    $data[$pagina_activa]['seccion_becas']['titulo'] = $_POST['becas_titulo'] ?? '';
+                    $data[$pagina_activa]['seccion_becas']['subtitulo'] = $_POST['becas_subtitulo'] ?? '';
                     
-                case 'chatbot':
-                    $data[$pagina_activa]['chatbot']['nombre'] = $_POST['chatbot_nombre'];
-                    
-                    if ($pagina_activa === 'pagina_becas_universitarias') {
-                        $data[$pagina_activa]['chatbot']['mensaje_bienvenida'] = $_POST['chatbot_mensaje_bienvenida'] ?? '';
-                    }
-                    
-                    $data[$pagina_activa]['chatbot']['opciones_iniciales'] = [];
-                    if (isset($_POST['opcion_texto'])) {
-                        foreach ($_POST['opcion_texto'] as $texto) {
-                            if (!empty($texto)) {
-                                $data[$pagina_activa]['chatbot']['opciones_iniciales'][] = $texto;
+                    $data[$pagina_activa]['seccion_becas']['becas'] = [];
+                    if (isset($_POST['beca_nombre'])) {
+                        foreach ($_POST['beca_nombre'] as $index => $nombre) {
+                            if (!empty($nombre)) {
+                                $requisitos = isset($_POST['beca_requisitos'][$index]) ? 
+                                    array_filter(array_map('trim', explode(',', $_POST['beca_requisitos'][$index]))) : [];
+                                
+                                $enlace_requisitos = $_POST['beca_enlace_requisitos'][$index] ?? '';
+                                if (!empty($enlace_requisitos) && !str_contains($enlace_requisitos, '://')) {
+                                    $enlace_requisitos = '../../assets/PDF/' . $enlace_requisitos;
+                                }
+                                
+                                $beca_data = [
+                                    'id' => $_POST['beca_id'][$index] ?? time() + $index,
+                                    'nombre' => $nombre,
+                                    'monto' => $_POST['beca_monto'][$index] ?? '',
+                                    'resumen' => $_POST['beca_resumen'][$index] ?? '',
+                                    'requisitos' => $requisitos,
+                                    'bloqueada' => isset($_POST['beca_bloqueada'][$index]) ? true : false
+                                ];
+                                
+                                if (!$beca_data['bloqueada']) {
+                                    $beca_data['enlace_postular'] = $_POST['beca_enlace_postular'][$index] ?? '';
+                                    $beca_data['enlace_descarga_requisitos'] = $enlace_requisitos;
+                                }
+                                
+                                $data[$pagina_activa]['seccion_becas']['becas'][] = $beca_data;
                             }
                         }
                     }
+                } else {
+                    // Para página original
+                    $data[$pagina_activa]['seccion_becas_destacadas']['titulo'] = $_POST['becas_titulo'] ?? '';
+                    $data[$pagina_activa]['seccion_becas_destacadas']['subtitulo'] = $_POST['becas_subtitulo'] ?? '';
                     
-                    $data[$pagina_activa]['chatbot']['respuestas_pregrabadas'] = [];
-                    if (isset($_POST['respuesta_clave'])) {
-                        foreach ($_POST['respuesta_clave'] as $index => $clave) {
-                            if (!empty($clave)) {
-                                $data[$pagina_activa]['chatbot']['respuestas_pregrabadas'][$clave] = $_POST['respuesta_texto'][$index] ?? '';
+                    $data[$pagina_activa]['seccion_becas_destacadas']['becas'] = [];
+                    if (isset($_POST['beca_nombre'])) {
+                        foreach ($_POST['beca_nombre'] as $index => $nombre) {
+                            if (!empty($nombre)) {
+                                $requisitos = isset($_POST['beca_requisitos'][$index]) ? 
+                                    array_filter(array_map('trim', explode(',', $_POST['beca_requisitos'][$index]))) : [];
+                                
+                                $enlace_requisitos = $_POST['beca_enlace_requisitos'][$index] ?? '';
+                                if (!empty($enlace_requisitos) && !str_contains($enlace_requisitos, '://')) {
+                                    $enlace_requisitos = 'assets/PDF/' . $enlace_requisitos;
+                                }
+                                
+                                $beca_data = [
+                                    'id' => $_POST['beca_id'][$index] ?? time() + $index,
+                                    'nombre' => $nombre,
+                                    'monto' => $_POST['beca_monto'][$index] ?? '',
+                                    'resumen' => $_POST['beca_resumen'][$index] ?? '',
+                                    'requisitos' => $requisitos,
+                                    'enlace_postular' => $_POST['beca_enlace_postular'][$index] ?? '',
+                                    'enlace_descarga_requisitos' => $enlace_requisitos
+                                ];
+                                
+                                $data[$pagina_activa]['seccion_becas_destacadas']['becas'][] = $beca_data;
                             }
                         }
                     }
-                    
-                    if (!isset($data[$pagina_activa]['chatbot']['respuestas_pregrabadas']['default'])) {
-                        $data[$pagina_activa]['chatbot']['respuestas_pregrabadas']['default'] = '🤖 No entendí tu pregunta. Por favor, reformula tu pregunta. 😊';
+                }
+                break;
+                
+            case 'asesorias':
+                $data[$pagina_activa]['seccion_asesorias']['titulo_seccion'] = $_POST['asesorias_titulo'] ?? '';
+                
+                $data[$pagina_activa]['seccion_asesorias']['caracteristicas'] = [];
+                if (isset($_POST['caracteristica_titulo'])) {
+                    foreach ($_POST['caracteristica_titulo'] as $index => $titulo) {
+                        if (!empty($titulo)) {
+                            $data[$pagina_activa]['seccion_asesorias']['caracteristicas'][] = [
+                                'titulo' => $titulo,
+                                'descripcion' => $_POST['caracteristica_descripcion'][$index] ?? ''
+                            ];
+                        }
                     }
-                    break;
-            }
-            
-            // Guardar en el archivo JSON
-            if (file_put_contents($json_file, json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE))) {
-                $success = "¡Cambios guardados correctamente!";
-                // Recargar los datos actualizados
-                $json_data = file_get_contents($json_file);
-                $data = json_decode($json_data, true);
-                $pagina = $data[$pagina_activa];
-            } else {
-                $error = "Error: No se pudo guardar el archivo JSON. Verifica los permisos.";
-            }
-        } catch (Exception $e) {
-            $error = "Error al procesar los datos: " . $e->getMessage();
+                }
+                break;
+                
+            case 'chatbot':
+                $data[$pagina_activa]['chatbot']['nombre'] = $_POST['chatbot_nombre'] ?? '';
+                
+                if ($pagina_activa === 'pagina_becas_universitarias') {
+                    $data[$pagina_activa]['chatbot']['mensaje_bienvenida'] = $_POST['chatbot_mensaje_bienvenida'] ?? '';
+                }
+                
+                $data[$pagina_activa]['chatbot']['opciones_iniciales'] = [];
+                if (isset($_POST['opcion_texto'])) {
+                    foreach ($_POST['opcion_texto'] as $texto) {
+                        if (!empty($texto)) {
+                            $data[$pagina_activa]['chatbot']['opciones_iniciales'][] = $texto;
+                        }
+                    }
+                }
+                
+                $data[$pagina_activa]['chatbot']['respuestas_pregrabadas'] = [];
+                if (isset($_POST['respuesta_clave'])) {
+                    foreach ($_POST['respuesta_clave'] as $index => $clave) {
+                        if (!empty($clave)) {
+                            $data[$pagina_activa]['chatbot']['respuestas_pregrabadas'][$clave] = $_POST['respuesta_texto'][$index] ?? '';
+                        }
+                    }
+                }
+                
+                if (!isset($data[$pagina_activa]['chatbot']['respuestas_pregrabadas']['default'])) {
+                    $data[$pagina_activa]['chatbot']['respuestas_pregrabadas']['default'] = '🤖 No entendí tu pregunta. Por favor, reformula tu pregunta. 😊';
+                }
+                break;
         }
+        
+        // Guardar en el archivo JSON
+        if (file_put_contents($json_file, json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE))) {
+            $success = "¡Cambios guardados correctamente!";
+            
+            // Recargar los datos actualizados
+            $json_data = file_get_contents($json_file);
+            $data = json_decode($json_data, true);
+            $pagina = $data[$pagina_activa];
+        } else {
+            throw new Exception("No se pudo guardar el archivo JSON. Verifica los permisos.");
+        }
+        
+    } catch (Exception $e) {
+        $error = "Error al procesar los datos: " . $e->getMessage();
     }
 }
 ?>
@@ -239,7 +382,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel Admin - Becas Universitarias</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <style>
         :root {
             --primary: #4361ee;
@@ -323,6 +465,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             margin-bottom: 30px;
             padding-bottom: 15px;
             border-bottom: 1px solid #e0e0e0;
+        }
+
+        .page-selector {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .page-selector select {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: white;
         }
 
         /* Cards */
@@ -465,16 +620,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             display: block;
         }
 
-        .grad {
-            background: linear-gradient(90deg, #AE874C, #AE874C);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            font-weight: bold;
+        /* PDF Manager */
+        .pdf-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
         }
 
-        .grad.alt {
-            filter: saturate(140%);
+        .pdf-item {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .pdf-item .pdf-icon {
+            font-size: 2rem;
+            color: #e74c3c;
+            margin-bottom: 10px;
+        }
+
+        .pdf-item .pdf-name {
+            font-weight: 600;
+            margin-bottom: 10px;
+            word-break: break-word;
         }
 
         /* Responsive */
@@ -495,6 +666,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             .list-item {
                 flex-direction: column;
             }
+            
+            .pdf-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -512,6 +687,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <li><a href="#" data-tab="becas"><i class="fas fa-graduation-cap"></i> Becas</a></li>
                 <li><a href="#" data-tab="asesorias"><i class="fas fa-hands-helping"></i> Asesorías</a></li>
                 <li><a href="#" data-tab="chatbot"><i class="fas fa-robot"></i> Chatbot</a></li>
+                <li><a href="#" data-tab="pdfs"><i class="fas fa-file-pdf"></i> Gestor PDFs</a></li>
             </ul>
         </div>
 
@@ -519,6 +695,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="main-content">
             <div class="header">
                 <h1>Panel de Administración - Becas Universitarias</h1>
+                <div class="page-selector">
+                    <label for="pagina-select">Página:</label>
+                    <select id="pagina-select" onchange="cambiarPagina(this.value)">
+                        <option value="pagina_becas_universitarias" <?php echo $pagina_activa === 'pagina_becas_universitarias' ? 'selected' : ''; ?>>Beca Acceso Universidad</option>
+                        <option value="pagina_original" <?php echo $pagina_activa === 'pagina_original' ? 'selected' : ''; ?>>Jóvenes Escribiendo Futuro</option>
+                    </select>
+                </div>
             </div>
 
             <!-- Alertas -->
@@ -545,7 +728,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <div class="card">
                                 <div class="card-body">
                                     <h4>Becas Disponibles</h4>
-                                    <p><?php echo count($pagina['seccion_becas']['becas']); ?> becas registradas</p>
+                                    <p>
+                                        <?php 
+                                        if ($pagina_activa === 'pagina_becas_universitarias') {
+                                            echo count($pagina['seccion_becas']['becas']);
+                                        } else {
+                                            echo count($pagina['seccion_becas_destacadas']['becas']);
+                                        }
+                                        ?> becas registradas
+                                    </p>
                                 </div>
                             </div>
                             <div class="card">
@@ -558,6 +749,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <div class="card-body">
                                     <h4>Opciones del Chatbot</h4>
                                     <p><?php echo count($pagina['chatbot']['opciones_iniciales']); ?> opciones iniciales</p>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4>PDFs Disponibles</h4>
+                                    <p><?php echo count($pdf_files); ?> archivos PDF</p>
                                 </div>
                             </div>
                         </div>
@@ -579,6 +776,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <button class="btn btn-warning" data-tab="becas">
                                 <i class="fas fa-plus"></i> Gestionar Becas
                             </button>
+                            <button class="btn btn-danger" data-tab="pdfs">
+                                <i class="fas fa-file-pdf"></i> Gestionar PDFs
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -592,13 +792,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                     <div class="card-body">
                         <form method="POST">
-                            <input type="hidden" name="section" value="general">
                             <div class="form-group">
                                 <label for="titulo_pagina">Título de la Página</label>
                                 <input type="text" id="titulo_pagina" name="titulo_pagina" class="form-control" 
                                        value="<?php echo htmlspecialchars($pagina['titulo_pagina']); ?>" required>
                             </div>
-                            <button type="submit" class="btn btn-success">
+                            <button type="submit" name="guardar" value="general" class="btn btn-success">
                                 <i class="fas fa-save"></i> Guardar Cambios
                             </button>
                         </form>
@@ -614,8 +813,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                     <div class="card-body">
                         <form method="POST">
-                            <input type="hidden" name="section" value="hero">
-                            
                             <div class="form-group">
                                 <label for="chip_texto">Texto del Chip</label>
                                 <input type="text" id="chip_texto" name="chip_texto" class="form-control" 
@@ -631,7 +828,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     $titulo = str_replace('<br>', "\n", $titulo);
                                     echo htmlspecialchars($titulo);
                                 ?></textarea>
-                                <small>Usa "beca" y "Acceso a la Universidad" para aplicar estilos especiales</small>
+                                <small>
+                                    <?php if ($pagina_activa === 'pagina_becas_universitarias'): ?>
+                                        Usa "beca" y "Acceso a la Universidad" para aplicar estilos especiales
+                                    <?php else: ?>
+                                        Usa "beca" y "información" para aplicar estilos especiales
+                                    <?php endif; ?>
+                                </small>
                             </div>
                             
                             <div class="form-group">
@@ -660,39 +863,85 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <i class="fas fa-plus"></i> Agregar Insignia
                             </button>
                             
-                            <h4 style="margin-top: 20px;">Tarjeta de Ejemplo</h4>
+                            <h4 style="margin-top: 20px;">
+                                <?php if ($pagina_activa === 'pagina_becas_universitarias'): ?>
+                                    Tarjeta de Ejemplo
+                                <?php else: ?>
+                                    Tarjetas de Ejemplo
+                                <?php endif; ?>
+                            </h4>
                             <div id="tarjetas-list">
-                                <?php $tarjeta = $pagina['hero']['tarjeta_ejemplo']; ?>
-                                <div class="card" style="margin-bottom: 15px; padding: 15px; background: #f8f9fa;">
-                                    <div class="form-group">
-                                        <label>Título</label>
-                                        <input type="text" name="tarjeta_titulo[]" class="form-control" 
-                                               value="<?php echo htmlspecialchars($tarjeta['titulo']); ?>">
+                                <?php if ($pagina_activa === 'pagina_becas_universitarias'): ?>
+                                    <?php $tarjeta = $pagina['hero']['tarjeta_ejemplo']; ?>
+                                    <div class="card" style="margin-bottom: 15px; padding: 15px; background: #f8f9fa;">
+                                        <div class="form-group">
+                                            <label>Título</label>
+                                            <input type="text" name="tarjeta_titulo[]" class="form-control" 
+                                                   value="<?php echo htmlspecialchars($tarjeta['titulo']); ?>">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Descripción</label>
+                                            <textarea name="tarjeta_descripcion[]" class="form-control" rows="2"><?php echo htmlspecialchars($tarjeta['descripcion']); ?></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Metadata (separar con comas)</label>
+                                            <input type="text" name="tarjeta_metadata[]" class="form-control" 
+                                                   value="<?php echo htmlspecialchars(implode(', ', $tarjeta['metadata'])); ?>">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Texto del Enlace</label>
+                                            <input type="text" name="tarjeta_enlace_texto[]" class="form-control" 
+                                                   value="<?php echo htmlspecialchars($tarjeta['enlace_texto']); ?>">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>URL del Enlace</label>
+                                            <input type="url" name="tarjeta_enlace_url[]" class="form-control" 
+                                                   value="<?php echo htmlspecialchars($tarjeta['enlace_url']); ?>">
+                                        </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label>Descripción</label>
-                                        <textarea name="tarjeta_descripcion[]" class="form-control" rows="2"><?php echo htmlspecialchars($tarjeta['descripcion']); ?></textarea>
+                                <?php else: ?>
+                                    <?php foreach ($pagina['hero']['tarjetas_ejemplo'] as $index => $tarjeta): ?>
+                                    <div class="card" style="margin-bottom: 15px; padding: 15px; background: #f8f9fa;">
+                                        <div class="form-group">
+                                            <label>Título</label>
+                                            <input type="text" name="tarjeta_titulo[]" class="form-control" 
+                                                   value="<?php echo htmlspecialchars($tarjeta['titulo']); ?>">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Descripción</label>
+                                            <textarea name="tarjeta_descripcion[]" class="form-control" rows="2"><?php echo htmlspecialchars($tarjeta['descripcion']); ?></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Metadata (separar con comas)</label>
+                                            <input type="text" name="tarjeta_metadata[]" class="form-control" 
+                                                   value="<?php echo htmlspecialchars(implode(', ', $tarjeta['metadata'])); ?>">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Texto del Enlace</label>
+                                            <input type="text" name="tarjeta_enlace_texto[]" class="form-control" 
+                                                   value="<?php echo htmlspecialchars($tarjeta['enlace_texto']); ?>">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>URL del Enlace</label>
+                                            <input type="url" name="tarjeta_enlace_url[]" class="form-control" 
+                                                   value="<?php echo htmlspecialchars($tarjeta['enlace_url']); ?>">
+                                        </div>
+                                        <button type="button" class="btn btn-danger btn-sm remove-tarjeta">
+                                            <i class="fas fa-trash"></i> Eliminar Tarjeta
+                                        </button>
                                     </div>
-                                    <div class="form-group">
-                                        <label>Metadata (separar con comas)</label>
-                                        <input type="text" name="tarjeta_metadata[]" class="form-control" 
-                                               value="<?php echo htmlspecialchars(implode(', ', $tarjeta['metadata'])); ?>">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Texto del Enlace</label>
-                                        <input type="text" name="tarjeta_enlace_texto[]" class="form-control" 
-                                               value="<?php echo htmlspecialchars($tarjeta['enlace_texto']); ?>">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>URL del Enlace</label>
-                                        <input type="url" name="tarjeta_enlace_url[]" class="form-control" 
-                                               value="<?php echo htmlspecialchars($tarjeta['enlace_url']); ?>">
-                                    </div>
-                                </div>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
                             </div>
                             
+                            <?php if ($pagina_activa === 'pagina_original'): ?>
+                            <button type="button" class="btn btn-primary btn-sm" id="add-tarjeta">
+                                <i class="fas fa-plus"></i> Agregar Tarjeta
+                            </button>
+                            <?php endif; ?>
+                            
                             <div style="margin-top: 20px;">
-                                <button type="submit" class="btn btn-success">
+                                <button type="submit" name="guardar" value="hero" class="btn btn-success">
                                     <i class="fas fa-save"></i> Guardar Cambios Hero
                                 </button>
                             </div>
@@ -705,27 +954,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div id="becas" class="tab-content">
                 <div class="card">
                     <div class="card-header">
-                        <h3><i class="fas fa-graduation-cap"></i> Becas Disponibles</h3>
+                        <h3><i class="fas fa-graduation-cap"></i> 
+                            <?php if ($pagina_activa === 'pagina_becas_universitarias'): ?>
+                                Becas Disponibles
+                            <?php else: ?>
+                                Becas Destacadas
+                            <?php endif; ?>
+                        </h3>
                     </div>
                     <div class="card-body">
                         <form method="POST">
-                            <input type="hidden" name="section" value="becas_destacadas">
-                            
                             <div class="form-group">
                                 <label for="becas_titulo">Título de la Sección</label>
                                 <input type="text" id="becas_titulo" name="becas_titulo" class="form-control" 
-                                       value="<?php echo htmlspecialchars($pagina['seccion_becas']['titulo']); ?>">
+                                       value="<?php 
+                                       if ($pagina_activa === 'pagina_becas_universitarias') {
+                                           echo htmlspecialchars($pagina['seccion_becas']['titulo']);
+                                       } else {
+                                           echo htmlspecialchars($pagina['seccion_becas_destacadas']['titulo']);
+                                       }
+                                       ?>">
                             </div>
                             
                             <div class="form-group">
                                 <label for="becas_subtitulo">Subtítulo</label>
                                 <input type="text" id="becas_subtitulo" name="becas_subtitulo" class="form-control" 
-                                       value="<?php echo htmlspecialchars($pagina['seccion_becas']['subtitulo']); ?>">
+                                       value="<?php 
+                                       if ($pagina_activa === 'pagina_becas_universitarias') {
+                                           echo htmlspecialchars($pagina['seccion_becas']['subtitulo']);
+                                       } else {
+                                           echo htmlspecialchars($pagina['seccion_becas_destacadas']['subtitulo']);
+                                       }
+                                       ?>">
                             </div>
                             
                             <h4>Becas</h4>
                             <div id="becas-list" class="dynamic-list">
-                                <?php foreach ($pagina['seccion_becas']['becas'] as $index => $beca): ?>
+                                <?php 
+                                $becas = ($pagina_activa === 'pagina_becas_universitarias') ? 
+                                    $pagina['seccion_becas']['becas'] : 
+                                    $pagina['seccion_becas_destacadas']['becas'];
+                                
+                                foreach ($becas as $index => $beca): 
+                                ?>
                                 <div class="card" style="margin-bottom: 15px; padding: 15px; background: #f8f9fa;">
                                     <input type="hidden" name="beca_id[]" value="<?php echo $beca['id']; ?>">
                                     <div class="form-group">
@@ -748,34 +1019,62 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                                value="<?php echo htmlspecialchars(implode(', ', $beca['requisitos'])); ?>">
                                     </div>
                                     
-                                    <div class="form-group">
-                                        <label>
-                                            <input type="checkbox" name="beca_bloqueada[]" value="1" <?php echo $beca['bloqueada'] ? 'checked' : ''; ?>>
-                                            ¿Beca bloqueada? (solo disponible para estudiantes registrados)
-                                        </label>
-                                    </div>
-                                    
-                                    <?php if (!$beca['bloqueada']): ?>
+                                    <?php if ($pagina_activa === 'pagina_becas_universitarias'): ?>
                                         <div class="form-group">
-                                            <label>Enlace para Postular</label>
-                                            <input type="url" name="beca_enlace_postular[]" class="form-control" 
-                                                   value="<?php echo htmlspecialchars($beca['enlace_postular'] ?? ''); ?>">
+                                            <label>
+                                                <input type="checkbox" name="beca_bloqueada[]" value="1" <?php echo $beca['bloqueada'] ? 'checked' : ''; ?>>
+                                                ¿Beca bloqueada? (solo disponible para estudiantes registrados)
+                                            </label>
                                         </div>
-                                        <div class="form-group">
-                                            <label>Enlace de Requisitos (PDF)</label>
-                                            <select name="beca_enlace_requisitos[]" class="form-control">
-                                                <option value="">Seleccionar PDF...</option>
-                                                <?php foreach ($pdf_files as $pdf): ?>
-                                                    <?php 
-                                                    $current_pdf = basename($beca['enlace_descarga_requisitos'] ?? '');
-                                                    $selected = ($current_pdf === $pdf) ? 'selected' : '';
-                                                    ?>
-                                                    <option value="<?php echo $pdf; ?>" <?php echo $selected; ?>>
-                                                        <?php echo $pdf; ?>
-                                                    </option>
-                                                <?php endforeach; ?>
-                                            </select>
-                                            <small class="text-muted">PDFs disponibles en assets/PDF/</small>
+                                        
+                                        <?php if (!$beca['bloqueada']): ?>
+                                            <div class="enlaces-beca">
+                                                <div class="form-group">
+                                                    <label>Enlace para Postular</label>
+                                                    <input type="url" name="beca_enlace_postular[]" class="form-control" 
+                                                           value="<?php echo htmlspecialchars($beca['enlace_postular'] ?? ''); ?>">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Enlace de Requisitos (PDF)</label>
+                                                    <select name="beca_enlace_requisitos[]" class="form-control">
+                                                        <option value="">Seleccionar PDF...</option>
+                                                        <?php foreach ($pdf_files as $pdf): ?>
+                                                            <?php 
+                                                            $current_pdf = basename($beca['enlace_descarga_requisitos'] ?? '');
+                                                            $selected = ($current_pdf === $pdf) ? 'selected' : '';
+                                                            ?>
+                                                            <option value="<?php echo $pdf; ?>" <?php echo $selected; ?>>
+                                                                <?php echo $pdf; ?>
+                                                            </option>
+                                                        <?php endforeach; ?>
+                                                    </select>
+                                                    <small class="text-muted">PDFs disponibles en assets/PDF/</small>
+                                                </div>
+                                            </div>
+                                        <?php endif; ?>
+                                    <?php else: ?>
+                                        <div class="enlaces-beca">
+                                            <div class="form-group">
+                                                <label>Enlace para Postular</label>
+                                                <input type="url" name="beca_enlace_postular[]" class="form-control" 
+                                                       value="<?php echo htmlspecialchars($beca['enlace_postular'] ?? ''); ?>">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Enlace de Requisitos (PDF)</label>
+                                                <select name="beca_enlace_requisitos[]" class="form-control">
+                                                    <option value="">Seleccionar PDF...</option>
+                                                    <?php foreach ($pdf_files as $pdf): ?>
+                                                        <?php 
+                                                        $current_pdf = basename($beca['enlace_descarga_requisitos'] ?? '');
+                                                        $selected = ($current_pdf === $pdf) ? 'selected' : '';
+                                                        ?>
+                                                        <option value="<?php echo $pdf; ?>" <?php echo $selected; ?>>
+                                                            <?php echo $pdf; ?>
+                                                        </option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                                <small class="text-muted">PDFs disponibles en assets/PDF/</small>
+                                            </div>
                                         </div>
                                     <?php endif; ?>
                                     
@@ -790,7 +1089,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </button>
                             
                             <div style="margin-top: 20px;">
-                                <button type="submit" class="btn btn-success">
+                                <button type="submit" name="guardar" value="becas_destacadas" class="btn btn-success">
                                     <i class="fas fa-save"></i> Guardar Becas
                                 </button>
                             </div>
@@ -807,8 +1106,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                     <div class="card-body">
                         <form method="POST">
-                            <input type="hidden" name="section" value="asesorias">
-                            
                             <div class="form-group">
                                 <label for="asesorias_titulo">Título de la Sección</label>
                                 <input type="text" id="asesorias_titulo" name="asesorias_titulo" class="form-control" 
@@ -834,7 +1131,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </button>
                             
                             <div style="margin-top: 20px;">
-                                <button type="submit" class="btn btn-success">
+                                <button type="submit" name="guardar" value="asesorias" class="btn btn-success">
                                     <i class="fas fa-save"></i> Guardar Asesorías
                                 </button>
                             </div>
@@ -851,18 +1148,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                     <div class="card-body">
                         <form method="POST">
-                            <input type="hidden" name="section" value="chatbot">
-                            
                             <div class="form-group">
                                 <label for="chatbot_nombre">Nombre del Bot</label>
                                 <input type="text" id="chatbot_nombre" name="chatbot_nombre" class="form-control" 
                                        value="<?php echo htmlspecialchars($pagina['chatbot']['nombre']); ?>">
                             </div>
                             
+                            <?php if ($pagina_activa === 'pagina_becas_universitarias'): ?>
                             <div class="form-group">
                                 <label for="chatbot_mensaje_bienvenida">Mensaje de Bienvenida</label>
                                 <textarea id="chatbot_mensaje_bienvenida" name="chatbot_mensaje_bienvenida" class="form-control" rows="2"><?php echo htmlspecialchars($pagina['chatbot']['mensaje_bienvenida']); ?></textarea>
                             </div>
+                            <?php endif; ?>
                             
                             <h4>Opciones Iniciales</h4>
                             <div id="opciones-list" class="dynamic-list">
@@ -904,7 +1201,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </button>
                             
                             <div style="margin-top: 20px;">
-                                <button type="submit" class="btn btn-success">
+                                <button type="submit" name="guardar" value="chatbot" class="btn btn-success">
                                     <i class="fas fa-save"></i> Guardar Chatbot
                                 </button>
                             </div>
@@ -912,38 +1209,94 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                 </div>
             </div>
+
+            <!-- Gestor PDFs -->
+            <div id="pdfs" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-file-pdf"></i> Gestor de PDFs</h3>
+                    </div>
+                    <div class="card-body">
+                        <h4>Subir Nuevo PDF</h4>
+                        <form method="POST" enctype="multipart/form-data" style="margin-bottom: 30px;">
+                            <div class="form-group">
+                                <label for="nuevo_pdf">Seleccionar archivo PDF (máximo 10MB)</label>
+                                <input type="file" id="nuevo_pdf" name="nuevo_pdf" class="form-control" accept=".pdf" required>
+                            </div>
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-upload"></i> Subir PDF
+                            </button>
+                        </form>
+
+                        <h4>PDFs Disponibles (<?php echo count($pdf_files); ?>)</h4>
+                        <?php if (empty($pdf_files)): ?>
+                            <p>No hay PDFs disponibles.</p>
+                        <?php else: ?>
+                            <form method="POST" id="pdfs-form">
+                                <div class="pdf-grid">
+                                    <?php foreach ($pdf_files as $pdf): ?>
+                                    <div class="pdf-item">
+                                        <div class="pdf-icon">
+                                            <i class="fas fa-file-pdf"></i>
+                                        </div>
+                                        <div class="pdf-name"><?php echo htmlspecialchars($pdf); ?></div>
+                                        <button type="submit" name="eliminar_pdf" value="<?php echo htmlspecialchars($pdf); ?>" 
+                                                class="btn btn-danger btn-sm" 
+                                                onclick="return confirm('¿Estás seguro de eliminar este PDF?')">
+                                            <i class="fas fa-trash"></i> Eliminar
+                                        </button>
+                                    </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            </form>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
-        $(document).ready(function() {
+        function cambiarPagina(pagina) {
+            window.location.href = '?pagina=' + pagina;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
             // Navegación entre pestañas
-            $('.sidebar-menu a').on('click', function(e) {
-                e.preventDefault();
-                const tab = $(this).data('tab');
-                
-                $('.sidebar-menu a').removeClass('active');
-                $(this).addClass('active');
-                
-                $('.tab-content').removeClass('active');
-                $(`#${tab}`).addClass('active');
+            document.querySelectorAll('.sidebar-menu a').forEach(tab => {
+                tab.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    document.querySelectorAll('.sidebar-menu a').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+                    document.getElementById(tabId).classList.add('active');
+                });
             });
 
             // Botones de acciones rápidas
-            $('[data-tab]').on('click', function() {
-                const tab = $(this).data('tab');
-                
-                $('.sidebar-menu a').removeClass('active');
-                $(`.sidebar-menu a[data-tab="${tab}"]`).addClass('active');
-                
-                $('.tab-content').removeClass('active');
-                $(`#${tab}`).addClass('active');
+            document.querySelectorAll('[data-tab]').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    document.querySelectorAll('.sidebar-menu a').forEach(t => t.classList.remove('active'));
+                    document.querySelector(`.sidebar-menu a[data-tab="${tabId}"]`).classList.add('active');
+                    
+                    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+                    document.getElementById(tabId).classList.add('active');
+                });
             });
 
-            // Agregar elementos dinámicos
-            $('#add-insignia').on('click', function() {
-                $('#insignias-list').append(`
-                    <div class="list-item">
+            // Funciones para agregar elementos dinámicos
+            function setupDynamicLists() {
+                // Agregar insignia
+                document.getElementById('add-insignia')?.addEventListener('click', function() {
+                    const list = document.getElementById('insignias-list');
+                    const div = document.createElement('div');
+                    div.className = 'list-item';
+                    div.innerHTML = `
                         <input type="text" name="insignia_texto[]" class="form-control" placeholder="Texto de la insignia">
                         <select name="insignia_clase[]" class="form-control">
                             <option value="">Normal</option>
@@ -953,13 +1306,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <button type="button" class="btn btn-danger btn-sm remove-item">
                             <i class="fas fa-trash"></i>
                         </button>
-                    </div>
-                `);
-            });
+                    `;
+                    list.appendChild(div);
+                });
 
-            $('#add-beca').on('click', function() {
-                $('#becas-list').append(`
-                    <div class="card" style="margin-bottom: 15px; padding: 15px; background: #f8f9fa;">
+                // Agregar tarjeta (solo página original)
+                document.getElementById('add-tarjeta')?.addEventListener('click', function() {
+                    const list = document.getElementById('tarjetas-list');
+                    const div = document.createElement('div');
+                    div.className = 'card';
+                    div.style.cssText = 'margin-bottom: 15px; padding: 15px; background: #f8f9fa;';
+                    div.innerHTML = `
+                        <div class="form-group">
+                            <label>Título</label>
+                            <input type="text" name="tarjeta_titulo[]" class="form-control" placeholder="Título de la tarjeta">
+                        </div>
+                        <div class="form-group">
+                            <label>Descripción</label>
+                            <textarea name="tarjeta_descripcion[]" class="form-control" rows="2" placeholder="Descripción"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Metadata (separar con comas)</label>
+                            <input type="text" name="tarjeta_metadata[]" class="form-control" placeholder="Ej: 🌍 Beca Nacional, Universitaria">
+                        </div>
+                        <div class="form-group">
+                            <label>Texto del Enlace</label>
+                            <input type="text" name="tarjeta_enlace_texto[]" class="form-control" placeholder="Ej: Empezar">
+                        </div>
+                        <div class="form-group">
+                            <label>URL del Enlace</label>
+                            <input type="url" name="tarjeta_enlace_url[]" class="form-control" placeholder="https://...">
+                        </div>
+                        <button type="button" class="btn btn-danger btn-sm remove-tarjeta">
+                            <i class="fas fa-trash"></i> Eliminar Tarjeta
+                        </button>
+                    `;
+                    list.appendChild(div);
+                });
+
+                // Agregar beca
+                document.getElementById('add-beca')?.addEventListener('click', function() {
+                    const isPaginaOriginal = '<?php echo $pagina_activa === 'pagina_original' ? 'true' : 'false'; ?>';
+                    const list = document.getElementById('becas-list');
+                    const div = document.createElement('div');
+                    div.className = 'card';
+                    div.style.cssText = 'margin-bottom: 15px; padding: 15px; background: #f8f9fa;';
+                    
+                    let html = `
                         <input type="hidden" name="beca_id[]" value="${Date.now()}">
                         <div class="form-group">
                             <label>Nombre de la Beca</label>
@@ -976,62 +1369,97 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <div class="form-group">
                             <label>Requisitos (separar con comas)</label>
                             <input type="text" name="beca_requisitos[]" class="form-control" placeholder="Ej: Promedio 8.5, Entrevista técnica">
-                        </div>
-                        <div class="form-group">
-                            <label>
-                                <input type="checkbox" name="beca_bloqueada[]" value="1">
-                                ¿Beca bloqueada? (solo disponible para estudiantes registrados)
-                            </label>
-                        </div>
-                        <div class="enlaces-beca">
+                        </div>`;
+                    
+                    if (isPaginaOriginal === 'false') {
+                        html += `
                             <div class="form-group">
-                                <label>Enlace para Postular</label>
-                                <input type="url" name="beca_enlace_postular[]" class="form-control" placeholder="https://...">
+                                <label>
+                                    <input type="checkbox" name="beca_bloqueada[]" value="1">
+                                    ¿Beca bloqueada? (solo disponible para estudiantes registrados)
+                                </label>
                             </div>
-                            <div class="form-group">
-                                <label>Enlace de Requisitos (PDF)</label>
-                                <select name="beca_enlace_requisitos[]" class="form-control">
-                                    <option value="">Seleccionar PDF...</option>
-                                    <?php foreach ($pdf_files as $pdf): ?>
-                                        <option value="<?php echo $pdf; ?>"><?php echo $pdf; ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                                <small class="text-muted">PDFs disponibles en assets/PDF/</small>
-                            </div>
-                        </div>
+                            <div class="enlaces-beca">
+                                <div class="form-group">
+                                    <label>Enlace para Postular</label>
+                                    <input type="url" name="beca_enlace_postular[]" class="form-control" placeholder="https://...">
+                                </div>
+                                <div class="form-group">
+                                    <label>Enlace de Requisitos (PDF)</label>
+                                    <select name="beca_enlace_requisitos[]" class="form-control">
+                                        <option value="">Seleccionar PDF...</option>
+                                        <?php foreach ($pdf_files as $pdf): ?>
+                                            <option value="<?php echo $pdf; ?>"><?php echo $pdf; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <small class="text-muted">PDFs disponibles en assets/PDF/</small>
+                                </div>
+                            </div>`;
+                    } else {
+                        html += `
+                            <div class="enlaces-beca">
+                                <div class="form-group">
+                                    <label>Enlace para Postular</label>
+                                    <input type="url" name="beca_enlace_postular[]" class="form-control" placeholder="https://...">
+                                </div>
+                                <div class="form-group">
+                                    <label>Enlace de Requisitos (PDF)</label>
+                                    <select name="beca_enlace_requisitos[]" class="form-control">
+                                        <option value="">Seleccionar PDF...</option>
+                                        <?php foreach ($pdf_files as $pdf): ?>
+                                            <option value="<?php echo $pdf; ?>"><?php echo $pdf; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <small class="text-muted">PDFs disponibles en assets/PDF/</small>
+                                </div>
+                            </div>`;
+                    }
+                    
+                    html += `
                         <button type="button" class="btn btn-danger btn-sm remove-beca">
                             <i class="fas fa-trash"></i> Eliminar Beca
-                        </button>
-                    </div>
-                `);
-            });
+                        </button>`;
+                    
+                    div.innerHTML = html;
+                    list.appendChild(div);
+                });
 
-            $('#add-caracteristica').on('click', function() {
-                $('#caracteristicas-list').append(`
-                    <div class="list-item">
+                // Agregar característica
+                document.getElementById('add-caracteristica')?.addEventListener('click', function() {
+                    const list = document.getElementById('caracteristicas-list');
+                    const div = document.createElement('div');
+                    div.className = 'list-item';
+                    div.innerHTML = `
                         <input type="text" name="caracteristica_titulo[]" class="form-control" placeholder="Título">
                         <input type="text" name="caracteristica_descripcion[]" class="form-control" placeholder="Descripción">
                         <button type="button" class="btn btn-danger btn-sm remove-item">
                             <i class="fas fa-trash"></i>
                         </button>
-                    </div>
-                `);
-            });
+                    `;
+                    list.appendChild(div);
+                });
 
-            $('#add-opcion').on('click', function() {
-                $('#opciones-list').append(`
-                    <div class="list-item">
+                // Agregar opción chatbot
+                document.getElementById('add-opcion')?.addEventListener('click', function() {
+                    const list = document.getElementById('opciones-list');
+                    const div = document.createElement('div');
+                    div.className = 'list-item';
+                    div.innerHTML = `
                         <input type="text" name="opcion_texto[]" class="form-control" placeholder="Texto de la opción">
                         <button type="button" class="btn btn-danger btn-sm remove-item">
                             <i class="fas fa-trash"></i>
                         </button>
-                    </div>
-                `);
-            });
+                    `;
+                    list.appendChild(div);
+                });
 
-            $('#add-respuesta').on('click', function() {
-                $('#respuestas-list').append(`
-                    <div class="card" style="margin-bottom: 15px; padding: 15px; background: #f8f9fa;">
+                // Agregar respuesta chatbot
+                document.getElementById('add-respuesta')?.addEventListener('click', function() {
+                    const list = document.getElementById('respuestas-list');
+                    const div = document.createElement('div');
+                    div.className = 'card';
+                    div.style.cssText = 'margin-bottom: 15px; padding: 15px; background: #f8f9fa;';
+                    div.innerHTML = `
                         <div class="form-group">
                             <label>Clave (número o palabra clave)</label>
                             <input type="text" name="respuesta_clave[]" class="form-control" placeholder="Ej: 1, ayuda, monto">
@@ -1043,43 +1471,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <button type="button" class="btn btn-danger btn-sm remove-respuesta">
                             <i class="fas fa-trash"></i> Eliminar Respuesta
                         </button>
-                    </div>
-                `);
-            });
+                    `;
+                    list.appendChild(div);
+                });
 
-            // Eliminar elementos
-            $(document).on('click', '.remove-item', function() {
-                $(this).closest('.list-item').remove();
-            });
+                // Eliminar elementos
+                document.addEventListener('click', function(e) {
+                    if (e.target.closest('.remove-item')) {
+                        e.target.closest('.list-item').remove();
+                    }
+                    if (e.target.closest('.remove-tarjeta')) {
+                        e.target.closest('.card').remove();
+                    }
+                    if (e.target.closest('.remove-beca')) {
+                        e.target.closest('.card').remove();
+                    }
+                    if (e.target.closest('.remove-respuesta')) {
+                        e.target.closest('.card').remove();
+                    }
+                });
 
-            $(document).on('click', '.remove-beca', function() {
-                $(this).closest('.card').remove();
-            });
+                // Manejar checkboxes de becas bloqueadas
+                document.addEventListener('change', function(e) {
+                    if (e.target.name === 'beca_bloqueada[]') {
+                        const card = e.target.closest('.card');
+                        const enlacesDiv = card.querySelector('.enlaces-beca');
+                        if (enlacesDiv) {
+                            enlacesDiv.style.display = e.target.checked ? 'none' : 'block';
+                        }
+                    }
+                });
 
-            $(document).on('click', '.remove-respuesta', function() {
-                $(this).closest('.card').remove();
-            });
+                // Inicializar estado de checkboxes
+                document.querySelectorAll('input[name="beca_bloqueada[]"]').forEach(checkbox => {
+                    const card = checkbox.closest('.card');
+                    const enlacesDiv = card.querySelector('.enlaces-beca');
+                    if (enlacesDiv && checkbox.checked) {
+                        enlacesDiv.style.display = 'none';
+                    }
+                });
+            }
 
-            // Manejar checkboxes de becas bloqueadas
-            $(document).on('change', 'input[name="beca_bloqueada[]"]', function() {
-                const enlacesDiv = $(this).closest('.card').find('.enlaces-beca');
-                if ($(this).is(':checked')) {
-                    enlacesDiv.hide();
-                } else {
-                    enlacesDiv.show();
-                }
-            });
-
-            // Inicializar estado de checkboxes
-            $('input[name="beca_bloqueada[]"]').each(function() {
-                const enlacesDiv = $(this).closest('.card').find('.enlaces-beca');
-                if ($(this).is(':checked')) {
-                    enlacesDiv.hide();
-                }
-            });
+            setupDynamicLists();
         });
     </script>
-
-    <?php include "../../includes/footer.php"; ?>
 </body>
 </html>
