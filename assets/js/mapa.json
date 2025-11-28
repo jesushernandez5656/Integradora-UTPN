@@ -293,16 +293,6 @@
             "borderColor": "#19a473",
             "description": "",
             "tipo": "academico"
-        },
-        {
-            "id": 8,
-            "title": "Omar Joto",
-            "start": "2025-11-28",
-            "end": null,
-            "backgroundColor": "#a41963",
-            "borderColor": "#a41963",
-            "description": "Hola",
-            "tipo": "administrativo"
         }
     ],
     "marcadores": [
@@ -396,5 +386,5 @@
         "lng": -106.562487,
         "zoom": 17
     },
-    "ultimaActualizacion": "2025-11-28T19:50:51+01:00"
+    "ultimaActualizacion": "2025-11-28T20:02:41+01:00"
 }
