@@ -58,6 +58,7 @@
     border-radius: 15px;
     padding: 20px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    min-height: 600px;
   }
 
   /* ==== ACORDEÓN ==== */
@@ -112,6 +113,71 @@
 
   .seccion-lugares p {
     margin: 0 0 10px;
+  }
+
+  /* ==== ESTILOS MEJORADOS PARA FULLCALENDAR ==== */
+  .fc {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  }
+
+  .fc-toolbar {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .fc-toolbar-title {
+    font-size: 1.5em;
+    font-weight: 600;
+    color: #3b3b3b;
+  }
+
+  .fc-button {
+    background-color: #19a473 !important;
+    border-color: #19a473 !important;
+    font-weight: 500;
+  }
+
+  .fc-button:hover {
+    background-color: #148a60 !important;
+    border-color: #148a60 !important;
+  }
+
+  .fc-button-active {
+    background-color: #0d6e4c !important;
+    border-color: #0d6e4c !important;
+  }
+
+  .fc-event {
+    background-color: #19a473;
+    border-color: #19a473;
+    cursor: pointer;
+    font-size: 0.85em;
+    padding: 2px 4px;
+  }
+
+  .fc-day-today {
+    background-color: #e8f5e8 !important;
+  }
+
+  .fc-event-title {
+    font-weight: 500;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    #calendar {
+      min-height: 400px;
+      padding: 10px;
+    }
+    
+    .fc-toolbar {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    
+    .fc-toolbar-chunk {
+      margin-bottom: 10px;
+    }
   }
 </style>
 
@@ -218,9 +284,15 @@ lugares.forEach((lugar) => {
   });
 });
 
-// -------- CALENDARIO EN ESPAÑOL (SOLO VISUALIZACIÓN) --------
+// -------- CALENDARIO ACTUALIZADO --------
 document.addEventListener("DOMContentLoaded", () => {
   const calendarEl = document.getElementById("calendar");
+
+  // Verificar que el elemento del calendario existe
+  if (!calendarEl) {
+    console.error('Elemento del calendario no encontrado');
+    return;
+  }
 
   const calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: "dayGridMonth",
@@ -231,21 +303,142 @@ document.addEventListener("DOMContentLoaded", () => {
       center: "title",
       right: "dayGridMonth,timeGridWeek,timeGridDay"
     },
-    events: [
-      { title: "Entrega de Proyecto", start: "2025-09-10" },
-      { title: "Revisión de Avances", start: "2025-09-12" },
-      { title: "Exposición Parcial", start: "2025-09-15" },
-      { title: "Práctica de Laboratorio", start: "2025-09-18" },
-      { title: "Reunión Académica", start: "2025-09-20" },
-      { title: "Entrega de Reporte", start: "2025-09-22" },
-      { title: "Examen Final", start: "2025-09-25" },
-      { title: "Clausura del Curso", start: "2025-09-28" }
-    ]
-    // Se eliminó la función select para evitar que los usuarios agreguen eventos
+    buttonText: {
+      today: "Hoy",
+      month: "Mes",
+      week: "Semana",
+      day: "Día"
+    },
+    events: [], // Se cargarán dinámicamente desde el JSON
+    eventClick: function(info) {
+      // Mostrar información del evento al hacer clic
+      const descripcion = info.event.extendedProps.description || 'Sin descripción adicional';
+      const tipo = info.event.extendedProps.tipo || 'académico';
+      
+      alert(`Evento: ${info.event.title}\n\nFecha: ${info.event.start.toLocaleDateString('es-ES')}\nTipo: ${tipo}\n\n${descripcion}`);
+    },
+    loading: function(isLoading) {
+      if (isLoading) {
+        console.log('Cargando eventos...');
+      } else {
+        console.log('Eventos cargados');
+      }
+    }
   });
 
+  // Cargar eventos desde el JSON
+  cargarEventosDesdeJSON(calendar);
+
   calendar.render();
+  console.log("Calendario inicializado correctamente");
 });
+
+// Función para cargar eventos desde el JSON
+function cargarEventosDesdeJSON(calendar) {
+  fetch('../../assets/js/mapa.json')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Error al cargar el JSON');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log("Datos cargados del JSON:", data);
+      
+      // Cargar eventos en el calendario
+      if (data.eventos && data.eventos.length > 0) {
+        console.log(`Se encontraron ${data.eventos.length} eventos`);
+        
+        // Limpiar eventos existentes y agregar los nuevos
+        calendar.removeAllEvents();
+        
+        // Procesar cada evento para asegurar el formato correcto
+        const eventosProcesados = data.eventos.map(evento => {
+          return {
+            id: evento.id || Math.random().toString(36).substr(2, 9),
+            title: evento.title || 'Evento sin título',
+            start: evento.start,
+            end: evento.end || null,
+            backgroundColor: evento.backgroundColor || '#19a473',
+            borderColor: evento.borderColor || '#19a473',
+            description: evento.description || '',
+            tipo: evento.tipo || 'academico',
+            allDay: true // Por defecto, eventos de todo el día
+          };
+        });
+        
+        calendar.addEventSource(eventosProcesados);
+        console.log('Eventos agregados al calendario:', eventosProcesados);
+        
+      } else {
+        console.log("No hay eventos en el JSON, cargando eventos por defecto");
+        // Cargar eventos por defecto si no hay en el JSON
+        cargarEventosPorDefecto(calendar);
+      }
+    })
+    .catch(error => {
+      console.error('Error cargando eventos desde JSON:', error);
+      // Cargar eventos por defecto en caso de error
+      cargarEventosPorDefecto(calendar);
+    });
+}
+
+// Función para cargar eventos por defecto
+function cargarEventosPorDefecto(calendar) {
+  const eventosPorDefecto = [
+    { 
+      title: "Entrega de Proyecto", 
+      start: "2025-09-10",
+      backgroundColor: '#19a473',
+      description: "Fecha límite para la entrega del proyecto final"
+    },
+    { 
+      title: "Revisión de Avances", 
+      start: "2025-09-12",
+      backgroundColor: '#19a473',
+      description: "Revisión de avances del proyecto con el tutor"
+    },
+    { 
+      title: "Exposición Parcial", 
+      start: "2025-09-15",
+      backgroundColor: '#19a473',
+      description: "Presentación de avances ante el comité evaluador"
+    },
+    { 
+      title: "Práctica de Laboratorio", 
+      start: "2025-09-18",
+      backgroundColor: '#19a473',
+      description: "Sesión práctica en el laboratorio especializado"
+    },
+    { 
+      title: "Reunión Académica", 
+      start: "2025-09-20",
+      backgroundColor: '#19a473',
+      description: "Reunión general del departamento académico"
+    },
+    { 
+      title: "Entrega de Reporte", 
+      start: "2025-09-22",
+      backgroundColor: '#19a473',
+      description: "Entrega del reporte técnico final"
+    },
+    { 
+      title: "Examen Final", 
+      start: "2025-09-25",
+      backgroundColor: '#19a473',
+      description: "Examen final del semestre"
+    },
+    { 
+      title: "Clausura del Curso", 
+      start: "2025-09-28",
+      backgroundColor: '#19a473',
+      description: "Ceremonia de clausura y entrega de reconocimientos"
+    }
+  ];
+
+  calendar.addEventSource(eventosPorDefecto);
+  console.log('Eventos por defecto cargados');
+}
 </script>
 
 <!-- ===================== ACORDEÓN ===================== -->
@@ -254,9 +447,23 @@ document.addEventListener("DOMContentLoaded", () => {
     header.addEventListener("click", () => {
       const content = header.nextElementSibling;
       const isOpen = content.style.display === "block";
-      document.querySelectorAll(".acordeon-content").forEach(c => c.style.display = "none");
+      
+      // Cerrar todos los acordeones primero
+      document.querySelectorAll(".acordeon-content").forEach(c => {
+        c.style.display = "none";
+      });
+      
+      // Abrir/cerrar el acordeón actual
       content.style.display = isOpen ? "none" : "block";
     });
+  });
+
+  // Abrir el primer acordeón por defecto
+  document.addEventListener('DOMContentLoaded', function() {
+    const firstAcordeon = document.querySelector('.acordeon-content');
+    if (firstAcordeon) {
+      firstAcordeon.style.display = 'block';
+    }
   });
 </script>
 
