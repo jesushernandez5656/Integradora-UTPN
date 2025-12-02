@@ -3,7 +3,7 @@
         "titulo_pagina": "Becas Universitarias | Impulsa tu camino",
         "hero": {
             "chip_texto": "Convocatorias limitadas",
-            "titulo_principal": "Consigue tu <span class=\"grad\">beca</span><br> de <span class=\"grad alt\">Acceso a la Universidad</span>",
+            "titulo_principal": "Consigue tu <span class=\"grad\">beca<\/span><br> de <span class=\"grad alt\">Acceso a la Universidad<\/span>",
             "descripcion": "Solo disponible para estudiantes sin registro.",
             "insignias": [
                 {
@@ -23,7 +23,7 @@
                     "Nuevo ingreso"
                 ],
                 "enlace_texto": "Solicitar",
-                "enlace_url": "https://www.juarez.gob.mx/becas-de-acceso-a-la-universidad"
+                "enlace_url": "https:\/\/www.juarez.gob.mx\/becas-de-acceso-a-la-universidad"
             }
         },
         "seccion_becas": {
@@ -89,8 +89,8 @@
                         "CURP y comprobante de domicilio"
                     ],
                     "bloqueada": false,
-                    "enlace_postular": "https://www.juarez.gob.mx/becas-de-acceso-a-la-universidad",
-                    "enlace_descarga_requisitos": "../../assets/PDF/RequisitosBeca.pdf"
+                    "enlace_postular": "https:\/\/www.juarez.gob.mx\/becas-de-acceso-a-la-universidad",
+                    "enlace_descarga_requisitos": "..\/..\/assets\/PDF\/RequisitosBeca.pdf"
                 }
             ]
         },
@@ -122,15 +122,14 @@
                 "5️⃣ ¿Ofrecen asesorías personalizadas?"
             ],
             "respuestas_pregrabadas": {
-                "1": "📚 Actualmente tenemos disponibles:\n• Beca Talento Digital (hasta 80%)\n• Beca Líder Global (100%)\n• Apoyo Investigación\n• Y más opciones en la sección de becas destacadas",
-                "2": "📋 Los requisitos varían según la beca:\n• Promedio mínimo: 8.0-8.5\n• Documentos: CV, carta motivación, comprobantes\n• Algunos requieren entrevista o proyecto\n• Revisa cada convocatoria para detalles específicos",
-                "3": "✍️ Pasos para solicitar:\n1. Revisa las becas disponibles\n2. Verifica que cumples los requisitos\n3. Prepara tu documentación\n4. Click en \"Postular\" en la beca que te interesa\n5. Llena el formulario completo\n6. ¡Listo! Recibirás confirmación por email",
-                "4": "📅 Las convocatorias tienen diferentes fechas:\n• Revisa cada beca para ver su fecha límite\n• Generalmente abren al inicio de cada cuatrimestre\n• Te recomendamos aplicar con anticipación\n• Suscríbete para recibir notificaciones",
-                "5": "👨‍🏫 ¡Sí! Ofrecemos:\n• Revisión de documentos\n• Simulación de entrevistas\n• Estrategia de postulación\n• Agenda una cita en la sección de Asesorías"
+                "1": "📚 <strong>Becas disponibles:<\/strong><br><br>• <strong>Beca Inscripción<\/strong> ($3,000)<br>• <strong>Beca Material y Equipo Técnico<\/strong> ($3,000)<br>• <strong>Beca Titulación<\/strong> ($3,000)<br>• <strong>Jóvenes Escribiendo el Futuro<\/strong> ($5,800\/mes)<br>• <strong>Beca Acceso a la Universidad<\/strong> (1er cuatrimestre)<br><br>💡 Escribe \"requisitos\" o el número de otra opción.",
+                "2": "📋 <strong>Requisitos generales:<\/strong><br><br><strong>Documentación:<\/strong> Acta de nacimiento, CURP, Comprobante de domicilio, Identificación, Comprobante de ingresos.<br><br><strong>Académicos:<\/strong> Promedio mínimo 8.0-8.5, Constancia de estudios, Historial académico.<br><br>⚠️ Recuerda que cada beca tiene requisitos adicionales que puedes descargar en la sección de \"Becas destacadas\".",
+                "3": "✍️ <strong>Proceso de solicitud (Resumen):<\/strong><br><br>1. Revisa requisitos específicos.<br>2. Prepara tu documentación.<br>3. Haz clic en \"Postular\" en la beca deseada.<br>4. Completa y envía el formulario en el portal oficial.<br>5. Espera la confirmación y resultados.<br><br>⏱️ Te recomendamos aplicar con tiempo. ¿Te gustaría agendar una asesoría? Escribe \"4\".",
+                "4": "👨‍🏫 <strong>¡Sí! Ofrecemos asesorías personalizadas:<\/strong><br><br><strong>Incluyen:<\/strong> Revisión de documentos, corrección de cartas motivacionales, y seguimiento de solicitudes.<br><br>📞 Agenda tu cita en la sección de Asesorías de la página o contacta a orientacion@utpn.edu.mx",
+                "default": "🤖 No estoy seguro de entender tu pregunta. Puedo ayudarte con:<br><br>1️⃣ Becas disponibles<br>2️⃣ Requisitos<br>3️⃣ Proceso de solicitud<br>4️⃣ Asesorías<br><br>Por favor, reformula tu pregunta. 😊"
             }
         }
     },
-    
     "pagina_original": {
         "titulo_pagina": "Becas Universitarias | Impulsa tu camino",
         "hero": {
@@ -152,17 +151,6 @@
                 }
             ],
             "tarjetas_ejemplo": [
-                {
-                    "titulo": "Beca Subes",
-                    "descripcion": "Requisitos claros.",
-                    "metadata": [
-                        "🇲🇽 México",
-                        "Licenciatura e Ingenieria",
-                        "Fecha de inicio: Empezando cuatrimestre"
-                    ],
-                    "enlace_texto": "",
-                    "enlace_url": ""
-                },
                 {
                     "titulo": "Jovenes Escribiendo el Futuro",
                     "descripcion": "Apoyo economico durante tu carrera universitaria",
@@ -254,7 +242,7 @@
                     "descripcion": "Documentacion cambia para cada una de las becas."
                 },
                 {
-                    "titulo": "Fechas precisas ",
+                    "titulo": "Fechas precisas",
                     "descripcion": "Entregar la documentación en fechas dadas."
                 },
                 {
@@ -266,7 +254,7 @@
         "chatbot": {
             "nombre": "UTPN-BOT",
             "opciones_iniciales": [
-                "1️⃣ ¿Qué becas están disponibles? ",
+                "1️⃣ ¿Qué becas están disponibles?",
                 "2️⃣ ¿Cuáles son los requisitos generales?",
                 "3️⃣ ¿Cómo es el proceso de solicitud?",
                 "4️⃣ ¿Hay asesorías personalizadas?"
