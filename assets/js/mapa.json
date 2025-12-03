@@ -233,6 +233,18 @@
                     "contenido": "Espacio destinado a reuniones en situaciones de emergencia."
                 }
             ]
+        },
+        {
+            "id": "es",
+            "nombre": "hi",
+            "descripcion": "es",
+            "color": "#19a473",
+            "descripciones": [
+                {
+                    "titulo": "a",
+                    "contenido": "s"
+                }
+            ]
         }
     ],
     "eventos": [
@@ -291,92 +303,16 @@
             "borderColor": "#19a473",
             "description": "s",
             "tipo": "academico"
-        }
-    ],
-    "marcadores": [
-        {
-            "id": 1,
-            "nombre": "Edificio A",
-            "lat": 31.766365511367177,
-            "lng": -106.56166338142302,
-            "edificioId": "edificioA"
         },
         {
-            "id": 2,
-            "nombre": "Edificio B",
-            "lat": 31.766841645023472,
-            "lng": -106.56102909656026,
-            "edificioId": "edificioB"
-        },
-        {
-            "id": 3,
-            "nombre": "Edificio C",
-            "lat": 31.76627811886781,
-            "lng": -106.56245778374044,
-            "edificioId": "edificioC"
-        },
-        {
-            "id": 4,
-            "nombre": "Edificio D",
-            "lat": 31.766257798593916,
-            "lng": -106.56312940124269,
-            "edificioId": "edificioD"
-        },
-        {
-            "id": 5,
-            "nombre": "Edificio E",
-            "lat": 31.766248767145573,
-            "lng": -106.56389772444955,
-            "edificioId": "edificioE"
-        },
-        {
-            "id": 6,
-            "nombre": "Cafetería",
-            "lat": 31.767125033013915,
-            "lng": -106.56140786196244,
-            "edificioId": "cafetería"
-        },
-        {
-            "id": 7,
-            "nombre": "Cancha de Fútbol",
-            "lat": 31.766970077979806,
-            "lng": -106.56308318968154,
-            "edificioId": "canchadefutbol"
-        },
-        {
-            "id": 8,
-            "nombre": "Cancha de Voleibol",
-            "lat": 31.766968880896098,
-            "lng": -106.56343654851547,
-            "edificioId": "canchadevoleibol"
-        },
-        {
-            "id": 9,
-            "nombre": "Cancha de Voleibol Playero",
-            "lat": 31.767213023750685,
-            "lng": -106.56247437733018,
-            "edificioId": "canchadevoleibolplayero"
-        },
-        {
-            "id": 10,
-            "nombre": "Cancha de Basquetbol",
-            "lat": 31.766961941341236,
-            "lng": -106.56280712333786,
-            "edificioId": "canchadebasquetbol"
-        },
-        {
-            "id": 11,
-            "nombre": "Quiosco",
-            "lat": 31.766974870070786,
-            "lng": -106.56248066354152,
-            "edificioId": "quiosco"
-        },
-        {
-            "id": 12,
-            "nombre": "Punto de reunión",
-            "lat": 31.766993499754374,
-            "lng": -106.56201627006439,
-            "edificioId": "puntodereunion"
+            "title": "e",
+            "start": "2025-12-03",
+            "end": "2025-12-03",
+            "backgroundColor": "#19a473",
+            "borderColor": "#19a473",
+            "description": "s",
+            "tipo": "academico",
+            "id": 10
         }
     ],
     "marcadores": [],
@@ -385,5 +321,5 @@
         "lng": -106.562487,
         "zoom": 17
     },
-    "ultimaActualizacion": "2025-12-03T06:07:46+01:00"
+    "ultimaActualizacion": "2025-12-03T06:21:35+01:00"
 }
