@@ -296,13 +296,23 @@
         },
         {
             "id": 8,
-            "title": "se",
-            "start": "2025-12-25",
+            "title": "Hola",
+            "start": "2025-12-04",
+            "end": "2025-12-03",
+            "backgroundColor": "#19a473",
+            "borderColor": "#19a473",
+            "description": "s",
+            "tipo": "academico"
+        },
+        {
+            "id": 9,
+            "title": "e",
+            "start": "2025-12-03",
             "end": null,
-            "backgroundColor": "#000a07",
-            "borderColor": "#000a07",
-            "description": "test",
-            "tipo": "deportivo"
+            "backgroundColor": "#19a473",
+            "borderColor": "#19a473",
+            "description": "s",
+            "tipo": "academico"
         }
     ],
     "marcadores": [
@@ -396,5 +406,5 @@
         "lng": -106.562487,
         "zoom": 17
     },
-    "ultimaActualizacion": "2025-12-03T05:55:41+01:00"
+    "ultimaActualizacion": "2025-12-03T06:07:46+01:00"
 }
