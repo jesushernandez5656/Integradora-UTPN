@@ -496,7 +496,35 @@ function deleteCategory(id) {
     if (!category) return;
     
     if (category.total_consejos > 0) {
-        mostrarAlerta('No se puede eliminar una categoría con consejos asociados', 'danger');
+        // Mostrar mensaje informativo
+        mostrarAlertaModal(
+            `No se puede eliminar la categoría "${category.nombre}"`,
+            `Esta categoría tiene <strong>${category.total_consejos} consejo(s)</strong> asociado(s).<br><br>Primero debes eliminar o mover estos consejos a otra categoría.`,
+            'warning',
+            [
+                {
+                    text: 'Entendido',
+                    class: 'btn-secondary',
+                    action: function() {
+                        closeModal('infoModal');
+                    }
+                },
+                {
+                    text: 'Ver Consejos',
+                    class: 'btn-primary',
+                    action: function() {
+                        closeModal('infoModal');
+                        switchTab('consejos');
+                        // Filtrar consejos por esta categoría
+                        const searchInput = document.getElementById('searchConsejos');
+                        if (searchInput) {
+                            searchInput.value = category.nombre;
+                            filterConsejos();
+                        }
+                    }
+                }
+            ]
+        );
         return;
     }
 
@@ -505,6 +533,159 @@ function deleteCategory(id) {
     document.getElementById('deleteMessage').textContent = 
         `¿Estás seguro de eliminar la categoría "${category.nombre}"? Esta acción no se puede deshacer.`;
     openModal('deleteModal');
+}
+
+// ==================== FUNCIONES NUEVAS ====================
+
+function mostrarAlertaModal(titulo, mensaje, tipo = 'warning', botones = []) {
+    // Cerrar modal si ya existe
+    const existingModal = document.querySelector('[id^="infoModal-"]');
+    if (existingModal) {
+        closeModal(existingModal.id);
+        setTimeout(() => existingModal.remove(), 300);
+    }
+    
+    // Crear modal dinámico
+    const modalId = 'infoModal-' + Date.now();
+    const modalHTML = `
+        <div id="${modalId}" class="modal active">
+            <div class="modal-dialog" style="max-width: 500px;">
+                <div class="modal-header">
+                    <h2>
+                        <i class="fas fa-${tipo === 'warning' ? 'exclamation-triangle' : 
+                                          tipo === 'danger' ? 'exclamation-circle' : 
+                                          tipo === 'success' ? 'check-circle' : 'info-circle'}"></i>
+                        ${titulo}
+                    </h2>
+                    <button class="modal-close" onclick="closeModal('${modalId}')">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-${tipo}">
+                        <div>
+                            ${mensaje}
+                        </div>
+                    </div>
+                    
+                    <div class="info-detalle" style="margin-top: 20px; padding: 15px; background: var(--cream); border-radius: 8px;">
+                        <h4 style="color: var(--teal); margin-bottom: 10px;">
+                            <i class="fas fa-info-circle"></i> ¿Qué puedes hacer?
+                        </h4>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>Eliminar todos los consejos de esta categoría primero</li>
+                            <li>Editar los consejos para moverlos a otra categoría</li>
+                            <li>Crear una nueva categoría y reasignar los consejos</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    ${botones.length > 0 ? 
+                        botones.map(btn => `
+                            <button type="button" class="btn ${btn.class}" onclick="closeModal('${modalId}'); ${btn.action.toString().replace('function() {', '').replace('}', '')}">
+                                ${btn.text}
+                            </button>
+                        `).join('') : 
+                        `<button type="button" class="btn btn-secondary" onclick="closeModal('${modalId}')">Cerrar</button>`
+                    }
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Agregar al body
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+    
+    // Configurar cierre al hacer clic fuera
+    const modal = document.getElementById(modalId);
+    modal.addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeModal(modalId);
+        }
+    });
+    
+    document.body.style.overflow = 'hidden';
+}
+
+function mostrarAdvertenciaEliminar(id) {
+    const category = categorias.find(c => c.id == id);
+    if (!category) return;
+    
+    // Vibrar en dispositivos móviles (si está disponible)
+    if (navigator.vibrate && window.innerWidth <= 768) {
+        navigator.vibrate([100, 50, 100]);
+    }
+    
+    // Para móvil, mostrar toast
+    if (window.innerWidth <= 768) {
+        const toast = document.createElement('div');
+        toast.id = 'mobile-toast-' + Date.now();
+        toast.style.cssText = `
+            position: fixed;
+            top: 20px;
+            left: 10px;
+            right: 10px;
+            background: var(--warning);
+            color: #856404;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 10001;
+            text-align: center;
+            font-weight: bold;
+            animation: slideDownMobile 0.3s;
+        `;
+        
+        toast.innerHTML = `
+            <i class="fas fa-exclamation-circle" style="margin-right: 10px;"></i>
+            <div style="font-size: 14px; line-height: 1.4;">
+                <strong>No se puede eliminar</strong><br>
+                Tiene ${category.total_consejos} consejo(s) asociados
+            </div>
+        `;
+        
+        document.body.appendChild(toast);
+        
+        // Auto-eliminar después de 4 segundos
+        setTimeout(() => {
+            toast.style.animation = 'slideUpMobile 0.3s';
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    toast.remove();
+                }
+            }, 300);
+        }, 4000);
+    }
+    
+    // Mostrar modal informativo
+    setTimeout(() => {
+        mostrarAlertaModal(
+            `Acción no permitida`,
+            `La categoría <strong>"${category.nombre}"</strong> tiene <strong>${category.total_consejos} consejo(s)</strong> asociados.<br><br>
+            <small>Para eliminar la categoría, primero debes:</small>`,
+            'warning',
+            [
+                {
+                    text: 'Eliminar consejos',
+                    class: 'btn-danger',
+                    action: function() {
+                        switchTab('consejos');
+                        // Filtrar por esta categoría
+                        const searchInput = document.getElementById('searchConsejos');
+                        if (searchInput) {
+                            searchInput.value = category.nombre;
+                            filterConsejos();
+                        }
+                    }
+                },
+                {
+                    text: 'Crear nueva categoría',
+                    class: 'btn-primary',
+                    action: function() {
+                        openModal('createCategoryModal');
+                    }
+                }
+            ]
+        );
+    }, window.innerWidth <= 768 ? 500 : 0);
 }
 
 // ==================== FUNCIONES DE UI ====================
@@ -614,8 +795,8 @@ function loadCategorias() {
                     </button>
                     <button class="btn btn-danger btn-sm" 
                             data-id="${cat.id}"
-                            onclick="deleteCategory(${cat.id})"
-                            ${cat.total_consejos > 0 ? 'disabled title="No se puede eliminar con consejos asociados"' : 'title="Eliminar"'}>
+                            onclick="${cat.total_consejos > 0 ? 'mostrarAdvertenciaEliminar(' + cat.id + ')' : 'deleteCategory(' + cat.id + ')'}"
+                            ${cat.total_consejos > 0 ? 'title="No se puede eliminar (tiene consejos)" style="cursor: not-allowed; opacity: 0.7;"' : 'title="Eliminar"'}>
                         <i class="fas fa-trash"></i>
                     </button>
                 </div>

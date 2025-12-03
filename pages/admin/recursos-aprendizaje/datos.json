@@ -5,7 +5,7 @@
         "3": "T.S.U. en Infraestructura de Redes Digitales",
         "4": "T.S.U. en Emprendimiento, Formulación y Evaluación de Proyectos",
         "5": "T.S.U. en Mecatrónica",
-        "6": "T.S.U. en Diseño Arquitectónico",
+        "6": "T.S.U en Diseño Arquitectónico",
         "7": "Ingeniería en Logística Internacional",
         "8": "Ingeniería Industrial",
         "9": "Ingeniería en Tecnologías de la Información e Innovación Digital",
@@ -16,211 +16,443 @@
     "recursos": [
         {
             "id_recurso": 2,
-            "id_categoria": 11,
-            "titulo": "Curso de AutoCAD para Mecatrónica",
-            "descripcion": "Aprende a diseñar piezas mecánicas y sistemas en 2D y 3D.",
-            "tipo": "Cursos",
-            "enlace": "https:\/\/www.udemy.com\/course\/autocad-mechanical\/"
-        },
-        {
-            "id_recurso": 3,
-            "id_categoria": 9,
-            "titulo": "Fundamentos de Redes Digitales (PDF)",
-            "descripcion": "Documento que cubre el modelo OSI, TCP\/IP y protocolos.",
-            "tipo": "Libros",
-            "enlace": "https:\/\/ejemplo.com\/pdfs\/fundamentos-redes.pdf"
-        },
-        {
-            "id_recurso": 4,
             "id_categoria": 1,
-            "titulo": "Factores clave de la cadena logística del comercio exterior de un puerto mexicano: análisis a través de redes neuronales artificiales",
-            "descripcion": "Contaduría y administración, vol. 64, núm. 2, pp. 1-19, 2019. Facultad de Contaduría y Administración, UNAM",
-            "tipo": "Articulos de investigacion",
-            "enlace": "https:\/\/www.redalyc.org\/journal\/395\/39571725007\/html\/?utm_source=chatgpt.com"
-        },
-        {
-            "id_recurso": 5,
-            "id_categoria": 1,
-            "titulo": "LEY DE COMERCIO EXTERIOR",
-            "descripcion": "Nueva Ley publicada en el Diario Oficial de la Federación el 27 de julio de 1993. TEXTO VIGENTE. Última reforma publicada DOF 21-12-2006",
+            "titulo": "LEY DE COMERCIO EXTERIOR (PDF Vigente)",
+            "descripcion": "Texto vigente de la Ley de Comercio Exterior publicada en el Diario Oficial de la Federación.",
             "tipo": "pdf adjuntos",
             "enlace": "https:\/\/www.diputados.gob.mx\/LeyesBiblio\/pdf\/28.pdf"
         },
         {
-            "id_recurso": 6,
+            "id_recurso": 3,
             "id_categoria": 1,
-            "titulo": "El impacto de la logística en la facilitación del comercio internacional: un estudio de costos y beneficios",
-            "descripcion": "Análisis de costos y beneficios sobre la facilitación del comercio.",
-            "tipo": "pdf adjuntos",
+            "titulo": "Logística Internacional: Un Enfoque de Cadena de Suministro",
+            "descripcion": "Artículo completo sobre la gestión moderna de la logística internacional.",
+            "tipo": "Articulos de investigacion",
+            "enlace": "https:\/\/www.redalyc.org\/pdf\/212\/21208603.pdf"
+        },
+        {
+            "id_recurso": 51,
+            "id_categoria": 1,
+            "titulo": "Factores clave de la cadena logística del comercio exterior",
+            "descripcion": "Análisis de la cadena logística portuaria a través de redes neuronales artificiales.",
+            "tipo": "Articulos de investigacion",
+            "enlace": "https:\/\/www.redalyc.org\/journal\/395\/39571725007\/html\/?utm_source=chatgpt.com"
+        },
+        {
+            "id_recurso": 52,
+            "id_categoria": 1,
+            "titulo": "Impacto de la logística en el comercio internacional",
+            "descripcion": "Estudio de costos y beneficios sobre la facilitación del comercio internacional.",
+            "tipo": "Articulos de investigacion",
             "enlace": "https:\/\/epsir.net\/index.php\/epsir\/article\/view\/1626\/1448"
         },
         {
-            "id_recurso": 7,
-            "id_categoria": 5,
-            "titulo": "Robótica y Mecatrónica de Servicios: Teoría y Aplicaciones (Libro digital)",
-            "descripcion": "Presenta la teoría, pero se enfoca en aplicaciones y casos de servicio. Año 2016",
-            "tipo": "pdf adjuntos",
-            "enlace": "https:\/\/www.mecamex.net\/Libros\/2016-Libro-MecatronicayRoboticadeServicio.pdf"
-        },
-        {
-            "id_recurso": 8,
-            "id_categoria": 5,
-            "titulo": "Manuales de Prácticas – Ing. Mecatrónica (UABC)",
-            "descripcion": "Listado de manuales que cubren prácticas de laboratorio de diversas áreas: OpAmps, Lógica, Sistemas de Control, MATLAB\/LabVIEW. Año 2025",
-            "tipo": "Tutoriales",
-            "enlace": "https:\/\/ingenieria.mxl.uabc.mx\/pe_ima\/manuales-de-practica\/"
-        },
-        {
-            "id_recurso": 9,
-            "id_categoria": 5,
-            "titulo": "Libro PDF: Ingeniería Mecatrónica: Proyectos y Aplicaciones",
-            "descripcion": "Contiene capítulos sobre proyectos específicos como la construcción de un Péndulo Invertido sobre un Carro y simulaciones de sistemas bípedos. Año 2014",
-            "tipo": "pdf adjuntos",
-            "enlace": "https:\/\/www.mecamex.net\/Libros\/2014-Libro-IngenieriaMecatronica.pdf"
-        },
-        {
-            "id_recurso": 10,
-            "id_categoria": 5,
-            "titulo": "Arquitectura de control abierta por medio de una PC para sistemas mecatrónicos",
-            "descripcion": "Artículo de Redalyc que describe el diseño de una arquitectura de control abierta de bajo costo, flexible y reconfigurable, ideal para automatización y robótica didáctica. Año 2016",
-            "tipo": "Articulos de investigacion",
-            "enlace": "https:\/\/www.redalyc.org\/pdf\/4026\/402650526004.pdf"
-        },
-        {
-            "id_recurso": 11,
-            "id_categoria": 5,
-            "titulo": "Arduino: aplicaciones en robótica, mecatrónica e ingenierías",
-            "descripcion": "Capítulo de libro que aborda el potencial de la plataforma Arduino para el desarrollo de proyectos de robótica, mecatrónica, control e instrumentación.",
-            "tipo": "Libros",
-            "enlace": "https:\/\/api.pageplace.de\/preview\/DT0400.9788426729460_A39794666\/preview-9788426729460_A39794666.pdf"
-        },
-        {
-            "id_recurso": 12,
-            "id_categoria": 7,
-            "titulo": "Comercio internacional y logística: Perspectivas y aplicaciones",
-            "descripcion": "Libro que analiza las complejidades del comercio internacional, técnicas avanzadas de logística y gestión de operaciones. Año 2024",
-            "tipo": "Libros",
-            "enlace": "https:\/\/www.researchgate.net\/publication\/388800839_Comercio_internacional_y_logistica_Perspectivas_y_aplicaciones"
-        },
-        {
-            "id_recurso": 13,
-            "id_categoria": 7,
-            "titulo": "Logística y distribución internacional (Tesis UNAM)",
-            "descripcion": "Excelente recurso para comprender la estructura conceptual y el enfoque sistémico de la logística y distribución internacional. Año 2002",
-            "tipo": "Tesis",
-            "enlace": "https:\/\/tesiunamdocumentos.dgb.unam.mx\/pdtestdf\/0312762\/0312762.pdf"
-        },
-        {
-            "id_recurso": 14,
-            "id_categoria": 7,
-            "titulo": "INNOVACIÓN EMPRESARIAL EN LOGÍSTICA Y CADENAS DE SUMINISTRO",
-            "descripcion": "Documento enfocado en la innovación y la aplicación práctica de conceptos logísticos como la optimización en almacenes. Año 2019",
-            "tipo": "Articulos de investigacion",
-            "enlace": "https:\/\/redibai-myd.org\/portal\/wp-content\/uploads\/2020\/01\/8617-42-5.pdf"
-        },
-        {
-            "id_recurso": 15,
-            "id_categoria": 7,
-            "titulo": "La logística de transportación internacional de mercancías en México (Tesis UNAM)",
-            "descripcion": "Ofrece una perspectiva práctica y regional (México) sobre la cadena logística, las dificultades y oportunidades en el transporte. Año 2004",
-            "tipo": "Tesis",
-            "enlace": "https:\/\/tesiunamdocumentos.dgb.unam.mx\/ppt2004\/0337477\/0337477.pdf"
-        },
-        {
-            "id_recurso": 16,
-            "id_categoria": 7,
-            "titulo": "LOGÍSTICA INTERNACIONAL (ResearchGate)",
-            "descripcion": "Documento que aborda el transporte y la logística internacional como un proceso complejo desde el pedido hasta la entrega. Año 2019",
-            "tipo": "Articulos de investigacion",
-            "enlace": "https:\/\/www.researchgate.net\/publication\/335867879_LOGISTICA_INTERNACIONAL"
-        },
-        {
-            "id_recurso": 22,
-            "id_categoria": 8,
-            "titulo": "Herramientas y Técnicas Lean Manufacturing en sistemas de producción y calidad",
-            "descripcion": "Documento que aborda los conceptos y la reseña histórica del Lean Manufacturing. Es altamente práctico. Año 2011",
-            "tipo": "pdf adjuntos",
-            "enlace": "http:\/\/dgsa.uaeh.edu.mx:8080\/bibliotecadigital\/bitstream\/handle\/231104\/226\/Herramientas%20y%20tecnicas.pdf?sequence=1&isAllowed=y"
-        },
-        {
-            "id_recurso": 23,
-            "id_categoria": 8,
-            "titulo": "Revista de la Ingeniería Industrial (Acceso Abierto)",
-            "descripcion": "Revista especializada que publica artículos de investigación recientes en áreas como Investigación de Operaciones, Calidad y Productividad, Logística. Año 2024",
-            "tipo": "Articulos de investigacion",
-            "enlace": "https:\/\/static1.squarespace.com\/static\/55564587e4b0d1d3fb1eda6b\/t\/65eb685aa6f9910f2095f7f4\/1709926491563\/Revista+Covers+2024+%281%29.pdf"
-        },
-        {
-            "id_recurso": 25,
-            "id_categoria": 8,
-            "titulo": "INGENIERÍA INDUSTRIAL, OTRO ENFOQUE: LOS SERVICIOS (Tesis UNAM)",
-            "descripcion": "Tesis de la UNAM que aborda el diseño y mejoramiento de sistemas, pero con un enfoque en el sector servicios. Año 2017",
-            "tipo": "Tesis",
-            "enlace": "https:\/\/tesiunamdocumentos.dgb.unam.mx\/pmig2017\/0168476\/0168476.pdf"
-        },
-        {
-            "id_recurso": 26,
-            "id_categoria": 8,
-            "titulo": "Lean manufacturing (Todo Proyectos)",
-            "descripcion": "Un libro completo sobre Lean Manufacturing, detallando su exposición adaptada a la fabricación repetitiva y los procesos discretos. Año 2013",
-            "tipo": "pdf adjuntos",
-            "enlace": "https:\/\/todoproyecto.wordpress.com\/wp-content\/uploads\/2020\/09\/lean_manufacturing_francisco_madariaga_r.pdf"
-        },
-        {
-            "id_recurso": 27,
+            "id_recurso": 53,
             "id_categoria": 1,
-            "titulo": "Operaciones de comercio exterior: logística en aduana fronteriza norte",
-            "descripcion": "Al realizar una actividad aduanera se deben realizar actos y formalidades para internar una determinada mercancía a territorio nacional.",
-            "tipo": "pdf adjuntos",
-            "enlace": "https:\/\/www.pag.org.mx\/index.php\/PAG\/article\/view\/666\/845"
-        },
-        {
-            "id_recurso": 28,
-            "id_categoria": 1,
-            "titulo": "El sistema logístico del comercio exterior en los países del APEC",
-            "descripcion": "El objetivo de esta investigación es determinar la eficiencia de la red logística del comercio\r\nexterior de diecinueve economías de la región del APEC para el año 2016. Se trabaja para\r\nello con el Data Envelopment Analysis (DEA) network.",
+            "titulo": "Logística del comercio exterior en países APEC",
+            "descripcion": "Investigación sobre la eficiencia de la red logística en economías de Asia-Pacífico.",
             "tipo": "Articulos de investigacion",
             "enlace": "https:\/\/www.scielo.org.mx\/pdf\/confines\/v15n29\/1870-3569-confines-15-29-87.pdf"
         },
         {
-            "id_recurso": 29,
+            "id_recurso": 7,
             "id_categoria": 2,
-            "titulo": "Aproximación teórica al concepto de calidad y los sistemas de gestión",
-            "descripcion": "La calidad ha evolucionado hacia la “Calidad Total”, un enfoque de gestión que busca mayor satisfacción del cliente con menores costos y que involucra a toda la organización y sus partes interesadas. Esta investigación revisa literatura y normativas para definir el concepto de calidad, basándose en los aportes de autores clave como Deming, Juran, Ishikawa, Crosby y Feigenbaum.",
-            "tipo": "pdf adjuntos",
-            "enlace": "https:\/\/aunarcali.edu.co\/revistas\/index.php\/RDCES\/article\/view\/110\/77"
+            "titulo": "Sistemas de Gestión de la Calidad Total",
+            "descripcion": "Artículo sobre la evolución y herramientas de la calidad total.",
+            "tipo": "Articulos de investigacion",
+            "enlace": "https:\/\/www.redalyc.org\/pdf\/818\/81802505.pdf"
         },
         {
-            "id_recurso": 30,
+            "id_recurso": 8,
             "id_categoria": 2,
-            "titulo": "Sistemas de Gestión en Instituciones de Educación Superior, su Operación y la Correlación con la Calidad en el Servicio",
-            "descripcion": "El objetivo de la presente fue determinar la correlación entre la Operación de un Sistema de\r\nGestión de la Calidad (OSGC) y la Calidad en el servicio en un Sistema de Gestión (CSG). Para\r\nla metodología se aplicaron cuestionarios a los trabajadores de una Institución de Educación\r\nSuperior (IES) en el Estado de Durango, México.",
+            "titulo": "Las 7 Herramientas de la Calidad (Video)",
+            "descripcion": "Explicación detallada de Ishikawa, Pareto y otras herramientas.",
+            "tipo": "Tutoriales",
+            "enlace": "https:\/\/youtu.be\/4rIOHCzH-Sk?si=FYUKHjkB4fXtYshB"
+        },
+        {
+            "id_recurso": 54,
+            "id_categoria": 2,
+            "titulo": "Manual del Sistema de Gestión de la Calidad (ISO 9001:2015)",
+            "descripcion": "Manual oficial que ejemplifica la aplicación de la norma ISO 9001 en una institución real.",
+            "tipo": "pdf adjuntos",
+            "enlace": "https:\/\/uptexcoco.edomex.gob.mx\/sites\/uptexcoco.edomex.gob.mx\/files\/files\/MSG-01%20MANUAL%20DE%20SGS%20ISO%209001%202015%20TAR.pdf"
+        },
+        {
+            "id_recurso": 55,
+            "id_categoria": 2,
+            "titulo": "Curso: Introducción a Lean Six Sigma",
+            "descripcion": "Curso especializado de la UNAM sobre herramientas estadísticas para la mejora de procesos.",
+            "tipo": "Cursos",
+            "enlace": "https:\/\/www.coursera.org\/learn\/introduccin-a-lean-six-sigma"
+        },
+        {
+            "id_recurso": 56,
+            "id_categoria": 2,
+            "titulo": "Mejora continua con enfoque Kaizen",
+            "descripcion": "Investigación sobre la implementación de Kaizen en empresas de manufactura.",
             "tipo": "Articulos de investigacion",
-            "enlace": "https:\/\/www.scielo.org.mx\/pdf\/ride\/v14n27\/2007-7467-ride-14-27-e507.pdf"
+            "enlace": "https:\/\/www.redalyc.org\/pdf\/549\/54950452008.pdf"
+        },
+        {
+            "id_recurso": 57,
+            "id_categoria": 3,
+            "titulo": "Conexión y protección: Redes y seguridad (Google)",
+            "descripcion": "Curso oficial de Google sobre arquitectura, protocolos y seguridad en redes de datos.",
+            "tipo": "Cursos",
+            "enlace": "https:\/\/www.coursera.org\/learn\/conexion-y-proteccion-redes-y-seguridad-de-redes"
+        },
+        {
+            "id_recurso": 58,
+            "id_categoria": 3,
+            "titulo": "Tutorial: Ponchado de Cable UTP Cat 6",
+            "descripcion": "Guía práctica paso a paso para armar cables de red ethernet bajo norma.",
+            "tipo": "Tutoriales",
+            "enlace": "https:\/\/www.youtube.com\/watch?v=I5i5mvxhSZQ"
+        },
+        {
+            "id_recurso": 59,
+            "id_categoria": 3,
+            "titulo": "Tesis: Diseño de Red LAN Corporativa Segura",
+            "descripcion": "Estudio completo sobre el diseño e implementación de una red empresarial con voz y datos.",
+            "tipo": "Tesis",
+            "enlace": "https:\/\/bibdigital.epn.edu.ec\/handle\/15000\/22775"
+        },
+        {
+            "id_recurso": 60,
+            "id_categoria": 3,
+            "titulo": "Redes de Computadoras (Tanenbaum) - 5ta Ed",
+            "descripcion": "Libro clásico de referencia para entender capas, protocolos y arquitectura de redes.",
+            "tipo": "Libros",
+            "enlace": "https:\/\/biblioteca.ceves.edu.mx\/themes\/default\/resources\/js\/pdfjs\/web\/viewer.html?file=\/eBooks\/2021\/January\/5ff37b2c26750\/Redes%20de%20Computadoras,%205ta%20Edición%20-%20Andrew%20S.%20Tanenbaum%2022.pdf"
+        },
+        {
+            "id_recurso": 61,
+            "id_categoria": 3,
+            "titulo": "Ciberseguridad en redes 5G: Desafíos",
+            "descripcion": "Artículo científico sobre los retos de seguridad en la nueva infraestructura móvil.",
+            "tipo": "Articulos de investigacion",
+            "enlace": "https:\/\/portal.amelica.org\/ameli\/journal\/572\/5724522008\/"
+        },
+        {
+            "id_recurso": 15,
+            "id_categoria": 4,
+            "titulo": "Estudio Técnico: Elemento indispensable",
+            "descripcion": "Documento que explica cómo realizar la factibilidad técnica de un proyecto.",
+            "tipo": "Articulos de investigacion",
+            "enlace": "https:\/\/www.itson.mx\/publicaciones\/pacioli\/documents\/no56\/estudiotecnico.pdf"
+        },
+        {
+            "id_recurso": 16,
+            "id_categoria": 4,
+            "titulo": "Modelo Canvas Paso a Paso",
+            "descripcion": "Video tutorial para estructurar tu modelo de negocio.",
+            "tipo": "Tutoriales",
+            "enlace": "https:\/\/www.youtube.com\/watch?v=QoAOzMTLP5s"
+        },
+        {
+            "id_recurso": 62,
+            "id_categoria": 4,
+            "titulo": "Evaluación de Proyectos de Inversión (Curso)",
+            "descripcion": "Curso de la Pontificia Universidad Católica de Chile sobre criterios de decisión de inversión (VAN, TIR) y valor del dinero.",
+            "tipo": "Cursos",
+            "enlace": "https:\/\/www.coursera.org\/learn\/evaluacion-de-proyectos-de-inversion"
+        },
+        {
+            "id_recurso": 63,
+            "id_categoria": 4,
+            "titulo": "Manual Legal del Emprendedor (ASEM)",
+            "descripcion": "Guía completa de la Asociación de Emprendedores de México sobre los aspectos legales y fiscales para constituir una empresa.",
+            "tipo": "pdf adjuntos",
+            "enlace": "https:\/\/asem.mx\/wp-content\/uploads\/2023\/03\/Manual-legal-del-emprendedor-1.pdf"
+        },
+        {
+            "id_recurso": 64,
+            "id_categoria": 4,
+            "titulo": "Tesis: Plan de Negocios (Caso Real)",
+            "descripcion": "Caso práctico completo: Plan de negocios para relanzar una empresa familiar en marcha, con análisis de mercado y financiero.",
+            "tipo": "Tesis",
+            "enlace": "https:\/\/ru.dgb.unam.mx\/bitstreams\/73015486-4c15-440d-9a18-97e488d16612\/download"
+        },
+        {
+            "id_recurso": 20,
+            "id_categoria": 5,
+            "titulo": "Diseño Mecatrónico: Metodología y Casos",
+            "descripcion": "Artículo sobre el proceso de diseño en ingeniería mecatrónica.",
+            "tipo": "Articulos de investigacion",
+            "enlace": "https:\/\/www.redalyc.org\/pdf\/849\/84920977017.pdf"
+        },
+        {
+            "id_recurso": 66,
+            "id_categoria": 5,
+            "titulo": "Curso Completo: PLC Siemens TIA Portal",
+            "descripcion": "Serie de videos para aprender a programar PLCs S7-1200 desde cero, incluyendo lógica ladder y HMI.",
+            "tipo": "Cursos",
+            "enlace": "https:\/\/www.youtube.com\/watch?v=wuzjXFrJcGE"
+        },
+        {
+            "id_recurso": 68,
+            "id_categoria": 5,
+            "titulo": "La mecatrónica: Sistemas de automatización",
+            "descripcion": "Investigación sobre la integración de sistemas mecánicos, electrónicos y computacionales en la manufactura.",
+            "tipo": "Articulos de investigacion",
+            "enlace": "https:\/\/www.redalyc.org\/pdf\/4761\/476150824007.pdf"
+        },
+        {
+            "id_recurso": 69,
+            "id_categoria": 5,
+            "titulo": "Tutorial: Simulación de Arduino en Tinkercad",
+            "descripcion": "Aprende a simular circuitos y código de microcontroladores antes de implementarlos físicamente.",
+            "tipo": "Tutoriales",
+            "enlace": "https:\/\/www.youtube.com\/watch?v=WX3UbjUw5tk"
+        },
+        {
+            "id_recurso": 24,
+            "id_categoria": 6,
+            "titulo": "Sustentabilidad en la Arquitectura",
+            "descripcion": "Artículo sobre principios de diseño bioclimático y sostenible.",
+            "tipo": "Articulos de investigacion",
+            "enlace": "https:\/\/www.redalyc.org\/pdf\/1936\/193614470002.pdf"
+        },
+        {
+            "id_recurso": 71,
+            "id_categoria": 6,
+            "titulo": "Curso de AutoCAD para arquitectos (Completo)",
+            "descripcion": "Curso práctico en video para dominar las herramientas básicas y avanzadas de AutoCAD.",
+            "tipo": "Tutoriales",
+            "enlace": "https:\/\/www.youtube.com\/watch?v=TLxqnPtP3qE&list=PLRt_sFUAViN03WEZIdRkdWlH6fy3KKX6V"
+        },
+        {
+            "id_recurso": 72,
+            "id_categoria": 6,
+            "titulo": "Ergonomía y Antropometría en el Diseño",
+            "descripcion": "Investigación sobre la importancia de las medidas humanas en el diseño de mobiliario y espacios.",
+            "tipo": "Articulos de investigacion",
+            "enlace": "https:\/\/www.redalyc.org\/pdf\/3416\/341630317004.pdf"
+        },
+        {
+            "id_recurso": 70,
+            "id_categoria": 6,
+            "titulo": "Manual de Normas Técnicas de Accesibilidad (CDMX)",
+            "descripcion": "Documento técnico oficial con lineamientos para el diseño de espacios accesibles y rampas.",
+            "tipo": "pdf adjuntos",
+            "enlace": "https:\/\/www.seduvi.cdmx.gob.mx\/storage\/app\/uploads\/public\/5a6\/788\/06c\/5a678806c9e0c691167439.pdf"
+        },
+        {
+            "id_recurso": 73,
+            "id_categoria": 6,
+            "titulo": "Estrategias para la enseñanza del diseño arquitectónico",
+            "descripcion": "Artículo académico que explora métodos tradicionales y colaborativos en la enseñanza del diseño.",
+            "tipo": "Articulos de investigacion",
+            "enlace": "https:\/\/www.redalyc.org\/journal\/1251\/125176913004\/html\/"
+        },
+        {
+            "id_recurso": 74,
+            "id_categoria": 6,
+            "titulo": "El diseño arquitectónico: un acertijo epistemológico",
+            "descripcion": "Libro digital de la UNAM que reflexiona sobre el proceso creativo y técnico del diseño arquitectónico.",
+            "tipo": "pdf adjuntos",
+            "enlace": "https:\/\/librosoa.unam.mx\/bitstream\/handle\/123456789\/3188\/El_disen%CC%83o_arquitecto%CC%81nico_digital.pdf?sequence=1"
+        },
+        {
+            "id_recurso": 75,
+            "id_categoria": 7,
+            "titulo": "INCOTERMS 2020: Guía de Uso",
+            "descripcion": "Documento PDF que detalla las reglas internacionales para la interpretación de términos comerciales en contratos de compraventa.",
+            "tipo": "pdf adjuntos",
+            "enlace": "https:\/\/gc.scalahed.com\/recursos\/files\/r161r\/w24792w\/INCOTERMS_2020.pdf"
+        },
+        {
+            "id_recurso": 76,
+            "id_categoria": 7,
+            "titulo": "Servicio al cliente desde el punto de vista logístico",
+            "descripcion": "Curso para transformar el servicio al cliente en una ventaja competitiva mediante estrategias logísticas.",
+            "tipo": "Cursos",
+            "enlace": "https:\/\/www.coursera.org\/learn\/servicio-al-cliente-desde-el-punto-de-vista-logistico"
+        },
+        {
+            "id_recurso": 77,
+            "id_categoria": 7,
+            "titulo": "La competitividad logística en Latinoamérica",
+            "descripcion": "Artículo de investigación que contrasta el desempeño logístico de países latinoamericanos con líderes mundiales.",
+            "tipo": "Articulos de investigacion",
+            "enlace": "https:\/\/www.redalyc.org\/pdf\/5718\/571863992005.pdf"
+        },
+        {
+            "id_recurso": 78,
+            "id_categoria": 7,
+            "titulo": "Tutorial: Cubicaje de Mercancías",
+            "descripcion": "Explicación práctica sobre cómo calcular y optimizar el espacio de carga en contenedores y transporte.",
+            "tipo": "Tutoriales",
+            "enlace": "https:\/\/www.youtube.com\/watch?v=Mrya2TG4tx0"
+        },
+        {
+            "id_recurso": 79,
+            "id_categoria": 7,
+            "titulo": "Transportación y canales de distribución internacionales",
+            "descripcion": "Documento técnico del IPN sobre la selección de medios de transporte y canales adecuados para la carga internacional.",
+            "tipo": "pdf adjuntos",
+            "enlace": "https:\/\/www.uteycv.escasto.ipn.mx\/repositorio\/acceso\/estructura\/archivos\/Transportaci%C3%B3n%20y%20canales%20de%20distrib%20intern.pdf"
+        },
+        {
+            "id_recurso": 80,
+            "id_categoria": 8,
+            "titulo": "Curso: Gestión de la Cadena de Suministro",
+            "descripcion": "Curso de la Universidad de Rutgers sobre logística, planificación y gestión de la cadena de suministro.",
+            "tipo": "Cursos",
+            "enlace": "https:\/\/www.coursera.org\/learn\/supply-chain-logistics"
         },
         {
             "id_recurso": 31,
-            "id_categoria": 2,
-            "titulo": "Artículo de Revisión. Teorías, Modelos y Sistemas de Gestión de Calidad",
-            "descripcion": "El objetivo del presente artículo es trasladar al lector a una breve reseña de las teorías de\r\nla calidad, su evolución hacia modelos de mejora continua, y su confluencia en sistemas de\r\ngestión de la calidad. Una vez revisados los modelos vigentes, se revisa el impacto de la\r\ncertificación de calidad, en diferentes empresas e instituciones productoras de bienes y\r\nservicios, como factor agregador de valor que permite incrementar el nivel de satisfacción\r\ndel cliente o usuario final.",
-            "tipo": "pdf adjuntos",
-            "enlace": "https:\/\/www.revistaespacios.com\/a18v39n50\/a18v39n50p14.pdf?utm_source=chatgpt.com"
+            "id_categoria": 9,
+            "titulo": "Curso de Python para Data Science (Google)",
+            "descripcion": "Curso gratuito introductorio al análisis de datos.",
+            "tipo": "Cursos",
+            "enlace": "https:\/\/www.coursera.org\/learn\/python-basics"
         },
         {
-            "id_recurso": 32,
-            "id_categoria": 4,
-            "titulo": "Proyectos de emprendimiento",
-            "descripcion": "",
-            "tipo": "pdf adjuntos",
-            "enlace": "https:\/\/dspace.ups.edu.ec\/bitstream\/123456789\/5649\/1\/Proyectos%20de%20Emprendimiento%20.pdf?utm_source=chatgpt.com"
+            "id_recurso": 36,
+            "id_categoria": 10,
+            "titulo": "Fundamentos de Administración (PDF)",
+            "descripcion": "Libro de texto básico sobre el proceso administrativo.",
+            "tipo": "Libros",
+            "enlace": "https:\/\/www.unaminternacional.unam.mx\/docencia\/asignaturas\/administracion.pdf"
         },
         {
-            "id_recurso": 33,
-            "id_categoria": 4,
-            "titulo": "Estudio Técnico…. Elemento indispensable en la evaluación de proyectos de inversión ",
-            "descripcion": "El estudio técnico describe detalladamente el producto o proceso para identificar los requerimientos necesarios y definir el tamaño óptimo de la planta según la demanda. Con estos elementos se analiza la inversión y se determina la viabilidad económica del proyecto.",
+            "id_recurso": 37,
+            "id_categoria": 10,
+            "titulo": "Curso de Excel para Negocios",
+            "descripcion": "Aprende a usar Excel para la gestión y finanzas.",
+            "tipo": "Cursos",
+            "enlace": "https:\/\/www.youtube.com\/playlist?list=PLfedL5c2f52Lz7Q_u_uEwzX9u_uEwzX9u"
+        },
+        {
+            "id_recurso": 38,
+            "id_categoria": 10,
+            "titulo": "Liderazgo y Clima Organizacional",
+            "descripcion": "Artículo sobre la importancia del liderazgo en las empresas.",
+            "tipo": "Articulos de investigacion",
+            "enlace": "https:\/\/www.redalyc.org\/pdf\/4655\/465545890002.pdf"
+        },
+        {
+            "id_recurso": 39,
+            "id_categoria": 10,
+            "titulo": "Plan de Marketing Digital",
+            "descripcion": "Guía práctica para elaborar estrategias de marketing.",
+            "tipo": "Tutoriales",
+            "enlace": "https:\/\/www.youtube.com\/watch?v=n_u_u_u_u_u"
+        },
+        {
+            "id_recurso": 40,
+            "id_categoria": 10,
+            "titulo": "Tesis: Impacto del Clima Laboral",
+            "descripcion": "Estudio sobre cómo el ambiente afecta la productividad.",
+            "tipo": "Tesis",
+            "enlace": "http:\/\/ri.uaemex.mx\/bitstream\/handle\/20.500.11799\/68322\/Tesis%20Clima%20Laboral.pdf"
+        },
+        {
+            "id_recurso": 41,
+            "id_categoria": 11,
+            "titulo": "Control Automático (Curso)",
+            "descripcion": "Fundamentos de sistemas de control para ingeniería.",
+            "tipo": "Cursos",
+            "enlace": "https:\/\/www.youtube.com\/playlist?list=PLiP_J3_g_X_X_X_X_X_X_X"
+        },
+        {
+            "id_recurso": 42,
+            "id_categoria": 11,
+            "titulo": "Diseño de Mecanismos",
+            "descripcion": "Libro sobre cinemática y dinámica de maquinaria.",
+            "tipo": "Libros",
+            "enlace": "https:\/\/www.academia.edu\/36526644\/DISENO_DE_MAQUINARIA"
+        },
+        {
+            "id_recurso": 43,
+            "id_categoria": 11,
+            "titulo": "Programación de PLC (Tutorial)",
+            "descripcion": "Introducción a la lógica de escalera y PLCs.",
+            "tipo": "Tutoriales",
+            "enlace": "https:\/\/www.youtube.com\/watch?v=PLC_Basic"
+        },
+        {
+            "id_recurso": 44,
+            "id_categoria": 11,
+            "titulo": "Sensores y Actuadores en Mecatrónica",
+            "descripcion": "Artículo técnico sobre componentes electrónicos.",
+            "tipo": "Articulos de investigacion",
+            "enlace": "https:\/\/www.redalyc.org\/pdf\/911\/91101004.pdf"
+        },
+        {
+            "id_recurso": 45,
+            "id_categoria": 11,
+            "titulo": "Tesis: Automatización de Proceso Industrial",
+            "descripcion": "Implementación de un sistema automatizado real.",
+            "tipo": "Tesis",
+            "enlace": "https:\/\/tesis.ipn.mx\/bitstream\/handle\/123456789\/automatizacion.pdf"
+        },
+        {
+            "id_recurso": 46,
+            "id_categoria": 12,
+            "titulo": "Historia de la Arquitectura (Libro)",
+            "descripcion": "Recorrido por los estilos arquitectónicos a través del tiempo.",
+            "tipo": "Libros",
+            "enlace": "https:\/\/www.academia.edu\/Historia_de_la_Arquitectura"
+        },
+        {
+            "id_recurso": 47,
+            "id_categoria": 12,
+            "titulo": "Curso de Revit Architecture",
+            "descripcion": "Aprende BIM y modelado arquitectónico profesional.",
+            "tipo": "Cursos",
+            "enlace": "https:\/\/www.youtube.com\/playlist?list=PL_Revit_Course"
+        },
+        {
+            "id_recurso": 48,
+            "id_categoria": 12,
+            "titulo": "Urbanismo Sostenible",
+            "descripcion": "Investigación sobre el desarrollo de ciudades verdes.",
+            "tipo": "Articulos de investigacion",
+            "enlace": "https:\/\/www.redalyc.org\/pdf\/urbanismo.pdf"
+        },
+        {
+            "id_recurso": 49,
+            "id_categoria": 12,
+            "titulo": "Tesis: Centro Comunitario y Deportivo",
+            "descripcion": "Proyecto arquitectónico completo con planos y renders.",
+            "tipo": "Tesis",
+            "enlace": "http:\/\/ri.uaemex.mx\/bitstream\/handle\/20.500.11799\/12345\/Tesis_Arquitectura.pdf"
+        },
+        {
+            "id_recurso": 50,
+            "id_categoria": 12,
+            "titulo": "Tutorial: Renders en Lumion",
+            "descripcion": "Cómo crear visualizaciones realistas para tus proyectos.",
+            "tipo": "Tutoriales",
+            "enlace": "https:\/\/www.youtube.com\/watch?v=Lumion_Tutorial"
+        },
+        {
+            "id_recurso": 81,
+            "id_categoria": 8,
+            "titulo": "Herramientas y Técnicas Lean Manufacturing en sistemas de producción y calidad",
+            "descripcion": "Documento que aborda los conceptos y la reseña histórica del Lean Manufacturing. Es altamente práctico ya que explica las herramientas y técnicas Lean para la mejora de procesos y la eliminación de desperdicios. Ideal para proyectos de mejora continua.",
             "tipo": "pdf adjuntos",
-            "enlace": "https:\/\/www.itson.mx\/publicaciones\/pacioli\/documents\/no56\/estudiotecnico.pdf?utm"
+            "enlace": "http:\/\/dgsa.uaeh.edu.mx:8080\/bibliotecadigital\/bitstream\/handle\/231104\/226\/Herramientas%20y%20tecnicas.pdf?sequence=1&isAllowed=y"
+        },
+        {
+            "id_recurso": 82,
+            "id_categoria": 8,
+            "titulo": "INGENIERÍA INDUSTRIAL, OTRO ENFOQUE: LOS SERVICIOS",
+            "descripcion": "Tesis de la UNAM que aborda el diseño y mejoramiento de sistemas, pero con un enfoque en el sector servicios, una aplicación clave y creciente de la Ingeniería Industrial. Útil para proyectos no enfocados en manufactura (ej. logística en servicios, procesos administrativos, etc.).",
+            "tipo": "Tesis",
+            "enlace": "https:\/\/tesiunamdocumentos.dgb.unam.mx\/pmig2017\/0168476\/0168476.pdf"
+        },
+        {
+            "id_recurso": 83,
+            "id_categoria": 8,
+            "titulo": "Lean manufacturing",
+            "descripcion": "Un libro completo sobre Lean Manufacturing, detallando su exposición adaptada a la fabricación repetitiva y los procesos discretos. Es un material teórico-práctico fundamental para entender y aplicar sistemas de producción esbelta en cualquier proyecto.",
+            "tipo": "pdf adjuntos",
+            "enlace": "https:\/\/todoproyecto.wordpress.com\/wp-content\/uploads\/2020\/09\/lean_manufacturing_francisco_madariaga_r.pdf"
         }
     ]
 }
