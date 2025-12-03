@@ -255,6 +255,18 @@
             ],
             "descripcion": "",
             "color": "#19a473"
+        },
+        {
+            "id": "edfejemplo",
+            "nombre": "Ejemplo",
+            "descripcion": "example",
+            "color": "#19a473",
+            "descripciones": [
+                {
+                    "titulo": "lorem",
+                    "contenido": "ipsum"
+                }
+            ]
         }
     ],
     "eventos": [
@@ -386,5 +398,5 @@
         "lng": -106.562487,
         "zoom": 17
     },
-    "ultimaActualizacion": "2025-12-03T08:39:28+01:00"
+    "ultimaActualizacion": "2025-12-03T05:17:16+01:00"
 }
