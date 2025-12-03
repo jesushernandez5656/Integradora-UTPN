@@ -60,9 +60,7 @@
                     "titulo": "Laboratorio de Gestión de Proyectos",
                     "contenido": "Espacio para la planificación y seguimiento de proyectos académicos y profesionales."
                 }
-            ],
-            "descripcion": "",
-            "color": "#19a473"
+            ]
         },
         {
             "id": "edificioC",
@@ -92,9 +90,7 @@
                     "titulo": "Finanzas",
                     "contenido": "Gestión financiera y presupuestal de la universidad."
                 }
-            ],
-            "descripcion": "",
-            "color": "#19a47a"
+            ]
         },
         {
             "id": "edificioD",
@@ -112,9 +108,7 @@
                     "titulo": "Sala de Maestros",
                     "contenido": "Espacio de trabajo y reuniones para el personal docente."
                 }
-            ],
-            "descripcion": "",
-            "color": "#19a473"
+            ]
         },
         {
             "id": "edificioE",
@@ -160,9 +154,7 @@
                     "titulo": "Salón Realidad Virtual",
                     "contenido": "Área de simulaciones inmersivas."
                 }
-            ],
-            "descripcion": "",
-            "color": "#19a473"
+            ]
         },
         {
             "id": "cafetería",
@@ -176,9 +168,7 @@
                     "titulo": "Área de Comedores",
                     "contenido": "Espacios para comer y socializar."
                 }
-            ],
-            "descripcion": "",
-            "color": "#19a473"
+            ]
         },
         {
             "id": "canchadefutbol",
@@ -192,9 +182,7 @@
                     "titulo": "Normativas",
                     "contenido": "Reglas y horarios de uso."
                 }
-            ],
-            "descripcion": "",
-            "color": "#19a473"
+            ]
         },
         {
             "id": "canchadebasquetbol",
@@ -204,9 +192,7 @@
                     "titulo": "Descripción",
                     "contenido": "Espacio deportivo para basquetbol."
                 }
-            ],
-            "descripcion": "",
-            "color": "#19a473"
+            ]
         },
         {
             "id": "canchadevoleibol",
@@ -216,9 +202,7 @@
                     "titulo": "Descripción",
                     "contenido": "Espacio deportivo para voleibol."
                 }
-            ],
-            "descripcion": "",
-            "color": "#19a473"
+            ]
         },
         {
             "id": "canchadevoleibolplayero",
@@ -228,9 +212,7 @@
                     "titulo": "Descripción",
                     "contenido": "Espacio deportivo para voleibol playero."
                 }
-            ],
-            "descripcion": "",
-            "color": "#19a473"
+            ]
         },
         {
             "id": "quiosco",
@@ -240,9 +222,7 @@
                     "titulo": "Descripción",
                     "contenido": "Espacio al aire libre para actividades o descanso."
                 }
-            ],
-            "descripcion": "",
-            "color": "#19a473"
+            ]
         },
         {
             "id": "puntodereunion",
@@ -252,16 +232,14 @@
                     "titulo": "Descripción",
                     "contenido": "Espacio destinado a reuniones en situaciones de emergencia."
                 }
-            ],
-            "descripcion": "",
-            "color": "#19a473"
+            ]
         }
     ],
     "eventos": [
         {
-            "id": 4,
-            "title": "Práctica de Laboratorio",
-            "start": "2025-09-18",
+            "title": "Hola",
+            "start": "2025-11-27T12:01",
+            "end": "2025-11-27T15:01",
             "backgroundColor": "#19a473",
             "borderColor": "#19a473",
             "description": "",
@@ -401,6 +379,7 @@
             "edificioId": "puntodereunion"
         }
     ],
+    "marcadores": [],
     "mapaConfig": {
         "lat": 31.7666,
         "lng": -106.562487,
