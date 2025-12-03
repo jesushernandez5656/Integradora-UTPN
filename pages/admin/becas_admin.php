@@ -249,7 +249,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['guardar'])) {
                     
                     $data[$pagina_activa]['seccion_becas']['becas'] = [];
                     if (isset($_POST['beca_nombre'])) {
-                        foreach ($_POST['beca_nombre'] as $index => $nombre) {
+                        // Primero, obtener todos los índices de becas
+                        $beca_indices = array_keys($_POST['beca_nombre']);
+                        
+                        foreach ($beca_indices as $index) {
+                            $nombre = $_POST['beca_nombre'][$index] ?? '';
                             if (!empty($nombre)) {
                                 $requisitos = isset($_POST['beca_requisitos'][$index]) ? 
                                     array_filter(array_map('trim', explode(',', $_POST['beca_requisitos'][$index]))) : [];
@@ -259,19 +263,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['guardar'])) {
                                     $enlace_requisitos = '../../assets/PDF/' . $enlace_requisitos;
                                 }
                                 
+                                // Determinar si la beca está bloqueada
+                                $bloqueada = false;
+                                if (isset($_POST['beca_bloqueada'])) {
+                                    // Buscar si este índice está en el array de checkboxes
+                                    // Los checkboxes solo envían valores cuando están marcados
+                                    foreach ($_POST['beca_bloqueada'] as $checkbox_index => $value) {
+                                        if ($checkbox_index == $index) {
+                                            $bloqueada = true;
+                                            break;
+                                        }
+                                    }
+                                }
+                                
                                 $beca_data = [
                                     'id' => $_POST['beca_id'][$index] ?? time() + $index,
                                     'nombre' => $nombre,
                                     'monto' => $_POST['beca_monto'][$index] ?? '',
                                     'resumen' => $_POST['beca_resumen'][$index] ?? '',
                                     'requisitos' => $requisitos,
-                                    'bloqueada' => isset($_POST['beca_bloqueada'][$index]) ? true : false
+                                    'bloqueada' => $bloqueada,
+                                    'enlace_postular' => $_POST['beca_enlace_postular'][$index] ?? '',
+                                    'enlace_descarga_requisitos' => $enlace_requisitos
                                 ];
-                                
-                                if (!$beca_data['bloqueada']) {
-                                    $beca_data['enlace_postular'] = $_POST['beca_enlace_postular'][$index] ?? '';
-                                    $beca_data['enlace_descarga_requisitos'] = $enlace_requisitos;
-                                }
                                 
                                 $data[$pagina_activa]['seccion_becas']['becas'][] = $beca_data;
                             }
@@ -1027,31 +1041,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['guardar'])) {
                                             </label>
                                         </div>
                                         
-                                        <?php if (!$beca['bloqueada']): ?>
-                                            <div class="enlaces-beca">
-                                                <div class="form-group">
-                                                    <label>Enlace para Postular</label>
-                                                    <input type="url" name="beca_enlace_postular[]" class="form-control" 
-                                                           value="<?php echo htmlspecialchars($beca['enlace_postular'] ?? ''); ?>">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Enlace de Requisitos (PDF)</label>
-                                                    <select name="beca_enlace_requisitos[]" class="form-control">
-                                                        <option value="">Seleccionar PDF...</option>
-                                                        <?php foreach ($pdf_files as $pdf): ?>
-                                                            <?php 
-                                                            $current_pdf = basename($beca['enlace_descarga_requisitos'] ?? '');
-                                                            $selected = ($current_pdf === $pdf) ? 'selected' : '';
-                                                            ?>
-                                                            <option value="<?php echo $pdf; ?>" <?php echo $selected; ?>>
-                                                                <?php echo $pdf; ?>
-                                                            </option>
-                                                        <?php endforeach; ?>
-                                                    </select>
-                                                    <small class="text-muted">PDFs disponibles en assets/PDF/</small>
-                                                </div>
+                                        <div class="enlaces-beca">
+                                            <div class="form-group">
+                                                <label>Enlace para Postular</label>
+                                                <input type="url" name="beca_enlace_postular[]" class="form-control" 
+                                                       value="<?php echo htmlspecialchars($beca['enlace_postular'] ?? ''); ?>">
                                             </div>
-                                        <?php endif; ?>
+                                            <div class="form-group">
+                                                <label>Enlace de Requisitos (PDF)</label>
+                                                <select name="beca_enlace_requisitos[]" class="form-control">
+                                                    <option value="">Seleccionar PDF...</option>
+                                                    <?php foreach ($pdf_files as $pdf): ?>
+                                                        <?php 
+                                                        $current_pdf = basename($beca['enlace_descarga_requisitos'] ?? '');
+                                                        $selected = ($current_pdf === $pdf) ? 'selected' : '';
+                                                        ?>
+                                                        <option value="<?php echo $pdf; ?>" <?php echo $selected; ?>>
+                                                            <?php echo $pdf; ?>
+                                                        </option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                                <small class="text-muted">PDFs disponibles en assets/PDF/</small>
+                                            </div>
+                                        </div>
                                     <?php else: ?>
                                         <div class="enlaces-beca">
                                             <div class="form-group">

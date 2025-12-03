@@ -34,25 +34,27 @@
                     "id": "1",
                     "nombre": "Beca Inscripción",
                     "monto": "$3000",
-                    "resumen": "Para carreras de TI y ciencia de datos.",
+                    "resumen": "Beca que cubre el costo inicial de matrícula para ingresar a la institución educativa.\r\n\r\n",
                     "requisitos": [
-                        "Promedio ≥ 8.5",
-                        "Proyecto o portafolio",
-                        "Entrevista técnica"
+                        "Promedio ≥ 8.5"
                     ],
-                    "bloqueada": true
+                    "bloqueada": true,
+                    "enlace_postular": "https:www.juarez.gob.mx\/becas-de-acceso-a-la-universidad",
+                    "enlace_descarga_requisitos": "..\/..\/assets\/PDF\/RequisitosBeca.pdf"
                 },
                 {
                     "id": "2",
                     "nombre": "Beca Material y Equipo Técnico",
                     "monto": "$3000",
-                    "resumen": "Apoyo para herramientas de estudio.",
+                    "resumen": "Ayuda económica para adquirir herramientas, instrumentos o insumos específicos que requiere una carrera técnica o profesional.",
                     "requisitos": [
-                        "Idiomas B2+",
-                        "Ensayo motivacional",
-                        "Servicio social"
+                        "Haber cursado cuando menos el primer año del programa académico",
+                        "Promedio mínimo general de 8.5",
+                        "Ser estudiante regular del nivel licenciatura o técnico superior"
                     ],
-                    "bloqueada": true
+                    "bloqueada": true,
+                    "enlace_postular": "",
+                    "enlace_descarga_requisitos": ""
                 },
                 {
                     "id": "3",
@@ -60,11 +62,13 @@
                     "monto": "$3000",
                     "resumen": "Apoyo para procesos de titulación.",
                     "requisitos": [
-                        "Protocolo avalado",
-                        "Director de tesis",
-                        "Informe parcial"
+                        "Haber egresado en un lapso no mayor a un año a la fecha de la solicitud del nivel TSU y licenciatura",
+                        "Estar inscritos en algún proceso de titulación.",
+                        "Promedio mínimo general 8.5"
                     ],
-                    "bloqueada": true
+                    "bloqueada": true,
+                    "enlace_postular": "",
+                    "enlace_descarga_requisitos": ""
                 },
                 {
                     "id": "4",
@@ -72,11 +76,12 @@
                     "monto": "Estímulo $5800",
                     "resumen": "Beca nacional para universitarios.",
                     "requisitos": [
-                        "Protocolo avalado",
-                        "Director de tesis",
-                        "Informe parcial"
+                        "Ser estudiante de modalidad escolarizada en alguna escuela clasificada como prioritaria o susceptible",
+                        "Edad menor de 29 años"
                     ],
-                    "bloqueada": true
+                    "bloqueada": true,
+                    "enlace_postular": "",
+                    "enlace_descarga_requisitos": ""
                 },
                 {
                     "id": "5",
@@ -89,8 +94,8 @@
                         "CURP y comprobante de domicilio"
                     ],
                     "bloqueada": false,
-                    "enlace_postular": "",
-                    "enlace_descarga_requisitos": ""
+                    "enlace_postular": "https:\/\/www.juarez.gob.mx\/becas-de-acceso-a-la-universidad",
+                    "enlace_descarga_requisitos": "..\/..\/assets\/PDF\/RequisitosBeca.pdf"
                 }
             ]
         },
