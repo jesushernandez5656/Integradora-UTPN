@@ -267,6 +267,18 @@
                     "contenido": "ipsum"
                 }
             ]
+        },
+        {
+            "id": "re",
+            "nombre": "ae",
+            "descripcion": "e",
+            "color": "#19a473",
+            "descripciones": [
+                {
+                    "titulo": "eee",
+                    "contenido": "np"
+                }
+            ]
         }
     ],
     "eventos": [
@@ -305,6 +317,46 @@
             "borderColor": "#19a473",
             "description": "",
             "tipo": "academico"
+        },
+        {
+            "id": 8,
+            "title": "s",
+            "start": "2025-12-05",
+            "end": null,
+            "backgroundColor": "#19a473",
+            "borderColor": "#19a473",
+            "description": "ea",
+            "tipo": "academico"
+        },
+        {
+            "id": 9,
+            "title": "s",
+            "start": "2025-12-05",
+            "end": null,
+            "backgroundColor": "#19a473",
+            "borderColor": "#19a473",
+            "description": "ea",
+            "tipo": "academico"
+        },
+        {
+            "id": 10,
+            "title": "hola",
+            "start": "2025-12-04",
+            "end": null,
+            "backgroundColor": "#19a473",
+            "borderColor": "#19a473",
+            "description": "evento",
+            "tipo": "cultural"
+        },
+        {
+            "id": 11,
+            "title": "hola",
+            "start": "2025-12-04",
+            "end": null,
+            "backgroundColor": "#19a473",
+            "borderColor": "#19a473",
+            "description": "evento",
+            "tipo": "cultural"
         }
     ],
     "marcadores": [
@@ -398,5 +450,5 @@
         "lng": -106.562487,
         "zoom": 17
     },
-    "ultimaActualizacion": "2025-12-03T05:17:16+01:00"
+    "ultimaActualizacion": "2025-12-03T05:31:16+01:00"
 }
