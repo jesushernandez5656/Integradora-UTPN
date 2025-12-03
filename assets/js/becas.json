@@ -1,9 +1,9 @@
 {
     "pagina_becas_universitarias": {
-        "titulo_pagina": "Becas Universitarias | Impulsa tu camino",
+        "titulo_pagina": "Becas Universitarias Sin usuario",
         "hero": {
             "chip_texto": "Convocatorias limitadas",
-            "titulo_principal": "Consigue tu <span class=\"grad\">beca<\/span><br> de <span class=\"grad alt\">Acceso a la Universidad<\/span>",
+            "titulo_principal": "Consigue tu <span class=\"grad\">beca<\/span>\r<br> de <span class=\"grad alt\">Acceso a la Universidad<\/span>",
             "descripcion": "Solo disponible para estudiantes sin registro.",
             "insignias": [
                 {
@@ -22,7 +22,7 @@
                     "🇲🇽 México",
                     "Nuevo ingreso"
                 ],
-                "enlace_texto": "Solicitar",
+                "enlace_texto": "Solicitar ",
                 "enlace_url": "https:\/\/www.juarez.gob.mx\/becas-de-acceso-a-la-universidad"
             }
         },
@@ -89,8 +89,8 @@
                         "CURP y comprobante de domicilio"
                     ],
                     "bloqueada": false,
-                    "enlace_postular": "https:\/\/www.juarez.gob.mx\/becas-de-acceso-a-la-universidad",
-                    "enlace_descarga_requisitos": "..\/..\/assets\/PDF\/RequisitosBeca.pdf"
+                    "enlace_postular": "",
+                    "enlace_descarga_requisitos": ""
                 }
             ]
         },
@@ -122,11 +122,11 @@
                 "5️⃣ ¿Ofrecen asesorías personalizadas?"
             ],
             "respuestas_pregrabadas": {
-                "1": "📚 <strong>Becas disponibles:<\/strong><br><br>• <strong>Beca Inscripción<\/strong> ($3,000)<br>• <strong>Beca Material y Equipo Técnico<\/strong> ($3,000)<br>• <strong>Beca Titulación<\/strong> ($3,000)<br>• <strong>Jóvenes Escribiendo el Futuro<\/strong> ($5,800\/mes)<br>• <strong>Beca Acceso a la Universidad<\/strong> (1er cuatrimestre)<br><br>💡 Escribe \"requisitos\" o el número de otra opción.",
-                "2": "📋 <strong>Requisitos generales:<\/strong><br><br><strong>Documentación:<\/strong> Acta de nacimiento, CURP, Comprobante de domicilio, Identificación, Comprobante de ingresos.<br><br><strong>Académicos:<\/strong> Promedio mínimo 8.0-8.5, Constancia de estudios, Historial académico.<br><br>⚠️ Recuerda que cada beca tiene requisitos adicionales que puedes descargar en la sección de \"Becas destacadas\".",
-                "3": "✍️ <strong>Proceso de solicitud (Resumen):<\/strong><br><br>1. Revisa requisitos específicos.<br>2. Prepara tu documentación.<br>3. Haz clic en \"Postular\" en la beca deseada.<br>4. Completa y envía el formulario en el portal oficial.<br>5. Espera la confirmación y resultados.<br><br>⏱️ Te recomendamos aplicar con tiempo. ¿Te gustaría agendar una asesoría? Escribe \"4\".",
-                "4": "👨‍🏫 <strong>¡Sí! Ofrecemos asesorías personalizadas:<\/strong><br><br><strong>Incluyen:<\/strong> Revisión de documentos, corrección de cartas motivacionales, y seguimiento de solicitudes.<br><br>📞 Agenda tu cita en la sección de Asesorías de la página o contacta a orientacion@utpn.edu.mx",
-                "default": "🤖 No estoy seguro de entender tu pregunta. Puedo ayudarte con:<br><br>1️⃣ Becas disponibles<br>2️⃣ Requisitos<br>3️⃣ Proceso de solicitud<br>4️⃣ Asesorías<br><br>Por favor, reformula tu pregunta. 😊"
+                "1": "Becas disponibles:\r\nBeca Inscripción ($3,000), Beca Material y Equipo Técnico ($3,000), Beca Titulación ($3,000),Jóvenes Escribiendo el Futuro ($5,800\/mes), Beca Acceso a la Universidad (1er cuatrimestre)\r\n💡 Escribe \"requisitos\" o el número de otra opción.",
+                "2": "Requisitos generales:\r\nDocumentación: Acta de nacimiento, CURP, Comprobante de domicilio, Identificación, Comprobante de ingresos.\r\nAcadémicos: Promedio mínimo 8.0-8.5, Constancia de estudios, Historial académico.\r\n⚠️ Recuerda que cada beca tiene requisitos adicionales que puedes descargar en la sección de \"Becas destacadas\".",
+                "3": "Proceso de solicitud (Resumen):\r\n1. Revisa requisitos específicos.\r\n2. Prepara tu documentación.\r\n3. Haz clic en \"Postular\" en la beca deseada.\r\n4. Completa y envía el formulario en el portal oficial.\r\n5. Espera la confirmación y resultados.\r\n⏱️ Te recomendamos aplicar con tiempo. ¿Te gustaría agendar una asesoría? Escribe \"4\".",
+                "4": "¡Sí! Ofrecemos asesorías personalizadas:\r\nIncluyen: Revisión de documentos, corrección de cartas motivacionales, y seguimiento de solicitudes.\r\n📞 Agenda tu cita en la sección de Asesorías de la página o contacta a orientacion@utpn.edu.mx",
+                "default": "🤖 No estoy seguro de entender tu pregunta. Puedo ayudarte con: 1️⃣ Becas disponibles 2️⃣ Requisitos 3️⃣ Proceso de solicitud4️⃣ Asesorías Por favor, reformula tu pregunta. 😊"
             }
         }
     },
@@ -256,15 +256,14 @@
             "opciones_iniciales": [
                 "1️⃣ ¿Qué becas están disponibles?",
                 "2️⃣ ¿Cuáles son los requisitos generales?",
-                "3️⃣ ¿Cómo es el proceso de solicitud?",
-                "4️⃣ ¿Hay asesorías personalizadas?"
+                "3️⃣ ¿Cómo es el proceso de solicitud?"
             ],
             "respuestas_pregrabadas": {
                 "1": "📚 <strong>Becas disponibles:<\/strong><br><br>• <strong>Beca Inscripción<\/strong> ($3,000)<br>• <strong>Beca Material y Equipo Técnico<\/strong> ($3,000)<br>• <strong>Beca Titulación<\/strong> ($3,000)<br>• <strong>Jóvenes Escribiendo el Futuro<\/strong> ($5,800\/mes)<br>• <strong>Beca Acceso a la Universidad<\/strong> (1er cuatrimestre)<br><br>💡 Escribe \"requisitos\" o el número de otra opción.",
                 "2": "📋 <strong>Requisitos generales:<\/strong><br><br><strong>Documentación:<\/strong> Acta de nacimiento, CURP, Comprobante de domicilio, Identificación, Comprobante de ingresos.<br><br><strong>Académicos:<\/strong> Promedio mínimo 8.0-8.5, Constancia de estudios, Historial académico.<br><br>⚠️ Recuerda que cada beca tiene requisitos adicionales que puedes descargar en la sección de \"Becas destacadas\".",
                 "3": "✍️ <strong>Proceso de solicitud (Resumen):<\/strong><br><br>1. Revisa requisitos específicos.<br>2. Prepara tu documentación.<br>3. Haz clic en \"Postular\" en la beca deseada.<br>4. Completa y envía el formulario en el portal oficial.<br>5. Espera la confirmación y resultados.<br><br>⏱️ Te recomendamos aplicar con tiempo. ¿Te gustaría agendar una asesoría? Escribe \"4\".",
-                "4": "👨‍🏫 <strong>¡Sí! Ofrecemos asesorías personalizadas:<\/strong><br><br><strong>Incluyen:<\/strong> Revisión de documentos, corrección de cartas motivacionales, y seguimiento de solicitudes.<br><br>📞 Agenda tu cita en la sección de Asesorías de la página o contacta a orientacion@utpn.edu.mx",
-                "default": "🤖 No estoy seguro de entender tu pregunta. Puedo ayudarte con:<br><br>1️⃣ Becas disponibles<br>2️⃣ Requisitos<br>3️⃣ Proceso de solicitud<br>4️⃣ Asesorías<br><br>Por favor, reformula tu pregunta. 😊"
+                "Hola": "🤖 No estoy seguro de entender tu pregunta. Puedo ayudarte con:<br><br>1️⃣ Becas disponibles<br>2️⃣ Requisitos<br>3️⃣ Proceso de solicitud<br>4️⃣ Asesorías<br><br>Por favor, reformula tu pregunta. 😊",
+                "default": "🤖 No entendí tu pregunta. Por favor, reformula tu pregunta. 😊"
             }
         }
     }
