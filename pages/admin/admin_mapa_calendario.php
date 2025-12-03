@@ -1,5 +1,4 @@
 <?php
-
 // ===================== CONFIGURACIÓN PHP =====================
 $json_file = __DIR__ . '/../../assets/js/mapa.json';
 $data = [];
