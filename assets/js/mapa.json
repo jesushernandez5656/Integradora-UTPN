@@ -255,30 +255,6 @@
             ],
             "descripcion": "",
             "color": "#19a473"
-        },
-        {
-            "id": "edfejemplo",
-            "nombre": "Ejemplo",
-            "descripcion": "example",
-            "color": "#19a473",
-            "descripciones": [
-                {
-                    "titulo": "lorem",
-                    "contenido": "ipsum"
-                }
-            ]
-        },
-        {
-            "id": "re",
-            "nombre": "ae",
-            "descripcion": "e",
-            "color": "#19a473",
-            "descripciones": [
-                {
-                    "titulo": "eee",
-                    "contenido": "np"
-                }
-            ]
         }
     ],
     "eventos": [
@@ -320,43 +296,13 @@
         },
         {
             "id": 8,
-            "title": "s",
-            "start": "2025-12-05",
+            "title": "se",
+            "start": "2025-12-25",
             "end": null,
-            "backgroundColor": "#19a473",
-            "borderColor": "#19a473",
-            "description": "ea",
-            "tipo": "academico"
-        },
-        {
-            "id": 9,
-            "title": "s",
-            "start": "2025-12-05",
-            "end": null,
-            "backgroundColor": "#19a473",
-            "borderColor": "#19a473",
-            "description": "ea",
-            "tipo": "academico"
-        },
-        {
-            "id": 10,
-            "title": "hola",
-            "start": "2025-12-04",
-            "end": null,
-            "backgroundColor": "#19a473",
-            "borderColor": "#19a473",
-            "description": "evento",
-            "tipo": "cultural"
-        },
-        {
-            "id": 11,
-            "title": "hola",
-            "start": "2025-12-04",
-            "end": null,
-            "backgroundColor": "#19a473",
-            "borderColor": "#19a473",
-            "description": "evento",
-            "tipo": "cultural"
+            "backgroundColor": "#000a07",
+            "borderColor": "#000a07",
+            "description": "test",
+            "tipo": "deportivo"
         }
     ],
     "marcadores": [
@@ -450,5 +396,5 @@
         "lng": -106.562487,
         "zoom": 17
     },
-    "ultimaActualizacion": "2025-12-03T05:31:16+01:00"
+    "ultimaActualizacion": "2025-12-03T05:55:41+01:00"
 }
