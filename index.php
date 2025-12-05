@@ -6,14 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UTPN</title>
 
-    <!-- 🔥 PWA -->
-    <link rel="manifest" href="/integradora-UTPN/manifest.json">
+    <!-- MANIFEST -->
+    <link rel="manifest" href="http://172.16.144.246/integradora-UTPN/manifest.json">
     <meta name="theme-color" content="#ffffff">
 
-    <!-- iOS modo APP (sin barra) -->
+    <!-- MODO APP PARA ANDROID E IOS -->
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <link rel="apple-touch-icon" href="/integradora-UTPN/assets/img/Logo.png">
+    <link rel="apple-touch-icon" href="http://172.16.144.246/integradora-UTPN/assets/img/Logo.png">
 
 <style>
 * {
@@ -130,12 +131,12 @@ body {
 </style>
 
 </head>
+
 <body>
 
 <main>
     <div class="logos-container">
 
-        <!-- Becas -->
         <a href="pages/public/becas.php">
             <div class="logo">
                 <svg fill="currentColor" viewBox="0 0 24 24">
@@ -145,7 +146,6 @@ body {
             </div>
         </a>
 
-        <!-- Mapa -->
         <a href="pages/public/mapa_calendario.php">
             <div class="logo">
                 <svg fill="currentColor" viewBox="0 0 24 24">
@@ -155,7 +155,6 @@ body {
             </div>
         </a>
 
-        <!-- ChatBot -->
         <a href="pages/public/ChatBot.php">
             <div class="logo">
                 <svg fill="currentColor" viewBox="0 0 24 24">
@@ -168,14 +167,13 @@ body {
     </div>
 </main>
 
-<!-- 🔥 BOTÓN PARA INSTALAR LA APP -->
 <button id="btnInstalar" onclick="instalarApp()">Instalar App</button>
 
-<!-- 🔥 REGISTRO DEL SERVICE WORKER -->
 <script>
+/* REGISTRO DEL SW — RUTA FIJA CON IP */
 if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("/integradora-UTPN/sw.js")
-        .then(() => console.log("Service Worker registrado"))
+    navigator.serviceWorker.register("http://172.16.144.246/integradora-UTPN/sw.js")
+        .then(() => console.log("SW registrado"))
         .catch(err => console.log("Error SW:", err));
 }
 
@@ -184,8 +182,6 @@ let deferredPrompt;
 window.addEventListener("beforeinstallprompt", (e) => {
     e.preventDefault();
     deferredPrompt = e;
-
-    // Muestra botón flotante
     document.getElementById("btnInstalar").style.display = "block";
 });
 
