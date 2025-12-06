@@ -1,4 +1,4 @@
-<?php
+ <?php
 // ===================== CONFIGURACIÓN PHP =====================
 $json_file = __DIR__ . '/../../assets/js/mapa.json';
 $data = [];
@@ -120,23 +120,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             }
             break;
             
-        case 'guardar_config_mapa':
-            $mapaConfig = [
-                'lat' => floatval(getSafe($_POST, 'map-lat', 31.766600)),
-                'lng' => floatval(getSafe($_POST, 'map-lng', -106.562487)),
-                'zoom' => intval(getSafe($_POST, 'map-zoom', 17))
-            ];
-            
-            $data['mapaConfig'] = $mapaConfig;
-            $data['ultimaActualizacion'] = date('c');
-            if (guardarDatosEnJSON($json_file, $data)) {
-                $ultimaSincronizacion = date('d/m/Y H:i:s');
-                echo '<div class="alert alert-success alert-position">Configuración del mapa guardada</div>';
-            } else {
-                echo '<div class="alert alert-danger alert-position">Error al guardar la configuración</div>';
-            }
-            break;
-
         case 'guardar_evento':
             $id = getSafe($_POST, 'evento-id');
             $titulo = trim(getSafe($_POST, 'titulo-evento'));
@@ -151,28 +134,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 break;
             }
             
+            // Formatear fechas para FullCalendar (formato YYYY-MM-DD)
+            $start = date('Y-m-d', strtotime($inicio));
+            $end = $fin ? date('Y-m-d', strtotime($fin)) : null;
+            
+            // Si es un evento de un solo día, no usar end date
+            if ($end && $start === $end) {
+                $end = null;
+            }
+            
+            // Crear evento con estructura CORRECTA para FullCalendar
             $eventoData = [
+                'id' => $id ? intval($id) : null,
                 'title' => $titulo,
-                'start' => $inicio,
-                'end' => $fin ?: $inicio,
+                'start' => $start,
                 'backgroundColor' => $color,
                 'borderColor' => $color,
-                'description' => $descripcion,
-                'tipo' => $tipo
+                'extendedProps' => [
+                    'description' => $descripcion,
+                    'tipo' => $tipo
+                ]
             ];
+            
+            // Solo agregar 'end' si existe
+            if ($end) {
+                $eventoData['end'] = $end;
+            }
             
             if (!empty($id)) {
                 // Actualizar evento existente
                 $eventoEncontrado = false;
                 foreach ($eventos as &$evento) {
-                    if (getSafe($evento, 'id') == $id) {
-                        $evento = array_merge($evento, $eventoData);
+                    if (isset($evento['id']) && $evento['id'] == $id) {
+                        $evento = $eventoData;
                         $eventoEncontrado = true;
                         break;
                     }
                 }
                 if (!$eventoEncontrado) {
-                    $eventoData['id'] = $id;
+                    // Si no se encuentra, crear nuevo con el ID proporcionado
+                    if (!$eventoData['id']) {
+                        $eventoData['id'] = count($eventos) > 0 ? max(array_column($eventos, 'id')) + 1 : 1;
+                    }
                     $eventos[] = $eventoData;
                 }
             } else {
@@ -248,24 +251,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action'])) {
             }
             break;
             
-        case 'eliminar_marcador':
-            $id = getSafe($_GET, 'id');
-            $marcadores = array_filter($marcadores, function($marcador) use ($id) {
-                return getSafe($marcador, 'id') != $id;
-            });
-            
-            $marcadores = array_values($marcadores);
-            
-            $data['marcadores'] = $marcadores;
-            $data['ultimaActualizacion'] = date('c');
-            if (guardarDatosEnJSON($json_file, $data)) {
-                $ultimaSincronizacion = date('d/m/Y H:i:s');
-                echo '<div class="alert alert-warning alert-position">Marcador eliminado correctamente</div>';
-            } else {
-                echo '<div class="alert alert-danger alert-position">Error al eliminar el marcador</div>';
-            }
-            break;
-
         case 'eliminar_evento':
             $id = getSafe($_GET, 'id');
             $eventos = array_filter($eventos, function($evento) use ($id) {
@@ -344,6 +329,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action'])) {
         padding: 20px;
         box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         margin-top: 20px;
+        min-height: 600px;
       }
 
       .formulario-edificio {
@@ -447,6 +433,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action'])) {
       .fc-event {
         cursor: pointer;
       }
+      
+      .evento-item {
+        background: #fff;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 10px;
+        border-left: 4px solid #19a473;
+      }
+      
+      .evento-color {
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        display: inline-block;
+        margin-right: 8px;
+      }
+      
+      .fc .fc-toolbar-title {
+        font-size: 1.3em;
+      }
+      
+      .fc .fc-button {
+        font-size: 0.9em;
+        padding: 5px 10px;
+      }
     </style>
 </head>
 <body>
@@ -463,11 +475,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action'])) {
     <li class="nav-item" role="presentation">
       <button class="nav-link" id="calendario-tab" data-bs-toggle="tab" data-bs-target="#calendario" type="button" role="tab">
         <i class="fas fa-calendar me-2"></i>Calendario
-      </button>
-    </li>
-    <li class="nav-item" role="presentation">
-      <button class="nav-link" id="mapa-tab" data-bs-toggle="tab" data-bs-target="#mapa" type="button" role="tab">
-        <i class="fas fa-map me-2"></i>Mapa
       </button>
     </li>
     <li class="nav-item" role="presentation">
@@ -593,58 +600,56 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action'])) {
         <h2><i class="fas fa-calendar me-2"></i>Gestión de Calendario</h2>
         
         <div class="row mb-4">
-          <div class="col-12">
-            <button class="btn btn-admin" data-bs-toggle="modal" data-bs-target="#modalEvento">
+          <div class="col-md-8">
+            <button class="btn btn-admin" data-bs-toggle="modal" data-bs-target="#modalEvento" onclick="nuevoEvento()">
               <i class="fas fa-plus me-1"></i>Agregar Nuevo Evento
             </button>
             <a href="?action=guardar_todo" class="btn btn-outline-success">
               <i class="fas fa-save me-1"></i>Guardar en JSON
             </a>
+            <a href="?action=cargar_todo" class="btn btn-outline-primary">
+              <i class="fas fa-sync me-1"></i>Recargar desde JSON
+            </a>
           </div>
         </div>
 
-        <div id="calendar"></div>
-      </div>
-    </div>
-
-    <!-- Pestaña Mapa -->
-    <div class="tab-pane fade" id="mapa" role="tabpanel">
-      <div class="seccion-admin">
-        <h2><i class="fas fa-map me-2"></i>Configuración del Mapa</h2>
-        
         <div class="row">
-          <div class="col-md-6">
-            <h4>Marcadores del Mapa</h4>
-            <div class="d-flex justify-content-between mb-3">
-              <a href="?action=cargar_todo" class="btn btn-sm btn-outline-primary">
-                <i class="fas fa-sync me-1"></i>Recargar desde JSON
-              </a>
-              <a href="?action=guardar_todo" class="btn btn-sm btn-outline-success">
-                <i class="fas fa-save me-1"></i>Guardar en JSON
-              </a>
-            </div>
-            <div class="lista-edificios" id="lista-marcadores">
-              <?php if (empty($marcadores)): ?>
+          <div class="col-md-4">
+            <h4>Lista de Eventos</h4>
+            <div class="lista-edificios" id="lista-eventos">
+              <?php if (empty($eventos)): ?>
                 <div class="text-center text-muted p-4">
-                  <i class="fas fa-map-marker-alt fa-3x mb-3"></i>
-                  <p>No hay marcadores registrados</p>
+                  <i class="fas fa-calendar-day fa-3x mb-3"></i>
+                  <p>No hay eventos registrados</p>
                 </div>
               <?php else: ?>
-                <?php foreach ($marcadores as $marcador): ?>
-                <div class="edificio-item">
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                      <h6><?= htmlspecialchars($marcador['nombre'] ?? '') ?></h6>
-                      <small class="text-muted">Lat: <?= htmlspecialchars($marcador['lat'] ?? '') ?>, Lng: <?= htmlspecialchars($marcador['lng'] ?? '') ?></small>
-                      <?php if (isset($marcador['edificioId'])): ?>
-                        <br><small>ID Edificio: <?= htmlspecialchars($marcador['edificioId']) ?></small>
+                <?php foreach ($eventos as $evento): ?>
+                <div class="evento-item">
+                  <div class="d-flex justify-content-between align-items-start">
+                    <div class="flex-grow-1">
+                      <h6>
+                        <span class="evento-color" style="background-color: <?= htmlspecialchars($evento['backgroundColor'] ?? '#19a473') ?>"></span>
+                        <?= htmlspecialchars($evento['title'] ?? 'Sin título') ?>
+                      </h6>
+                      <p class="text-muted mb-1 small">
+                        <i class="fas fa-clock me-1"></i>
+                        <?= date('d/m/Y', strtotime($evento['start'])) ?>
+                        <?php if (!empty($evento['end'])): ?>
+                          - <?= date('d/m/Y', strtotime($evento['end'])) ?>
+                        <?php endif; ?>
+                      </p>
+                      <?php if (!empty($evento['extendedProps']['description'])): ?>
+                        <p class="mb-1 small"><?= htmlspecialchars($evento['extendedProps']['description']) ?></p>
+                      <?php elseif (!empty($evento['description'])): ?>
+                        <p class="mb-1 small"><?= htmlspecialchars($evento['description']) ?></p>
                       <?php endif; ?>
+                      <span class="badge bg-secondary"><?= htmlspecialchars($evento['extendedProps']['tipo'] ?? $evento['tipo'] ?? 'academico') ?></span>
                     </div>
-                    <div class="btn-group">
-                      <button class="btn btn-sm btn-outline-primary" onclick="editarMarcador(<?= htmlspecialchars($marcador['id'] ?? '0') ?>)">
+                    <div class="btn-group ms-2">
+                      <button class="btn btn-sm btn-outline-primary" onclick="editarEventoDesdeLista(<?= htmlspecialchars($evento['id'] ?? '0') ?>)" title="Editar">
                         <i class="fas fa-edit"></i>
                       </button>
-                      <a href="?action=eliminar_marcador&id=<?= htmlspecialchars($marcador['id'] ?? '') ?>" class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Eliminar este marcador?')">
+                      <a href="?action=eliminar_evento&id=<?= htmlspecialchars($evento['id'] ?? '') ?>" class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar este evento?')" title="Eliminar">
                         <i class="fas fa-trash"></i>
                       </a>
                     </div>
@@ -654,35 +659,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action'])) {
               <?php endif; ?>
             </div>
           </div>
-          <div class="col-md-6">
-            <h4>Configuración General</h4>
-            <div class="formulario-edificio">
-              <form action="" method="POST">
-                <input type="hidden" name="action" value="guardar_config_mapa">
-                <div class="mb-3">
-                  <label class="form-label">Coordenadas del Centro del Mapa</label>
-                  <div class="input-group">
-                    <span class="input-group-text">Latitud</span>
-                    <input type="number" class="form-control" id="map-lat" name="map-lat" step="0.000001" value="<?= htmlspecialchars($mapaConfig['lat'] ?? '31.766600') ?>">
-                    <span class="input-group-text">Longitud</span>
-                    <input type="number" class="form-control" id="map-lng" name="map-lng" step="0.000001" value="<?= htmlspecialchars($mapaConfig['lng'] ?? '-106.562487') ?>">
-                  </div>
-                </div>
-                <div class="mb-3">
-                  <label class="form-label">Nivel de Zoom</label>
-                  <input type="range" class="form-range" id="map-zoom" name="map-zoom" min="15" max="20" value="<?= htmlspecialchars($mapaConfig['zoom'] ?? '17') ?>">
-                  <div class="form-text">Zoom actual: <span id="zoom-value"><?= htmlspecialchars($mapaConfig['zoom'] ?? '17') ?></span></div>
-                </div>
-                <div class="d-flex gap-2">
-                  <button type="submit" class="btn btn-admin">
-                    <i class="fas fa-save me-1"></i>Guardar Configuración
-                  </button>
-                  <a href="?action=cargar_todo" class="btn btn-outline-primary">
-                    <i class="fas fa-sync me-1"></i>Recargar
-                  </a>
-                </div>
-              </form>
-            </div>
+          <div class="col-md-8">
+            <div id="calendar"></div>
           </div>
         </div>
       </div>
@@ -769,13 +747,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action'])) {
             <div class="col-md-6">
               <div class="mb-3">
                 <label class="form-label">Fecha de Inicio *</label>
-                <input type="datetime-local" class="form-control" id="inicio-evento" name="inicio-evento" required>
+                <input type="date" class="form-control" id="inicio-evento" name="inicio-evento" required>
               </div>
             </div>
             <div class="col-md-6">
               <div class="mb-3">
                 <label class="form-label">Fecha de Fin</label>
-                <input type="datetime-local" class="form-control" id="fin-evento" name="fin-evento">
+                <input type="date" class="form-control" id="fin-evento" name="fin-evento">
+                <div class="form-text">Dejar vacío para evento de un solo día</div>
               </div>
             </div>
           </div>
@@ -934,6 +913,7 @@ function inicializarCalendario() {
   
   const eventos = <?= json_encode($eventos) ?>;
   
+  // Configurar FullCalendar
   calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: "dayGridMonth",
     locale: 'es',
@@ -966,17 +946,18 @@ function abrirModalEvento(event) {
   document.getElementById('color-evento').value = event.backgroundColor || '#19a473';
   document.getElementById('tipo-evento').value = event.extendedProps?.tipo || 'academico';
   
-  const inicio = new Date(event.start);
-  const fin = event.end ? new Date(event.end) : new Date(event.start);
+  // Formatear fechas para el input date
+  const inicio = event.start ? new Date(event.start) : new Date();
+  const fin = event.end ? new Date(event.end) : null;
   
-  document.getElementById('inicio-evento').value = inicio.toISOString().slice(0, 16);
-  document.getElementById('fin-evento').value = fin ? fin.toISOString().slice(0, 16) : '';
+  document.getElementById('inicio-evento').value = inicio.toISOString().split('T')[0];
+  document.getElementById('fin-evento').value = fin ? fin.toISOString().split('T')[0] : '';
   
   document.getElementById('btn-eliminar-evento').style.display = 'block';
   modal.show();
 }
 
-function nuevoEvento(fecha) {
+function nuevoEvento(fecha = null) {
   eventoActual = null;
   const modal = new bootstrap.Modal(document.getElementById('modalEvento'));
   
@@ -984,17 +965,44 @@ function nuevoEvento(fecha) {
   document.getElementById('form-evento').reset();
   document.getElementById('evento-id').value = '';
   
-  const ahora = new Date();
-  const fechaInicio = fecha ? new Date(fecha) : ahora;
-  fechaInicio.setHours(9, 0, 0, 0);
+  // Establecer fecha por defecto
+  const fechaInicio = fecha ? new Date(fecha) : new Date();
+  const hoy = new Date();
+  const fechaFormateada = hoy.toISOString().split('T')[0];
   
-  const fechaFin = new Date(fechaInicio);
-  fechaFin.setHours(17, 0, 0, 0);
+  document.getElementById('inicio-evento').value = fechaFormateada;
+  document.getElementById('fin-evento').value = '';
+  document.getElementById('color-evento').value = '#19a473';
+  document.getElementById('tipo-evento').value = 'academico';
   
-  document.getElementById('inicio-evento').value = fechaInicio.toISOString().slice(0, 16);
-  document.getElementById('fin-evento').value = fechaFin.toISOString().slice(0, 16);
   document.getElementById('btn-eliminar-evento').style.display = 'none';
   modal.show();
+}
+
+function editarEventoDesdeLista(id) {
+  const eventos = <?= json_encode($eventos) ?>;
+  const evento = eventos.find(e => e.id == id);
+  
+  if (evento) {
+    const modal = new bootstrap.Modal(document.getElementById('modalEvento'));
+    
+    document.getElementById('modalEventoTitle').textContent = 'Editar Evento';
+    document.getElementById('evento-id').value = evento.id;
+    document.getElementById('titulo-evento').value = evento.title;
+    document.getElementById('descripcion-evento').value = evento.extendedProps?.description || evento.description || '';
+    document.getElementById('color-evento').value = evento.backgroundColor || '#19a473';
+    document.getElementById('tipo-evento').value = evento.extendedProps?.tipo || evento.tipo || 'academico';
+    
+    // Formatear fechas para el input date
+    const inicio = new Date(evento.start);
+    const fin = evento.end ? new Date(evento.end) : null;
+    
+    document.getElementById('inicio-evento').value = inicio.toISOString().split('T')[0];
+    document.getElementById('fin-evento').value = fin ? fin.toISOString().split('T')[0] : '';
+    
+    document.getElementById('btn-eliminar-evento').style.display = 'block';
+    modal.show();
+  }
 }
 
 function eliminarEvento() {
@@ -1003,6 +1011,26 @@ function eliminarEvento() {
     window.location.href = `?action=eliminar_evento&id=${id}`;
   }
 }
+
+// Validar formulario de evento
+document.getElementById('form-evento').addEventListener('submit', function(e) {
+  const inicio = document.getElementById('inicio-evento').value;
+  const fin = document.getElementById('fin-evento').value;
+  
+  if (!inicio) {
+    e.preventDefault();
+    mostrarNotificacion('La fecha de inicio es obligatoria', 'warning');
+    return false;
+  }
+  
+  if (fin && new Date(fin) < new Date(inicio)) {
+    e.preventDefault();
+    mostrarNotificacion('La fecha de fin no puede ser anterior a la fecha de inicio', 'warning');
+    return false;
+  }
+  
+  return true;
+});
 
 // Utilidades
 function mostrarNotificacion(mensaje, tipo = 'info') {
@@ -1041,28 +1069,46 @@ function mostrarNotificacion(mensaje, tipo = 'info') {
 
 // Inicialización
 document.addEventListener('DOMContentLoaded', function() {
+  // Validar formulario de edificio
   document.getElementById('form-edificio').addEventListener('submit', function(e) {
     if (!validarFormularioEdificio()) {
       e.preventDefault();
     }
   });
   
-  document.getElementById('map-zoom').addEventListener('input', function() {
-    document.getElementById('zoom-value').textContent = this.value;
-  });
-  
+  // Agregar primer servicio por defecto
   agregarServicio();
+  
+  // Inicializar calendario
   inicializarCalendario();
   
+  // Establecer fecha mínima en los inputs de fecha
+  const hoy = new Date();
+  const fechaMinima = hoy.toISOString().split('T')[0];
+  document.getElementById('inicio-evento').min = fechaMinima;
+  document.getElementById('fin-evento').min = fechaMinima;
+  
+  // Añadir estado de sincronización
   const syncStatus = document.createElement('div');
   syncStatus.className = 'sync-status';
-  syncStatus.innerHTML = '<i class="fas fa-sync-alt me-2"></i>Sincronizado con JSON';
+  syncStatus.innerHTML = '<i class="fas fa-sync-alt me-2"></i>Última sincronización: <?= $ultimaSincronizacion ?? "Nunca" ?>';
   document.body.appendChild(syncStatus);
+  
+  // Actualizar pestañas activas
+  const tabs = document.querySelectorAll('#adminTabs .nav-link');
+  tabs.forEach(tab => {
+    tab.addEventListener('shown.bs.tab', function(event) {
+      if (event.target.id === 'calendario-tab') {
+        // Refrescar calendario al cambiar a la pestaña
+        setTimeout(() => {
+          if (calendar) {
+            calendar.updateSize();
+          }
+        }, 100);
+      }
+    });
+  });
 });
-
-function editarMarcador(id) {
-  mostrarNotificacion('Funcionalidad de editar marcador en desarrollo', 'info');
-}
 </script>
 
 </body>
