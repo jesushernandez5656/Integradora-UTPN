@@ -6,14 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UTPN</title>
 
-    <!-- 🔥 PWA -->
-    <link rel="manifest" href="/integradora-UTPN/manifest.json">
+    <!-- MANIFEST -->
+    <link rel="manifest" href="http://172.16.144.246/integradora-UTPN/manifest.json">
     <meta name="theme-color" content="#ffffff">
 
-    <!-- iOS modo APP (sin barra) -->
+    <!-- MODO APP PARA ANDROID E IOS -->
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <link rel="apple-touch-icon" href="/integradora-UTPN/assets/img/Logo.png">
+    <link rel="apple-touch-icon" href="http://172.16.144.246/integradora-UTPN/assets/img/Logo.png">
 
 <style>
 * {
@@ -130,12 +131,12 @@ body {
 </style>
 
 </head>
+
 <body>
 
 <main>
     <div class="logos-container">
 
-        <!-- Becas -->
         <a href="pages/public/becas.php">
             <div class="logo">
                 <svg fill="currentColor" viewBox="0 0 24 24">
@@ -145,17 +146,13 @@ body {
             </div>
         </a>
 
-        <!-- Mapa -->
         <a href="pages/public/mapa_calendario.php">
             <div class="logo">
-                <svg fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M17 7C13.5705 7 10.6449 9.15804 9.50734 12.1903L11.3805 12.8927C12.2337 10.6185 14.4278 9 17 9C17.6983 9 18.3687 9.11928 18.992 9.33857C21.3265 10.16 23 12.3846 23 15C23 18.3137 20.3137 21 17 21H7C3.68629 21 1 18.3137 1 15C1 12.3846 2.67346 10.16 5.00804 9.33857C5.0027 9.22639 5 9.11351 5 9C5 5.13401 8.13401 2 12 2C15.242 2 17.9693 4.20399 18.7652 7.19539C18.1973 7.0675 17.6065 7 17 7Z"></path>
-                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-icon lucide-map"><path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/></svg>
                 <p>Mapa</p>
             </div>
         </a>
 
-        <!-- ChatBot -->
         <a href="pages/public/ChatBot.php">
             <div class="logo">
                 <svg fill="currentColor" viewBox="0 0 24 24">
@@ -168,14 +165,13 @@ body {
     </div>
 </main>
 
-<!-- 🔥 BOTÓN PARA INSTALAR LA APP -->
 <button id="btnInstalar" onclick="instalarApp()">Instalar App</button>
 
-<!-- 🔥 REGISTRO DEL SERVICE WORKER -->
 <script>
+/* REGISTRO DEL SW — RUTA FIJA CON IP */
 if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("/integradora-UTPN/sw.js")
-        .then(() => console.log("Service Worker registrado"))
+    navigator.serviceWorker.register("http://172.16.144.246/integradora-UTPN/sw.js")
+        .then(() => console.log("SW registrado"))
         .catch(err => console.log("Error SW:", err));
 }
 
@@ -184,8 +180,6 @@ let deferredPrompt;
 window.addEventListener("beforeinstallprompt", (e) => {
     e.preventDefault();
     deferredPrompt = e;
-
-    // Muestra botón flotante
     document.getElementById("btnInstalar").style.display = "block";
 });
 
