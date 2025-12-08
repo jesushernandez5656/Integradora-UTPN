@@ -702,7 +702,8 @@ if (!$pagina) {
 
     <!-- EL RESTO DE TU CÓDIGO SE MANTIENE IGUAL -->
     <!-- BECAS DESTACADAS SECTION -->
-    <section id="becas" class="section">
+    <!-- BECAS DESTACADAS SECTION -->
+<section id="becas" class="section">
     <div class="container">
         <div class="section__head">
             <?php if (!empty($pagina['seccion_becas_destacadas']['titulo'])): ?>
@@ -737,15 +738,47 @@ if (!$pagina) {
                         <?php endif; ?>
                         
                         <?php if (!empty($beca['enlace_descarga_requisitos'])): ?>
-                            <?php if (strpos(strtolower($beca['nombre']), 'jóvenes escribiendo el futuro') !== false): ?>
-                                <!-- Solo para Jóvenes Escribiendo el Futuro - Ver requisitos -->
+                            <?php 
+                            // Verificar si es una URL externa o un archivo local
+                            $is_external_url = (strpos($beca['enlace_descarga_requisitos'], 'http') === 0);
+                            $is_pdf_file = (strtolower(pathinfo($beca['enlace_descarga_requisitos'], PATHINFO_EXTENSION)) === 'pdf');
+                            
+                            // Si es una URL externa
+                            if ($is_external_url): ?>
                                 <a class="btn block" href="<?php echo htmlspecialchars($beca['enlace_descarga_requisitos']); ?>" target="_blank">
                                     Ver requisitos
                                 </a>
-                            <?php else: ?>
-                                <!-- Para todas las demás becas - Descargar requisitos -->
-                                <a class="btn block" href="<?php echo htmlspecialchars($beca['enlace_descarga_requisitos']); ?>" <?php echo strpos($beca['enlace_descarga_requisitos'], 'http') === 0 ? 'target="_blank"' : 'download'; ?>>
-                                    <?php echo strpos($beca['enlace_descarga_requisitos'], 'http') === 0 ? 'Ver requisitos' : 'Descargar requisitos'; ?>
+                            <?php 
+                            // Si es un archivo local PDF
+                            elseif ($is_pdf_file): 
+                                // Asegurar que tenga la ruta correcta
+                                $file_path = '/INTEGRADORA-UTPN/assets/PDF/' . basename($beca['enlace_descarga_requisitos']);
+                                $file_exists = file_exists($_SERVER['DOCUMENT_ROOT'] . $file_path);
+                            ?>
+                                <a class="btn block" href="<?php echo htmlspecialchars($file_path); ?>" <?php echo $file_exists ? 'download' : ''; ?>>
+                                    <?php echo $file_exists ? 'Descargar requisitos' : 'Ver requisitos'; ?>
+                                </a>
+                            <?php 
+                            // Si solo tiene extensión .pdf (caso que mencionas)
+                            elseif (strpos($beca['enlace_descarga_requisitos'], '.pdf') !== false): 
+                                // Extraer solo el nombre del archivo
+                                $file_name = trim($beca['enlace_descarga_requisitos']);
+                                // Si empieza con punto, agregar la ruta completa
+                                if (strpos($file_name, '.') === 0) {
+                                    $file_name = substr($file_name, 1);
+                                }
+                                $full_path = '/INTEGRADORA-UTPN/assets/PDF/' . $file_name;
+                                $file_exists = file_exists($_SERVER['DOCUMENT_ROOT'] . $full_path);
+                            ?>
+                                <a class="btn block" href="<?php echo htmlspecialchars($full_path); ?>" <?php echo $file_exists ? 'download' : ''; ?>>
+                                    <?php echo $file_exists ? 'Descargar requisitos' : 'Ver requisitos'; ?>
+                                </a>
+                            <?php 
+                            // Otro caso (enlace interno)
+                            else: 
+                            ?>
+                                <a class="btn block" href="<?php echo htmlspecialchars($beca['enlace_descarga_requisitos']); ?>" target="_blank">
+                                    Ver requisitos
                                 </a>
                             <?php endif; ?>
                         <?php endif; ?>

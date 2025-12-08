@@ -6,6 +6,30 @@ $json_file = '../../assets/js/becas.json';
 $json_data = file_get_contents($json_file);
 $data = json_decode($json_data, true);
 
+// Función para limpiar y obtener la ruta correcta del PDF
+// Declarada fuera del bucle para evitar errores de redeclaración
+function obtenerRutaPDFBecas($ruta_original) {
+    if (empty($ruta_original)) return '';
+    
+    // Limpiar ruta - remover prefijos comunes
+    $ruta_limpia = $ruta_original;
+    $patrones_a_remover = [
+        '../../assets/PDF/',
+        '../assets/PDF/',
+        'assets/PDF/',
+        './',
+        '..'
+    ];
+    
+    foreach ($patrones_a_remover as $patron) {
+        if (strpos($ruta_limpia, $patron) === 0) {
+            $ruta_limpia = substr($ruta_limpia, strlen($patron));
+        }
+    }
+    
+    return trim($ruta_limpia);
+}
+
 // Usar los datos específicos de la página de becas universitarias
 $pagina = $data['pagina_becas_universitarias'];
 ?>
@@ -904,36 +928,69 @@ body {
   <!-- SECCIÓN: BECAS -->
   <section id="becas" class="section">
     <div class="container">
-      <div class="section__head">
-        <h2><?php echo htmlspecialchars($pagina['seccion_becas']['titulo']); ?></h2>
-        <p class="muted"><?php echo htmlspecialchars($pagina['seccion_becas']['subtitulo']); ?></p>
-      </div>
+        <div class="section__head">
+            <h2><?php echo htmlspecialchars($pagina['seccion_becas']['titulo']); ?></h2>
+            <p class="muted"><?php echo htmlspecialchars($pagina['seccion_becas']['subtitulo']); ?></p>
+        </div>
 
-      <div class="grid grid-3 cards">
-        <?php foreach ($pagina['seccion_becas']['becas'] as $beca): ?>
-          <article class="card2 <?php echo $beca['bloqueada'] ? 'locked' : ''; ?>">
-            <div class="card2__head">
-              <h3><?php echo htmlspecialchars($beca['nombre']); ?></h3>
-              <span class="pill"><?php echo htmlspecialchars($beca['monto']); ?></span>
-            </div>
-            <p><?php echo htmlspecialchars($beca['resumen']); ?></p>
-            <ul class="list">
-              <?php foreach ($beca['requisitos'] as $requisito): ?>
-                <li><?php echo htmlspecialchars($requisito); ?></li>
-              <?php endforeach; ?>
-            </ul>
-            <?php if ($beca['bloqueada']): ?>
-              <a class="btn block disabled">Postular</a>
-              <a class="btn block disabled">Descargar requisitos</a>
-            <?php else: ?>
-              <a class="btn block" href="<?php echo htmlspecialchars($beca['enlace_postular']); ?>" target="_blank">Postular</a>
-              <a class="btn block" href="<?php echo htmlspecialchars($beca['enlace_descarga_requisitos']); ?>" download>Descargar requisitos</a>
-            <?php endif; ?>
-          </article>
-        <?php endforeach; ?>
-      </div>
+        <div class="grid grid-3 cards">
+            <?php foreach ($pagina['seccion_becas']['becas'] as $index => $beca): ?>
+                <article class="card2 <?php echo isset($beca['bloqueada']) && $beca['bloqueada'] ? 'locked' : ''; ?>">
+                    <div class="card2__head">
+                        <h3><?php echo htmlspecialchars($beca['nombre']); ?></h3>
+                        <span class="pill"><?php echo htmlspecialchars($beca['monto']); ?></span>
+                    </div>
+                    <p><?php echo htmlspecialchars($beca['resumen']); ?></p>
+                    <ul class="list">
+                        <?php foreach ($beca['requisitos'] as $requisito): ?>
+                            <li><?php echo htmlspecialchars($requisito); ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                    
+                    <?php if (isset($beca['bloqueada']) && $beca['bloqueada']): ?>
+                        <a class="btn block disabled">Postular</a>
+                        <a class="btn block disabled">Descargar requisitos</a>
+                    <?php else: ?>
+                        <!-- Botón Postular -->
+                        <?php if (!empty($beca['enlace_postular'])): ?>
+                            <a class="btn block" href="<?php echo htmlspecialchars($beca['enlace_postular']); ?>" target="_blank">Postular</a>
+                        <?php else: ?>
+                            <a class="btn block disabled">Postular (no disponible)</a>
+                        <?php endif; ?>
+                        
+                        <!-- Botón Descargar Requisitos -->
+                        <?php 
+                        // Obtener ruta limpia del PDF usando la función renombrada
+                        $nombre_pdf = obtenerRutaPDFBecas($beca['enlace_descarga_requisitos'] ?? '');
+                        
+                        if (!empty($nombre_pdf)):
+                            // Construir ruta completa
+                            $ruta_pdf_completa = '/INTEGRADORA-UTPN/assets/PDF/' . $nombre_pdf;
+                            
+                            // Verificar si el archivo existe
+                            $ruta_absoluta = $_SERVER['DOCUMENT_ROOT'] . $ruta_pdf_completa;
+                            $archivo_existe = file_exists($ruta_absoluta);
+                            
+                            if ($archivo_existe): ?>
+                                <a class="btn block" href="<?php echo htmlspecialchars($ruta_pdf_completa); ?>" download>
+                                    Descargar requisitos
+                                </a>
+                            <?php else: ?>
+                                <!-- Mostrar mensaje si el archivo no existe -->
+                                <a class="btn block disabled" title="Archivo no encontrado: <?php echo htmlspecialchars($nombre_pdf); ?>">
+                                    Requisitos no disponibles
+                                </a>
+                            <?php endif; ?>
+                        <?php else: ?>
+                            <!-- Si no hay PDF -->
+                            <a class="btn block disabled">Sin requisitos para descargar</a>
+                        <?php endif; ?>
+                    <?php endif; ?>
+                </article>
+            <?php endforeach; ?>
+        </div>
     </div>
-  </section>
+</section>
   
   <!-- SECCIÓN: ASESORÍAS -->
   <section id="asesorias" class="section alt">
