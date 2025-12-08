@@ -31,7 +31,7 @@ if (isset($_SESSION['rol'])) {
 <footer id="final">
     <div class="contacto">
         <h1>Contáctanos</h1>
-        <p>656-221-5597</p>
+        <p>656-257-0071</p>
     </div>
 
     <div class="waves">
