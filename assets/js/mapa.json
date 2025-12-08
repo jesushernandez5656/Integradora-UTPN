@@ -29,7 +29,7 @@
                     "contenido": "Área dedicada a la relación con empresas, medios y difusión de actividades académicas."
                 }
             ],
-            "descripcion": "",
+            "descripcion": "Edificio principal administrativo que alberga los servicios de atención a estudiantes y oficinas administrativas clave.",
             "color": "#0f0f0f"
         },
         {
@@ -61,8 +61,8 @@
                     "contenido": "Espacio para la planificación y seguimiento de proyectos académicos y profesionales."
                 }
             ],
-            "descripcion": "",
-            "color": "#19a473"
+            "descripcion": "Edificio tecnológico con laboratorios especializados en ingenierías y desarrollo tecnológico.",
+            "color": "#a41919"
         },
         {
             "id": "edificioC",
@@ -93,8 +93,8 @@
                     "contenido": "Gestión financiera y presupuestal de la universidad."
                 }
             ],
-            "descripcion": "",
-            "color": "#19a47a"
+            "descripcion": "Edificio central que alberga la biblioteca, rectoría y principales oficinas administrativas.",
+            "color": "#191da4"
         },
         {
             "id": "edificioD",
@@ -113,8 +113,8 @@
                     "contenido": "Espacio de trabajo y reuniones para el personal docente."
                 }
             ],
-            "descripcion": "",
-            "color": "#19a473"
+            "descripcion": "Edificio académico con salas especializadas para docentes y dirección de carreras.",
+            "color": "#cfdc18"
         },
         {
             "id": "edificioE",
@@ -161,8 +161,8 @@
                     "contenido": "Área de simulaciones inmersivas."
                 }
             ],
-            "descripcion": "",
-            "color": "#19a473"
+            "descripcion": "Edificio de innovación tecnológica con laboratorios de vanguardia para ingenierías.",
+            "color": "#9d13e7"
         },
         {
             "id": "cafetería",
@@ -177,7 +177,7 @@
                     "contenido": "Espacios para comer y socializar."
                 }
             ],
-            "descripcion": "",
+            "descripcion": "Área de alimentación y descanso para estudiantes y personal.",
             "color": "#19a473"
         },
         {
@@ -193,7 +193,7 @@
                     "contenido": "Reglas y horarios de uso."
                 }
             ],
-            "descripcion": "",
+            "descripcion": "Cancha de fútbol para actividades deportivas y recreativas.",
             "color": "#19a473"
         },
         {
@@ -205,7 +205,7 @@
                     "contenido": "Espacio deportivo para basquetbol."
                 }
             ],
-            "descripcion": "",
+            "descripcion": "Cancha de basquetbol para actividades deportivas.",
             "color": "#19a473"
         },
         {
@@ -217,7 +217,7 @@
                     "contenido": "Espacio deportivo para voleibol."
                 }
             ],
-            "descripcion": "",
+            "descripcion": "Cancha de voleibol para actividades deportivas.",
             "color": "#19a473"
         },
         {
@@ -229,7 +229,7 @@
                     "contenido": "Espacio deportivo para voleibol playero."
                 }
             ],
-            "descripcion": "",
+            "descripcion": "Cancha de voleibol playero para actividades deportivas.",
             "color": "#19a473"
         },
         {
@@ -241,7 +241,7 @@
                     "contenido": "Espacio al aire libre para actividades o descanso."
                 }
             ],
-            "descripcion": "",
+            "descripcion": "Área de descanso y reunión al aire libre.",
             "color": "#19a473"
         },
         {
@@ -253,18 +253,45 @@
                     "contenido": "Espacio destinado a reuniones en situaciones de emergencia."
                 }
             ],
-            "descripcion": "",
+            "descripcion": "Punto de encuentro para emergencias y actividades grupales.",
             "color": "#19a473"
         }
     ],
     "eventos": [
+        {
+            "id": 1,
+            "title": "Entrega de Proyecto",
+            "start": "2025-09-10",
+            "backgroundColor": "#19a473",
+            "borderColor": "#19a473",
+            "description": "Fecha límite para la entrega del proyecto final de semestre",
+            "tipo": "academico"
+        },
+        {
+            "id": 2,
+            "title": "Revisión de Avances",
+            "start": "2025-09-12",
+            "backgroundColor": "#19a473",
+            "borderColor": "#19a473",
+            "description": "Revisión de avances del proyecto con el tutor asignado",
+            "tipo": "academico"
+        },
+        {
+            "id": 3,
+            "title": "Exposición Parcial",
+            "start": "2025-09-15",
+            "backgroundColor": "#19a473",
+            "borderColor": "#19a473",
+            "description": "Presentación de avances ante el comité evaluador",
+            "tipo": "academico"
+        },
         {
             "id": 4,
             "title": "Práctica de Laboratorio",
             "start": "2025-09-18",
             "backgroundColor": "#19a473",
             "borderColor": "#19a473",
-            "description": "",
+            "description": "Sesión práctica en el laboratorio especializado",
             "tipo": "academico"
         },
         {
@@ -273,7 +300,7 @@
             "start": "2025-09-20",
             "backgroundColor": "#19a473",
             "borderColor": "#19a473",
-            "description": "",
+            "description": "Reunión general del departamento académico",
             "tipo": "academico"
         },
         {
@@ -282,7 +309,7 @@
             "start": "2025-09-22",
             "backgroundColor": "#19a473",
             "borderColor": "#19a473",
-            "description": "",
+            "description": "Entrega del reporte técnico final del proyecto",
             "tipo": "academico"
         },
         {
@@ -291,7 +318,36 @@
             "start": "2025-09-25",
             "backgroundColor": "#19a473",
             "borderColor": "#19a473",
-            "description": "",
+            "description": "Examen final del semestre en todas las materias",
+            "tipo": "academico"
+        },
+        {
+            "id": 8,
+            "title": "Clausura del Curso",
+            "start": "2025-09-28",
+            "backgroundColor": "#19a473",
+            "borderColor": "#19a473",
+            "description": "Ceremonia de clausura y entrega de reconocimientos",
+            "tipo": "academico"
+        },
+        {
+            "id": 10,
+            "title": "Revisión de Avances",
+            "start": "2025-12-15",
+            "end": null,
+            "backgroundColor": "#19a473",
+            "borderColor": "#19a473",
+            "description": "HH",
+            "tipo": "academico"
+        },
+        {
+            "id": 11,
+            "title": "Revisión de Avances",
+            "start": "2025-12-15",
+            "end": null,
+            "backgroundColor": "#19a473",
+            "borderColor": "#19a473",
+            "description": "HH",
             "tipo": "academico"
         }
     ],
@@ -386,5 +442,5 @@
         "lng": -106.562487,
         "zoom": 17
     },
-    "ultimaActualizacion": "2025-12-03T08:39:28+01:00"
+    "ultimaActualizacion": "2025-12-06T03:47:07+01:00"
 }

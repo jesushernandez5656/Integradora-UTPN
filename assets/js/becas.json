@@ -1,9 +1,9 @@
 {
     "pagina_becas_universitarias": {
-        "titulo_pagina": "Becas Universitarias | Impulsa tu camino",
+        "titulo_pagina": "Becas Universitarias Sin usuario",
         "hero": {
             "chip_texto": "Convocatorias limitadas",
-            "titulo_principal": "Consigue tu <span class=\"grad\">beca<\/span><br> de <span class=\"grad alt\">Acceso a la Universidad<\/span>",
+            "titulo_principal": "Consigue tu <span class=\"grad\">beca<\/span>\r<br> de <span class=\"grad alt\">Acceso a la Universidad<\/span>",
             "descripcion": "Solo disponible para estudiantes sin registro.",
             "insignias": [
                 {
@@ -22,7 +22,7 @@
                     "🇲🇽 México",
                     "Nuevo ingreso"
                 ],
-                "enlace_texto": "Solicitar",
+                "enlace_texto": "Solicitar ",
                 "enlace_url": "https:\/\/www.juarez.gob.mx\/becas-de-acceso-a-la-universidad"
             }
         },
@@ -34,25 +34,27 @@
                     "id": "1",
                     "nombre": "Beca Inscripción",
                     "monto": "$3000",
-                    "resumen": "Para carreras de TI y ciencia de datos.",
+                    "resumen": "Beca que cubre el costo inicial de matrícula para ingresar a la institución educativa.\r\n\r\n",
                     "requisitos": [
-                        "Promedio ≥ 8.5",
-                        "Proyecto o portafolio",
-                        "Entrevista técnica"
+                        "Promedio ≥ 8.5"
                     ],
-                    "bloqueada": true
+                    "bloqueada": true,
+                    "enlace_postular": "https:\/\/mitch.chihuahua.gob.mx\/seaged-app-portal\/tramites\/inicio",
+                    "enlace_descarga_requisitos": "beca_inscripcion_2.pdf"
                 },
                 {
                     "id": "2",
                     "nombre": "Beca Material y Equipo Técnico",
                     "monto": "$3000",
-                    "resumen": "Apoyo para herramientas de estudio.",
+                    "resumen": "Ayuda económica para adquirir herramientas, instrumentos o insumos específicos que requiere una carrera técnica o profesional.",
                     "requisitos": [
-                        "Idiomas B2+",
-                        "Ensayo motivacional",
-                        "Servicio social"
+                        "Haber cursado cuando menos el primer año del programa académico",
+                        "Promedio mínimo general de 8.5",
+                        "Ser estudiante regular del nivel licenciatura o técnico superior"
                     ],
-                    "bloqueada": true
+                    "bloqueada": true,
+                    "enlace_postular": "https:\/\/mitch.chihuahua.gob.mx\/seaged-app-portal\/tramites\/inicio",
+                    "enlace_descarga_requisitos": "beca_material_y_equipo_tecnico_2.pdf"
                 },
                 {
                     "id": "3",
@@ -60,11 +62,13 @@
                     "monto": "$3000",
                     "resumen": "Apoyo para procesos de titulación.",
                     "requisitos": [
-                        "Protocolo avalado",
-                        "Director de tesis",
-                        "Informe parcial"
+                        "Haber egresado en un lapso no mayor a un año a la fecha de la solicitud del nivel TSU y licenciatura",
+                        "Estar inscritos en algún proceso de titulación.",
+                        "Promedio mínimo general 8.5"
                     ],
-                    "bloqueada": true
+                    "bloqueada": true,
+                    "enlace_postular": "",
+                    "enlace_descarga_requisitos": ""
                 },
                 {
                     "id": "4",
@@ -72,11 +76,12 @@
                     "monto": "Estímulo $5800",
                     "resumen": "Beca nacional para universitarios.",
                     "requisitos": [
-                        "Protocolo avalado",
-                        "Director de tesis",
-                        "Informe parcial"
+                        "Ser estudiante de modalidad escolarizada en alguna escuela clasificada como prioritaria o susceptible",
+                        "Edad menor de 29 años"
                     ],
-                    "bloqueada": true
+                    "bloqueada": true,
+                    "enlace_postular": "https:\/\/subes.becasbenitojuarez.gob.mx\/",
+                    "enlace_descarga_requisitos": ""
                 },
                 {
                     "id": "5",
@@ -90,7 +95,7 @@
                     ],
                     "bloqueada": false,
                     "enlace_postular": "https:\/\/www.juarez.gob.mx\/becas-de-acceso-a-la-universidad",
-                    "enlace_descarga_requisitos": "..\/..\/assets\/PDF\/RequisitosBeca.pdf"
+                    "enlace_descarga_requisitos": "RequisitosBeca.pdf"
                 }
             ]
         },
@@ -118,15 +123,14 @@
                 "1️⃣ ¿Qué becas están disponibles?",
                 "2️⃣ ¿Cuáles son los requisitos?",
                 "3️⃣ ¿Cómo solicitar una beca?",
-                "4️⃣ ¿Cuándo cierran las convocatorias?",
-                "5️⃣ ¿Ofrecen asesorías personalizadas?"
+                "4️⃣ ¿Cuándo cierran las convocatorias?"
             ],
             "respuestas_pregrabadas": {
-                "1": "📚 <strong>Becas disponibles:<\/strong><br><br>• <strong>Beca Inscripción<\/strong> ($3,000)<br>• <strong>Beca Material y Equipo Técnico<\/strong> ($3,000)<br>• <strong>Beca Titulación<\/strong> ($3,000)<br>• <strong>Jóvenes Escribiendo el Futuro<\/strong> ($5,800\/mes)<br>• <strong>Beca Acceso a la Universidad<\/strong> (1er cuatrimestre)<br><br>💡 Escribe \"requisitos\" o el número de otra opción.",
-                "2": "📋 <strong>Requisitos generales:<\/strong><br><br><strong>Documentación:<\/strong> Acta de nacimiento, CURP, Comprobante de domicilio, Identificación, Comprobante de ingresos.<br><br><strong>Académicos:<\/strong> Promedio mínimo 8.0-8.5, Constancia de estudios, Historial académico.<br><br>⚠️ Recuerda que cada beca tiene requisitos adicionales que puedes descargar en la sección de \"Becas destacadas\".",
-                "3": "✍️ <strong>Proceso de solicitud (Resumen):<\/strong><br><br>1. Revisa requisitos específicos.<br>2. Prepara tu documentación.<br>3. Haz clic en \"Postular\" en la beca deseada.<br>4. Completa y envía el formulario en el portal oficial.<br>5. Espera la confirmación y resultados.<br><br>⏱️ Te recomendamos aplicar con tiempo. ¿Te gustaría agendar una asesoría? Escribe \"4\".",
-                "4": "👨‍🏫 <strong>¡Sí! Ofrecemos asesorías personalizadas:<\/strong><br><br><strong>Incluyen:<\/strong> Revisión de documentos, corrección de cartas motivacionales, y seguimiento de solicitudes.<br><br>📞 Agenda tu cita en la sección de Asesorías de la página o contacta a orientacion@utpn.edu.mx",
-                "default": "🤖 No estoy seguro de entender tu pregunta. Puedo ayudarte con:<br><br>1️⃣ Becas disponibles<br>2️⃣ Requisitos<br>3️⃣ Proceso de solicitud<br>4️⃣ Asesorías<br><br>Por favor, reformula tu pregunta. 😊"
+                "1": "Becas disponibles:\r\nBeca Inscripción ($3,000), Beca Material y Equipo Técnico ($3,000), Beca Titulación ($3,000),Jóvenes Escribiendo el Futuro ($5,800\/mes), Beca Acceso a la Universidad (1er cuatrimestre)\r\n💡 Escribe \"requisitos\" o el número de otra opción.",
+                "2": "Requisitos generales:\r\nDocumentación: Acta de nacimiento, CURP, Comprobante de domicilio, Identificación, Comprobante de ingresos.\r\nAcadémicos: Promedio mínimo 8.0-8.5, Constancia de estudios, Historial académico.\r\n⚠️ Recuerda que cada beca tiene requisitos adicionales que puedes descargar en la sección de \"Becas destacadas\".",
+                "3": "Proceso de solicitud (Resumen):\r\n1. Revisa requisitos específicos.\r\n2. Prepara tu documentación.\r\n3. Haz clic en \"Postular\" en la beca deseada.\r\n4. Completa y envía el formulario en el portal oficial.\r\n5. Espera la confirmación y resultados.",
+                "4": "Cierra dependiendo la beca y el tipo de entrega de documentos.",
+                "default": "🤖 No estoy seguro de entender tu pregunta. Puedo ayudarte con: 1️⃣ Becas disponibles 2️⃣ Requisitos 3️⃣ Proceso de solicitud Por favor, reformula tu pregunta. 😊"
             }
         }
     },
@@ -171,11 +175,9 @@
                     "id": "1",
                     "nombre": "Beca Inscripción",
                     "monto": "$3000",
-                    "resumen": "Para carreras de TI y ciencia de datos. Incluye mentoría.",
+                    "resumen": "Beca que cubre el costo inicial de matrícula para ingresar a la institución educativa.\r\n",
                     "requisitos": [
-                        "Promedio ≥ 8.5",
-                        "Proyecto o portafolio",
-                        "Entrevista técnica"
+                        "Promedio ≥ 8.5"
                     ],
                     "enlace_postular": "https:\/\/mitch.chihuahua.gob.mx\/seaged-app-portal\/tramites\/inicio",
                     "enlace_descarga_requisitos": "assets\/PDF\/beca_inscripcion_2.pdf"
@@ -184,11 +186,11 @@
                     "id": "2",
                     "nombre": "Beca Material y Equipo Técnico",
                     "monto": "$3000",
-                    "resumen": "Movilidad internacional y manutención por méritos académicos.",
+                    "resumen": "Ayuda económica para adquirir herramientas, instrumentos o insumos específicos que requiere una carrera técnica o profesional.",
                     "requisitos": [
-                        "Idiomas B2+",
-                        "Ensayo motivacional",
-                        "Servicio social"
+                        "Haber cursado cuando menos el primer año del programa académico",
+                        "Promedio mínimo general de 8.5",
+                        "Ser estudiante regular del nivel licenciatura o técnico superior"
                     ],
                     "enlace_postular": "https:\/\/mitch.chihuahua.gob.mx\/seaged-app-portal\/tramites\/inicio",
                     "enlace_descarga_requisitos": "assets\/PDF\/beca_material_y_equipo_tecnico_2.pdf"
@@ -197,11 +199,11 @@
                     "id": "3",
                     "nombre": "Beca Titulación",
                     "monto": "$3000",
-                    "resumen": "Fondos para proyectos universitarios y publicaciones.",
+                    "resumen": "Apoyo para procesos de titulación.",
                     "requisitos": [
-                        "Protocolo avalado",
-                        "Director de tesis",
-                        "Informe parcial"
+                        "Haber egresado en un lapso no mayor a un año a la fecha de la solicitud del nivel TSU y licenciatura",
+                        "Estar inscritos en algún proceso de titulación.",
+                        "Promedio mínimo general 8.5"
                     ],
                     "enlace_postular": "https:\/\/mitch.chihuahua.gob.mx\/seaged-app-portal\/tramites\/inicio",
                     "enlace_descarga_requisitos": "assets\/PDF\/beca_titulacion_2.pdf"
@@ -210,11 +212,10 @@
                     "id": "4",
                     "nombre": "Jóvenes Escribiendo el Futuro",
                     "monto": "Estímulo $5800",
-                    "resumen": "Fondos para proyectos universitarios y publicaciones.",
+                    "resumen": "Beca nacional para universitarios.",
                     "requisitos": [
-                        "Protocolo avalado",
-                        "Director de tesis",
-                        "Informe parcial"
+                        "Ser estudiante de modalidad escolarizada en alguna escuela clasificada como prioritaria o susceptible",
+                        "Edad menor de 29 años"
                     ],
                     "enlace_postular": "https:\/\/subes.becasbenitojuarez.gob.mx\/",
                     "enlace_descarga_requisitos": ""
@@ -225,9 +226,9 @@
                     "monto": "Pago primer cuatrimestre",
                     "resumen": "Solo estudiantes de nuevo ingreso.",
                     "requisitos": [
-                        "Protocolo avalado",
-                        "Director de tesis",
-                        "Informe parcial"
+                        "Acta de nacimiento",
+                        "Comprobante de estudios",
+                        "CURP y comprobante de domicilio"
                     ],
                     "enlace_postular": "https:\/\/www.juarez.gob.mx\/becas-de-acceso-a-la-universidad",
                     "enlace_descarga_requisitos": "assets\/PDF\/RequisitosBeca.pdf"
@@ -256,15 +257,14 @@
             "opciones_iniciales": [
                 "1️⃣ ¿Qué becas están disponibles?",
                 "2️⃣ ¿Cuáles son los requisitos generales?",
-                "3️⃣ ¿Cómo es el proceso de solicitud?",
-                "4️⃣ ¿Hay asesorías personalizadas?"
+                "3️⃣ ¿Cómo es el proceso de solicitud?"
             ],
             "respuestas_pregrabadas": {
                 "1": "📚 <strong>Becas disponibles:<\/strong><br><br>• <strong>Beca Inscripción<\/strong> ($3,000)<br>• <strong>Beca Material y Equipo Técnico<\/strong> ($3,000)<br>• <strong>Beca Titulación<\/strong> ($3,000)<br>• <strong>Jóvenes Escribiendo el Futuro<\/strong> ($5,800\/mes)<br>• <strong>Beca Acceso a la Universidad<\/strong> (1er cuatrimestre)<br><br>💡 Escribe \"requisitos\" o el número de otra opción.",
                 "2": "📋 <strong>Requisitos generales:<\/strong><br><br><strong>Documentación:<\/strong> Acta de nacimiento, CURP, Comprobante de domicilio, Identificación, Comprobante de ingresos.<br><br><strong>Académicos:<\/strong> Promedio mínimo 8.0-8.5, Constancia de estudios, Historial académico.<br><br>⚠️ Recuerda que cada beca tiene requisitos adicionales que puedes descargar en la sección de \"Becas destacadas\".",
                 "3": "✍️ <strong>Proceso de solicitud (Resumen):<\/strong><br><br>1. Revisa requisitos específicos.<br>2. Prepara tu documentación.<br>3. Haz clic en \"Postular\" en la beca deseada.<br>4. Completa y envía el formulario en el portal oficial.<br>5. Espera la confirmación y resultados.<br><br>⏱️ Te recomendamos aplicar con tiempo. ¿Te gustaría agendar una asesoría? Escribe \"4\".",
-                "4": "👨‍🏫 <strong>¡Sí! Ofrecemos asesorías personalizadas:<\/strong><br><br><strong>Incluyen:<\/strong> Revisión de documentos, corrección de cartas motivacionales, y seguimiento de solicitudes.<br><br>📞 Agenda tu cita en la sección de Asesorías de la página o contacta a orientacion@utpn.edu.mx",
-                "default": "🤖 No estoy seguro de entender tu pregunta. Puedo ayudarte con:<br><br>1️⃣ Becas disponibles<br>2️⃣ Requisitos<br>3️⃣ Proceso de solicitud<br>4️⃣ Asesorías<br><br>Por favor, reformula tu pregunta. 😊"
+                "Hola": "🤖 No estoy seguro de entender tu pregunta. Puedo ayudarte con:<br><br>1️⃣ Becas disponibles<br>2️⃣ Requisitos<br>3️⃣ Proceso de solicitud<br>4️⃣ Asesorías<br><br>Por favor, reformula tu pregunta. 😊",
+                "default": "🤖 No entendí tu pregunta. Por favor, reformula tu pregunta. 😊"
             }
         }
     }

@@ -17,6 +17,31 @@ L.tileLayer(
   { attribution: "Tiles © Esri — Source: Esri, Earthstar Geographics, Maxar" }
 ).addTo(map);
 
+// --- MARCADORES ---
+const lugares = [
+  { coords: [31.766365511367177, -106.56166338142302], nombre: "Edificio A", scrollId: "#edificioA" },
+  { coords: [31.766841645023472, -106.56102909656026], nombre: "Edificio B", scrollId: "#edificioB" },
+  { coords: [31.76627811886781, -106.56245778374044], nombre: "Edificio C", scrollId: "#edificioC" },
+  { coords: [31.766257798593916, -106.563129401242694], nombre: "Edificio D", scrollId: "#edificioD" },
+  { coords: [31.766248767145573, -106.56389772444955], nombre: "Edificio E", scrollId: "#edificioE" },
+  { coords: [31.767125033013915, -106.56140786196244], nombre: "Cafetería", scrollId: "#cafetería" },
+  { coords: [31.766970077979806, -106.56308318968154], nombre: "Cancha de Fútbol", scrollId: "#canchadefutbol" },
+  { coords: [31.766968880896098, -106.56343654851547], nombre: "Cancha de Voleibol", scrollId: "#canchadevoleibol" },
+  { coords: [31.767213023750685, -106.56247437733018], nombre: "Cancha de Voleibol Playero", scrollId: "#canchadevoleibolplayero" },
+  { coords: [31.766961941341236, -106.56280712333786], nombre: "Cancha de Basquetbol", scrollId: "#canchadebasquetbol" },
+  { coords: [31.766974870070786, -106.56248066354152], nombre: "Quiosco", scrollId: "#quiosco" },
+  { coords: [31.766993499754374, -106.56201627006439], nombre: "Punto de reunión", scrollId: "#puntodereunion" }
+];
+
+lugares.forEach((lugar) => {
+  L.marker(lugar.coords).addTo(map).bindPopup(`<b>${lugar.nombre}</b>`).on('click', function() {
+    const elem = document.querySelector(lugar.scrollId);
+    if(elem){
+      elem.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+
 // -------- CALENDARIO --------
 document.addEventListener("DOMContentLoaded", () => {
   const calendarEl = document.getElementById("calendar");
@@ -29,7 +54,16 @@ document.addEventListener("DOMContentLoaded", () => {
       center: "title",
       right: "dayGridMonth,timeGridWeek,timeGridDay"
     },
-    events: [], // Se cargarán dinámicamente desde el JSON
+    events: [
+      { title: "Entrega de Proyecto", start: "2025-09-10" },
+      { title: "Revisión de Avances", start: "2025-09-12" },
+      { title: "Exposición Parcial", start: "2025-09-15" },
+      { title: "Práctica de Laboratorio", start: "2025-09-18" },
+      { title: "Reunión Académica", start: "2025-09-20" },
+      { title: "Entrega de Reporte", start: "2025-09-22" },
+      { title: "Examen Final", start: "2025-09-25" },
+      { title: "Clausura del Curso", start: "2025-09-28" }
+    ],
     select: function(info) {
       const title = prompt("Nombre del evento:");
       if (title) {
@@ -43,68 +77,5 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Cargar eventos desde el JSON
-  fetch('assets/js/mapa.json')
-    .then(response => response.json())
-    .then(data => {
-      // Cargar eventos en el calendario
-      if (data.eventos && data.eventos.length > 0) {
-        calendar.removeAllEvents();
-        calendar.addEventSource(data.eventos);
-      }
-
-      // Cargar marcadores en el mapa
-      if (data.marcadores && data.marcadores.length > 0) {
-        data.marcadores.forEach((marcador) => {
-          L.marker([marcador.lat, marcador.lng])
-            .addTo(map)
-            .bindPopup(`<b>${marcador.nombre}</b>`)
-            .on('click', function() {
-              const elem = document.querySelector(`#${marcador.edificioId}`);
-              if(elem){
-                elem.scrollIntoView({ behavior: 'smooth', block: 'start' });
-              }
-            });
-        });
-      }
-
-      // Configurar el mapa si hay configuración
-      if (data.mapaConfig) {
-        map.setView([data.mapaConfig.lat, data.mapaConfig.lng], data.mapaConfig.zoom);
-      }
-    })
-    .catch(error => {
-      console.error('Error cargando datos del JSON:', error);
-      // Cargar marcadores por defecto si hay error
-      cargarMarcadoresPorDefecto();
-    });
-
   calendar.render();
 });
-
-// Función de respaldo si falla la carga del JSON
-function cargarMarcadoresPorDefecto() {
-  const lugares = [
-    { coords: [31.766365511367177, -106.56166338142302], nombre: "Edificio A", scrollId: "#edificioA" },
-    { coords: [31.766841645023472, -106.56102909656026], nombre: "Edificio B", scrollId: "#edificioB" },
-    { coords: [31.76627811886781, -106.56245778374044], nombre: "Edificio C", scrollId: "#edificioC" },
-    { coords: [31.766257798593916, -106.563129401242694], nombre: "Edificio D", scrollId: "#edificioD" },
-    { coords: [31.766248767145573, -106.56389772444955], nombre: "Edificio E", scrollId: "#edificioE" },
-    { coords: [31.767125033013915, -106.56140786196244], nombre: "Cafetería", scrollId: "#cafetería" },
-    { coords: [31.766970077979806, -106.56308318968154], nombre: "Cancha de Fútbol", scrollId: "#canchadefutbol" },
-    { coords: [31.766968880896098, -106.56343654851547], nombre: "Cancha de Voleibol", scrollId: "#canchadevoleibol" },
-    { coords: [31.767213023750685, -106.56247437733018], nombre: "Cancha de Voleibol Playero", scrollId: "#canchadevoleibolplayero" },
-    { coords: [31.766961941341236, -106.56280712333786], nombre: "Cancha de Basquetbol", scrollId: "#canchadebasquetbol" },
-    { coords: [31.766974870070786, -106.56248066354152], nombre: "Quiosco", scrollId: "#quiosco" },
-    { coords: [31.766993499754374, -106.56201627006439], nombre: "Punto de reunión", scrollId: "#puntodereunion" }
-  ];
-
-  lugares.forEach((lugar) => {
-    L.marker(lugar.coords).addTo(map).bindPopup(`<b>${lugar.nombre}</b>`).on('click', function() {
-      const elem = document.querySelector(lugar.scrollId);
-      if(elem){
-        elem.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    });
-  });
-}

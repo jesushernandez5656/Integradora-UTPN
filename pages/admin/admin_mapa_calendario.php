@@ -1,4 +1,4 @@
-<?php
+ <?php
 // ===================== CONFIGURACIÓN PHP =====================
 $json_file = __DIR__ . '/../../assets/js/mapa.json';
 $data = [];
@@ -143,23 +143,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 $end = null;
             }
             
+            // Crear evento con estructura CORRECTA para FullCalendar
             $eventoData = [
                 'id' => $id ? intval($id) : null,
                 'title' => $titulo,
                 'start' => $start,
-                'end' => $end,
                 'backgroundColor' => $color,
                 'borderColor' => $color,
-                'description' => $descripcion,
-                'tipo' => $tipo
+                'extendedProps' => [
+                    'description' => $descripcion,
+                    'tipo' => $tipo
+                ]
             ];
+            
+            // Solo agregar 'end' si existe
+            if ($end) {
+                $eventoData['end'] = $end;
+            }
             
             if (!empty($id)) {
                 // Actualizar evento existente
                 $eventoEncontrado = false;
                 foreach ($eventos as &$evento) {
                     if (isset($evento['id']) && $evento['id'] == $id) {
-                        $evento = array_merge($evento, $eventoData);
+                        $evento = $eventoData;
                         $eventoEncontrado = true;
                         break;
                     }
@@ -276,103 +283,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action'])) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-
-      /* Estilos para el calendario */
-#calendar {
-  background: white;
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  min-height: 600px;
-}
-
-.fc {
-  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-}
-
-.fc-toolbar {
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.fc-toolbar-title {
-  font-size: 1.5em;
-  font-weight: 600;
-  color: #3b3b3b;
-}
-
-.fc-button {
-  background-color: #19a473 !important;
-  border-color: #19a473 !important;
-  font-weight: 500;
-}
-
-.fc-button:hover {
-  background-color: #148a60 !important;
-  border-color: #148a60 !important;
-}
-
-.fc-button-active {
-  background-color: #0d6e4c !important;
-  border-color: #0d6e4c !important;
-}
-
-.fc-event {
-  background-color: #19a473;
-  border-color: #19a473;
-  cursor: pointer;
-  font-size: 0.85em;
-  padding: 2px 4px;
-}
-
-.fc-day-today {
-  background-color: #e8f5e8 !important;
-}
-
-/* Estilos para la lista de eventos */
-.lista-eventos {
-  max-height: 600px;
-  overflow-y: auto;
-}
-
-.evento-item {
-  background: #fff;
-  border: 1px solid #e9ecef;
-  border-radius: 8px;
-  padding: 15px;
-  margin-bottom: 10px;
-  transition: all 0.3s ease;
-  border-left: 4px solid #19a473;
-}
-
-.evento-item:hover {
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  transform: translateY(-2px);
-}
-
-.evento-color {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  display: inline-block;
-  margin-right: 8px;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  #calendar {
-    min-height: 400px;
-  }
-  
-  .fc-toolbar {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
-  .fc-toolbar-chunk {
-    margin-bottom: 10px;
-  }
-}
       :root {
         --txt: #2e2e2e;
       }
@@ -419,6 +329,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action'])) {
         padding: 20px;
         box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         margin-top: 20px;
+        min-height: 600px;
       }
 
       .formulario-edificio {
@@ -538,6 +449,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action'])) {
         border-radius: 50%;
         display: inline-block;
         margin-right: 8px;
+      }
+      
+      .fc .fc-toolbar-title {
+        font-size: 1.3em;
+      }
+      
+      .fc .fc-button {
+        font-size: 0.9em;
+        padding: 5px 10px;
       }
     </style>
 </head>
@@ -681,7 +601,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action'])) {
         
         <div class="row mb-4">
           <div class="col-md-8">
-            <button class="btn btn-admin" data-bs-toggle="modal" data-bs-target="#modalEvento">
+            <button class="btn btn-admin" data-bs-toggle="modal" data-bs-target="#modalEvento" onclick="nuevoEvento()">
               <i class="fas fa-plus me-1"></i>Agregar Nuevo Evento
             </button>
             <a href="?action=guardar_todo" class="btn btn-outline-success">
@@ -718,13 +638,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action'])) {
                           - <?= date('d/m/Y', strtotime($evento['end'])) ?>
                         <?php endif; ?>
                       </p>
-                      <?php if (!empty($evento['description'])): ?>
+                      <?php if (!empty($evento['extendedProps']['description'])): ?>
+                        <p class="mb-1 small"><?= htmlspecialchars($evento['extendedProps']['description']) ?></p>
+                      <?php elseif (!empty($evento['description'])): ?>
                         <p class="mb-1 small"><?= htmlspecialchars($evento['description']) ?></p>
                       <?php endif; ?>
-                      <span class="badge bg-secondary"><?= htmlspecialchars($evento['tipo'] ?? 'academico') ?></span>
+                      <span class="badge bg-secondary"><?= htmlspecialchars($evento['extendedProps']['tipo'] ?? $evento['tipo'] ?? 'academico') ?></span>
                     </div>
                     <div class="btn-group ms-2">
-                      <button class="btn btn-sm btn-outline-primary" onclick="editarEvento(<?= htmlspecialchars($evento['id'] ?? '0') ?>)" title="Editar">
+                      <button class="btn btn-sm btn-outline-primary" onclick="editarEventoDesdeLista(<?= htmlspecialchars($evento['id'] ?? '0') ?>)" title="Editar">
                         <i class="fas fa-edit"></i>
                       </button>
                       <a href="?action=eliminar_evento&id=<?= htmlspecialchars($evento['id'] ?? '') ?>" class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar este evento?')" title="Eliminar">
@@ -991,6 +913,7 @@ function inicializarCalendario() {
   
   const eventos = <?= json_encode($eventos) ?>;
   
+  // Configurar FullCalendar
   calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: "dayGridMonth",
     locale: 'es',
@@ -1024,7 +947,7 @@ function abrirModalEvento(event) {
   document.getElementById('tipo-evento').value = event.extendedProps?.tipo || 'academico';
   
   // Formatear fechas para el input date
-  const inicio = new Date(event.start);
+  const inicio = event.start ? new Date(event.start) : new Date();
   const fin = event.end ? new Date(event.end) : null;
   
   document.getElementById('inicio-evento').value = inicio.toISOString().split('T')[0];
@@ -1034,7 +957,7 @@ function abrirModalEvento(event) {
   modal.show();
 }
 
-function nuevoEvento(fecha) {
+function nuevoEvento(fecha = null) {
   eventoActual = null;
   const modal = new bootstrap.Modal(document.getElementById('modalEvento'));
   
@@ -1044,14 +967,19 @@ function nuevoEvento(fecha) {
   
   // Establecer fecha por defecto
   const fechaInicio = fecha ? new Date(fecha) : new Date();
-  document.getElementById('inicio-evento').value = fechaInicio.toISOString().split('T')[0];
+  const hoy = new Date();
+  const fechaFormateada = hoy.toISOString().split('T')[0];
+  
+  document.getElementById('inicio-evento').value = fechaFormateada;
   document.getElementById('fin-evento').value = '';
+  document.getElementById('color-evento').value = '#19a473';
+  document.getElementById('tipo-evento').value = 'academico';
   
   document.getElementById('btn-eliminar-evento').style.display = 'none';
   modal.show();
 }
 
-function editarEvento(id) {
+function editarEventoDesdeLista(id) {
   const eventos = <?= json_encode($eventos) ?>;
   const evento = eventos.find(e => e.id == id);
   
@@ -1061,9 +989,9 @@ function editarEvento(id) {
     document.getElementById('modalEventoTitle').textContent = 'Editar Evento';
     document.getElementById('evento-id').value = evento.id;
     document.getElementById('titulo-evento').value = evento.title;
-    document.getElementById('descripcion-evento').value = evento.description || '';
+    document.getElementById('descripcion-evento').value = evento.extendedProps?.description || evento.description || '';
     document.getElementById('color-evento').value = evento.backgroundColor || '#19a473';
-    document.getElementById('tipo-evento').value = evento.tipo || 'academico';
+    document.getElementById('tipo-evento').value = evento.extendedProps?.tipo || evento.tipo || 'academico';
     
     // Formatear fechas para el input date
     const inicio = new Date(evento.start);
@@ -1083,6 +1011,26 @@ function eliminarEvento() {
     window.location.href = `?action=eliminar_evento&id=${id}`;
   }
 }
+
+// Validar formulario de evento
+document.getElementById('form-evento').addEventListener('submit', function(e) {
+  const inicio = document.getElementById('inicio-evento').value;
+  const fin = document.getElementById('fin-evento').value;
+  
+  if (!inicio) {
+    e.preventDefault();
+    mostrarNotificacion('La fecha de inicio es obligatoria', 'warning');
+    return false;
+  }
+  
+  if (fin && new Date(fin) < new Date(inicio)) {
+    e.preventDefault();
+    mostrarNotificacion('La fecha de fin no puede ser anterior a la fecha de inicio', 'warning');
+    return false;
+  }
+  
+  return true;
+});
 
 // Utilidades
 function mostrarNotificacion(mensaje, tipo = 'info') {
@@ -1121,270 +1069,46 @@ function mostrarNotificacion(mensaje, tipo = 'info') {
 
 // Inicialización
 document.addEventListener('DOMContentLoaded', function() {
+  // Validar formulario de edificio
   document.getElementById('form-edificio').addEventListener('submit', function(e) {
     if (!validarFormularioEdificio()) {
       e.preventDefault();
     }
   });
   
+  // Agregar primer servicio por defecto
   agregarServicio();
+  
+  // Inicializar calendario
   inicializarCalendario();
   
+  // Establecer fecha mínima en los inputs de fecha
+  const hoy = new Date();
+  const fechaMinima = hoy.toISOString().split('T')[0];
+  document.getElementById('inicio-evento').min = fechaMinima;
+  document.getElementById('fin-evento').min = fechaMinima;
+  
+  // Añadir estado de sincronización
   const syncStatus = document.createElement('div');
   syncStatus.className = 'sync-status';
-  syncStatus.innerHTML = '<i class="fas fa-sync-alt me-2"></i>Sincronizado con JSON';
+  syncStatus.innerHTML = '<i class="fas fa-sync-alt me-2"></i>Última sincronización: <?= $ultimaSincronizacion ?? "Nunca" ?>';
   document.body.appendChild(syncStatus);
-});
-
-// -------- MAPA --------
-const map = L.map("map", {
-  center: [31.766600, -106.56248729667603],
-  zoom: 17,
-  minZoom: 17,
-  zoomControl: false
-});
-
-const bounds = [
-  [31.7655, -106.5645],
-  [31.7685, -106.5600]
-];
-map.setMaxBounds(bounds);
-
-L.tileLayer(
-  "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-  { attribution: "Tiles © Esri — Source: Esri, Earthstar Geographics, Maxar" }
-).addTo(map);
-
-// --- MARCADORES ---
-const lugares = [
-  { coords: [31.766365511367177, -106.56166338142302], nombre: "Edificio A", scrollId: "#edificioA" },
-  { coords: [31.766841645023472, -106.56102909656026], nombre: "Edificio B", scrollId: "#edificioB" },
-  { coords: [31.76627811886781, -106.56245778374044], nombre: "Edificio C", scrollId: "#edificioC" },
-  { coords: [31.766257798593916, -106.563129401242694], nombre: "Edificio D", scrollId: "#edificioD" },
-  { coords: [31.766248767145573, -106.56389772444955], nombre: "Edificio E", scrollId: "#edificioE" },
-  { coords: [31.767125033013915, -106.56140786196244], nombre: "Cafetería", scrollId: "#cafetería" },
-  { coords: [31.766970077979806, -106.56308318968154], nombre: "Cancha de Fútbol", scrollId: "#canchadefutbol" },
-  { coords: [31.766968880896098, -106.56343654851547], nombre: "Cancha de Voleibol", scrollId: "#canchadevoleibol" },
-  { coords: [31.767213023750685, -106.56247437733018], nombre: "Cancha de Voleibol Playero", scrollId: "#canchadevoleibolplayero" },
-  { coords: [31.766961941341236, -106.56280712333786], nombre: "Cancha de Basquetbol", scrollId: "#canchadebasquetbol" },
-  { coords: [31.766974870070786, -106.56248066354152], nombre: "Quiosco", scrollId: "#quiosco" },
-  { coords: [31.766993499754374, -106.56201627006439], nombre: "Punto de reunión", scrollId: "#puntodereunion" }
-];
-
-lugares.forEach((lugar) => {
-  L.marker(lugar.coords).addTo(map).bindPopup(`<b>${lugar.nombre}</b>`).on('click', function() {
-    const elem = document.querySelector(lugar.scrollId);
-    if(elem){
-      elem.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  });
-});
-
-// -------- CALENDARIO --------
-// -------- CALENDARIO --------
-document.addEventListener("DOMContentLoaded", () => {
-  const calendarEl = document.getElementById("calendar");
-
-  // Verificar que el elemento del calendario existe
-  if (!calendarEl) {
-    console.error('Elemento del calendario no encontrado');
-    return;
-  }
-
-  const calendar = new FullCalendar.Calendar(calendarEl, {
-    initialView: "dayGridMonth",
-    locale: 'es', // Idioma español
-    firstDay: 1, // Lunes como primer día de la semana
-    selectable: true,
-    headerToolbar: {
-      left: "prev,next today",
-      center: "title",
-      right: "dayGridMonth,timeGridWeek,timeGridDay"
-    },
-    buttonText: {
-      today: "Hoy",
-      month: "Mes",
-      week: "Semana",
-      day: "Día"
-    },
-    events: [], // Se cargarán dinámicamente desde el JSON
-    select: function(info) {
-      const title = prompt("Nombre del evento:");
-      if (title) {
-        calendar.addEvent({
-          title: title,
-          start: info.start,
-          end: info.end,
-          allDay: info.allDay,
-          backgroundColor: '#19a473',
-          borderColor: '#19a473'
-        });
-      }
-    },
-    eventClick: function(info) {
-      alert('Evento: ' + info.event.title);
-    },
-    datesSet: function(info) {
-      console.log("Vista cambiada:", info.view.type);
-    }
-  });
-
-  // Cargar eventos desde el JSON
-  cargarEventosYMarcadores(calendar);
-
-  calendar.render();
-  console.log("Calendario inicializado correctamente");
-});
-
-// Función para cargar eventos y marcadores
-function cargarEventosYMarcadores(calendar) {
-  fetch('assets/js/mapa.json')
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Error al cargar el JSON');
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.log("Datos cargados:", data);
-      
-      // Cargar eventos en el calendario
-      if (data.eventos && data.eventos.length > 0) {
-        console.log("Eventos encontrados:", data.eventos.length);
-        calendar.removeAllEvents();
-        calendar.addEventSource(data.eventos);
-        
-        // Mostrar eventos en la lista
-        mostrarListaEventos(data.eventos);
-      } else {
-        console.log("No hay eventos en el JSON");
-        document.getElementById('lista-eventos').innerHTML = `
-          <div class="text-center text-muted p-4">
-            <i class="fas fa-calendar-day fa-3x mb-3"></i>
-            <p>No hay eventos registrados</p>
-          </div>
-        `;
-      }
-
-      // Cargar marcadores en el mapa
-      if (data.marcadores && data.marcadores.length > 0) {
-        console.log("Marcadores encontrados:", data.marcadores.length);
-        data.marcadores.forEach((marcador) => {
-          L.marker([marcador.lat, marcador.lng])
-            .addTo(map)
-            .bindPopup(`<b>${marcador.nombre}</b>`)
-            .on('click', function() {
-              const elem = document.querySelector(`#${marcador.edificioId}`);
-              if(elem){
-                elem.scrollIntoView({ behavior: 'smooth', block: 'start' });
-              }
-            });
-        });
-      }
-
-      // Configurar el mapa si hay configuración
-      if (data.mapaConfig) {
-        map.setView([data.mapaConfig.lat, data.mapaConfig.lng], data.mapaConfig.zoom);
-      }
-    })
-    .catch(error => {
-      console.error('Error cargando datos del JSON:', error);
-      // Cargar marcadores por defecto si hay error
-      cargarMarcadoresPorDefecto();
-      mostrarErrorEnCalendario();
-    });
-}
-
-// Función para mostrar la lista de eventos
-function mostrarListaEventos(eventos) {
-  const listaContainer = document.getElementById('lista-eventos');
   
-  if (!listaContainer) {
-    console.error('Elemento lista-eventos no encontrado');
-    return;
-  }
-
-  if (eventos.length === 0) {
-    listaContainer.innerHTML = `
-      <div class="text-center text-muted p-4">
-        <i class="fas fa-calendar-day fa-3x mb-3"></i>
-        <p>No hay eventos registrados</p>
-      </div>
-    `;
-    return;
-  }
-
-  let html = '';
-  eventos.forEach(evento => {
-    const fechaInicio = new Date(evento.start).toLocaleDateString('es-ES');
-    const fechaFin = evento.end ? new Date(evento.end).toLocaleDateString('es-ES') : '';
-    
-    html += `
-      <div class="evento-item mb-3 p-3 border rounded">
-        <div class="d-flex justify-content-between align-items-start">
-          <div class="flex-grow-1">
-            <h6 class="mb-1">
-              <span class="evento-color" style="background-color: ${evento.backgroundColor || '#19a473'}"></span>
-              ${evento.title || 'Sin título'}
-            </h6>
-            <p class="text-muted mb-1 small">
-              <i class="fas fa-clock me-1"></i>
-              ${fechaInicio}
-              ${fechaFin ? ` - ${fechaFin}` : ''}
-            </p>
-            ${evento.description ? `<p class="mb-1 small">${evento.description}</p>` : ''}
-            <span class="badge bg-secondary">${evento.tipo || 'academico'}</span>
-          </div>
-        </div>
-      </div>
-    `;
-  });
-  
-  listaContainer.innerHTML = html;
-}
-
-// Función para mostrar error en el calendario
-function mostrarErrorEnCalendario() {
-  const listaContainer = document.getElementById('lista-eventos');
-  if (listaContainer) {
-    listaContainer.innerHTML = `
-      <div class="alert alert-warning">
-        <i class="fas fa-exclamation-triangle me-2"></i>
-        Error al cargar los eventos. Verifica la conexión.
-      </div>
-    `;
-  }
-}
-
-// Función de respaldo para marcadores
-function cargarMarcadoresPorDefecto() {
-  const lugares = [
-    { coords: [31.766365511367177, -106.56166338142302], nombre: "Edificio A", scrollId: "#edificioA" },
-    { coords: [31.766841645023472, -106.56102909656026], nombre: "Edificio B", scrollId: "#edificioB" },
-    { coords: [31.76627811886781, -106.56245778374044], nombre: "Edificio C", scrollId: "#edificioC" },
-    { coords: [31.766257798593916, -106.563129401242694], nombre: "Edificio D", scrollId: "#edificioD" },
-    { coords: [31.766248767145573, -106.56389772444955], nombre: "Edificio E", scrollId: "#edificioE" },
-    { coords: [31.767125033013915, -106.56140786196244], nombre: "Cafetería", scrollId: "#cafetería" },
-    { coords: [31.766970077979806, -106.56308318968154], nombre: "Cancha de Fútbol", scrollId: "#canchadefutbol" },
-    { coords: [31.766968880896098, -106.56343654851547], nombre: "Cancha de Voleibol", scrollId: "#canchadevoleibol" },
-    { coords: [31.767213023750685, -106.56247437733018], nombre: "Cancha de Voleibol Playero", scrollId: "#canchadevoleibolplayero" },
-    { coords: [31.766961941341236, -106.56280712333786], nombre: "Cancha de Basquetbol", scrollId: "#canchadebasquetbol" },
-    { coords: [31.766974870070786, -106.56248066354152], nombre: "Quiosco", scrollId: "#quiosco" },
-    { coords: [31.766993499754374, -106.56201627006439], nombre: "Punto de reunión", scrollId: "#puntodereunion" }
-  ];
-
-  lugares.forEach((lugar) => {
-    L.marker(lugar.coords).addTo(map).bindPopup(`<b>${lugar.nombre}</b>`).on('click', function() {
-      const elem = document.querySelector(lugar.scrollId);
-      if(elem){
-        elem.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  // Actualizar pestañas activas
+  const tabs = document.querySelectorAll('#adminTabs .nav-link');
+  tabs.forEach(tab => {
+    tab.addEventListener('shown.bs.tab', function(event) {
+      if (event.target.id === 'calendario-tab') {
+        // Refrescar calendario al cambiar a la pestaña
+        setTimeout(() => {
+          if (calendar) {
+            calendar.updateSize();
+          }
+        }, 100);
       }
     });
   });
-}
-
-  calendar.render();
-
+});
 </script>
 
 </body>
