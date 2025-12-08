@@ -231,14 +231,6 @@
             "enlace": "https:\/\/www.redalyc.org\/pdf\/3416\/341630317004.pdf"
         },
         {
-            "id_recurso": 70,
-            "id_categoria": 6,
-            "titulo": "Manual de Normas Técnicas de Accesibilidad (CDMX)",
-            "descripcion": "Documento técnico oficial con lineamientos para el diseño de espacios accesibles y rampas.",
-            "tipo": "pdf adjuntos",
-            "enlace": "https:\/\/www.seduvi.cdmx.gob.mx\/storage\/app\/uploads\/public\/5a6\/788\/06c\/5a678806c9e0c691167439.pdf"
-        },
-        {
             "id_recurso": 73,
             "id_categoria": 6,
             "titulo": "Estrategias para la enseñanza del diseño arquitectónico",
@@ -311,126 +303,6 @@
             "enlace": "https:\/\/www.coursera.org\/learn\/python-basics"
         },
         {
-            "id_recurso": 36,
-            "id_categoria": 10,
-            "titulo": "Fundamentos de Administración (PDF)",
-            "descripcion": "Libro de texto básico sobre el proceso administrativo.",
-            "tipo": "Libros",
-            "enlace": "https:\/\/www.unaminternacional.unam.mx\/docencia\/asignaturas\/administracion.pdf"
-        },
-        {
-            "id_recurso": 37,
-            "id_categoria": 10,
-            "titulo": "Curso de Excel para Negocios",
-            "descripcion": "Aprende a usar Excel para la gestión y finanzas.",
-            "tipo": "Cursos",
-            "enlace": "https:\/\/www.youtube.com\/playlist?list=PLfedL5c2f52Lz7Q_u_uEwzX9u_uEwzX9u"
-        },
-        {
-            "id_recurso": 38,
-            "id_categoria": 10,
-            "titulo": "Liderazgo y Clima Organizacional",
-            "descripcion": "Artículo sobre la importancia del liderazgo en las empresas.",
-            "tipo": "Articulos de investigacion",
-            "enlace": "https:\/\/www.redalyc.org\/pdf\/4655\/465545890002.pdf"
-        },
-        {
-            "id_recurso": 39,
-            "id_categoria": 10,
-            "titulo": "Plan de Marketing Digital",
-            "descripcion": "Guía práctica para elaborar estrategias de marketing.",
-            "tipo": "Tutoriales",
-            "enlace": "https:\/\/www.youtube.com\/watch?v=n_u_u_u_u_u"
-        },
-        {
-            "id_recurso": 40,
-            "id_categoria": 10,
-            "titulo": "Tesis: Impacto del Clima Laboral",
-            "descripcion": "Estudio sobre cómo el ambiente afecta la productividad.",
-            "tipo": "Tesis",
-            "enlace": "http:\/\/ri.uaemex.mx\/bitstream\/handle\/20.500.11799\/68322\/Tesis%20Clima%20Laboral.pdf"
-        },
-        {
-            "id_recurso": 41,
-            "id_categoria": 11,
-            "titulo": "Control Automático (Curso)",
-            "descripcion": "Fundamentos de sistemas de control para ingeniería.",
-            "tipo": "Cursos",
-            "enlace": "https:\/\/www.youtube.com\/playlist?list=PLiP_J3_g_X_X_X_X_X_X_X"
-        },
-        {
-            "id_recurso": 42,
-            "id_categoria": 11,
-            "titulo": "Diseño de Mecanismos",
-            "descripcion": "Libro sobre cinemática y dinámica de maquinaria.",
-            "tipo": "Libros",
-            "enlace": "https:\/\/www.academia.edu\/36526644\/DISENO_DE_MAQUINARIA"
-        },
-        {
-            "id_recurso": 43,
-            "id_categoria": 11,
-            "titulo": "Programación de PLC (Tutorial)",
-            "descripcion": "Introducción a la lógica de escalera y PLCs.",
-            "tipo": "Tutoriales",
-            "enlace": "https:\/\/www.youtube.com\/watch?v=PLC_Basic"
-        },
-        {
-            "id_recurso": 44,
-            "id_categoria": 11,
-            "titulo": "Sensores y Actuadores en Mecatrónica",
-            "descripcion": "Artículo técnico sobre componentes electrónicos.",
-            "tipo": "Articulos de investigacion",
-            "enlace": "https:\/\/www.redalyc.org\/pdf\/911\/91101004.pdf"
-        },
-        {
-            "id_recurso": 45,
-            "id_categoria": 11,
-            "titulo": "Tesis: Automatización de Proceso Industrial",
-            "descripcion": "Implementación de un sistema automatizado real.",
-            "tipo": "Tesis",
-            "enlace": "https:\/\/tesis.ipn.mx\/bitstream\/handle\/123456789\/automatizacion.pdf"
-        },
-        {
-            "id_recurso": 46,
-            "id_categoria": 12,
-            "titulo": "Historia de la Arquitectura (Libro)",
-            "descripcion": "Recorrido por los estilos arquitectónicos a través del tiempo.",
-            "tipo": "Libros",
-            "enlace": "https:\/\/www.academia.edu\/Historia_de_la_Arquitectura"
-        },
-        {
-            "id_recurso": 47,
-            "id_categoria": 12,
-            "titulo": "Curso de Revit Architecture",
-            "descripcion": "Aprende BIM y modelado arquitectónico profesional.",
-            "tipo": "Cursos",
-            "enlace": "https:\/\/www.youtube.com\/playlist?list=PL_Revit_Course"
-        },
-        {
-            "id_recurso": 48,
-            "id_categoria": 12,
-            "titulo": "Urbanismo Sostenible",
-            "descripcion": "Investigación sobre el desarrollo de ciudades verdes.",
-            "tipo": "Articulos de investigacion",
-            "enlace": "https:\/\/www.redalyc.org\/pdf\/urbanismo.pdf"
-        },
-        {
-            "id_recurso": 49,
-            "id_categoria": 12,
-            "titulo": "Tesis: Centro Comunitario y Deportivo",
-            "descripcion": "Proyecto arquitectónico completo con planos y renders.",
-            "tipo": "Tesis",
-            "enlace": "http:\/\/ri.uaemex.mx\/bitstream\/handle\/20.500.11799\/12345\/Tesis_Arquitectura.pdf"
-        },
-        {
-            "id_recurso": 50,
-            "id_categoria": 12,
-            "titulo": "Tutorial: Renders en Lumion",
-            "descripcion": "Cómo crear visualizaciones realistas para tus proyectos.",
-            "tipo": "Tutoriales",
-            "enlace": "https:\/\/www.youtube.com\/watch?v=Lumion_Tutorial"
-        },
-        {
             "id_recurso": 81,
             "id_categoria": 8,
             "titulo": "Herramientas y Técnicas Lean Manufacturing en sistemas de producción y calidad",
@@ -453,6 +325,166 @@
             "descripcion": "Un libro completo sobre Lean Manufacturing, detallando su exposición adaptada a la fabricación repetitiva y los procesos discretos. Es un material teórico-práctico fundamental para entender y aplicar sistemas de producción esbelta en cualquier proyecto.",
             "tipo": "pdf adjuntos",
             "enlace": "https:\/\/todoproyecto.wordpress.com\/wp-content\/uploads\/2020\/09\/lean_manufacturing_francisco_madariaga_r.pdf"
+        },
+        {
+            "id_recurso": 84,
+            "id_categoria": 9,
+            "titulo": "Curso de Git y GitHub (Desde Cero)",
+            "descripcion": "Aprende a gestionar versiones de tu código, trabajar en equipo y desplegar proyectos utilizando los comandos esenciales de Git.",
+            "tipo": "Tutoriales",
+            "enlace": "https:\/\/www.youtube.com\/watch?v=HiXLkL42tMU"
+        },
+        {
+            "id_recurso": 85,
+            "id_categoria": 9,
+            "titulo": "La Guía Oficial de Scrum (2020)",
+            "descripcion": "PDF que explica las reglas, roles y eventos de Scrum, el marco ágil más usado para desarrollar software.",
+            "tipo": "pdf adjuntos",
+            "enlace": "https:\/\/scrumguides.org\/docs\/scrumguide\/v2020\/2020-Scrum-Guide-Spanish-European.pdf"
+        },
+        {
+            "id_recurso": 86,
+            "id_categoria": 9,
+            "titulo": "Big Data: Exploración de investigaciones y tecnologías",
+            "descripcion": "Artículo científico que revisa las técnicas de captura, procesamiento y análisis de datos masivos en la actualidad.",
+            "tipo": "Articulos de investigacion",
+            "enlace": "https:\/\/www.redalyc.org\/pdf\/3442\/344251476001.pdf"
+        },
+        {
+            "id_recurso": 87,
+            "id_categoria": 9,
+            "titulo": "Introducción a la Arquitectura de Software",
+            "descripcion": "Libro enfocado en patrones de diseño y la construcción de sistemas escalables y mantenibles.",
+            "tipo": "Libros",
+            "enlace": "https:\/\/fondoemprender.uts.edu.co\/wp-content\/uploads\/2024\/03\/Introduccion-a-la-arquitectura-de-software-v1.0.2.pdf"
+        },
+        {
+            "id_recurso": 88,
+            "id_categoria": 10,
+            "titulo": "Fundamentos de Administración (FCA-UNAM)",
+            "descripcion": "Libro de texto oficial de la Facultad de Contaduría y Administración que detalla el proceso administrativo y áreas funcionales.",
+            "tipo": "Libros",
+            "enlace": "http:\/\/fcaenlinea.unam.mx\/apuntes\/interiores\/docs\/2011\/administracion\/1\/fundamentos_administracion.pdf"
+        },
+        {
+            "id_recurso": 89,
+            "id_categoria": 10,
+            "titulo": "Curso: Introducción a las Finanzas (UNAM)",
+            "descripcion": "Curso oficial de la UNAM en Coursera sobre análisis de información financiera para la toma de decisiones estratégicas.",
+            "tipo": "Cursos",
+            "enlace": "https:\/\/www.coursera.org\/learn\/estrategia-financiera"
+        },
+        {
+            "id_recurso": 90,
+            "id_categoria": 10,
+            "titulo": "La gestión por procesos: Un enfoque eficiente",
+            "descripcion": "Artículo de investigación que propone la gestión basada en procesos como herramienta para la eficiencia organizacional moderna.",
+            "tipo": "Articulos de investigacion",
+            "enlace": "https:\/\/www.redalyc.org\/pdf\/3579\/357935475004.pdf"
+        },
+        {
+            "id_recurso": 91,
+            "id_categoria": 10,
+            "titulo": "Guía Técnica de Manuales de Organización (UNAM)",
+            "descripcion": "Documento técnico de la UNAM que establece la metodología oficial para elaborar manuales administrativos y organigramas.",
+            "tipo": "pdf adjuntos",
+            "enlace": "http:\/\/fcaenlinea.unam.mx\/anexos\/1244\/1244_u11_ejemplo-manual-de-organizacion.pdf"
+        },
+        {
+            "id_recurso": 92,
+            "id_categoria": 10,
+            "titulo": "Investigación sobre el área de Recursos Humanos",
+            "descripcion": "Tesis de licenciatura que analiza la estructura y funciones del departamento de RH en una empresa del sector privado.",
+            "tipo": "Tesis",
+            "enlace": "https:\/\/ru.dgb.unam.mx\/server\/api\/core\/bitstreams\/16839512-6072-41e6-9541-09168010ec1c\/content"
+        },
+        {
+            "id_recurso": 93,
+            "id_categoria": 11,
+            "titulo": "Robótica (Curso UNAM)",
+            "descripcion": "Curso práctico donde aplicarás conocimientos de mecánica, electricidad y programación para construir y controlar un robot móvil con tu celular.",
+            "tipo": "Cursos",
+            "enlace": "https:\/\/www.coursera.org\/learn\/robotica-inicial"
+        },
+        {
+            "id_recurso": 94,
+            "id_categoria": 11,
+            "titulo": "Curso Completo: PLC Siemens TIA Portal",
+            "descripcion": "Serie de videos prácticos para aprender a programar PLCs S7-1200 desde cero, incluyendo lógica ladder y HMI.",
+            "tipo": "Tutoriales",
+            "enlace": "https:\/\/www.youtube.com\/watch?v=wuzjXFrJcGE"
+        },
+        {
+            "id_recurso": 95,
+            "id_categoria": 11,
+            "titulo": "La Mecatrónica: Sistemas de Automatización",
+            "descripcion": "Investigación académica sobre la integración de sistemas mecánicos, electrónicos y computacionales en la manufactura.",
+            "tipo": "Articulos de investigacion",
+            "enlace": "https:\/\/www.redalyc.org\/pdf\/4761\/476150824007.pdf"
+        },
+        {
+            "id_recurso": 96,
+            "id_categoria": 11,
+            "titulo": "Curso PLC Siemens TIA Portal (Intro)",
+            "descripcion": "Tutorial práctico para aprender a usar el software TIA Portal y programar los controladores lógicos (PLC) más usados en la industria.",
+            "tipo": "Tutoriales",
+            "enlace": "https:\/\/www.youtube.com\/watch?v=rpN03Q-BHbY"
+        },
+        {
+            "id_recurso": 97,
+            "id_categoria": 11,
+            "titulo": "Diagnóstico del Sector Mecatrónico en México",
+            "descripcion": "Documento oficial que analiza las tendencias, oportunidades y el estado actual de la industria mecatrónica en el país.",
+            "tipo": "pdf adjuntos",
+            "enlace": "https:\/\/www.economia.gob.mx\/files\/comunidad_negocios\/industria_comercio\/Mecatronica.pdf"
+        },
+        {
+            "id_recurso": 98,
+            "id_categoria": 12,
+            "titulo": "Manual de Calles: Diseño Vial para Ciudades Mexicanas",
+            "descripcion": "Documento oficial con lineamientos gráficos, cortes y planos para diseñar espacios públicos y vialidades inclusivas en México.",
+            "tipo": "pdf adjuntos",
+            "enlace": "https:\/\/www.gob.mx\/sedatu\/documentos\/manual-de-calles-diseno-vial-para-ciudades-mexicanas"
+        },
+        {
+            "id_recurso": 99,
+            "id_categoria": 12,
+            "titulo": "Introducción a Autodesk Revit 2025 #01",
+            "descripcion": "Aprende desde cero a configurar el entorno de trabajo en Revit y a levantar tus primeros muros 3D con medidas precisas.",
+            "tipo": "Tutoriales",
+            "enlace": "https:\/\/www.youtube.com\/watch?v=-9ExJCc4mAM&list=PLV_kLLysPueWwjE6iacW2KYuDkzp15i3Z"
+        },
+        {
+            "id_recurso": 100,
+            "id_categoria": 12,
+            "titulo": "Historia de la investigación arquitectónica en México (1914-1984)",
+            "descripcion": "Tesis doctoral que analiza la evolución, metodologías y principales exponentes de la investigación arquitectónica mexicana durante el siglo XX.",
+            "tipo": "Tesis",
+            "enlace": "https:\/\/tesiunamdocumentos.dgb.unam.mx\/ptd2025\/jul_sep\/0877084\/Index.html"
+        },
+        {
+            "id_recurso": 101,
+            "id_categoria": 12,
+            "titulo": "Normas Técnicas de Accesibilidad (CDMX)",
+            "descripcion": "Manual oficial con especificaciones gráficas para rampas, pasillos y señalización accesible en proyectos arquitectónicos.",
+            "tipo": "pdf adjuntos",
+            "enlace": "http:\/\/www.data.seduvi.cdmx.gob.mx\/portal\/images\/banners\/banner_derecho\/documentos\/Manual_Normas_Tecnicas_Accesibilidad_2016.pdf"
+        },
+        {
+            "id_recurso": 102,
+            "id_categoria": 12,
+            "titulo": "Normas Técnicas para el Proyecto Arquitectónico",
+            "descripcion": "Documento legal que establece los requisitos mínimos de habitabilidad, funcionamiento y seguridad para cualquier edificación.",
+            "tipo": "pdf adjuntos",
+            "enlace": "https:\/\/data.consejeria.cdmx.gob.mx\/portal_old\/uploads\/gacetas\/ac9dacd2a6067a3829044b5ee9eac2a4.pdf"
+        },
+        {
+            "id_recurso": 103,
+            "id_categoria": 12,
+            "titulo": "Habitabilidad y política de vivienda en México",
+            "descripcion": "Libro de la UNAM que analiza los retos del diseño de vivienda, políticas públicas y condiciones de habitabilidad en el país.",
+            "tipo": "Libros",
+            "enlace": "https:\/\/www.puec.unam.mx\/pdf\/libros_digitales\/habitabilidad_politica_%20vivienda_mexico_libro_web.pdf"
         }
     ]
 }
