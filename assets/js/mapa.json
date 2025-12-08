@@ -178,7 +178,7 @@
                 }
             ],
             "descripcion": "Área de alimentación y descanso para estudiantes y personal.",
-            "color": "#19a473"
+            "color": "#a45719"
         },
         {
             "id": "canchadefutbol",
@@ -194,7 +194,7 @@
                 }
             ],
             "descripcion": "Cancha de fútbol para actividades deportivas y recreativas.",
-            "color": "#19a473"
+            "color": "#f4a4c0"
         },
         {
             "id": "canchadebasquetbol",
@@ -257,100 +257,7 @@
             "color": "#19a473"
         }
     ],
-    "eventos": [
-        {
-            "id": 1,
-            "title": "Entrega de Proyecto",
-            "start": "2025-09-10",
-            "backgroundColor": "#19a473",
-            "borderColor": "#19a473",
-            "description": "Fecha límite para la entrega del proyecto final de semestre",
-            "tipo": "academico"
-        },
-        {
-            "id": 2,
-            "title": "Revisión de Avances",
-            "start": "2025-09-12",
-            "backgroundColor": "#19a473",
-            "borderColor": "#19a473",
-            "description": "Revisión de avances del proyecto con el tutor asignado",
-            "tipo": "academico"
-        },
-        {
-            "id": 3,
-            "title": "Exposición Parcial",
-            "start": "2025-09-15",
-            "backgroundColor": "#19a473",
-            "borderColor": "#19a473",
-            "description": "Presentación de avances ante el comité evaluador",
-            "tipo": "academico"
-        },
-        {
-            "id": 4,
-            "title": "Práctica de Laboratorio",
-            "start": "2025-09-18",
-            "backgroundColor": "#19a473",
-            "borderColor": "#19a473",
-            "description": "Sesión práctica en el laboratorio especializado",
-            "tipo": "academico"
-        },
-        {
-            "id": 5,
-            "title": "Reunión Académica",
-            "start": "2025-09-20",
-            "backgroundColor": "#19a473",
-            "borderColor": "#19a473",
-            "description": "Reunión general del departamento académico",
-            "tipo": "academico"
-        },
-        {
-            "id": 6,
-            "title": "Entrega de Reporte",
-            "start": "2025-09-22",
-            "backgroundColor": "#19a473",
-            "borderColor": "#19a473",
-            "description": "Entrega del reporte técnico final del proyecto",
-            "tipo": "academico"
-        },
-        {
-            "id": 7,
-            "title": "Examen Final",
-            "start": "2025-09-25",
-            "backgroundColor": "#19a473",
-            "borderColor": "#19a473",
-            "description": "Examen final del semestre en todas las materias",
-            "tipo": "academico"
-        },
-        {
-            "id": 8,
-            "title": "Clausura del Curso",
-            "start": "2025-09-28",
-            "backgroundColor": "#19a473",
-            "borderColor": "#19a473",
-            "description": "Ceremonia de clausura y entrega de reconocimientos",
-            "tipo": "academico"
-        },
-        {
-            "id": 10,
-            "title": "Revisión de Avances",
-            "start": "2025-12-15",
-            "end": null,
-            "backgroundColor": "#19a473",
-            "borderColor": "#19a473",
-            "description": "HH",
-            "tipo": "academico"
-        },
-        {
-            "id": 11,
-            "title": "Revisión de Avances",
-            "start": "2025-12-15",
-            "end": null,
-            "backgroundColor": "#19a473",
-            "borderColor": "#19a473",
-            "description": "HH",
-            "tipo": "academico"
-        }
-    ],
+    "eventos": [],
     "marcadores": [
         {
             "id": 1,
@@ -442,5 +349,9 @@
         "lng": -106.562487,
         "zoom": 17
     },
+<<<<<<< HEAD
     "ultimaActualizacion": "2025-12-08T14:43:55+01:00"
+=======
+    "ultimaActualizacion": "2025-12-08T07:57:45+01:00"
+>>>>>>> 32a2893888e412dcf144e3af9c8c8b1194d0fb3b
 }
