@@ -287,8 +287,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action'])) {
     <style>
   :root {
     --txt: #2e2e2e;
-    --primary: #19a473;
-    --primary-dark: #148a60;
+    --primary: #00837f;
+    --primary-dark: #00837f;
     --danger: #dc3545;
     --danger-dark: #c82333;
   }

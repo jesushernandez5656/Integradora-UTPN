@@ -165,7 +165,7 @@
             "color": "#9d13e7"
         },
         {
-            "id": "cafetería",
+            "id": "cafeteria",
             "nombre": "Cafetería",
             "descripciones": [
                 {
@@ -194,7 +194,7 @@
                 }
             ],
             "descripcion": "Cancha de fútbol para actividades deportivas y recreativas.",
-            "color": "#f4a4c0"
+            "color": "#2e7d32"
         },
         {
             "id": "canchadebasquetbol",
@@ -206,7 +206,7 @@
                 }
             ],
             "descripcion": "Cancha de basquetbol para actividades deportivas.",
-            "color": "#19a473"
+            "color": "#1976d2"
         },
         {
             "id": "canchadevoleibol",
@@ -218,7 +218,7 @@
                 }
             ],
             "descripcion": "Cancha de voleibol para actividades deportivas.",
-            "color": "#19a473"
+            "color": "#d32f2f"
         },
         {
             "id": "canchadevoleibolplayero",
@@ -230,7 +230,7 @@
                 }
             ],
             "descripcion": "Cancha de voleibol playero para actividades deportivas.",
-            "color": "#19a473"
+            "color": "#ff9800"
         },
         {
             "id": "quiosco",
@@ -242,7 +242,7 @@
                 }
             ],
             "descripcion": "Área de descanso y reunión al aire libre.",
-            "color": "#19a473"
+            "color": "#795548"
         },
         {
             "id": "puntodereunion",
@@ -254,10 +254,33 @@
                 }
             ],
             "descripcion": "Punto de encuentro para emergencias y actividades grupales.",
-            "color": "#19a473"
+            "color": "#607d8b"
         }
     ],
-    "eventos": [],
+    "eventos": [
+        {
+            "id": 1,
+            "title": "Integradora",
+            "start": "2025-12-08",
+            "backgroundColor": "#9d13a0",
+            "borderColor": "#9d13a0",
+            "extendedProps": {
+                "description": "Proyecto de IRCM41",
+                "tipo": "academico"
+            }
+        },
+        {
+            "id": 2,
+            "title": "Navidad",
+            "start": "2025-12-25",
+            "backgroundColor": "#ff3333",
+            "borderColor": "#ff3333",
+            "extendedProps": {
+                "description": "FELIZ NAVIDAD A TODOS!!!!!",
+                "tipo": "cultural"
+            }
+        }
+    ],
     "marcadores": [
         {
             "id": 1,
@@ -299,7 +322,7 @@
             "nombre": "Cafetería",
             "lat": 31.767125033013915,
             "lng": -106.56140786196244,
-            "edificioId": "cafetería"
+            "edificioId": "cafeteria"
         },
         {
             "id": 7,
@@ -349,9 +372,5 @@
         "lng": -106.562487,
         "zoom": 17
     },
-<<<<<<< HEAD
-    "ultimaActualizacion": "2025-12-08T14:43:55+01:00"
-=======
-    "ultimaActualizacion": "2025-12-08T07:57:45+01:00"
->>>>>>> 32a2893888e412dcf144e3af9c8c8b1194d0fb3b
+    "ultimaActualizacion": "2025-12-08T18:40:59+01:00"
 }
