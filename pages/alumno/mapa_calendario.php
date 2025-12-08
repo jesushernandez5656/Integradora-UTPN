@@ -17,48 +17,202 @@
     font-family: 'Plus Jakarta Sans', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, sans-serif;
     color: var(--txt);
     background-color: #EDE5D6;
+    overflow-x: hidden; /* Prevenir scroll horizontal */
   }
 
   .contenedor-principal {
     max-width: 1200px;
-    margin: 40px auto;
-    padding: 20px;
+    margin: 0 auto;
+    padding: 15px;
   }
 
   h1, h2, h3 {
     text-align: center;
     font-weight: 700;
     color: #3b3b3b;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
   }
 
   h1 {
-    font-size: 2.2rem;
+    font-size: 1.8rem;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
+    margin-top: 10px;
+    margin-bottom: 20px;
   }
 
   h2 {
-    font-size: 1.6rem;
-    margin-top: 40px;
+    font-size: 1.4rem;
+    margin-top: 30px;
+  }
+
+  h3 {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+  }
+
+  /* ==== RESPONSIVE GENERAL ==== */
+  @media (max-width: 768px) {
+    .contenedor-principal {
+      padding: 12px;
+    }
+    
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+    }
+    
+    h2 {
+      font-size: 1.3rem;
+      margin-top: 25px;
+    }
+    
+    h3 {
+      font-size: 1.1rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .contenedor-principal {
+      padding: 10px;
+    }
+    
+    h1 {
+      font-size: 1.3rem;
+      letter-spacing: 0.3px;
+    }
+    
+    h2 {
+      font-size: 1.15rem;
+      margin-top: 20px;
+    }
+    
+    h3 {
+      font-size: 1rem;
+    }
   }
 
   /* ==== MAPA ==== */
   #map {
-    height: 450px;
-    border-radius: 20px;
+    height: 400px;
+    border-radius: 15px;
     overflow: hidden;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    margin-bottom: 40px;
+    margin-bottom: 25px;
+  }
+
+  @media (max-width: 768px) {
+    #map {
+      height: 350px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+    
+    /* Ajustar controles del mapa para móvil */
+    .leaflet-control-zoom {
+      margin: 10px !important;
+    }
+    
+    .leaflet-control-zoom a {
+      width: 35px !important;
+      height: 35px !important;
+      line-height: 35px !important;
+      font-size: 18px !important;
+    }
+  }
+
+  @media (max-width: 480px) {
+    #map {
+      height: 300px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
   }
 
   /* ==== CALENDARIO ==== */
   #calendar {
     background-color: #fff;
-    border-radius: 15px;
-    padding: 20px;
+    border-radius: 12px;
+    padding: 15px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  /* Ajustes responsivos para FullCalendar */
+  @media (max-width: 768px) {
+    #calendar {
+      padding: 12px;
+      border-radius: 10px;
+    }
+    
+    .fc-header-toolbar {
+      flex-direction: column !important;
+      gap: 10px !important;
+    }
+    
+    .fc-header-toolbar .fc-toolbar-chunk {
+      width: 100% !important;
+      text-align: center !important;
+      margin-bottom: 5px !important;
+    }
+    
+    .fc-toolbar-title {
+      font-size: 1.1rem !important;
+      margin: 5px 0 !important;
+    }
+    
+    .fc-button {
+      padding: 6px 10px !important;
+      font-size: 0.85rem !important;
+      min-height: 36px !important;
+    }
+    
+    .fc-daygrid-event {
+      font-size: 0.75rem !important;
+    }
+  }
+
+  @media (max-width: 480px) {
+    #calendar {
+      padding: 10px;
+    }
+    
+    .fc-toolbar-title {
+      font-size: 1rem !important;
+    }
+    
+    .fc-button {
+      padding: 5px 8px !important;
+      font-size: 0.75rem !important;
+      min-height: 32px !important;
+    }
+    
+    .fc-col-header-cell {
+      font-size: 0.8rem !important;
+      padding: 5px 0 !important;
+    }
+    
+    .fc-daygrid-day-number {
+      font-size: 0.85rem !important;
+      padding: 2px !important;
+    }
+    
+    .fc-view-harness {
+      min-height: 350px !important;
+    }
+    
+    /* Simplificar toolbar en móvil muy pequeño */
+    @media (max-width: 360px) {
+      .fc-header-toolbar {
+        flex-wrap: wrap !important;
+      }
+      
+      .fc-toolbar-chunk:nth-child(3) {
+        order: 2 !important;
+        margin-top: 5px !important;
+      }
+    }
   }
 
   /* ==== ACORDEÓN ==== */
@@ -66,7 +220,7 @@
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    margin-top: 20px;
+    margin-top: 15px;
   }
 
   .acordeon-item {
@@ -76,12 +230,27 @@
   .acordeon-header {
     background-color: #19a473;
     color: white;
-    padding: 12px 16px;
-    font-weight: bold;
+    padding: 14px 16px;
+    font-weight: 600;
     cursor: pointer;
     transition: background 0.3s;
+    font-size: 1rem;
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    min-height: 50px; /* Tamaño táctil */
+  }
+
+  .acordeon-header::after {
+    content: '+';
+    font-size: 1.4rem;
+    font-weight: normal;
+    transition: transform 0.3s;
+  }
+
+  .acordeon-header.active::after {
+    content: '-';
+    transform: rotate(0deg);
   }
 
   .acordeon-header:hover {
@@ -90,31 +259,28 @@
 
   .acordeon-content {
     display: none;
-    padding: 12px 16px;
+    padding: 15px;
     background: #f8f8f8;
     line-height: 1.6;
+    font-size: 0.95rem;
+  }
+
+  .acordeon-content.active {
+    display: block;
   }
 
   .acordeon-content p {
-    margin: 5px 0;
+    margin: 10px 0;
+    padding-left: 12px;
+    position: relative;
   }
 
-  /* ==== SECCIONES DE DESCRIPCIÓN ==== */
-  .seccion-lugares {
-    margin-top: 40px;
-    background-color: #fff;
-    border-radius: 15px;
-    padding: 25px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  }
-
-  .seccion-lugares h3 {
-    margin-bottom: 10px;
-    color: #444;
-  }
-
-  .seccion-lugares p {
-    margin: 0 0 10px;
+  .acordeon-content p::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: #19a473;
+    font-size: 1.2em;
   }
 
   /* Color del marcador del edificio */
@@ -123,20 +289,181 @@
     height: 20px;
     border-radius: 50%;
     display: inline-block;
-    margin-right: 10px;
+    margin-right: 12px;
     border: 2px solid white;
     box-shadow: 0 0 0 1px rgba(0,0,0,0.1);
+    flex-shrink: 0; /* Prevenir que se reduzca en móvil */
   }
 
-  /* Estilos para eventos del calendario */
-  .fc-event {
-    cursor: pointer;
-    border-radius: 4px;
+  @media (max-width: 768px) {
+    .acordeon-header {
+      padding: 12px 14px;
+      font-size: 0.95rem;
+      min-height: 45px;
+    }
+    
+    .acordeon-header::after {
+      font-size: 1.3rem;
+    }
+    
+    .acordeon-content {
+      padding: 12px;
+      font-size: 0.9rem;
+    }
+    
+    .acordeon-content p {
+      margin: 8px 0;
+    }
+    
+    .color-indicator {
+      width: 18px;
+      height: 18px;
+      margin-right: 10px;
+    }
   }
 
-  .fc-event:hover {
-    opacity: 0.9;
-    transform: translateY(-1px);
+  @media (max-width: 480px) {
+    .acordeon-header {
+      padding: 10px 12px;
+      font-size: 0.9rem;
+      min-height: 40px;
+    }
+    
+    .acordeon-header::after {
+      font-size: 1.2rem;
+    }
+    
+    .acordeon-content {
+      padding: 10px;
+      font-size: 0.85rem;
+    }
+    
+    .acordeon-content p {
+      margin: 6px 0;
+      padding-left: 10px;
+    }
+    
+    .color-indicator {
+      width: 16px;
+      height: 16px;
+      margin-right: 8px;
+    }
+  }
+
+  /* ==== SECCIONES DE DESCRIPCIÓN ==== */
+  .seccion-lugares {
+    margin-top: 25px;
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    margin-bottom: 25px;
+  }
+
+  @media (max-width: 768px) {
+    .seccion-lugares {
+      padding: 15px;
+      border-radius: 12px;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .seccion-lugares {
+      padding: 12px;
+      border-radius: 10px;
+      margin-top: 15px;
+      margin-bottom: 15px;
+    }
+  }
+
+  /* ==== MEJORAS PARA TEXTOS LARGOS ==== */
+  @media (max-width: 768px) {
+    p, .acordeon-content p {
+      line-height: 1.5;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      hyphens: auto; /* Separación silábica */
+    }
+    
+    /* Mejorar legibilidad en móvil */
+    .acordeon-content b {
+      display: inline-block;
+      margin-top: 3px;
+    }
+  }
+
+  /* ==== POPUPS DEL MAPA RESPONSIVOS ==== */
+  .leaflet-popup-content {
+    min-width: 140px !important;
+    max-width: 200px !important;
+  }
+
+  @media (max-width: 480px) {
+    .leaflet-popup-content {
+      min-width: 120px !important;
+      max-width: 160px !important;
+      font-size: 0.9rem;
+    }
+    
+    .leaflet-popup-content h4 {
+      font-size: 0.9rem !important;
+      margin: 5px 0 !important;
+    }
+    
+    .leaflet-popup-content p {
+      font-size: 0.8rem !important;
+      margin: 3px 0 !important;
+    }
+  }
+
+  /* ==== MEJORAS PARA BOTONES TÁCTILES ==== */
+  .acordeon-header,
+  .fc-button,
+  .leaflet-control-zoom a {
+    touch-action: manipulation; /* Mejora respuesta táctil */
+  }
+
+  /* ==== ESTADOS ACTIVOS VISIBLES ==== */
+  .acordeon-header:active {
+    background-color: #117a50 !important;
+    transform: scale(0.98);
+  }
+
+  /* ==== MENSAJES SIN DATOS ==== */
+  .no-data-message {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+    font-style: italic;
+    background: #f9f9f9;
+    border-radius: 8px;
+    margin: 15px 0;
+    font-size: 0.95rem;
+  }
+
+  @media (max-width: 480px) {
+    .no-data-message {
+      padding: 15px;
+      font-size: 0.85rem;
+    }
+  }
+
+  /* ==== LOADING STATE (opcional) ==== */
+  .loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255,255,255,.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s ease-in-out infinite;
+    margin-right: 10px;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
   }
 </style>
 
@@ -162,7 +489,7 @@ if (file_exists($jsonPath)) {
     
     // Verificar si hubo error al decodificar el JSON
     if (json_last_error() !== JSON_ERROR_NONE) {
-        echo "<p>Error al cargar los datos del mapa: " . json_last_error_msg() . "</p>";
+        echo "<div class='no-data-message'>Error al cargar los datos del mapa: " . json_last_error_msg() . "</div>";
     } else {
         // Extraer datos
         $edificios = isset($data['edificios']) ? $data['edificios'] : [];
@@ -171,7 +498,7 @@ if (file_exists($jsonPath)) {
         $mapaConfig = isset($data['mapaConfig']) ? $data['mapaConfig'] : $mapaConfig;
     }
 } else {
-    echo "<p>No hay información disponible. Los datos se cargarán cuando el administrador los agregue.</p>";
+    echo "<div class='no-data-message'>No hay información disponible. Los datos se cargarán cuando el administrador los agregue.</div>";
 }
 ?>
 
@@ -191,7 +518,7 @@ if (file_exists($jsonPath)) {
           <div class="acordeon-item" id="<?php echo htmlspecialchars($edificio['id']); ?>">
             <div class="acordeon-header">
               <span class="color-indicator" style="background-color: <?php echo htmlspecialchars($edificio['color'] ?? '#19a473'); ?>"></span>
-              <?php echo htmlspecialchars($edificio['nombre']); ?>
+              <span class="acordeon-title"><?php echo htmlspecialchars($edificio['nombre']); ?></span>
             </div>
             <div class="acordeon-content">
               <?php if (!empty($edificio['descripcion'])): ?>
@@ -206,7 +533,9 @@ if (file_exists($jsonPath)) {
           </div>
         <?php endforeach; ?>
       <?php else: ?>
-        <p>No hay información disponible de edificios. El administrador puede agregar edificios desde el panel de administración.</p>
+        <div class="no-data-message">
+          No hay información disponible de edificios. El administrador puede agregar edificios desde el panel de administración.
+        </div>
       <?php endif; ?>
     </div>
   </div>
@@ -228,24 +557,35 @@ const edificiosData = <?php echo json_encode($edificios); ?>;
 const eventosData = <?php echo json_encode($eventos); ?>;
 const mapaConfig = <?php echo json_encode($mapaConfig); ?>;
 
+// Detectar dispositivo móvil
+const isMobile = window.innerWidth <= 768;
+const isSmallMobile = window.innerWidth <= 480;
+
 // -------- MAPA --------
-// Definir límites estrictos para la universidad - USANDO TUS COORDENADAS EXACTAS
+// Definir límites estrictos para la universidad
 const boundsUniversidad = [
   [31.765665, -106.564959],  // Esquina inferior izquierda
   [31.767519, -106.560205]   // Esquina superior derecha
 ];
 
-const map = L.map("map", {
-  center: [31.766592, -106.562582], // Punto central dentro de los límites
-  zoom: 17,
+// Configuración del mapa según dispositivo
+const mapOptions = {
+  center: [31.766592, -106.562582],
+  zoom: isMobile ? 16 : 17,
   minZoom: 16,
-  maxZoom: 19,
+  maxZoom: isMobile ? 18 : 19,
   zoomControl: true,
   maxBounds: boundsUniversidad,
-  maxBoundsViscosity: 1.0,  // Evita que el usuario se salga de los límites
-  inertia: false,  // Desactiva inercia para mejor control
-  bounceAtZoomLimits: false  // Evita rebotes en los límites de zoom
-});
+  maxBoundsViscosity: 1.0,
+  inertia: false,
+  bounceAtZoomLimits: false,
+  touchZoom: true, // Habilitar zoom táctil
+  scrollWheelZoom: !isMobile, // Deshabilitar zoom con rueda en móvil
+  dragging: true,
+  tap: false // Mejorar compatibilidad táctil
+};
+
+const map = L.map("map", mapOptions);
 
 // Agregar capa de mapa satelital
 L.tileLayer(
@@ -257,7 +597,12 @@ L.tileLayer(
   }
 ).addTo(map);
 
-// Agregar rectángulo que muestra el área permitida (opcional, para referencia)
+// Posicionar controles según dispositivo
+if (isMobile) {
+  map.zoomControl.setPosition('bottomright');
+}
+
+// Agregar rectángulo que muestra el área permitida (opcional)
 L.rectangle(boundsUniversidad, {
   color: "#19a473",
   weight: 2,
@@ -297,6 +642,11 @@ function encontrarEdificioPorId(id) {
   return edificiosData.find(edificio => edificio.id === id);
 }
 
+// Tamaño de icono según dispositivo
+const iconSize = isSmallMobile ? 25 : isMobile ? 28 : 30;
+const iconAnchor = iconSize / 2;
+const fontSize = isSmallMobile ? 10 : isMobile ? 11 : 12;
+
 // Crear marcadores
 marcadoresBase.forEach((lugar) => {
   const edificio = encontrarEdificioPorId(lugar.id);
@@ -309,72 +659,81 @@ marcadoresBase.forEach((lugar) => {
     html: `
       <div style="
         background-color: ${color};
-        width: 30px;
-        height: 30px;
+        width: ${iconSize}px;
+        height: ${iconSize}px;
         border-radius: 50%;
-        border: 3px solid white;
+        border: 2px solid white;
         box-shadow: 0 0 0 2px rgba(0,0,0,0.1);
         display: flex;
         align-items: center;
         justify-content: center;
         color: white;
         font-weight: bold;
-        font-size: 12px;
+        font-size: ${fontSize}px;
         cursor: pointer;
       ">
         ${nombre.charAt(0)}
       </div>
     `,
-    iconSize: [30, 30],
-    iconAnchor: [15, 15]
+    iconSize: [iconSize, iconSize],
+    iconAnchor: [iconAnchor, iconAnchor]
   });
   
-  const marker = L.marker(lugar.coords, { icon: iconoPersonalizado })
-    .addTo(map)
-    .bindPopup(`
-      <div style="text-align: center; min-width: 150px; padding: 10px;">
-        <div style="
-          background-color: ${color};
-          width: 40px;
-          height: 40px;
-          border-radius: 50%;
-          margin: 0 auto 10px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: white;
-          font-weight: bold;
-          font-size: 16px;
-          border: 3px solid white;
-          box-shadow: 0 0 0 2px rgba(0,0,0,0.1);
-        ">
-          ${nombre.charAt(0)}
-        </div>
-        <h4 style="margin: 0; color: ${color}; font-size: 16px;">${nombre}</h4>
-        <p style="margin: 5px 0 0; color: #666; font-size: 12px;">Haz clic para más información</p>
+  const marker = L.marker(lugar.coords, { 
+    icon: iconoPersonalizado,
+    title: nombre // Para accesibilidad
+  })
+  .addTo(map)
+  .bindPopup(`
+    <div style="text-align: center; min-width: ${isSmallMobile ? '120px' : '150px'}; padding: 10px;">
+      <div style="
+        background-color: ${color};
+        width: ${isSmallMobile ? '35px' : '40px'};
+        height: ${isSmallMobile ? '35px' : '40px'};
+        border-radius: 50%;
+        margin: 0 auto 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        font-size: ${isSmallMobile ? '14px' : '16px'};
+        border: 2px solid white;
+        box-shadow: 0 0 0 2px rgba(0,0,0,0.1);
+      ">
+        ${nombre.charAt(0)}
       </div>
-    `)
-    .on('click', function() {
-      // Desplazarse a la sección del acordeón
-      const elem = document.querySelector(`#${lugar.id}`);
-      if(elem){
-        // Abrir el acordeón
-        const content = elem.querySelector('.acordeon-content');
-        if (content.style.display === 'block') {
-          content.style.display = 'none';
-        } else {
-          // Cerrar todos los acordeones primero
-          document.querySelectorAll('.acordeon-content').forEach(c => c.style.display = 'none');
-          content.style.display = 'block';
-        }
-        
-        // Desplazarse suavemente
-        elem.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        
-        // Cerrar el popup
-        marker.closePopup();
-      }
-    });
+      <h4 style="margin: 0; color: ${color}; font-size: ${isSmallMobile ? '14px' : '16px'};">${nombre}</h4>
+      <p style="margin: 5px 0 0; color: #666; font-size: ${isSmallMobile ? '10px' : '12px'};">Toca para más información</p>
+    </div>
+  `)
+  .on('click', function() {
+    // Desplazarse a la sección del acordeón
+    const elem = document.querySelector(`#${lugar.id}`);
+    if(elem){
+      // Abrir el acordeón
+      const header = elem.querySelector('.acordeon-header');
+      const content = elem.querySelector('.acordeon-content');
+      
+      // Cerrar todos los acordeones primero
+      document.querySelectorAll('.acordeon-content').forEach(c => {
+        c.style.display = 'none';
+        c.previousElementSibling.classList.remove('active');
+      });
+      
+      // Abrir el acordeón seleccionado
+      header.classList.add('active');
+      content.style.display = 'block';
+      
+      // Desplazarse suavemente
+      setTimeout(() => {
+        elem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
+      
+      // Cerrar el popup
+      marker.closePopup();
+    }
+  });
 });
 
 // -------- CALENDARIO --------
@@ -397,24 +756,32 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   });
 
-  const calendar = new FullCalendar.Calendar(calendarEl, {
-    initialView: "dayGridMonth",
+  // Configuración del calendario según dispositivo
+  const calendarConfig = {
+    initialView: isSmallMobile ? "dayGridMonth" : isMobile ? "dayGridMonth" : "dayGridMonth",
     locale: 'es',
     firstDay: 1,
     headerToolbar: {
-      left: "prev,next today",
+      left: isSmallMobile ? "prev,next" : "prev,next today",
       center: "title",
-      right: "dayGridMonth,timeGridWeek,timeGridDay"
+      right: isSmallMobile ? "" : (isMobile ? "dayGridMonth,timeGridWeek" : "dayGridMonth,timeGridWeek,timeGridDay")
+    },
+    buttonText: {
+      today: isSmallMobile ? "Hoy" : "Hoy",
+      month: isSmallMobile ? "Mes" : "Mes",
+      week: isSmallMobile ? "Sem." : "Semana",
+      day: "Día"
     },
     events: eventosFormateados.length > 0 ? eventosFormateados : [
       { 
-        title: "Sin eventos programados", 
+        title: "Sin eventos", 
         start: new Date().toISOString().split('T')[0],
         backgroundColor: '#f0f0f0',
         borderColor: '#ddd',
         color: '#666'
       }
     ],
+    height: isSmallMobile ? 350 : isMobile ? 400 : 'auto',
     eventClick: function(info) {
       const evento = info.event;
       const descripcion = evento.extendedProps.description;
@@ -424,7 +791,7 @@ document.addEventListener("DOMContentLoaded", () => {
       Swal.fire({
         title: evento.title,
         html: `
-          <div style="text-align: left;">
+          <div style="text-align: left; font-size: ${isMobile ? '14px' : '16px'}">
             <p><strong>Fecha:</strong> ${evento.start ? new Date(evento.start).toLocaleDateString('es-ES') : ''}</p>
             ${evento.end ? `<p><strong>Hasta:</strong> ${new Date(evento.end).toLocaleDateString('es-ES')}</p>` : ''}
             <p><strong>Tipo:</strong> ${tipo}</p>
@@ -434,29 +801,34 @@ document.addEventListener("DOMContentLoaded", () => {
         icon: 'info',
         confirmButtonColor: '#19a473',
         confirmButtonText: 'Cerrar',
-        background: '#EDE5D6'
+        background: '#EDE5D6',
+        width: isMobile ? '90%' : '500px',
+        customClass: {
+          popup: isMobile ? 'swal-popup-mobile' : ''
+        }
       });
     },
     eventContent: function(arg) {
       const evento = arg.event;
       const title = evento.title;
+      const isSmallEvent = isSmallMobile || arg.view.type === 'dayGridMonth';
       
       // Crear contenido personalizado para el evento
       const container = document.createElement('div');
       container.style.cssText = `
-        padding: 2px 4px;
+        padding: ${isSmallEvent ? '1px 2px' : '2px 4px'};
         border-radius: 3px;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
-        font-size: 12px;
+        font-size: ${isSmallEvent ? '10px' : '12px'};
       `;
       
       container.innerHTML = `
-        <div style="display: flex; align-items: center; gap: 4px;">
+        <div style="display: flex; align-items: center; gap: 3px;">
           <div style="
-            width: 8px;
-            height: 8px;
+            width: ${isSmallEvent ? '6px' : '8px'};
+            height: ${isSmallEvent ? '6px' : '8px'};
             border-radius: 50%;
             background-color: ${evento.backgroundColor};
             flex-shrink: 0;
@@ -480,7 +852,9 @@ document.addEventListener("DOMContentLoaded", () => {
         titleEl.textContent = `${currentMonth} ${currentYear}`;
       }
     }
-  });
+  };
+
+  const calendar = new FullCalendar.Calendar(calendarEl, calendarConfig);
 
   calendar.render();
   
@@ -488,16 +862,8 @@ document.addEventListener("DOMContentLoaded", () => {
   if (eventosFormateados.length === 0) {
     setTimeout(() => {
       const noEventsMsg = document.createElement('div');
-      noEventsMsg.style.cssText = `
-        text-align: center;
-        padding: 20px;
-        color: #666;
-        font-style: italic;
-        background: #f9f9f9;
-        border-radius: 8px;
-        margin-top: 10px;
-      `;
-      noEventsMsg.textContent = 'No hay eventos programados. El administrador puede agregar eventos desde el panel de administración.';
+      noEventsMsg.className = 'no-data-message';
+      noEventsMsg.textContent = 'No hay eventos programados.';
       
       const calendarHeader = document.querySelector('.fc-header-toolbar');
       if (calendarHeader) {
@@ -505,24 +871,42 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }, 100);
   }
+  
+  // Ajustar calendario en redimensionamiento
+  window.addEventListener('resize', () => {
+    calendar.updateSize();
+  });
 });
 
-// -------- ACORDEÓN --------
+// -------- ACORDEÓN MEJORADO --------
 document.querySelectorAll(".acordeon-header").forEach(header => {
-  header.addEventListener("click", () => {
+  // Mejorar respuesta táctil
+  header.addEventListener("click", (e) => {
+    e.preventDefault();
     const content = header.nextElementSibling;
-    const isOpen = content.style.display === "block";
+    const isActive = header.classList.contains('active');
     
-    // Cerrar todos los demás acordeones
-    document.querySelectorAll(".acordeon-content").forEach(c => {
-      if (c !== content) {
-        c.style.display = "none";
-      }
+    // Cerrar todos los acordeones
+    document.querySelectorAll('.acordeon-content').forEach(c => {
+      c.style.display = 'none';
+      c.previousElementSibling.classList.remove('active');
     });
     
-    // Alternar el actual
-    content.style.display = isOpen ? "none" : "block";
+    // Abrir el acordeón clickeado si no estaba activo
+    if (!isActive) {
+      header.classList.add('active');
+      content.style.display = 'block';
+    }
   });
+  
+  // Mejorar feedback táctil
+  header.addEventListener('touchstart', function() {
+    this.style.backgroundColor = '#117a50';
+  }, { passive: true });
+  
+  header.addEventListener('touchend', function() {
+    this.style.backgroundColor = '';
+  }, { passive: true });
 });
 
 // Función para abrir acordeón específico desde URL hash
@@ -531,14 +915,21 @@ function abrirAcordeonDesdeHash() {
   if (hash) {
     const elemento = document.querySelector(hash);
     if (elemento && elemento.classList.contains('acordeon-item')) {
+      const header = elemento.querySelector('.acordeon-header');
       const content = elemento.querySelector('.acordeon-content');
       if (content) {
         // Cerrar todos los acordeones
-        document.querySelectorAll('.acordeon-content').forEach(c => c.style.display = 'none');
+        document.querySelectorAll('.acordeon-content').forEach(c => {
+          c.style.display = 'none';
+          c.previousElementSibling.classList.remove('active');
+        });
         // Abrir el solicitado
+        header.classList.add('active');
         content.style.display = 'block';
         // Desplazarse a él
-        elemento.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        setTimeout(() => {
+          elemento.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
       }
     }
   }
@@ -547,6 +938,19 @@ function abrirAcordeonDesdeHash() {
 // Ejecutar al cargar la página
 window.addEventListener('load', abrirAcordeonDesdeHash);
 window.addEventListener('hashchange', abrirAcordeonDesdeHash);
+
+// Mejorar rendimiento en móvil
+if (isMobile) {
+  // Reducir animaciones en móvil
+  document.documentElement.style.scrollBehavior = 'smooth';
+  
+  // Prevenir zoom en inputs (si los hubiera)
+  document.addEventListener('touchmove', function(e) {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+      e.preventDefault();
+    }
+  }, { passive: false });
+}
 </script>
 
 <?php include("../../includes/footer.php"); ?>
