@@ -55,7 +55,6 @@ async function cargarDatos() {
             actualizarEstadisticas(dataEstadisticas.data);
         } else {
             console.warn('⚠️ Estadísticas no disponibles desde API, calculando manualmente...');
-            // Si el API falla, calcular las estadísticas manualmente
             actualizarEstadisticas(calcularEstadisticasManualmente());
         }
         
@@ -65,33 +64,25 @@ async function cargarDatos() {
     }
 }
 
-// ⭐ NUEVA FUNCIÓN: Actualizar estadísticas dinámicamente
+// Actualizar estadísticas dinámicamente
 function actualizarEstadisticas(stats) {
     console.log('📊 Actualizando estadísticas en la UI...', stats);
     
-    // Validar que stats existe y tiene las propiedades necesarias
     if (!stats || typeof stats !== 'object') {
         console.error('❌ Estadísticas inválidas:', stats);
-        // Usar estadísticas calculadas manualmente como fallback
         stats = calcularEstadisticasManualmente();
     }
     
-    // Asegurar que los valores sean números válidos
     const totalConsejos = parseInt(stats.total_consejos) || calcularTotalConsejos();
     const totalCategorias = parseInt(stats.total_categorias) || categorias.length;
     
-    console.log('📊 Valores finales a mostrar:', {
-        consejos: totalConsejos,
-        categorias: totalCategorias
-    });
+    console.log('📊 Valores finales a mostrar:', { consejos: totalConsejos, categorias: totalCategorias });
     
-    // Actualizar total de consejos
     const totalConsejosElement = document.getElementById('totalConsejos');
     if (totalConsejosElement) {
         animarNumero(totalConsejosElement, 0, totalConsejos, 1000);
     }
     
-    // Actualizar total de categorías
     const totalCategoriasElement = document.getElementById('totalCategorias');
     if (totalCategoriasElement) {
         animarNumero(totalCategoriasElement, 0, totalCategorias, 1000);
@@ -100,7 +91,7 @@ function actualizarEstadisticas(stats) {
     console.log('✅ Estadísticas actualizadas en la UI');
 }
 
-// ⭐ NUEVA FUNCIÓN: Calcular estadísticas manualmente como fallback
+// Calcular estadísticas manualmente como fallback
 function calcularEstadisticasManualmente() {
     return {
         total_consejos: calcularTotalConsejos(),
@@ -108,12 +99,12 @@ function calcularEstadisticasManualmente() {
     };
 }
 
-// ⭐ NUEVA FUNCIÓN: Calcular total de consejos activos
+// Calcular total de consejos activos
 function calcularTotalConsejos() {
     return consejos.filter(c => c.activo === 1).length;
 }
 
-// ⭐ NUEVA FUNCIÓN: Animar números con efecto contador
+// Animar números con efecto contador
 function animarNumero(elemento, inicio, fin, duracion) {
     const rango = fin - inicio;
     const incremento = rango / (duracion / 16); // 60 FPS
@@ -135,9 +126,6 @@ function animarNumero(elemento, inicio, fin, duracion) {
 function cargarCategorias() {
     const categoryGrid = document.querySelector('.category-grid');
     if (!categoryGrid) return;
-    
-    // Mantener el botón "Todos"
-    const todosButton = categoryGrid.querySelector('[data-category="todos"]');
     
     // Agregar categorías dinámicas
     categorias.forEach(cat => {
@@ -162,7 +150,7 @@ function cargarCategorias() {
     });
 }
 
-// Mostrar consejos filtrados - VERSIÓN MEJORADA
+// Mostrar consejos filtrados
 function mostrarConsejos() {
     const container = document.getElementById('consejosContainer');
     if (!container) {
@@ -170,7 +158,17 @@ function mostrarConsejos() {
         return;
     }
     
-    const consejosFiltrados = filtrarConsejos();
+    const consejosFiltrados = consejos.filter(consejo => {
+        const cumpleBusqueda = !busqueda || 
+            consejo.titulo.toLowerCase().includes(busqueda) ||
+            consejo.descripcion.toLowerCase().includes(busqueda);
+            
+        const cumpleCategoria = filtroCategoria === 'todos' || 
+            consejo.categoria_id.toString() === filtroCategoria;
+            
+        return cumpleBusqueda && cumpleCategoria && consejo.activo === 1;
+    });
+    
     console.log('🎨 Mostrando consejos filtrados:', consejosFiltrados.length);
     
     if (consejosFiltrados.length === 0) {
@@ -184,38 +182,17 @@ function mostrarConsejos() {
         return;
     }
     
-    container.innerHTML = consejosFiltrados.map((consejo, index) => 
-        crearTarjetaConsejo(consejo, index)
-    ).join('');
-    
-    // Animar las tarjetas
-    animarTarjetas();
-    
-    // CONFIGURAR EVENTOS INMEDIATAMENTE después de renderizar
-    setTimeout(() => {
-        configurarEventosTarjetas();
-    }, 100);
-}
+    container.innerHTML = '';
+    consejosFiltrados.forEach((consejo, index) => {
+        const cardHTML = crearTarjetaConsejo(consejo, index);
+        container.innerHTML += cardHTML;
+    });
     
     // Animar las tarjetas
     animarTarjetas();
     
     // Configurar eventos usando event delegation
     configurarEventosTarjetas();
-
-
-// Filtrar consejos
-function filtrarConsejos() {
-    return consejos.filter(consejo => {
-        const cumpleBusqueda = !busqueda || 
-            consejo.titulo.toLowerCase().includes(busqueda) ||
-            consejo.descripcion.toLowerCase().includes(busqueda);
-            
-        const cumpleCategoria = filtroCategoria === 'todos' || 
-            consejo.categoria_id.toString() === filtroCategoria;
-            
-        return cumpleBusqueda && cumpleCategoria && consejo.activo === 1;
-    });
 }
 
 // Crear tarjeta de consejo
@@ -230,7 +207,7 @@ function crearTarjetaConsejo(consejo, index) {
     const badge = badges[prioridad] || badges.medium;
     
     return `
-        <div class="tip-card loading" data-consejo-id="${consejo.id}" style="animation-delay: ${index * 0.1}s">
+        <div class="tip-card" style="animation-delay: ${index * 0.1}s; opacity: 0;">
             <div class="tip-header">
                 <div class="tip-icon-circle">${consejo.icono}</div>
                 <h3>${consejo.titulo}</h3>
@@ -248,63 +225,21 @@ function crearTarjetaConsejo(consejo, index) {
 
 // Animar tarjetas
 function animarTarjetas() {
-    setTimeout(() => {
-        document.querySelectorAll('.tip-card').forEach(card => {
-            card.style.opacity = '1';
-        });
-    }, 50);
+    const cards = document.querySelectorAll('.tip-card');
+    cards.forEach(card => {
+        card.style.opacity = '1';
+    });
 }
 
-// Configurar eventos de las tarjetas usando Event Delegation - VERSIÓN CORREGIDA
+// Configurar eventos de las tarjetas usando Event Delegation
 function configurarEventosTarjetas() {
     console.log('🔧 Configurando eventos de tarjetas...');
     
     const container = document.getElementById('consejosContainer');
     if (!container) return;
     
-    // ELIMINAR todos los listeners anteriores para evitar duplicados
     container.removeEventListener('click', handleReadMoreClick);
-    
-    // AGREGAR nuevo listener con captura mejorada
-    container.addEventListener('click', function(e) {
-        console.log('🖱️ Click detectado en contenedor:', e.target);
-        
-        const readMoreLink = e.target.closest('.read-more');
-        
-        if (readMoreLink) {
-            e.preventDefault();
-            e.stopPropagation();
-            
-            const consejoId = parseInt(readMoreLink.dataset.id);
-            console.log(`🔗 Click en consejo ID: ${consejoId}`);
-            
-            if (consejoId) {
-                abrirModal(consejoId);
-            }
-        }
-    }, true); // ← AGREGAR 'true' para usar captura phase
-    
-    const readMoreLinks = container.querySelectorAll('.read-more');
-    console.log(`🔍 Enlaces "Ver más" encontrados: ${readMoreLinks.length}`);
-    
-    // AGREGAR listeners directos como fallback para escritorio
-    readMoreLinks.forEach(link => {
-        link.removeEventListener('click', handleDirectClick);
-        link.addEventListener('click', handleDirectClick);
-    });
-}
-
-// NUEVA FUNCIÓN: Manejador directo para escritorio
-function handleDirectClick(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    
-    const consejoId = parseInt(this.dataset.id);
-    console.log(`💻 Click directo en consejo ID: ${consejoId}`);
-    
-    if (consejoId) {
-        abrirModal(consejoId);
-    }
+    container.addEventListener('click', handleReadMoreClick);
 }
 
 // Manejador de clicks separado para mejor control
@@ -357,8 +292,11 @@ function abrirModal(consejoId) {
         <h2>${consejo.titulo}</h2>
         <span class="badge ${badge.class}">${badge.text}</span>
         <span class="category-badge" style="margin-left: 10px;">${consejo.categoria_nombre || 'General'}</span>
-        <div style="margin-top: 30px;">
-            ${consejo.contenido_completo || `<p>${consejo.descripcion}</p>`}
+        <div style="margin-top: 30px; line-height: 1.6;">
+            <p style="font-weight: bold; color: var(--gray-medium);">Descripción breve:</p>
+            <p>${consejo.descripcion}</p>
+            <p style="font-weight: bold; color: var(--gray-medium);">Contenido completo:</p>
+            ${consejo.contenido_completo || '<p>No hay contenido adicional.</p>'}
         </div>
     `;
     
@@ -438,4 +376,4 @@ function mostrarError(mensaje) {
 // Exponer cerrarModal globalmente para el onclick en el HTML
 window.cerrarModal = cerrarModal;
 
-console.log('📄 Archivo alumno-consejos.js cargado correctamente');
+console.log('Archivo alumno-consejos.js cargado correctamente');

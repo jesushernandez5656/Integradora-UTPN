@@ -27,7 +27,6 @@
             min-height: 100vh;
         }
 
-        /* Hero Section */
         .hero-banner {
             background: linear-gradient(135deg, var(--teal) 0%, #00837F 100%);
             color: white;
@@ -110,14 +109,12 @@
             }
         }
 
-        /* Main Container */
         .container {
             max-width: 1400px;
             margin: 0 auto;
             padding: 60px 20px;
         }
 
-        /* Category Navigation */
         .category-section {
             margin-bottom: 50px;
             animation: fadeIn 1s ease;
@@ -209,7 +206,6 @@
             font-weight: 600;
         }
 
-        /* Tips Grid */
         .tips-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -226,23 +222,6 @@
             border-left: 6px solid var(--gold);
             position: relative;
             overflow: hidden;
-            opacity: 0;
-        }
-
-        .tip-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(0, 131, 127, 0.05) 0%, transparent 70%);
-            transition: transform 0.6s;
-            transform: scale(0);
-        }
-
-        .tip-card:hover::before {
-            transform: scale(1);
         }
 
         .tip-card:hover {
@@ -331,7 +310,6 @@
             color: #006b68;
         }
 
-        /* Stats Section */
         .stats-section {
             background: white;
             border-radius: 25px;
@@ -367,7 +345,6 @@
             font-weight: 600;
         }
 
-        /* Modal */
         .modal {
             display: none;
             position: fixed;
@@ -455,49 +432,6 @@
             transform: rotate(90deg);
         }
 
-        .modal-content h2 {
-            color: var(--teal);
-            margin-bottom: 20px;
-            font-size: 1.8em;
-            border-bottom: 3px solid var(--gold);
-            padding-bottom: 15px;
-            padding-right: 50px;
-        }
-
-        .modal-content h3 {
-            color: var(--teal);
-            margin-top: 25px;
-            margin-bottom: 15px;
-            font-size: 1.3em;
-        }
-
-        .modal-content p {
-            color: var(--gray-medium);
-            line-height: 1.8;
-            font-size: 1em;
-            margin-bottom: 15px;
-        }
-
-        .modal-content ul {
-            margin-left: 25px;
-            color: var(--gray-medium);
-            line-height: 2;
-        }
-
-        .modal-content ul li {
-            margin-bottom: 12px;
-            position: relative;
-            padding-left: 10px;
-        }
-
-        .modal-content ul li::before {
-            content: '✓';
-            position: absolute;
-            left: -25px;
-            color: var(--gold);
-            font-weight: bold;
-        }
-
         .badge {
             display: inline-block;
             padding: 5px 12px;
@@ -512,34 +446,10 @@
         .badge-medium { background: #fff3e0; color: #f57c00; }
         .badge-low { background: #e8f5e9; color: #388e3c; }
 
-        .loading {
-            opacity: 0;
-            animation: fadeIn 0.5s forwards;
+        .tip-card {
+            transition: opacity 0.5s ease;
         }
 
-        /* Responsive Tablet */
-        @media (max-width: 992px) {
-            .container {
-                padding: 40px 15px;
-            }
-
-            .tips-container {
-                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-                gap: 25px;
-            }
-
-            .category-grid {
-                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-                gap: 15px;
-            }
-
-            .stats-grid {
-                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-                gap: 20px;
-            }
-        }
-
-        /* Responsive Mobile */
         @media (max-width: 768px) {
             .hero-banner { 
                 min-height: 250px;
@@ -574,9 +484,9 @@
                 margin-bottom: 30px;
             }
 
-            .category-grid {
-                grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-                gap: 12px;
+            .category-grid { 
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+                gap: 15px;
             }
             
             .category-card {
@@ -657,99 +567,28 @@
                 height: 35px;
                 font-size: 24px;
             }
-            
-            .modal-content h2 {
-                font-size: 1.5em;
-                padding-right: 45px;
-            }
-            
-            .modal-content h3 {
-                font-size: 1.2em;
-            }
-
-            .modal-content p {
-                font-size: 0.95em;
-            }
         }
 
         @media (max-width: 480px) {
-            .hero-banner {
-                min-height: 220px;
-                padding: 30px 15px;
-            }
-            
-            .hero-banner h1 {
-                font-size: 1.5em;
-            }
-            
-            .hero-banner p {
-                font-size: 0.95em;
-            }
-            
-            .hero-icon {
-                font-size: 2em;
-            }
-
-            .container {
-                padding: 20px 12px;
-            }
-            
-            .section-title {
-                font-size: 1.4em;
-                margin-bottom: 25px;
-            }
-
-            .category-grid {
-                grid-template-columns: repeat(2, 1fr);
+            .category-grid { 
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
                 gap: 10px;
             }
-
+            
             .category-card {
-                padding: 18px 12px;
+                padding: 15px 10px;
             }
-
+            
             .category-icon {
                 font-size: 1.8em;
-                margin-bottom: 10px;
+                margin-bottom: 5px;
             }
-
+            
             .category-card h3 {
                 font-size: 0.85em;
             }
 
-            .tip-card {
-                padding: 20px;
-            }
-
-            .tip-card h3 {
-                font-size: 1em;
-            }
-
-            .tip-card p {
-                font-size: 0.9em;
-            }
-
-            .tip-icon-circle {
-                width: 45px;
-                height: 45px;
-                min-width: 45px;
-                font-size: 20px;
-            }
-
-            .category-badge {
-                font-size: 0.75em;
-                padding: 5px 12px;
-            }
-
-            .read-more {
-                font-size: 0.85em;
-            }
-
-            .stats-section {
-                padding: 25px 15px;
-            }
-
-            .stats-grid {
+            .stats-grid { 
                 grid-template-columns: 1fr;
                 gap: 15px;
             }
@@ -758,42 +597,15 @@
                 font-size: 2em;
             }
 
-            .stat-label {
-                font-size: 0.85em;
-            }
-
-            .modal-content {
-                padding: 25px 20px;
-                margin: 10px 5px;
-                max-height: 92vh;
-            }
-
-            .close-modal {
-                width: 32px;
-                height: 32px;
-                font-size: 20px;
-                top: 12px;
-                right: 12px;
-            }
-
-            .modal-content h2 {
-                font-size: 1.3em;
-                padding-right: 40px;
-            }
-
-            .modal-content h3 {
-                font-size: 1.1em;
-            }
-
-            .badge {
-                font-size: 0.75em;
-                padding: 4px 10px;
+            .modal-content { 
+                padding: 20px;
+                margin: 10px;
             }
         }
 
         @media (hover: none) and (pointer: coarse) {
             .category-card, .tip-card, .read-more {
-                -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+                -webkit-tap-highlight-color: transparent;
             }
         }
     </style>
@@ -818,14 +630,14 @@
             </div>
         </section>
 
-        <section class="stats-section loading">
+        <section class="stats-section">
             <div class="stats-grid">
                 <div class="stat-item">
-                    <div class="stat-number" id="totalConsejos">18</div>
+                    <div class="stat-number" id="totalConsejos">0</div>
                     <div class="stat-label">Consejos de Seguridad</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-number" id="totalCategorias">6</div>
+                    <div class="stat-number" id="totalCategorias">0</div>
                     <div class="stat-label">Categorías</div>
                 </div>
                 <div class="stat-item">
