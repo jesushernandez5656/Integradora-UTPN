@@ -376,4 +376,4 @@ function mostrarError(mensaje) {
 // Exponer cerrarModal globalmente para el onclick en el HTML
 window.cerrarModal = cerrarModal;
 
-console.log('Archivo alumno-consejos.js cargado correctamente');
+console.log('📄 Archivo alumno-consejos.js cargado correctamente');
