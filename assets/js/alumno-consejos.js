@@ -286,17 +286,16 @@ function abrirModal(consejoId) {
     const badge = badges[prioridad] || badges.medium;
     
     modalBody.innerHTML = `
-        <div style="text-align: center; margin-bottom: 30px;">
-            <span style="font-size: 4em;">${consejo.icono}</span>
+        <div class="modal-header">
+            <span class="modal-icon">${consejo.icono}</span>
+            <h2>${consejo.titulo}</h2>
         </div>
-        <h2>${consejo.titulo}</h2>
-        <span class="badge ${badge.class}">${badge.text}</span>
-        <span class="category-badge" style="margin-left: 10px;">${consejo.categoria_nombre || 'General'}</span>
-        <div style="margin-top: 30px; line-height: 1.6;">
-            <p style="font-weight: bold; color: var(--gray-medium);">Descripción breve:</p>
-            <p>${consejo.descripcion}</p>
-            <p style="font-weight: bold; color: var(--gray-medium);">Contenido completo:</p>
-            ${consejo.contenido_completo || '<p>No hay contenido adicional.</p>'}
+        <div class="modal-badges">
+            <span class="badge ${badge.class}">${badge.text}</span>
+            <span class="category-badge">${consejo.categoria_nombre || 'General'}</span>
+        </div>
+        <div class="modal-content-body">
+            ${consejo.contenido_completo || `<p>${consejo.descripcion}</p>`}
         </div>
     `;
     

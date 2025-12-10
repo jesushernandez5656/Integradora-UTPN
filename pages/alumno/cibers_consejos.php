@@ -432,6 +432,32 @@
             transform: rotate(90deg);
         }
 
+        .modal-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .modal-icon {
+            font-size: 4em;
+            color: var(--teal);
+        }
+
+        h2 {
+            color: var(--teal);
+            font-size: 1.8em;
+            font-weight: 700;
+            flex: 1;
+            line-height: 1.3;
+        }
+
+        .modal-badges {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
         .badge {
             display: inline-block;
             padding: 5px 12px;
@@ -446,8 +472,40 @@
         .badge-medium { background: #fff3e0; color: #f57c00; }
         .badge-low { background: #e8f5e9; color: #388e3c; }
 
-        .tip-card {
-            transition: opacity 0.5s ease;
+        .modal-content-body {
+            color: var(--gray-medium);
+            line-height: 1.8;
+            font-size: 1em;
+        }
+
+        .modal-content-body h3 {
+            color: var(--teal);
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .modal-content-body p {
+            margin-bottom: 15px;
+        }
+
+        .modal-content-body ul {
+            margin-left: 25px;
+            line-height: 2;
+        }
+
+        .modal-content-body ul li {
+            margin-bottom: 12px;
+            position: relative;
+            padding-left: 10px;
+        }
+
+        .modal-content-body ul li::before {
+            content: '✓';
+            position: absolute;
+            left: -25px;
+            color: var(--gold);
+            font-weight: bold;
         }
 
         @media (max-width: 768px) {
@@ -607,6 +665,55 @@
             .category-card, .tip-card, .read-more {
                 -webkit-tap-highlight-color: transparent;
             }
+        }
+
+        /* Estilos para el modal bonito */
+        .modal-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .modal-icon {
+            font-size: 4em;
+            color: var(--teal);
+        }
+
+        .modal-content-body {
+            color: var(--gray-medium);
+            line-height: 1.8;
+            font-size: 1em;
+        }
+
+        .modal-content-body h3 {
+            color: var(--teal);
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .modal-content-body p {
+            margin-bottom: 15px;
+        }
+
+        .modal-content-body ul {
+            margin-left: 25px;
+            line-height: 2;
+        }
+
+        .modal-content-body ul li {
+            margin-bottom: 12px;
+            position: relative;
+            padding-left: 10px;
+        }
+
+        .modal-content-body ul li::before {
+            content: '✓';
+            position: absolute;
+            left: -25px;
+            color: var(--gold);
+            font-weight: bold;
         }
     </style>
 </head>
