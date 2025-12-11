@@ -1275,5 +1275,68 @@
         },
         "fecha": "2025-11-25 06:31:30",
         "ip_address": "::1"
+    },
+    {
+        "id": 65,
+        "consejo_id": 60,
+        "usuario_id": null,
+        "accion": "crear",
+        "datos_anteriores": null,
+        "datos_nuevos": {
+            "id": 60,
+            "titulo": "Alerta de Phishing",
+            "categoria_id": 2,
+            "prioridad": "high",
+            "icono": "🎣",
+            "descripcion": "Evita caer en correos o mensajes falsos que intentan robar tu información.",
+            "contenido_completo": "El phishing es una técnica de fraude donde atacantes se hacen pasar por empresas o personas confiables para robar tus datos personales.\nNo hagas clic en enlaces sospechosos, revisa siempre el remitente y nunca compartas contraseñas ni códigos de verificación por correo o mensajes.\nSi dudas de un mensaje, entra directamente al sitio oficial desde tu navegador.",
+            "activo": 1,
+            "fecha": "2025-12-08 19:50:33",
+            "creado_por": null
+        },
+        "fecha": "2025-12-08 19:50:33",
+        "ip_address": "::1"
+    },
+    {
+        "id": 66,
+        "consejo_id": "60",
+        "usuario_id": null,
+        "accion": "editar",
+        "datos_anteriores": {
+            "id": 60,
+            "titulo": "Alerta de Phishing",
+            "categoria_id": 2,
+            "prioridad": "high",
+            "icono": "🎣",
+            "descripcion": "Evita caer en correos o mensajes falsos que intentan robar tu información.",
+            "contenido_completo": "El phishing es una técnica de fraude donde atacantes se hacen pasar por empresas o personas confiables para robar tus datos personales.\nNo hagas clic en enlaces sospechosos, revisa siempre el remitente y nunca compartas contraseñas ni códigos de verificación por correo o mensajes.\nSi dudas de un mensaje, entra directamente al sitio oficial desde tu navegador.",
+            "activo": 1,
+            "fecha": "2025-12-08 19:50:33",
+            "creado_por": null
+        },
+        "datos_nuevos": {
+            "id": 60,
+            "titulo": "Alerta de Phishing",
+            "categoria_id": 2,
+            "prioridad": "high",
+            "icono": "🎣",
+            "descripcion": "Evita caer en correos o mensajes falsos que intentan robar tu información.",
+            "contenido_completo": "<h3>¿Qué es el phishing?<\/h3>\n<p>El phishing es una técnica de fraude digital donde los atacantes se hacen pasar por empresas o instituciones confiables para robar información personal.<\/p>\n\n<h3>¿Cómo protegerte?<\/h3>\n<ul>\n  <li>No hagas clic en enlaces sospechosos.<\/li>\n  <li>Verifica siempre el remitente del correo o mensaje.<\/li>\n  <li>No compartas tus contraseñas ni códigos de verificación.<\/li>\n  <li>Accede a los sitios escribiendo la dirección directamente en el navegador.<\/li>\n<\/ul>\n\n<p><strong>Recuerda:<\/strong> Si un mensaje es urgente o promete premios, probablemente es un intento de phishing.<\/p>",
+            "activo": 1,
+            "fecha": "2025-12-08 19:53:24",
+            "creado_por": null
+        },
+        "fecha": "2025-12-08 19:53:24",
+        "ip_address": "::1"
+    },
+    {
+        "id": 67,
+        "consejo_id": "60",
+        "usuario_id": null,
+        "accion": "eliminar",
+        "datos_anteriores": null,
+        "datos_nuevos": null,
+        "fecha": "2025-12-08 19:57:35",
+        "ip_address": "::1"
     }
 ]
