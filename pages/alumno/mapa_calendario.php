@@ -504,7 +504,7 @@ if (file_exists($jsonPath)) {
 
 <!-- ===================== CONTENIDO ===================== -->
 <div class="contenedor-principal">
-  <h1>Mapa Interactivo y Calendario de Actividades</h1>
+  <h1>Campus</h1>
 
   <!-- MAPA -->
   <div id="map"></div>
